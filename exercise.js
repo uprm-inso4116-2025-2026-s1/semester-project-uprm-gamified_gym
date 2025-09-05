@@ -1,53 +1,55 @@
 class Exercise {
-  constructor(name, description, repetitions, calories_burned, image_path) {
-    this.name = name;
-    this.description = description;
-    this.repetitions = repetitions;
-    this.calories_burned = calories_burned;
-    this.image_path = image_path;
+  constructor(_name, _description, _repetitions, _calories_burned, _image_path) {
+    this.name = _name;
+    this.description = _description;
+    this.repetitions = _repetitions;
+    this.calories_burned = _calories_burned;
+    this.image_path = _image_path;
   }
   // Getter and Setter for name
-  get name() {
+  getName() {
     return this.name;
   }
 
-  set name(value) {
+  setName(value) {
     this.name = value;
   }
 
   // Getter and Setter for description
-  get description() {
+  getDescription() {
     return this.description;
   }
 
-  set description(value) {
+  setDescription(value) {
     this.description = value;
   }
 
   // Getter and Setter for repetitions
-  get repetitions() {
+  getRepetitions() {
     return this.repetitions;
   }
 
-  set repetitions(value) {
+  setRepetitions(value) {
     this.repetitions = value;
   }
 
   // Getter and Setter for calories_burned
-  get calories_burned() {
+  getCalories_burned() {
     return this.calories_burned;
   }
 
-  set calories_burned(value) {
+  setCalories_burned(value) {
     this.calories_burned = value;
   }
 
   // Getter and Setter for image_path
-  get image_path() {
+  getImage_path() {
     return this.image_path;
   }
 
-  set image_path(value) {
+  setImage_path(value) {
     this.image_path = value;
   }
 }
+const exer = new Exercise(1,2,3,4,5)
+console.log(exer)
