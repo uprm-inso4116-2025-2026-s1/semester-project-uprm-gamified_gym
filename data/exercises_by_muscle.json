@@ -1,0 +1,682 @@
+{
+  "schema": {
+    "exercise_fields": [
+      "name",
+      "primary_muscle",
+      "secondary_muscles",
+      "equipment",
+      "compound",
+      "unilateral",
+      "level",
+      "movement_pattern",
+      "aliases",
+      "tags"
+    ],
+    "muscle_groups": [
+      "Arms",
+      "Legs",
+      "Chest",
+      "Back",
+      "Shoulders",
+      "Core",
+      "Glutes",
+      "Full Body",
+      "Cardio/Conditioning"
+    ]
+  },
+  "data": {
+    "Chest": [
+      {
+        "name": "Barbell Bench Press",
+        "primary_muscle": "Chest",
+        "secondary_muscles": [
+          "Triceps",
+          "Front Delts"
+        ],
+        "equipment": "Barbell",
+        "compound": true,
+        "unilateral": false,
+        "level": "Intermediate",
+        "movement_pattern": "Horizontal Press",
+        "aliases": [
+          "BB Bench"
+        ],
+        "tags": [
+          "push",
+          "strength"
+        ]
+      },
+      {
+        "name": "Dumbbell Bench Press",
+        "primary_muscle": "Chest",
+        "secondary_muscles": [
+          "Triceps",
+          "Front Delts"
+        ],
+        "equipment": "Dumbbells",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Horizontal Press",
+        "aliases": [
+          "DB Bench"
+        ],
+        "tags": [
+          "push"
+        ]
+      },
+      {
+        "name": "Incline Dumbbell Press",
+        "primary_muscle": "Chest",
+        "secondary_muscles": [
+          "Triceps",
+          "Front Delts"
+        ],
+        "equipment": "Dumbbells",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Horizontal Press",
+        "aliases": [],
+        "tags": [
+          "upper-chest"
+        ]
+      },
+      {
+        "name": "Push-Up",
+        "primary_muscle": "Chest",
+        "secondary_muscles": [
+          "Triceps",
+          "Front Delts",
+          "Core"
+        ],
+        "equipment": "Bodyweight",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Horizontal Press",
+        "aliases": [
+          "Press-Up"
+        ],
+        "tags": [
+          "home",
+          "scalable"
+        ]
+      },
+      {
+        "name": "Chest Fly (Cable)",
+        "primary_muscle": "Chest",
+        "secondary_muscles": [
+          "Front Delts"
+        ],
+        "equipment": "Cable",
+        "compound": false,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Adduction",
+        "aliases": [
+          "Cable Fly"
+        ],
+        "tags": [
+          "isolation"
+        ]
+      }
+    ],
+    "Back": [
+      {
+        "name": "Barbell Bent-Over Row",
+        "primary_muscle": "Back",
+        "secondary_muscles": [
+          "Biceps",
+          "Rear Delts",
+          "Lower Back"
+        ],
+        "equipment": "Barbell",
+        "compound": true,
+        "unilateral": false,
+        "level": "Intermediate",
+        "movement_pattern": "Horizontal Pull",
+        "aliases": [
+          "BB Row"
+        ],
+        "tags": [
+          "pull"
+        ]
+      },
+      {
+        "name": "One-Arm Dumbbell Row",
+        "primary_muscle": "Back",
+        "secondary_muscles": [
+          "Biceps",
+          "Rear Delts"
+        ],
+        "equipment": "Dumbbells",
+        "compound": true,
+        "unilateral": true,
+        "level": "Beginner",
+        "movement_pattern": "Horizontal Pull",
+        "aliases": [
+          "DB Row"
+        ],
+        "tags": [
+          "pull",
+          "unilateral"
+        ]
+      },
+      {
+        "name": "Lat Pulldown",
+        "primary_muscle": "Back",
+        "secondary_muscles": [
+          "Biceps",
+          "Rear Delts"
+        ],
+        "equipment": "Machine",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Vertical Pull",
+        "aliases": [],
+        "tags": [
+          "lats"
+        ]
+      },
+      {
+        "name": "Pull-Up",
+        "primary_muscle": "Back",
+        "secondary_muscles": [
+          "Biceps",
+          "Core"
+        ],
+        "equipment": "Bodyweight",
+        "compound": true,
+        "unilateral": false,
+        "level": "Intermediate",
+        "movement_pattern": "Vertical Pull",
+        "aliases": [
+          "Chin-Up (supinated)"
+        ],
+        "tags": [
+          "lats",
+          "scalable"
+        ]
+      },
+      {
+        "name": "Seated Cable Row",
+        "primary_muscle": "Back",
+        "secondary_muscles": [
+          "Biceps",
+          "Rear Delts"
+        ],
+        "equipment": "Cable",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Horizontal Pull",
+        "aliases": [],
+        "tags": [
+          "mid-back"
+        ]
+      },
+      {
+        "name": "Conventional Deadlift",
+        "primary_muscle": "Back",
+        "secondary_muscles": [
+          "Glutes",
+          "Hamstrings",
+          "Core"
+        ],
+        "equipment": "Barbell",
+        "compound": true,
+        "unilateral": false,
+        "level": "Intermediate",
+        "movement_pattern": "Hip Hinge",
+        "aliases": [
+          "Deadlift"
+        ],
+        "tags": [
+          "full-body",
+          "strength"
+        ]
+      }
+    ],
+    "Legs": [
+      {
+        "name": "Back Squat",
+        "primary_muscle": "Legs",
+        "secondary_muscles": [
+          "Glutes",
+          "Core"
+        ],
+        "equipment": "Barbell",
+        "compound": true,
+        "unilateral": false,
+        "level": "Intermediate",
+        "movement_pattern": "Knee Dominant",
+        "aliases": [
+          "High-Bar Squat"
+        ],
+        "tags": [
+          "strength"
+        ]
+      },
+      {
+        "name": "Front Squat",
+        "primary_muscle": "Legs",
+        "secondary_muscles": [
+          "Quads",
+          "Core",
+          "Upper Back"
+        ],
+        "equipment": "Barbell",
+        "compound": true,
+        "unilateral": false,
+        "level": "Intermediate",
+        "movement_pattern": "Knee Dominant",
+        "aliases": [],
+        "tags": [
+          "quad-focus"
+        ]
+      },
+      {
+        "name": "Leg Press",
+        "primary_muscle": "Legs",
+        "secondary_muscles": [
+          "Glutes"
+        ],
+        "equipment": "Machine",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Knee Dominant",
+        "aliases": [],
+        "tags": [
+          "machine"
+        ]
+      },
+      {
+        "name": "Walking Lunge",
+        "primary_muscle": "Legs",
+        "secondary_muscles": [
+          "Glutes",
+          "Core"
+        ],
+        "equipment": "Dumbbells",
+        "compound": true,
+        "unilateral": true,
+        "level": "Beginner",
+        "movement_pattern": "Knee Dominant",
+        "aliases": [],
+        "tags": [
+          "unilateral",
+          "balance"
+        ]
+      },
+      {
+        "name": "Romanian Deadlift",
+        "primary_muscle": "Legs",
+        "secondary_muscles": [
+          "Glutes",
+          "Lower Back"
+        ],
+        "equipment": "Barbell",
+        "compound": true,
+        "unilateral": false,
+        "level": "Intermediate",
+        "movement_pattern": "Hip Hinge",
+        "aliases": [
+          "RDL"
+        ],
+        "tags": [
+          "hamstrings"
+        ]
+      },
+      {
+        "name": "Leg Extension",
+        "primary_muscle": "Legs",
+        "secondary_muscles": [],
+        "equipment": "Machine",
+        "compound": false,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Knee Extension",
+        "aliases": [],
+        "tags": [
+          "isolation",
+          "quads"
+        ]
+      },
+      {
+        "name": "Hamstring Curl (Seated)",
+        "primary_muscle": "Legs",
+        "secondary_muscles": [],
+        "equipment": "Machine",
+        "compound": false,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Knee Flexion",
+        "aliases": [
+          "Leg Curl"
+        ],
+        "tags": [
+          "isolation",
+          "hamstrings"
+        ]
+      }
+    ],
+    "Shoulders": [
+      {
+        "name": "Overhead Press (Barbell)",
+        "primary_muscle": "Shoulders",
+        "secondary_muscles": [
+          "Triceps",
+          "Upper Chest",
+          "Core"
+        ],
+        "equipment": "Barbell",
+        "compound": true,
+        "unilateral": false,
+        "level": "Intermediate",
+        "movement_pattern": "Vertical Press",
+        "aliases": [
+          "OHP",
+          "Military Press"
+        ],
+        "tags": [
+          "push"
+        ]
+      },
+      {
+        "name": "Dumbbell Shoulder Press",
+        "primary_muscle": "Shoulders",
+        "secondary_muscles": [
+          "Triceps",
+          "Upper Chest"
+        ],
+        "equipment": "Dumbbells",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Vertical Press",
+        "aliases": [
+          "DB Press"
+        ],
+        "tags": [
+          "push"
+        ]
+      },
+      {
+        "name": "Lateral Raise",
+        "primary_muscle": "Shoulders",
+        "secondary_muscles": [],
+        "equipment": "Dumbbells",
+        "compound": false,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Abduction",
+        "aliases": [],
+        "tags": [
+          "isolation",
+          "medial-delt"
+        ]
+      },
+      {
+        "name": "Rear Delt Fly (Reverse Pec Deck)",
+        "primary_muscle": "Shoulders",
+        "secondary_muscles": [
+          "Back"
+        ],
+        "equipment": "Machine",
+        "compound": false,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Horizontal Abduction",
+        "aliases": [
+          "Reverse Fly"
+        ],
+        "tags": [
+          "rear-delt"
+        ]
+      }
+    ],
+    "Arms": [
+      {
+        "name": "Barbell Biceps Curl",
+        "primary_muscle": "Arms",
+        "secondary_muscles": [],
+        "equipment": "Barbell",
+        "compound": false,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Elbow Flexion",
+        "aliases": [
+          "BB Curl"
+        ],
+        "tags": [
+          "biceps",
+          "isolation"
+        ]
+      },
+      {
+        "name": "Dumbbell Hammer Curl",
+        "primary_muscle": "Arms",
+        "secondary_muscles": [
+          "Forearms"
+        ],
+        "equipment": "Dumbbells",
+        "compound": false,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Elbow Flexion",
+        "aliases": [
+          "Hammer Curl"
+        ],
+        "tags": [
+          "biceps",
+          "brachioradialis"
+        ]
+      },
+      {
+        "name": "Triceps Pushdown (Cable)",
+        "primary_muscle": "Arms",
+        "secondary_muscles": [],
+        "equipment": "Cable",
+        "compound": false,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Elbow Extension",
+        "aliases": [
+          "Cable Pushdown"
+        ],
+        "tags": [
+          "triceps",
+          "isolation"
+        ]
+      },
+      {
+        "name": "Skull Crusher",
+        "primary_muscle": "Arms",
+        "secondary_muscles": [],
+        "equipment": "EZ Bar",
+        "compound": false,
+        "unilateral": false,
+        "level": "Intermediate",
+        "movement_pattern": "Elbow Extension",
+        "aliases": [
+          "Lying Triceps Extension"
+        ],
+        "tags": [
+          "triceps"
+        ]
+      }
+    ],
+    "Core": [
+      {
+        "name": "Plank",
+        "primary_muscle": "Core",
+        "secondary_muscles": [
+          "Shoulders",
+          "Glutes"
+        ],
+        "equipment": "Bodyweight",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Anti-Extension",
+        "aliases": [],
+        "tags": [
+          "isometric"
+        ]
+      },
+      {
+        "name": "Hanging Leg Raise",
+        "primary_muscle": "Core",
+        "secondary_muscles": [
+          "Hip Flexors"
+        ],
+        "equipment": "Bar",
+        "compound": true,
+        "unilateral": false,
+        "level": "Intermediate",
+        "movement_pattern": "Hip Flexion",
+        "aliases": [],
+        "tags": [
+          "abs"
+        ]
+      },
+      {
+        "name": "Cable Woodchop",
+        "primary_muscle": "Core",
+        "secondary_muscles": [
+          "Obliques"
+        ],
+        "equipment": "Cable",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Rotation",
+        "aliases": [
+          "Cable Chop"
+        ],
+        "tags": [
+          "anti-rotation"
+        ]
+      }
+    ],
+    "Glutes": [
+      {
+        "name": "Hip Thrust (Barbell)",
+        "primary_muscle": "Glutes",
+        "secondary_muscles": [
+          "Hamstrings",
+          "Core"
+        ],
+        "equipment": "Barbell",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Hip Extension",
+        "aliases": [],
+        "tags": [
+          "glute-focus"
+        ]
+      },
+      {
+        "name": "Glute Bridge",
+        "primary_muscle": "Glutes",
+        "secondary_muscles": [
+          "Hamstrings"
+        ],
+        "equipment": "Bodyweight",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Hip Extension",
+        "aliases": [],
+        "tags": [
+          "home"
+        ]
+      },
+      {
+        "name": "Bulgarian Split Squat",
+        "primary_muscle": "Glutes",
+        "secondary_muscles": [
+          "Quads",
+          "Hamstrings",
+          "Core"
+        ],
+        "equipment": "Dumbbells",
+        "compound": true,
+        "unilateral": true,
+        "level": "Intermediate",
+        "movement_pattern": "Knee Dominant",
+        "aliases": [
+          "Rear-Foot Elevated Split Squat"
+        ],
+        "tags": [
+          "unilateral",
+          "balance"
+        ]
+      }
+    ],
+    "Cardio/Conditioning": [
+      {
+        "name": "Rowing Ergometer",
+        "primary_muscle": "Cardio/Conditioning",
+        "secondary_muscles": [
+          "Back",
+          "Legs",
+          "Core"
+        ],
+        "equipment": "Machine",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Cyclical",
+        "aliases": [
+          "Rowing Machine"
+        ],
+        "tags": [
+          "conditioning"
+        ]
+      },
+      {
+        "name": "Treadmill Run",
+        "primary_muscle": "Cardio/Conditioning",
+        "secondary_muscles": [
+          "Legs",
+          "Core"
+        ],
+        "equipment": "Machine",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Cyclical",
+        "aliases": [
+          "Run"
+        ],
+        "tags": [
+          "conditioning"
+        ]
+      },
+      {
+        "name": "Assault Bike",
+        "primary_muscle": "Cardio/Conditioning",
+        "secondary_muscles": [
+          "Full Body"
+        ],
+        "equipment": "Machine",
+        "compound": true,
+        "unilateral": false,
+        "level": "Beginner",
+        "movement_pattern": "Cyclical",
+        "aliases": [
+          "AirBike",
+          "Airdyne"
+        ],
+        "tags": [
+          "conditioning"
+        ]
+      }
+    ]
+  }
+}
