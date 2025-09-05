@@ -1,0 +1,36 @@
+name,primary_muscle,secondary_muscles,equipment,compound,unilateral,level,movement_pattern,aliases,tags
+Barbell Bench Press,Chest,"['Triceps', 'Front Delts']",Barbell,True,False,Intermediate,Horizontal Press,['BB Bench'],"['push', 'strength']"
+Dumbbell Bench Press,Chest,"['Triceps', 'Front Delts']",Dumbbells,True,False,Beginner,Horizontal Press,['DB Bench'],['push']
+Incline Dumbbell Press,Chest,"['Triceps', 'Front Delts']",Dumbbells,True,False,Beginner,Horizontal Press,[],['upper-chest']
+Push-Up,Chest,"['Triceps', 'Front Delts', 'Core']",Bodyweight,True,False,Beginner,Horizontal Press,['Press-Up'],"['home', 'scalable']"
+Chest Fly (Cable),Chest,['Front Delts'],Cable,False,False,Beginner,Adduction,['Cable Fly'],['isolation']
+Barbell Bent-Over Row,Back,"['Biceps', 'Rear Delts', 'Lower Back']",Barbell,True,False,Intermediate,Horizontal Pull,['BB Row'],['pull']
+One-Arm Dumbbell Row,Back,"['Biceps', 'Rear Delts']",Dumbbells,True,True,Beginner,Horizontal Pull,['DB Row'],"['pull', 'unilateral']"
+Lat Pulldown,Back,"['Biceps', 'Rear Delts']",Machine,True,False,Beginner,Vertical Pull,[],['lats']
+Pull-Up,Back,"['Biceps', 'Core']",Bodyweight,True,False,Intermediate,Vertical Pull,['Chin-Up (supinated)'],"['lats', 'scalable']"
+Seated Cable Row,Back,"['Biceps', 'Rear Delts']",Cable,True,False,Beginner,Horizontal Pull,[],['mid-back']
+Back Squat,Legs,"['Glutes', 'Core']",Barbell,True,False,Intermediate,Knee Dominant,['High-Bar Squat'],['strength']
+Front Squat,Legs,"['Quads', 'Core', 'Upper Back']",Barbell,True,False,Intermediate,Knee Dominant,[],['quad-focus']
+Leg Press,Legs,['Glutes'],Machine,True,False,Beginner,Knee Dominant,[],['machine']
+Walking Lunge,Legs,"['Glutes', 'Core']",Dumbbells,True,True,Beginner,Knee Dominant,[],"['unilateral', 'balance']"
+Romanian Deadlift,Legs,"['Glutes', 'Lower Back']",Barbell,True,False,Intermediate,Hip Hinge,['RDL'],['hamstrings']
+Leg Extension,Legs,[],Machine,False,False,Beginner,Knee Extension,[],"['isolation', 'quads']"
+Hamstring Curl (Seated),Legs,[],Machine,False,False,Beginner,Knee Flexion,['Leg Curl'],"['isolation', 'hamstrings']"
+Overhead Press (Barbell),Shoulders,"['Triceps', 'Upper Chest', 'Core']",Barbell,True,False,Intermediate,Vertical Press,"['OHP', 'Military Press']",['push']
+Dumbbell Shoulder Press,Shoulders,"['Triceps', 'Upper Chest']",Dumbbells,True,False,Beginner,Vertical Press,['DB Press'],['push']
+Lateral Raise,Shoulders,[],Dumbbells,False,False,Beginner,Abduction,[],"['isolation', 'medial-delt']"
+Rear Delt Fly (Reverse Pec Deck),Shoulders,['Back'],Machine,False,False,Beginner,Horizontal Abduction,['Reverse Fly'],['rear-delt']
+Barbell Biceps Curl,Arms,[],Barbell,False,False,Beginner,Elbow Flexion,['BB Curl'],"['biceps', 'isolation']"
+Dumbbell Hammer Curl,Arms,['Forearms'],Dumbbells,False,False,Beginner,Elbow Flexion,['Hammer Curl'],"['biceps', 'brachioradialis']"
+Triceps Pushdown (Cable),Arms,[],Cable,False,False,Beginner,Elbow Extension,['Cable Pushdown'],"['triceps', 'isolation']"
+Skull Crusher,Arms,[],EZ Bar,False,False,Intermediate,Elbow Extension,['Lying Triceps Extension'],['triceps']
+Plank,Core,"['Shoulders', 'Glutes']",Bodyweight,True,False,Beginner,Anti-Extension,[],['isometric']
+Hanging Leg Raise,Core,['Hip Flexors'],Bar,True,False,Intermediate,Hip Flexion,[],['abs']
+Cable Woodchop,Core,['Obliques'],Cable,True,False,Beginner,Rotation,['Cable Chop'],['anti-rotation']
+Hip Thrust (Barbell),Glutes,"['Hamstrings', 'Core']",Barbell,True,False,Beginner,Hip Extension,[],['glute-focus']
+Glute Bridge,Glutes,['Hamstrings'],Bodyweight,True,False,Beginner,Hip Extension,[],['home']
+Bulgarian Split Squat,Glutes,"['Quads', 'Hamstrings', 'Core']",Dumbbells,True,True,Intermediate,Knee Dominant,['Rear-Foot Elevated Split Squat'],"['unilateral', 'balance']"
+Conventional Deadlift,Back,"['Glutes', 'Hamstrings', 'Core']",Barbell,True,False,Intermediate,Hip Hinge,['Deadlift'],"['full-body', 'strength']"
+Rowing Ergometer,Cardio/Conditioning,"['Back', 'Legs', 'Core']",Machine,True,False,Beginner,Cyclical,['Rowing Machine'],['conditioning']
+Treadmill Run,Cardio/Conditioning,"['Legs', 'Core']",Machine,True,False,Beginner,Cyclical,['Run'],['conditioning']
+Assault Bike,Cardio/Conditioning,['Full Body'],Machine,True,False,Beginner,Cyclical,"['AirBike', 'Airdyne']",['conditioning']
