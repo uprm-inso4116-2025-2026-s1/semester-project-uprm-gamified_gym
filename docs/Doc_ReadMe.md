@@ -33,3 +33,9 @@ Users can create and update exercises.
 Users can log workout sessions with repetitions and calories.
 The system awards points or badges for completed activities.
 A history of activities is stored and viewable.
+
+## Design
+This document will contain the developemt design as you achieve the milestones. This can include drafts, thougths or approaches to doing your tasks.
+
+## Testing
+This document will include your test results for your tasks/milestones. No project starts out perfect, the process include prototypes. This is the main emphasis which lets all members know what is the current status of your work.
