@@ -10,3 +10,6 @@ include::milestones.adoc[]
 
 == Meetings
 include::meetings.adoc[]
+
+== Design
+include::design.adoc[]
