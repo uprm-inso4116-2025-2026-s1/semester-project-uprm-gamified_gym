@@ -13,3 +13,7 @@ include::meetings.adoc[]
 
 == Design
 include::design.adoc[]
+
+== Testing
+include::testing.adoc[]
+
