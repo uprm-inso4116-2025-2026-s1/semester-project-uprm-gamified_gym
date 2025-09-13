@@ -1,1 +1,13 @@
+= Requirements
+
+== Goals
+- Define a problem domain focused on fitness tracking enhanced with gamification elements.  
+- Specify a conceptual model where stakeholders can represent and record fitness-related activities.  
+- Emphasize the integration of videogame-inspired mechanics (progress tracking, achievements, points) into the domain to support motivation. 
+
+== Non-goals
+- 
+
+== Features
+- 
 
