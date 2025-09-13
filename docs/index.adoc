@@ -1,1 +1,7 @@
+= Project Documentation
+:toc:
+:toclevels: 2
+
+== Requirements
+include::requirements.adoc[]
 
