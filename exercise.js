@@ -1,8 +1,10 @@
 class Exercise {
-  constructor(_name, _description, _repetitions, _calories_burned, _image_path) {
+  constructor(_name, _description, _sets, _repetitions,_milestone, _calories_burned, _image_path) {
     this.name = _name;
     this.description = _description;
+    this.sets = _sets;
     this.repetitions = _repetitions;
+    this.milestone = _milestone;
     this.calories_burned = _calories_burned;
     this.image_path = _image_path;
   }
@@ -24,6 +26,15 @@ class Exercise {
     this.description = value;
   }
 
+    // Getter and Setter for sets
+  getDescription() {
+    return this.sets;
+  }
+
+  setDescription(value) {
+    this.sets = value;
+  }
+
   // Getter and Setter for repetitions
   getRepetitions() {
     return this.repetitions;
@@ -31,6 +42,15 @@ class Exercise {
 
   setRepetitions(value) {
     this.repetitions = value;
+  }
+
+    // Getter and Setter for milestone
+  getDescription() {
+    return this.milestone;
+  }
+
+  setDescription(value) {
+    this.milestone = value;
   }
 
   // Getter and Setter for calories_burned
