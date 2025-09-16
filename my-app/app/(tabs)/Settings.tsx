@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   settingCard: {
     marginTop: -20,
     marginBottom: 0,
-    backgroundColor: "##000000",
+    backgroundColor: "#fff",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingVertical: 60,
