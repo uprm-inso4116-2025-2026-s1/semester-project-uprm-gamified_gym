@@ -41,7 +41,7 @@
 
 ==== 1.2.1 Current Situation
 
-N=== 1.2.2 Needs
+=== 1.2.2 Needs
 
 ==== 1.2.3 Ideas
 
