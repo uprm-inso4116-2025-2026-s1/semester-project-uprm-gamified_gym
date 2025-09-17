@@ -1,0 +1,98 @@
+== 1. Informative part
+=== 1.1 Team Composition
+* Managers: (FIX NAMES)
+** Giango
+** Kevin
+** Ricardo
+
+* Fitness Tracker Team:
+** Cristian Massini
+** Pedro Matos
+** Cristian Barreras
+** Nelson Caban
+** Yandiel Hernandez
+** Luis Sorrentini
+** Ernesto Soto
+** Michael Martinez
+
+* Foundations Team:
+** Reinaldo Martinez (Team Leader)
+** Estefania Roca
+** Lianette Alberto
+** Christian Rodriguez
+** Marcelo Perez
+** Christian Medina
+** Angel Ramos
+** Kevin Ibarra
+** Fernando Hidalgo
+
+* Game Design Team:
+** Aliana Santiago
+** Jorge Peralta
+** Keishlyany Sanabria
+** Diego Vazquez
+** Kiam Perez
+** Andrea Seda
+** Samael Alvarez
+** Emmanuel Guadalupe
+
+
+=== 1.2 Current Situation, Needs, Ideas
+
+==== 1.2.1 Current Situation
+
+N=== 1.2.2 Needs
+
+==== 1.2.3 Ideas
+
+=== 1.3 Scope, Span, and Synopsis
+
+==== 1.3.1 Scope and Span
+
+==== 1.3.2 Synopsis
+
+=== 1.4 Other Activities Than Just Developing Source Code
+
+=== 1.5 Derived Goals
+
+== 2. Descriptive part
+
+=== 2.1 Domain description
+
+==== 2.1.1 Domain rough sketch
+
+==== 2.1.2 Terminology
+
+==== 2.1.3 Domain terminology in relation to domain rough sketch
+
+==== 2.1.4 Narrative
+
+==== 2.1.5 Events, Actions, and Behaviors
+
+==== 2.1.6 Function Signatures
+
+=== 2.2 Requirements
+
+==== 2.2.1 User Stories, Epics, Features
+
+==== 2.2.2 Personas
+
+==== 2.2.3 Domain Requirements
+
+==== 2.2.4 Interface Requirements
+
+==== 2.2.5 Machine Requirements
+* The system shall maintain an average response time of no more than 2 seconds for user interactions, such as updating activity data under normal operating conditions. In the event of a search query, the system shall provide results within 4 seconds, even during peak usage.
+* The system shall run under normal conditions, when  concurrently running 300 normal scenarios that all randomly start within a 5 minute interval. Beyond this threshold, the system shall gracefully degrade its performance, prioritizing essential functionalities such as the viewing and submission of available products. 
+* The system shall gracefully handle an increase when  concurrently running 100 normal scenarios at any given time by dynamically allocating resources. Beyond this threshold, new user connections shall be queued, and the system shall restrict additional connections until resources become available. 
+* Machine requirements shall be updated as the project progresses. The previously presented numbers are estimates that are in line with good practice but can only be verified through testing not yet performed. Additional requirements are currently under development, and specific criteria for system stability, acceptable degradation of services, and detailed circumstances for heavily loaded conditions will be researched and defined in subsequent project phases. 
+
+=== 2.3 Implementation
+
+==== 2.3.1 Selected Fragments of the Implementation
+
+== 3. Analytic Part
+
+=== 3.1 Concept Analysis
+
+=== 3.2 Validation and Verification
