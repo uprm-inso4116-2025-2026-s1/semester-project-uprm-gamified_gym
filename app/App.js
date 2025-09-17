@@ -7,6 +7,7 @@ import SignUp from "./SignUp";
 import Profile from "./Profile";
 import Settings from "./Settings";
 import Password from "./Password";
+import ExerciseLog from "./ExerciseLog";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ export default function App() {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Password" component={Password} />
+        <Stack.Screen name="ExerciseLog" component={ExerciseLog} />
       </Stack.Navigator>
     </NavigationContainer>
   );
