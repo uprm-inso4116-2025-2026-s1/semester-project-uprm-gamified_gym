@@ -1,9 +1,9 @@
 {
-  "push-up": "push-up.png",
-  "bench-press": "bench-press.png",
-  "squat": "squat.png",
-  "deadlift": "deadlift.png",
-  "plank": "plank.png",
-  "sit-up": "sit-up.png",
-  "dumbbell-curl": "dumbbell-curl.png"
+  "push-up": "/assets/exercises/pushups.png",
+  "bench-press": "/assets/exercises/benchpress.png",
+  "squat": "/assets/exercises/squat.png",
+  "deadlift": "/assets/exercises/deadlift.png",
+  "plank": "/assets/exercises/plank.png",
+  "sit-up": "/assets/exercises/sit-up.png",
+  "dumbbell-curl": "/assets/exercises/dumbbell-curl.png"
 }
