@@ -365,14 +365,11 @@ Epic 2: Core Fitness and Data Management
     the app's fitness tracking goals.
 
 
-=== User Stories and UI Contributions (Derived from Closed Tasks)
-
+=== User Stories and UI Contributions
 
 The following user stories and their associated UI tasks were completed during Milestone 1.
 Each story is mapped to the specific closed issues that contributed to its completion,
 demonstrating a clear link between requirements and implementation.
-
----
 
 User Stories for Epic 1: Foundational Design and UI
 
