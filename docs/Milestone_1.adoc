@@ -136,6 +136,163 @@ createWorkout(userId User, name: String, exercises: List<Exercise>) -> return Wo
 
 ==== 2.2.1 User Stories, Epics, Features
 
+This section details the functional and non-functional requirements of the 'Gamified Gym'
+system, expressed through user stories and grouped into larger epics. The requirements are
+directly derived from the completed work during Milestone 1, as evidenced by the closed
+tasks. This approach ensures a direct link between the project's design and its tangible
+development progress, including both front-end and back-end work.
+
+## | Epics |
+
+For Milestone 1, the team focused on two core epics that lay the foundation for the entire
+application.
+
+- Epic 1: Foundational Design and User Interface (UI)
+
+  - Goal: To establish a consistent and user-friendly visual and interactive design
+    for the application's core pages.
+  - Justification: This epic addresses the critical need for a well-structured and
+    intuitive user experience from the very start. A solid design foundation is
+    necessary for all subsequent feature development.
+
+- Epic 2: Core Fitness and Data Management
+  - Goal: To establish the fundamental data structures and logic required to track and
+    manage user workout data.
+  - Justification: This epic is the core of the application's value proposition. It
+    ensures that the system can accurately handle, store, and process the primary data
+    (exercises, workouts, etc.) that the user will interact with, directly supporting
+    the app's fitness tracking goals.
+
+---
+
+| User Stories and UI Contributions |
+| (Derived from Closed Tasks) |
+
+---
+
+The following user stories and their associated UI tasks were completed during Milestone 1.
+Each story is mapped to the specific closed issues that contributed to its completion,
+demonstrating a clear link between requirements and implementation.
+
+---
+
+| User Stories for Epic 1: Foundational Design and UI |
+
+---
+
+- User Story: User Authentication Page Design
+
+  - Story: As a first-time or returning user, I want to see a clear design for the
+    login and sign-up pages, so that I can easily and confidently access my account or
+    create a new one.
+  - Related Closed Tasks:
+    * Issue 63 Create Figma Design for Login Page
+    * Issue 64 Create Figma Design for Signup Page
+    * Issue 65 Create Figma Design for Forgot Password Page
+    
+  - UI Contribution: The completion of these tasks provided a cohesive design for the
+    entire user authentication flow. The Figma designs ensure a consistent user
+    journey across these critical pages, using a defined color palette, typography, and
+    layout for a professional feel.
+
+- User Story: Core Page Design
+
+  - Story: As a user, I want to see a clear and intuitive layout for the main pages, so
+    that I can understand the purpose of each section at a glance.
+  - Related Closed Tasks:
+    * Issue 69 Create Figma Design for Profile Page
+    * Issue 70 Create Figma Design for Home Page
+    * Issue 71 Create Figma Design for Settings Page
+    * Issue 50 Build Home Page Screen
+    * Issue 81 Workouts Page UI Shell Objective: Create the base Workouts Page layout
+
+  - UI Contribution: By designing these pages in Figma and building the base UI shells
+    for the Home and Workouts pages, the team established a visual blueprint for the
+    application's main interface. This work defined the location of key elements like
+    the profile picture, navigation menus, and content feeds, ensuring a logical flow
+    and a predictable user experience.
+
+- User Story: Gamification Element Design
+
+  - Story: As a user, I want to see visual representations of my progress and
+    achievements, so that I can stay motivated to continue my fitness journey.
+  - Related Closed Tasks:
+    * Issue 62 Create Design of Page Showcasing Achievements
+    * Issue 85 Design Progression Bar (XP/Level System)
+    * Issue 88 Define XP System
+    * Issue 84 Design Page for Daily/Weekly/Monthly Challenges
+
+  - UI Contribution: These design tasks focused on integrating gamification elements
+    directly into the UI. The completed Figma pages and designs for the progression
+    bar and challenges provide a visual guide for developers to implement these core
+    motivational features. The foundational work in defining the XP system (#88)
+    ensures that the visual elements are backed by clear and consistent logic.
+
+- User Story: Post Creation Feature Design
+  - Story: As a user, I want to design a way to create and share content, so that I
+    can interact with the community.
+  - Related Closed Tasks:
+    * Issue 73 Design Create Post Feature in Figma
+
+  - UI Contribution: The Figma design for the post creation feature lays out a
+    user-friendly form. It includes placeholders for images and a text input area,
+    providing a clear and easy-to-use interface that directly supports content sharing.
+
+---
+
+| User Stories for Epic 2: Core Fitness and Data Management |
+
+---
+
+- User Story: Workout Logging Feature
+
+  - Story: As a user, I want to log a workout with an exercise timer/counter, so that
+    I can accurately track my progress and performance.
+  - Related Closed Tasks:
+    * Issue 72 Explain and design Workout Logging feature
+    * Issue 97 Exercise Timer / Counter UI
+    * Issue 102 Exercise Detail Card Mockup
+    * Issue 112 Modeling the Life Cycle of a Workout in a Fitness Tracker
+    * Issue 108 Write 2.1.6 Function signatures
+
+  - UI Contribution: The UI for the exercise timer and counter, designed in task Issue 97,
+    provides the direct user interaction point for this feature. It includes a visible
+    timer, start/stop buttons, and a counter. The completion of the Exercise Detail
+    Card Mockup (Issue 102) defines how individual exercise information will be displayed.
+    The conceptual work in tasks Issue 72, Issue 112, and the function signatures (Issue 108)
+    provides the foundational logic that the UI will interact with, ensuring the UI's
+    functionality is backed by a robust and well-defined system.
+
+- User Story: Data Preparation and Management
+
+  - Story: As the system, I need to manage and access structured exercise data, so
+    that I can provide a variety of accurate and consistent workout information to the
+    user.
+  - Related Closed Tasks:
+    * Issue 82 Prepare exercises data for UI
+    * Issue 99 Index Json Files
+    * Issue 101 Mock data for exercise logging
+
+  - UI Contribution: While these tasks are primarily backend-focused, they directly
+    enable the UI to function. The data prepared in Issue 82 and Issue 99 provides the content
+    that the UI will display (e.g., exercise names, descriptions, icons). The mock data
+    from Issue 101 allows for early-stage UI testing without a live backend, ensuring the
+    front-end can be developed and refined in parallel. This shows a deep
+    understanding of the inter-team dependencies crucial for project success.
+
+- User Story: Backend and API Initialization
+  - Story: As the system, I need to establish a connection to a database, so that I
+    can persistently store and retrieve user and fitness data.
+  - Related Closed Tasks:
+    * Issue 61 Decide backend/database stack
+    * Issue 67 Initialize Supabase in the project
+
+  - UI Contribution: These foundational tasks are what allow for a dynamic,
+    data-driven UI. Without the database initialization and the chosen backend stack,
+    UI components like the profile page or workout logs would be static and unable to
+    store user information, proving that backend work is the backbone that makes the
+    UI functional.
+
 ==== 2.2.2 Personas
 
 ==== 2.2.3 Domain Requirements
