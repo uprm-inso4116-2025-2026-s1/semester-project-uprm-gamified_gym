@@ -150,6 +150,32 @@ and satisfied with the deployed iteration of Gamified Gym.
 ==== 2.1.3 Domain terminology in relation to domain rough sketch
 
 ==== 2.1.4 Narrative
+In fitness, individuals engage in physical exercise to improve health, 
+strength, endurance, or appearance. Workouts are often organized into sets
+and repetitions of exercises targeting specific muscle groups such as chest, back,
+legs, arms and shoulders. People also measure progress in terms of performance (i.e.
+increasing weights lifted or repetitions completed), physical changes or overall 
+endurance. 
+
+Despite the availability of many training methods, individuals frequently enncounter
+difficulties in staying motivated and consistent. Some rely on notebooks, spreadsheets, or
+mental notes to keep track of their routines, while others may depend on general-purpose
+fitness apps. These methods record data but rarely provide meaningful feedback. As a result,
+people may unknowingly train some muscle groups more than others, leading to imbalances, overtraining,
+or plateaus in performance. 
+
+Within gym and fitness culture, motivation is often sustained through external factors
+such as competition, social comparison, and personal milestones. For example, athletes celebrate 
+when they achieve a new personal best or notice visible physical changes. Similarly, comparing progress
+with peers-whether with friends or in competitive settings-has long been part of the fitness experience. 
+Additionally, badges, milestones, and challenges exist as a symbol of their achievement, whether
+in the form of weightlifting belts, gym awards, or recognition in a community.
+
+Thus, the domain of fitness involves not only the physical act of exercising, but also the human
+tendency towards self-improvement, tracking performance, maintaining balance, and seeking motivation 
+through challenges. the difficulties arise from the absence of engaging, consistent methods of
+feedback and recognition that help individuals sustain long-term progress across different aspects of 
+their training.
 
 ==== 2.1.5 Events, Actions, and Behaviors
 
