@@ -156,6 +156,7 @@ Epic 1: Foundational Design and User Interface (UI)
     necessary for all subsequent feature development.
 
 Epic 2: Core Fitness and Data Management
+  
   - Goal: To establish the fundamental data structures and logic required to track and
     manage user workout data.
   - Justification: This epic is the core of the application's value proposition. It
@@ -164,8 +165,7 @@ Epic 2: Core Fitness and Data Management
     the app's fitness tracking goals.
 
 
-## | User Stories and UI Contributions
-## | (Derived from Closed Tasks) |
+## | User Stories and UI Contributions | (Derived from Closed Tasks) |
 
 
 The following user stories and their associated UI tasks were completed during Milestone 1.
@@ -174,7 +174,7 @@ demonstrating a clear link between requirements and implementation.
 
 ---
 
-| User Stories for Epic 1: Foundational Design and UI |
+User Stories for Epic 1: Foundational Design and UI
 
 ---
 
@@ -279,6 +279,7 @@ User Story: Data Preparation and Management
     understanding of the inter-team dependencies crucial for project success.
 
 User Story: Backend and API Initialization
+
   - Story: As the system, I need to establish a connection to a database, so that I
     can persistently store and retrieve user and fitness data.
   - Related Closed Tasks:
