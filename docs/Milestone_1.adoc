@@ -227,6 +227,7 @@ User Story: Gamification Element Design
     ensures that the visual elements are backed by clear and consistent logic.
 
 User Story: Post Creation Feature Design
+
   - Story: As a user, I want to design a way to create and share content, so that I
     can interact with the community.
   - Related Closed Tasks:
