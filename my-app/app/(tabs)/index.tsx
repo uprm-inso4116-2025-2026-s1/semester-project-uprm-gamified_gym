@@ -44,6 +44,10 @@ export default function index() {
         onPress={() => navigation.navigate("Settings")}
       />
       <Button
+        title="Go to Workouts"
+        onPress={() => navigation.navigate("AddWorkouts")}
+      />
+      <Button
         title="Go to Password"
         onPress={() => navigation.navigate("Password")}
       />
