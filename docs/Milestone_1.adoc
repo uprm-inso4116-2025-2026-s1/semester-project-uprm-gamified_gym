@@ -761,11 +761,24 @@ User Story: Backend and API Initialization
 * Potential ambiguities:
 ** Terms like goal, achievement, and reward may overlap. A goal is self-set, an achievement is earned, and a reward may be externally given. Deciding how these relate will be key for consistent use later.
 
-
-
 === 3.2 Validation and Verification
-//wip by K
-In the validation process for {pname}, 
 
+*Validation*
+The validation process for {pname} will be conducted through scenario walkthroughs and stakeholder feedback. For example, one scenario we generated was: “Students often lose motivation after a few weeks at the gym; the app keeps them engaged by rewarding consistency with achievements”. We assumed that rewarding consistency with achievements would help sustain engagement. When this scenario was shown to prospective users, they confirmed that achievements can indeed be motivating but suggested that rewards should be frequent and incremental, rather than delayed. This validated the idea of achievements but refined it into a need for short- and long-term milestones.
 
+Additional validation activities include:
+
+* Terminology checks: Ensuring consistency of terms such as goal, achievement, and quest across requirements and scenarios.
+* Stakeholder workshops: Presenting narratives of motivational barriers and gamified reinforcement strategies to verify alignment with real experiences.
+* Early prototypes: Low-fidelity UI mockups will be used to validate whether users clearly understand progression and rewards.
+
+*Verification*
+
+* Verification will ensure that deliverables meet their stated requirements and perform as intended. Planned verification methods include:
+
+* Unit testing: Testing core functions such as goal creation, achievement assignment, and quest completion in isolation.
+
+* Integration testing: Verifying end-to-end flows.”
+
+* Completeness checks: Ensuring all concepts identified in Section 3.1 are fully represented in requirements and implementation.
 
