@@ -747,23 +747,21 @@ User Story: Backend and API Initialization
 ** Example 1: Students often lose motivation after a few weeks at the gym; the app keeps them engaged by rewarding consistency with achievements. +
 ** Example 2: Many beginners feel intimidated at the gym; gamified goals (like completing a quest) make fitness feel approachable and fun.
 
-* Key Domain Entities:
-// Define: 
-** User: 
-** Feedback mechanism: 
+* Observed abstractions:
+** Both examples revolve around sustaining participation in fitness activities.
+** Motivation can be influenced by external reinforcement (achievements, goals).
+** A recurring concept is activity engagement, which includes both physical actions (workouts) and mental states (confidence, motivation).
 
-* Actions and Events:
-// Define: 
-** Recieving notifications:
-**Managing user profiles:
+* Key Domain Concepts: 
+** Activity: a structured effort like exercizing, meazured in duration or intensity.
+** Engagement: the degree to which participants continue with an activity over time.
+** Motivation factor: triggers that influence engagement.
+** Barrier: factors that reduce engagement.
 
-==== 3.1.1 Concept Identification 
+* Potential ambiguities:
+** Terms like goal, achievement, and reward may overlap. A goal is self-set, an achievement is earned, and a reward may be externally given. Deciding how these relate will be key for consistent use later.
 
-The idea within {pname} is that consistency in workouts is key, and streak rewards encourage daily or weekly participation, reducing drop-off rates.
 
-==== 3.1.2 Abstraction and Refinement
-
-System design is streamlined by abstracting and refining key concepts.
 
 === 3.2 Validation and Verification
 //wip by K
