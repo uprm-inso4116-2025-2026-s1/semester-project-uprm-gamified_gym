@@ -1,6 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function Home() {
   return (
@@ -14,18 +13,24 @@ export default function Home() {
 
         {/* Stats Row */}
         <View style={styles.statsRow}>
+          {/* Steps */}
           <View style={[styles.statBox, { backgroundColor: "#FFEB0C" }]}>
             <Text style={styles.statLabel}>Steps</Text>
             <Text style={styles.statValue}>2,345</Text>
           </View>
 
-          <Ionicons name="walk-outline" size={40} color="teal" />
+        {/* Running Icon */}
+        <Image
+          source={require("../../assets/images/athletics.png")}
+          style={styles.runningIcon}
+        />
 
-          <View style={[styles.statBox, { backgroundColor: "#FF59B7" }]}>
-            <Text style={styles.statLabel}>Calories</Text>
-            <Text style={styles.statValue}>400</Text>
-          </View>
+        {/* Calories */}
+        <View style={[styles.statBox, { backgroundColor: "#FF59B7" }]}>
+          <Text style={styles.statLabel}>Calories</Text>
+          <Text style={styles.statValue}>400</Text>
         </View>
+      </View>
 
         {/* Quick Actions */}
         <Text style={styles.quickTitle}>QUICK ACTIONS</Text>
@@ -40,22 +45,37 @@ export default function Home() {
 
         {/* Calendar Section */}
         <TouchableOpacity style={styles.calendarBox}> {/* Changed to TouchableOpacity */}
-          <Ionicons name="calendar-outline" size={50} color="black" />
+          <Image
+          source={require("../../assets/images/calendar.png")}
+          style={styles.calendarIcon}
+        />
         </TouchableOpacity>
       </View>
 
       {/* Bottom Tabs */}
       <View style={styles.bottomTabs}>
-        <Ionicons name="home" size={28} color="black" /> {/* Icons color black */}
-        <Ionicons name="person" size={28} color="black" />
-        <Ionicons name="settings" size={28} color="black" />
+        {/* Home Logo */}
+        <Image
+          source={require("../../assets/images/home.png")}
+          style={styles.navIcon}
+        />
+        {/* Profile Logo */}
+        <Image
+          source={require("../../assets/images/user.png")}
+          style={styles.navIcon}
+        />
+        {/* Settings Logo */}
+        <Image
+          source={require("../../assets/images/settings.png")}
+          style={styles.navIcon}
+        />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  outerContainer: { // Overall background for the page
+  outerContainer: { // Page Background
     flex: 1,
     backgroundColor: "#2E89FF",
     justifyContent: 'flex-start', 
@@ -63,39 +83,42 @@ const styles = StyleSheet.create({
     paddingTop: 0, 
   },
   cardContainer: { // Main white card
-    width: '90%', // Occupy 90% of the screen width
-    backgroundColor: '#FFFFFF', // White background for the card
-    borderRadius: 20, // Rounded corners for the card
+    width: '92%',
+    height: '88%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 23, // Round corner card
     padding: 20,
-    marginTop: 15, // Space from the very top of the screen
-    alignItems: 'center', // Center items inside the card
-    shadowOpacity: 0.25,
+    marginTop: 15,
+    alignItems: 'center',
+    shadowOpacity: 0.35,
     shadowRadius: 3.84,
     elevation: 5,
   },
   header: {
     width: '100%',
-    alignItems: 'flex-start', // Align text to the left
+    alignItems: 'flex-start',
     marginBottom: 20,
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#2E89FF", // Black color for "HOME"
+    color: "#2E89FF",
     textAlign: "left",
   },
   subtitle: {
     fontSize: 16,
-    color: "#2E89FF", // Greyish color for subtitle
+    fontStyle: "italic",
+    marginVertical: 10,
+    color: "#2E89FF",
     textAlign: "left",
-    marginBottom: 0, // No bottom margin, it's handled by header's marginBottom
+    marginBottom: 0,
   },
   statsRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around", // Distribute items evenly
-    width: "100%", // Take full width of the card
-    marginVertical: 20,
+    justifyContent: "space-around",
+    marginVertical: 10,
+    width: "95%",
   },
   statBox: {
     width: 100,
@@ -103,32 +126,38 @@ const styles = StyleSheet.create({
     borderRadius: 23,
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 0, // Remove horizontal margin, let space-around handle it
+    marginHorizontal: 0,
     shadowColor: "#000", // Add shadow for depth
     shadowOffset: {
-      width: 0,
-      height: 1,
+      width: 2,
+      height: 2,
     },
     shadowOpacity: 0.20,
     shadowRadius: 1.41,
     elevation: 2,
   },
   statLabel: {
-    fontSize: 14,
+    fontSize: 17,
     fontStyle: "italic",
-    color: "#333", // Darker text for labels
+    color: "#3b3b3bff",
   },
   statValue: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#000",
   },
+  runningIcon: {
+  width: 55,
+  height: 55,
+  marginHorizontal: 10,
+  resizeMode: "contain", // keeps proportions
+  },
   quickTitle: {
     fontSize: 16,
     fontWeight: "bold",
     marginTop: 10,
-    marginBottom: 10,
-    color: "#000000",
+    marginBottom: 5,
+    color: "#2E89FF",
     textAlign: 'center',
   },
   actionsRow: {
@@ -140,13 +169,20 @@ const styles = StyleSheet.create({
   actionButton: {
     flex: 1, // Align buttons
     backgroundColor: "#2E89FF",
-    paddingVertical: 15,
     paddingHorizontal: 10,
     borderRadius: 23,
-    marginHorizontal: 5, //  Margin between buttons
+    marginHorizontal: 15,
     alignItems: "center",
     justifyContent: "center",
-    height: 50,
+    height: 70,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 1.41,
+    elevation: 5,
   },
   actionText: {
     fontSize: 14,
@@ -154,14 +190,33 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   calendarBox: {
-    width: '100%',
-    height: 120,
+    width: '90%',
+    height: 195,
     borderRadius: 10,
     backgroundColor: "#2E89FF", 
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 1.41,
     elevation: 5,
+  },
+  navIcon: {
+  width: 29,
+  height: 29,
+  marginHorizontal: 20,
+  resizeMode: "contain",
+  },
+  calendarIcon: {
+  width: 50,
+  height: 50,
+  marginHorizontal: 20,
+  resizeMode: "contain",
   },
   bottomTabs: {
     position: "absolute",
@@ -170,8 +225,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: 'center',
-    width: "100%",
-    height: 70,
-    paddingBottom: 10,
+    width: "80%",
+    height: 50,
+    paddingBottom: 18,
   },
 });
