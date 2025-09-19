@@ -142,7 +142,7 @@ directly derived from the completed work during Milestone 1, as evidenced by the
 tasks. This approach ensures a direct link between the project's design and its tangible
 development progress, including both front-end and back-end work.
 
-## | Epics |
+## Epics
 
 For Milestone 1, the team focused on two core epics that lay the foundation for the entire
 application.
@@ -165,7 +165,7 @@ Epic 2: Core Fitness and Data Management
     the app's fitness tracking goals.
 
 
-## | User Stories and UI Contributions | (Derived from Closed Tasks) |
+## User Stories and UI Contributions (Derived from Closed Tasks)
 
 
 The following user stories and their associated UI tasks were completed during Milestone 1.
