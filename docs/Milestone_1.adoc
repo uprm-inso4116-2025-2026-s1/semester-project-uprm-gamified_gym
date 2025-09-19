@@ -298,6 +298,97 @@ User Story: Backend and API Initialization
 ==== 2.2.3 Domain Requirements
 
 ==== 2.2.4 Interface Requirements
+===== User Authentication and Navigation
+===== Onboarding
+* For the initial sign-in screen, there must be a primary button for logging in and a secondary link or button that directs the user to the sign-up screen to create a new account.
+* The sign-up process must require a valid email, a username, and a password.
+
+===== Primary Navigation
+* A primary navigation bar, accessible from all main pages, must be included. It should be consistently located, typically at the bottom of the screen for mobile-first design.
+* The navigation bar must include the following clearly labeled icons and/or text links:
+** Dashboard: The main home screen.
+** Log Workout: The primary form for data input.
+** Progress: A view for visualizations and achievements.
+** Leaderboard: Social comparison features.
+** Profile: User settings and history.
+* Guiding Goal: Provide users with immediate access to the app's core features from anywhere in the application.
+
+===== Role-Based Interfaces & Dashboards
+===== User Dashboard (Home Screen)
+* The dashboard must display a personalized summary of the user's current status to provide immediate motivation.
+* Required Elements:
+** A prominent "Start New Workout" or "Log Workout" call-to-action button.
+** A visualization of the current workout streak (e.g., "5-day streak!").
+** A summary view of muscle group ranks, potentially highlighting the highest and lowest-ranked groups.
+** A feed of recent achievements or badges earned.
+
+===== Data Input/Forms
+===== Workout Logging Form
+* The system must provide a simple and efficient form for users to log their workouts. Forms must allow submission via a button click.
+* Required Fields for each Exercise Entry:
+** Exercise Name: Text input with autocomplete suggestions for common exercises.
+** Muscle Group: A dropdown or tag system (e.g., Chest, Back, Legs, Biceps).
+** Sets: A table or dynamic list where users can input individual sets.
+** Reps: Numeric input field for each set.
+** Weight: Numeric input field for each set (with unit selection like lbs/kg in settings).
+* The form should allow users to easily add or remove sets and duplicate previous entries for efficiency.
+
+===== Error Dialog Specifications
+* Implement real-time validation to prevent incorrect data submission.
+* Error messages must appear adjacent to the relevant input field and clearly state the issue. Examples include:
+** "Reps must be a positive number."
+** "Please select a muscle group."
+** "Weight cannot be negative."
+* Accessibility: All error dialogs must be screen reader-compatible and visually distinct (e.g., using red text and an icon).
+
+===== Progression and Visualization
+===== Progress Screen
+* This screen must provide a comprehensive overview of the user's fitness journey and balance.
+* Ranking System Display:
+** Visually display the user's current rank (Bronze, Silver, Gold, Platinum, Diamond) for each major muscle group.
+** Each rank must be accompanied by a progress bar showing how close the user is to the next rank.
+* Muscle Balance Visualization:
+** Include a chart (e.g., radar chart, bar chart) that visually represents the training volume or rank across all muscle groups to help users identify imbalances.
+* Gamification Elements:
+** An Achievements/Badges section where users can view all earned and locked achievements (e.g., "First 10 Workouts Logged," "Chest Day Champion").
+** A dedicated view for tracking workout streaks and personal bests (PBs) for key lifts.
+
+===== User Profile and Settings
+===== Profile Page
+* The system must provide users with a profile page where they can:
+** Edit their username and profile avatar.
+** View their complete workout history with options to filter by date or muscle group.
+** See a list of their personal bests for major exercises.
+
+===== Settings Page
+* The system must offer users toggles and options to adjust:
+** Weight Units: A toggle to switch between pounds (lbs) and kilograms (kg).
+** Notifications: Toggles for workout reminders, streak warnings, and social notifications.
+** Theme: Options for light or dark mode.
+
+===== General System Requirements
+===== Responsiveness
+ * The interface must be fully responsive and optimized for a mobile-first experience, with support for tablet and desktop screen sizes.
+** Mobile (360x640 and higher): Single-column layout with a bottom navigation bar.
+** Tablet (768x1024 and higher): Single or two-column layout with an adaptable navigation menu.
+* Touch Interactions: All interactive elements must have sufficiently large tap targets.
+
+===== Consistency
+ * A consistent design language must be used throughout the app to ensure a cohesive experience.
+** Button Styles: Primary buttons (e.g., "Save Workout") and secondary buttons (e.g., "Cancel") must have distinct, consistent styles.
+** Color Palette: Use an energetic and motivating color palette. Specific colors should be designated for achievements (e.g., gold), progress bars, and error states (e.g., red).
+** Fonts: Use a consistent and legible font family for all headings, body text, and data points.
+
+===== Performance
+* Page Load Optimization: The app must load quickly, especially the workout logging screen, to avoid frustrating users during their workout.
+* Media Optimization: All images (e.g., avatars, badges) must be compressed for fast delivery on mobile networks.
+
+===== Error Handling & Feedback
+* Error Dialogs: Display clear, non-technical error messages for system issues (e.g., "Could not connect to the server. Please check your internet connection.").
+* Positive Feedback: Provide immediate visual confirmation after a user completes a key action.
+** Successful Workout Log: A confirmation message or animation (e.g., "Workout Saved!").
+** Achievement Unlocked: A celebratory pop-up or notification.
+** New Rank Attained: A visually distinct animation celebrating the rank-up.
 
 ==== 2.2.5 Machine Requirements
 * The system shall maintain an average response time of no more than 2 seconds for user interactions, such as updating activity data under normal operating conditions. In the event of a search query, the system shall provide results within 4 seconds, even during peak usage.
