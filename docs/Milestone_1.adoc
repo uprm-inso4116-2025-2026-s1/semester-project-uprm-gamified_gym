@@ -146,39 +146,86 @@ and satisfied with the deployed iteration of Gamified Gym.
 === 2.1 Domain description
 
 ==== 2.1.1 Domain rough sketch
-*1. Entities and Relationships*
-  * Gym-goer: Works out to improve health, strength, or appearance; often tracks sets, 
-  reps, and weights.
-  * Trainer: Provides guidance, workout plans, and helps monitor balance across muscle 
-  groups.
-  * Peers & friends: Offer encouragement or competition (e.g., who can lift more, who goes more often).
+1. Entities and Relationships
+* Gym-goer: Works out to improve health, strength, or appearance; often tracks sets, 
+reps, and weights.
+* Trainer: Provides guidance, workout plans, and helps monitor balance across muscle 
+groups.
+* Peers & friends: Offer encouragement or competition (e.g., who can lift more, who goes more often).
 
-*2. Workouts & Training Elements*
-  * Exercise: Push-ups, Squats, Bench Press, Deadlift, Pull-ups, etc.
-  * Muscle Groups: Chest, Back, Legs, Arms, Shoulders, Core
-  * Workout Session: Date, duration, exercises performed, sets/reps/weights
-  * Personal Best: Heaviest lift, most reps, longest endurance
-  * Rest/Recovery: Sleep, nutrition, time off training
+2. Workouts & Training Elements
+* Exercise: Push-ups, Squats, Bench Press, Deadlift, Pull-ups, etc.
+* Muscle Groups: Chest, Back, Legs, Arms, Shoulders, Core
+* Workout Session: Date, duration, exercises performed, sets/reps/weights
+* Personal Best: Heaviest lift, most reps, longest endurance
+* Rest/Recovery: Sleep, nutrition, time off training
 
-*3. Processes & Events*
-  * Start Workout: Person enters gym and begins training.
-  * Complete Exercise: finish sets and reps targeting a muscle group.
-  * Track Performance: note weight, reps, or distance achieved.
-  * Hit Milestone: first pull-up, first 10k run, lifting one’s bodyweight, etc.
-  * Compare with Others: Compete or share progress.
-  * Lose Streak: training becomes inconsistent, drop-off in attendance.
+3. Processes & Events
+* Start Workout: Person enters gym and begins training.
+* Complete Exercise: finish sets and reps targeting a muscle group.
+* Track Performance: note weight, reps, or distance achieved.
+* Hit Milestone: first pull-up, first 10k run, lifting one’s bodyweight, etc.
+* Compare with Others: Compete or share progress.
+* Lose Streak: training becomes inconsistent, drop-off in attendance.
 
-*4. Event Triggers*
-  * First-time Workout Event: When someone starts training.
-  * Personal Best Event: When a record is broken (heaviest lift, most reps).
-  * Consistency Event: When a person keeps a streak (e.g., 3x a week for a month).
-  * Achievement Event: When a person completes the requisites for an achievement.
-  * Badge Event: When a person obtains a badge after completion of a number of achievements.
+4. Event Triggers
+* First-time Workout Event: When someone starts training.
+* Personal Best Event: When a record is broken (heaviest lift, most reps).
+* Consistency Event: When a person keeps a streak (e.g., 3x a week for a month).
+* Achievement Event: When a person completes the requisites for an achievement.
+* Badge Event: When a person obtains a badge after completion of a number of achievements.
 
 
 ==== 2.1.2 Terminology
+Domain Terminology
+* Athlete: A person actively participating in gym workouts and exercises with the goal of 
+improving fitness.
+* Exercise: A single physical movement that targets specific muscles.
+* Workout: A structured set of exercises performed during a training session.
+* Routine: A planned schedule of workouts designed to achieve fitness goals over time.
+* Muscle Group: A category of muscles (e.g., chest, legs, back, arms) that exercises are designed to develop.
+* Progress Metric: A measurable element such as repetitions, sets, weight lifted, or duration 
+that reflects improvement.
+* Achievement: A milestone or goal reached by an athlete (e.g., completing 100 push-ups, hitting a new personal best).
+* Milestone: A significant marker of progress in training that signals growth or improvement.
+* Balance: The state of evenly training muscle groups to avoid neglect or overtraining.
+
+Non-Domain Terminology
+* App User: A person interacting with the gamified gym application 
+* Profile: A digital representation of an athlete or user, containing personal and fitness-related data.
+* Notification: A system-generated alert that informs athletes of completed events, achievements, or reminders.
+
 
 ==== 2.1.3 Domain terminology in relation to domain rough sketch
+1. Core Entities & Roles
+* Exercise: A single physical activity (e.g., push-up, squat, bench press).
+* Workout: A structured collection of exercises performed in a session.
+* Muscle Group: A classification of muscles (e.g., chest, legs, back) that exercises target.
+* Achievement: A milestone reached by an athlete (e.g., lifting a personal best, completing 
+a challenge).
+
+2. Training Process & Tracking
+* Workout Session: The occurrence of an athlete performing a workout at a specific time.
+* Routine: A planned sequence of workouts over days or weeks, designed to achieve specific goals.
+* Progress Tracking: The process of recording and observing changes in metrics such as strength, 
+endurance, or body composition.
+* Milestone Recognition: The acknowledgment of reaching goals such as increased strength, endurance, 
+or skill mastery.
+
+3. Domain Events & Triggers
+* Exercise Completion Event: Triggered when an athlete finishes a set or repetition of an exercise.
+* Workout Completion Event: Occurs when all planned exercises in a workout session are finished.
+* Personal Best Event: Happens when an athlete surpasses their previous record in weight, repetitions, 
+or duration.
+* Achievement Unlocked Event: Confirmed when a milestone or challenge is reached.
+* Overtraining Warning Event: Triggered when repeated sessions cause imbalance or fatigue beyond healthy 
+limits.
+
+4. Domain Rules & Constraints
+* Achievement Criteria Rule: Achievements are only recognized if the defined conditions (e.g., specific 
+weights, repetitions, or time) are met.
+* Progress Validation Rule: Increases in performance must be measurable to qualify as milestones.
+
 
 ==== 2.1.4 Narrative
 In fitness, individuals engage in physical exercise to improve health, 
@@ -223,8 +270,7 @@ that emerge in pursuit of fitness goals.
 * *Action:* A specific activity performed by the individual in relation to an event.
 * *Behavior:* The overall pattern of repeated actions that make up a fitness routine or
 progression path.
-
-For example, achieving a new personal best in weightlifting is an *event*. The *actions*
+** For example, achieving a new personal best in weightlifting is an *event*. The *actions*
 leading up to it include performing sets, increasing weights gradually, and tracking
 results. The *behavior* is the long-term commitment to progressive overload and consistent training.
 
