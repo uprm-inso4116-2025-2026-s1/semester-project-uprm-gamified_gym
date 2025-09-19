@@ -44,7 +44,7 @@ export default function Home() {
         </View>
 
         {/* Calendar Section */}
-        <TouchableOpacity style={styles.calendarBox}> {/* Changed to TouchableOpacity */}
+        <TouchableOpacity style={styles.calendarBox}>
           <Image
           source={require("../../assets/images/calendar.png")}
           style={styles.calendarIcon}
