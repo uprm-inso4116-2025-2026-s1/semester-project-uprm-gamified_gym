@@ -464,8 +464,115 @@ User Story: Backend and API Initialization
     UI functional.
 
 ==== 2.2.2 Personas
+* Alex, the Beginner:
+ ** Background and daily habits:
+    Alex is a 28-year-old office worker from Miami, Florida, new to the world of fitness. 
+    He often feels overwhelmed and out of place in the gym, unsure of where to start or if he 
+    is making any progress. His primary goal is to build a consistent workout habit to improve 
+    his health and energy levels. He has tried a few popular fitness apps but found them to be 
+    boring digital notebooks that he quickly forgot to use. He typically listens to high-energy 
+    playlists on Spotify during his workouts to stay motivated.
+
+ ** Motivations and goals:
+    Alex wants an application that feels more like a game than a chore. He seeks clear, visual 
+    proof of his progress and simple guidance to know he's on the right track. His main motivation 
+    is to build confidence through small, achievable wins that make the process of getting in shape 
+    feel rewarding and less intimidating.
+
+ ** Pain points and needs:
+    Current fitness apps only log data but fail to provide engaging feedback or build motivation. 
+    He struggles to understand fitness terminology and doesn't know if his training is balanced, leading 
+    to a fear of developing imbalances or injuring himself by doing too much of one thing. He needs an 
+    intuitive, encouraging, and gamified guide to help him build a foundation.
+
+* Sarah, the Consistent:
+ ** Background and daily habits:
+    Sarah is a 32-year-old teacher from Austin, Texas, who has maintained a regular gym routine for the 
+    past two years. She is knowledgeable about basic exercises and tracks her sets and reps diligently in a 
+    notes app. She enjoys the discipline of training but has recently hit a progress plateau and feels her 
+    routine becoming repetitive. She suspects she may be neglecting certain muscle groups but lacks the data 
+    to confirm it.
+
+ ** Motivations and goals:
+    Sarah wants to optimize her training to break through her plateau. She is motivated by data and personal 
+    competition. Her goal is to ensure her physique develops in a balanced way and to find a new layer of 
+    challenge and fun in her well-established fitness journey beyond just increasing weight.
+
+ ** Pain points and needs:
+    Her current method of tracking is fragmented and offers no analysis or insight. She finds existing gamified 
+    apps too simplistic and not built for someone with her level of experience. She needs a tool that provides 
+    advanced analytics on her training balance and uses sophisticated gamification, like muscle-specific goals, 
+    to target her weaknesses and celebrate her strengths.
+
+* Marcos, the Motivator:
+ ** Background and daily habits:
+    Marco is a 24-year-old graduate student from Chicago, Illinois, who works out with a close-knit group of friends. 
+    For him, fitness is a social activity that provides accountability and friendly competition. He and his friends 
+    constantly challenge each other to show up and push harder. He uses social media like Instagram to share his 
+    workout milestones but wishes there was a more integrated way to connect his fitness progress with his friends.
+
+ ** Motivations and goals:
+    Marco's primary motivation is community and shared achievement. He wants to use an app that strengthens his workout 
+    group's connection by making it easy to share progress, celebrate each other's accomplishments, and maintain streaks 
+    together. He seeks a positive competitive environment that focuses on consistency and effort rather than just raw strength.
+
+ ** Pain points and needs:
+    He finds current fitness apps to be isolating experiences; they are designed for individual use with limited, often clunky 
+    social features. There is no seamless way to create a private leaderboard with just his friends to compare consistency and 
+    encourage each other. He needs a platform that fosters a small community centered around collective growth.
+
+
 
 ==== 2.2.3 Domain Requirements
+===== Principles
+* Fitness as a Journey of Personal Progress
+ ** Improvement in strength, endurance, and consistency is a core driver of motivation. The system must provide clear, 
+    quantifiable metrics and visual representations of a user's progress over time.
+ ** A balanced approach targeting all major muscle groups is essential for preventing injury and achieving a 
+    well-rounded physique. The system must facilitate and encourage awareness of training distribution across the body.
+
+* Engagement with Fitness Training
+ ** Long-term consistency requires more than initial novelty. The system must implement a layered reward structure 
+    (e.g., XP, achievements, ranks) that provides continuous feedback and celebrates milestones of varying difficulty.
+ ** Fitness journeys can be reinforced through community. The system must provide means for positive social comparison 
+    and mutual support that focuses on shared effort and consistency.
+
+===== Functional Requirements
+* Workout Logging
+ ** The system must allow a user to log an exercise by specifying the exercise name, weight lifted, number of sets, 
+    and number of repetitions per set.
+ ** The system must require that every logged exercise be associated with at least one primary muscle group 
+    (e.g., Chest, Back, Legs).
+
+* Progress Tracking
+ ** The system must calculate and display a historical graph of the total training volume (weight × sets × reps) 
+    for each muscle group over a user-selectable time period.
+ ** The system must track and highlight new Personal Records (PRs) when a user logs a set with a higher 
+    weight for a given exercise than any previous set.
+
+* Gamification System
+ ** The system must assign a user a rank (Bronze, Silver, Gold, etc.) for each muscle group, calculated 
+    based on the total historical training volume and PRs for that muscle group.
+ ** The system must award users experience points (XP) for completing workouts and achieving milestones.
+ ** The system must display unlocked achievements and badges within a user's profile.
+
+* Social Features
+ ** The system must allow users to send and accept friend requests from other users.
+ ** The system must provide a leaderboard that ranks a user's friends based on their total consistency streak.
+
+===== Non-Functional Requirements
+* Usability
+ ** The application must allow a user to log a standard 3-set exercise in under 30 seconds.
+ ** All charts and graphs depicting muscle balance must be understandable at a glance without requiring 
+    manual interpretation of data tables.
+
+* Data Integrity
+ ** A user's workout history and personal records must never be deleted automatically due to inactivity.
+ ** All user data must be backed up automatically and daily.
+
+* Security
+ ** Users must only be able to view the profile and workout data of users they have accepted as friends.
+ ** All passwords must be hashed and salted before storage in the database.
 
 ==== 2.2.4 Interface Requirements
 ===== User Authentication and Navigation
