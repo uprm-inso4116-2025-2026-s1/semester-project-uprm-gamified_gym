@@ -41,12 +41,13 @@
 
 ==== 1.2.1 Current Situation
 
-  The fitness application market is saturated with products that solely focus on data logging. Many users, particularly novices and those 
-who struggle with commitment, are prone to finding these apps mundane. These applications act more as glorified digital notebooks rather 
-than actual services for assistance in users' fitness efforts. The lack of engagement leads to low user retention, especially with those 
-who already have trouble starting or sticking with their fitness journey. Additionally, without visual feedback on users' overall training 
-ditribution, it is easy for users to favor certain muscle groups over others (i.e Focus on chest and arms while neglecting legs and back). 
-This would then lead to uneven physical development and increased risk of injuries.
+  The fitness application market is saturated with products that solely focus on data logging. Many users, particularly 
+novices and those who struggle with commitment, are prone to finding these apps mundane. These applications act more as 
+glorified digital notebooks rather than actual services for assistance in users' fitness efforts. The lack of engagement 
+leads to low user retention, especially with those who already have trouble starting or sticking with their fitness 
+journey. Additionally, without visual feedback on users' overall training ditribution, it is easy for users to favor 
+certain muscle groups over others (i.e Focus on chest and arms while neglecting legs and back). This would then lead 
+to uneven physical development and increased risk of injuries.
 
 === 1.2.2 Needs
 
@@ -76,30 +77,39 @@ To satisfy the above-mentioned needs, the following ideas for a system-to-be wer
 
 ==== 1.3.1 Scope and Span
 
-  The project operates in the realm of personal fitness tracking, motivation, and community building. It will provide the means for users to prepare and 
-log their own workout routines alongside a vast list of known exercises that are coupled with visual aids to understand what muscle groups are being worked.
-Additionally, it will utilize the statistics obtained from the users' logs in order to create and update graphs that keep them updated on their progress. 
-It will also go beyond other competitor applications by introducing gamey aspects that promote commitment and dedication to the users' fitness journeys.
+  The project operates in the realm of personal fitness tracking, motivation, and community building. It will provide 
+the means for users to prepare and log their own workout routines alongside a vast list of known exercises that are 
+coupled with visual aids to understand what muscle groups are being worked. Additionally, it will utilize the statistics 
+obtained from the users' logs in order to create and update graphs that keep them updated on their progress. It will 
+also go beyond other competitor applications by introducing gamey aspects that promote commitment and dedication to 
+the users' fitness journeys.
 
-  To establish a proper foundation, the project will begin by identifying critical stakeholders, such as potential users in need of a good start to their fitness 
-journey or more experienced gym-goers that wish for a more playful alternative to the often repetitive grind of maintining a healthy and fit body. Upon Analyzing 
-their behaviour and needs, a larger domain representation will be developed. This would allow the team to align the platform to meet their expectations and provide
-an optimal user experience. Requirements are to be derived from the stakeholder study and further clarified by the development team to ensure the application meets 
-user expectations. The defining of key features such as workout logging, internal statistic tracking, and social interactions are part of this process. The system 
-will have a guided and intuitive process of logging workouts or viewing statistics by means of dedicated pages for the features that are coupled with search items 
-and sorting capabilities (in the case of viewing or finding exercises in such a long list). These aspects are to be managed in the backend as a database of items 
-to be retrieved on demand. On the other hand, the frontend will consist of a simple, interactive UI that promotes engagement and exploration of the application.
+  To establish a proper foundation, the project will begin by identifying critical stakeholders, such as potential 
+users in need of a good start to their fitness journey or more experienced gym-goers that wish for a more playful 
+alternative to the often repetitive grind of maintining a healthy and fit body. Upon Analyzing their behaviour and 
+needs, a larger domain representation will be developed. This would allow the team to align the platform to meet their
+expectations and provide an optimal user experience. Requirements are to be derived from the stakeholder study and 
+further clarified by the development team to ensure the application meets user expectations. The defining of key 
+features such as workout logging, internal statistic tracking, and social interactions are part of this process. The 
+system will have a guided and intuitive process of logging workouts or viewing statistics by means of dedicated pages 
+for the features that are coupled with search items and sorting capabilities (in the case of viewing or finding 
+exercises in such a long list). These aspects are to be managed in the backend as a database of items to be retrieved
+on demand. On the other hand, the frontend will consist of a simple, interactive UI that promotes engagement and 
+exploration of the application.
 
 ==== 1.3.2 Synopsis
 
-  Gamified Gym is an android mobile application aimed at improving the fitness tracking experience for gym-goers, particularly those who struggle to stay motivated 
-or committed to their fitness journey. The project will cover the phases of development, from preliminary domain and design analysis to the deployment of the 
-application. It will be built using a React Native frontend and a Supabase backend for a smooth and reliable user experience, using agile methodology and features 
-validated through manager and team leader reviews in GitHub and Visual Studio Code. The app will centralize workout logging, progress tracking and social interactions
-bundled with motivational aspects designed to engage users and further immerse them into their fitness goals. It will provide consistent updates to graphical elements 
-based on user input in order to maintain communication between the user and the service. Furthermore, it will involve stakeholder and potential user interviews, 
-requirements gathering, and general interest gathering forms to pivot application requirements as needed. The end is to ensure the most amount of users are both 
-interested and satisfied with the deployed iteration of Gamified Gym.
+  Gamified Gym is an android mobile application aimed at improving the fitness tracking experience for gym-goers, 
+particularly those who struggle to stay motivated or committed to their fitness journey. The project will cover the 
+phases of development, from preliminary domain and design analysis to the deployment of the application. It will be 
+built using a React Native frontend and a Supabase backend for a smooth and reliable user experience, using agile 
+methodology and features validated through manager and team leader reviews in GitHub and Visual Studio Code. The app 
+will centralize workout logging, progress tracking and social interactions bundled with motivational aspects designed 
+to engage users and further immerse them into their fitness goals. It will provide consistent updates to graphical 
+elements based on user input in order to maintain communication between the user and the service. Furthermore, it 
+will involve stakeholder and potential user interviews, requirements gathering, and general interest gathering 
+forms to pivot application requirements as needed. The end is to ensure the most amount of users are both interested 
+and satisfied with the deployed iteration of Gamified Gym.
 
 === 1.4 Other Activities Than Just Developing Source Code
 
