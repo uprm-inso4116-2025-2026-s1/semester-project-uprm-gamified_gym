@@ -182,7 +182,7 @@ their training.
 
 ==== 2.1.5 Events, Actions, and Behaviors
 1. Overview
-In fitness, people engage in structured exercises to improve strength,
+* In fitness, people engage in structured exercises to improve strength,
 endurance, and overall health. Understanding the difference between events, 
 actions, and behaviors helps clarify how individuals interact with the fitness 
 process over time. These distinctions highlight the milestones that occur during 
@@ -200,7 +200,7 @@ leading up to it include performing sets, increasing weights gradually, and trac
 results. The *behavior* is the long-term commitment to progressive overload and consistent training.
 
 3. Application in Gamified Gym
-*3.1 Events: Key Fitness Milestones*
+*Events: Key Fitness Milestones*
 Events in the domain of fitness represent meaningful achievements or turning points, such 
 as:
   1. Beginning a workout session.
@@ -210,7 +210,7 @@ as:
   5. Maintaining consistency over a defined period (e.g., exercising three times per week 
   for a month).
 
-*3.2 Actions: Steps in Fitness Process*
+*Actions: Steps in Fitness Process*
 Actions are the concrete steps individuals take in their training journey. In the fitness 
 context, these include:
   1. Choosing a workout plan or exercise.
@@ -225,21 +225,17 @@ context, these include:
 Each action contributes to building toward larger events, such as hitting new milestones 
 or maintaining balanced progress.
 
-*3.3 Behavior: The Training Journey*
+*Behavior: The Training Journey*
 Behavior refers to the recurring, long-term patterns of training and progression. The 
 fitness journey can be described in these phases:
-  1. Initiation Phase:
-    * The individual starts a training routine, often motivated by goals such as improved 
-    health, strength, or appearance.
-  2. Development Phase:
-    * The individual consistently trains, records progress, and adapts routines. This stage 
-    involves refining technique and gradually increasing intensity.
-  3. Achievement Phase:
-    * Significant events occur, such as personal bests, visible improvements, or reaching a 
-    fitness benchmark.
-  4. Sustainment Phase:
-    * The individual maintains habits, focuses on balance across muscle groups, and avoids 
-    overtraining by adhering to consistent routines.
+  1. Initiation Phase: The individual starts a training routine, often motivated by goals such as improved 
+  health, strength, or appearance.
+  2. Development Phase: The individual consistently trains, records progress, and adapts routines. This stage 
+  involves refining technique and gradually increasing intensity.
+  3. Achievement Phase: Significant events occur, such as personal bests, visible improvements, or reaching a 
+  fitness benchmark.
+  4. Sustainment Phase: The individual maintains habits, focuses on balance across muscle groups, and avoids 
+  overtraining by adhering to consistent routines.
 
 This sequence of actions and events illustrates how behaviors develop into a continuous fitness 
 lifestyle rather than isolated workout sessions.
