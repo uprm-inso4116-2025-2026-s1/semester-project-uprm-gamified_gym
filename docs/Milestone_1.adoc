@@ -465,7 +465,7 @@ User Story: Post Creation Feature Design
 
 ---
 
-User Stories for Epic 2: Core Fitness and Data Management
+User Story for Epic 2: Core Fitness
 
 ---
 
@@ -482,29 +482,6 @@ User Story: Workout Logging Feature
     UI will interact with, ensuring the UI's functionality is backed by a robust and 
     well-defined system.
 
-User Story: Data Preparation and Management
-
-  - Story: As the system, I need to manage and access structured exercise data, so
-    that I can provide a variety of accurate and consistent workout information to the
-    user.
-
-  - UI Contribution: While these tasks are primarily backend-focused, they directly
-    enable the UI to function. The data prepared provides the content
-    that the UI will display (e.g., exercise names, descriptions, icons). The mock data
-    from allows for early-stage UI testing without a live backend, ensuring the
-    front-end can be developed and refined in parallel. This shows a deep
-    understanding of the inter-team dependencies crucial for project success.
-
-User Story: Backend and API Initialization
-
-  - Story: As the system, I need to establish a connection to a database, so that I
-    can persistently store and retrieve user and fitness data.
-
-  - UI Contribution: These foundational tasks are what allow for a dynamic,
-    data-driven UI. Without the database initialization and the chosen backend stack,
-    UI components like the profile page or workout logs would be static and unable to
-    store user information, proving that backend work is the backbone that makes the
-    UI functional.
 
 ==== 2.2.2 Personas
 * Alex, the Beginner:
