@@ -1,7 +1,7 @@
 == 1. Informative part
 === 1.1 Team Composition
 * Managers: (FIX NAMES)
-** Giango
+** Gian Gonzales
 ** Kevin
 ** Ricardo
 
