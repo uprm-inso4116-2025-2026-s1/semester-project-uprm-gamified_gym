@@ -1,0 +1,66 @@
+[
+    {
+        "exerciseName": "Push Up",
+        "date": "2025-06-10",
+        "sets": [
+            { "set": 1, "reps": 12, "weight": 0 },
+            { "set": 2, "reps": 10, "weight": 0 },
+            { "set": 3, "reps": 8, "weight": 0 }
+        ]
+    },
+    {
+        "exerciseName": "Squat",
+        "date": "2025-06-11",
+        "sets": [
+            { "set": 1, "reps": 15, "weight": 45 },
+            { "set": 2, "reps": 15, "weight": 45 },
+            { "set": 3, "reps": 12, "weight": 45 }
+        ]
+    },
+    {
+        "exerciseName": "Pull Ups",
+        "date": "2025-06-12",
+        "sets": [
+            { "set": 1, "reps": 6, "weight": 0 },
+            { "set": 2, "reps": 5, "weight": 0 },
+            { "set": 3, "reps": 4, "weight": 0 }
+        ]
+    },
+    {
+        "exerciseName": "Plank",
+        "date": "2025-06-13",
+        "sets": [
+            { "set": 1, "reps": 60, "weight": 0 },
+            { "set": 2, "reps": 45, "weight": 0 },
+            { "set": 3, "reps": 30, "weight": 0 }
+        ]
+    },
+    {
+        "exerciseName": "Dumbell Bench Press",
+        "date": "2025-06-15",
+        "sets": [
+            { "set": 1, "reps": 8, "weight": 65 },
+            { "set": 2, "reps": 8, "weight": 65 },
+            { "set": 3, "reps": 6, "weight": 65 }
+        ]
+    },
+    {
+        "exerciseName": "Deadlift",
+        "date": "2025-06-16",
+        "sets": [
+            { "set": 1, "reps": 5, "weight": 95 },
+            { "set": 2, "reps": 5, "weight": 95 },
+            { "set": 3, "reps": 5, "weight": 95 }
+        ]
+    },
+    {
+        "exerciseName": "Shoulder Press",
+        "date": "2025-06-17",
+        "sets": [
+            { "set": 1, "reps": 10, "weight": 30 },
+            { "set": 2, "reps": 8, "weight": 30 },
+            { "set": 3, "reps": 6, "weight": 30 }
+        ]
+    }
+]
+
