@@ -177,23 +177,23 @@ groups.
 
 
 ==== 2.1.2 Terminology
-Domain Terminology
-* Athlete: A person actively participating in gym workouts and exercises with the goal of 
+* Domain Terminology
+** Athlete: A person actively participating in gym workouts and exercises with the goal of 
 improving fitness.
-* Exercise: A single physical movement that targets specific muscles.
-* Workout: A structured set of exercises performed during a training session.
-* Routine: A planned schedule of workouts designed to achieve fitness goals over time.
-* Muscle Group: A category of muscles (e.g., chest, legs, back, arms) that exercises are designed to develop.
-* Progress Metric: A measurable element such as repetitions, sets, weight lifted, or duration 
+** Exercise: A single physical movement that targets specific muscles.
+** Workout: A structured set of exercises performed during a training session.
+** Routine: A planned schedule of workouts designed to achieve fitness goals over time.
+** Muscle Group: A category of muscles (e.g., chest, legs, back, arms) that exercises are designed to develop.
+** Progress Metric: A measurable element such as repetitions, sets, weight lifted, or duration 
 that reflects improvement.
-* Achievement: A milestone or goal reached by an athlete (e.g., completing 100 push-ups, hitting a new personal best).
-* Milestone: A significant marker of progress in training that signals growth or improvement.
-* Balance: The state of evenly training muscle groups to avoid neglect or overtraining.
+** Achievement: A milestone or goal reached by an athlete (e.g., completing 100 push-ups, hitting a new personal best).
+** Milestone: A significant marker of progress in training that signals growth or improvement.
+** Balance: The state of evenly training muscle groups to avoid neglect or overtraining.
 
-Non-Domain Terminology
-* App User: A person interacting with the gamified gym application 
-* Profile: A digital representation of an athlete or user, containing personal and fitness-related data.
-* Notification: A system-generated alert that informs athletes of completed events, achievements, or reminders.
+* Non-Domain Terminology
+** App User: A person interacting with the gamified gym application 
+** Profile: A digital representation of an athlete or user, containing personal and fitness-related data.
+** Notification: A system-generated alert that informs athletes of completed events, achievements, or reminders.
 
 
 ==== 2.1.3 Domain terminology in relation to domain rough sketch
