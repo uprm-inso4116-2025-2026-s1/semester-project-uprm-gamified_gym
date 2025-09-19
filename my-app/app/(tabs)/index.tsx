@@ -10,6 +10,7 @@ type RootStackParamList = {
   Profile: undefined;
   Settings: undefined;
   Password: undefined;
+  ExerciseLog: undefined; 
 };
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
@@ -47,6 +48,11 @@ export default function index() {
         title="Go to Password"
         onPress={() => navigation.navigate("Password")}
       />
+      <Button
+        title = "Go to Exercises"
+        onPress={() => navigation.navigate("ExerciseLog")}
+        />
+
     </View>
   );
 } 
