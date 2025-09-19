@@ -2,8 +2,8 @@
 === 1.1 Team Composition
 * Managers: (FIX NAMES)
 ** Gian Gonzales
-** Kevin
-** Ricardo
+** Kevin Lopez
+** Ricardo Perez
 
 * Fitness Tracker Team:
 ** Ernesto Soto (Team Leader)
