@@ -71,6 +71,67 @@
 
 ==== 2.1.6 Function Signatures
 
+* In the context of this project, these signatures capture the 
+essential domain operations like creating exercises, starting 
+and ending workouts, logging sets, awarding achievements, and 
+updating user profiles.
+
+* These are concise pseudo-code definitions that outline the 
+function's name, the expected input parameters (exercises, 
+sets, repetitions, etc.) and the output with their return type. 
+They don't describe the internal logic of the function, they 
+just define how different parts will interact in the system.
+
+* These signatures are the blueprint of the system's capabilities
+that developers and non-developers alike can understand. This helps
+us show how abstract requirements are translated into easy to understand
+that can be later implemented in code. These functions bridge the gap 
+between conceptual design and actual implementation and working software,
+like explaining a complex track workout to a person that doesn't even know
+what a track workout is.
+
+createExercise(name: String, sets: Int, reps: Int, duration: DateTime) -> return exercises
+// Creates a new exercise with the given name, sets, reps, and duration.
+
+startWorkout(user: User, startTime; Timestamp) -> return WorkoutSession
+// Starts a new workout session for the given user at the given start time.
+
+endWorkout(workoutSession: WorkoutSession, endTime: Timestamp) -> return WorkoutSession
+// Ends the given workout session at the given end time.
+
+logSet(workoutSession: WorkoutSession, exercise: Exercise, setNumber: Int, reps: Int, weight: Double) -> return Set
+// Logs a new set for the given workout session, exercise, set number, reps, and weight.
+
+awardAchievement(user: User, achievement: Achievement) -> return Achievement
+// Awards the given achievement to the given user.
+
+calculateExperience(userId: User, setEntry: SetEntry) -> return Experience
+// Calculates the experience gained from a logged set based on reps, weight, or duration.
+
+updateUserProfile(user: User, name: String, age: Int, gender: String, height: Double, weight: Double) -> return User
+// Updates the given user's profile with the given name, age, gender, height, and weight.
+
+getLeaderboard(period: Timeframe, limit: int) -> return List<LeaderboardEntry
+// Return the top users ranked by experience in the given time period.
+
+sendFriendRequest(senderId: User, receiverId: User) -> return FriendRequest
+// Creates a pending friend request from one user to another.
+
+acceptFriendRequest(requestId: FriendRequest) -> return Friendship
+// Accepts a pending friend request and establishes a friendship connection.
+
+logChallengeProgress(userId: User, challengeId: Challenge, progress: Int) -> return ChallengeProgress
+// Logs the progress of a user in a challenge.
+
+awardMedal(userId: User, medal: Medal) -> return Medal
+// Awards the given medal to the given user.
+
+createPost(userId User, title: String (not required), content: String, workoutId: WorkoutSession, media: List<MediaFile> (not required)) -> return Post
+// Creates a new post with the given title, content, media, and workout session.
+
+createWorkout(userId User, name: String, exercises: List<Exercise>) -> return WorkoutSession
+// Creates a new workout session for the given user with the given name and exercises.
+
 === 2.2 Requirements
 
 ==== 2.2.1 User Stories, Epics, Features
