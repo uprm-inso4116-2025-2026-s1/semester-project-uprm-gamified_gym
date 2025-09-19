@@ -147,7 +147,7 @@ development progress, including both front-end and back-end work.
 For Milestone 1, the team focused on two core epics that lay the foundation for the entire
 application.
 
-- Epic 1: Foundational Design and User Interface (UI)
+Epic 1: Foundational Design and User Interface (UI)
 
   - Goal: To establish a consistent and user-friendly visual and interactive design
     for the application's core pages.
@@ -155,7 +155,7 @@ application.
     intuitive user experience from the very start. A solid design foundation is
     necessary for all subsequent feature development.
 
-- Epic 2: Core Fitness and Data Management
+Epic 2: Core Fitness and Data Management
   - Goal: To establish the fundamental data structures and logic required to track and
     manage user workout data.
   - Justification: This epic is the core of the application's value proposition. It
@@ -163,12 +163,10 @@ application.
     (exercises, workouts, etc.) that the user will interact with, directly supporting
     the app's fitness tracking goals.
 
----
 
-| User Stories and UI Contributions |
-| (Derived from Closed Tasks) |
+## | User Stories and UI Contributions
+## | (Derived from Closed Tasks) |
 
----
 
 The following user stories and their associated UI tasks were completed during Milestone 1.
 Each story is mapped to the specific closed issues that contributed to its completion,
@@ -180,7 +178,7 @@ demonstrating a clear link between requirements and implementation.
 
 ---
 
-- User Story: User Authentication Page Design
+User Story: User Authentication Page Design
 
   - Story: As a first-time or returning user, I want to see a clear design for the
     login and sign-up pages, so that I can easily and confidently access my account or
@@ -195,7 +193,7 @@ demonstrating a clear link between requirements and implementation.
     journey across these critical pages, using a defined color palette, typography, and
     layout for a professional feel.
 
-- User Story: Core Page Design
+User Story: Core Page Design
 
   - Story: As a user, I want to see a clear and intuitive layout for the main pages, so
     that I can understand the purpose of each section at a glance.
@@ -212,7 +210,7 @@ demonstrating a clear link between requirements and implementation.
     the profile picture, navigation menus, and content feeds, ensuring a logical flow
     and a predictable user experience.
 
-- User Story: Gamification Element Design
+User Story: Gamification Element Design
 
   - Story: As a user, I want to see visual representations of my progress and
     achievements, so that I can stay motivated to continue my fitness journey.
@@ -228,7 +226,7 @@ demonstrating a clear link between requirements and implementation.
     motivational features. The foundational work in defining the XP system (#88)
     ensures that the visual elements are backed by clear and consistent logic.
 
-- User Story: Post Creation Feature Design
+User Story: Post Creation Feature Design
   - Story: As a user, I want to design a way to create and share content, so that I
     can interact with the community.
   - Related Closed Tasks:
@@ -244,7 +242,7 @@ demonstrating a clear link between requirements and implementation.
 
 ---
 
-- User Story: Workout Logging Feature
+User Story: Workout Logging Feature
 
   - Story: As a user, I want to log a workout with an exercise timer/counter, so that
     I can accurately track my progress and performance.
@@ -263,7 +261,7 @@ demonstrating a clear link between requirements and implementation.
     provides the foundational logic that the UI will interact with, ensuring the UI's
     functionality is backed by a robust and well-defined system.
 
-- User Story: Data Preparation and Management
+User Story: Data Preparation and Management
 
   - Story: As the system, I need to manage and access structured exercise data, so
     that I can provide a variety of accurate and consistent workout information to the
@@ -280,7 +278,7 @@ demonstrating a clear link between requirements and implementation.
     front-end can be developed and refined in parallel. This shows a deep
     understanding of the inter-team dependencies crucial for project success.
 
-- User Story: Backend and API Initialization
+User Story: Backend and API Initialization
   - Story: As the system, I need to establish a connection to a database, so that I
     can persistently store and retrieve user and fitness data.
   - Related Closed Tasks:
