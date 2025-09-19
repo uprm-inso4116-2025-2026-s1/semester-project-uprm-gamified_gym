@@ -2,8 +2,8 @@
 
 == 1. Informative part
 === 1.1 Team Composition
-* Managers: (FIX NAMES)
-** Gian Gonzales
+* Managers:
+** Gian Gonzalez
 ** Kevin Lopez
 ** Ricardo Perez
 
@@ -43,19 +43,103 @@
 
 ==== 1.2.1 Current Situation
 
+  The fitness application market is saturated with products that solely focus on data logging. Many users, particularly 
+novices and those who struggle with commitment, are prone to finding these apps mundane. These applications act more as 
+glorified digital notebooks rather than actual services for assistance in users' fitness efforts. The lack of engagement 
+leads to low user retention, especially with those who already have trouble starting or sticking with their fitness 
+journey. Additionally, without visual feedback on users' overall training ditribution, it is easy for users to favor 
+certain muscle groups over others (i.e Focus on chest and arms while neglecting legs and back). This would then lead 
+to uneven physical development and increased risk of injuries.
+
 === 1.2.2 Needs
 
+People committed to fitness training need:
+
+* An experience that promotes consistency, effort, and varied workouts to reduce repetitiveness.
+
+* A clear visual regarding their progress beyond simple numbers and statistics to better convey their improvements over time.
+
+* To know the importance of maintaining a balanced training regiment and understand how to maintain this balance across all muscle groups for uniform fitness and reduced injury risks. 
+
+* A structured platform in which they will be able to compare efforts with their peers to foster accountability and commitment.
+
 ==== 1.2.3 Ideas
+
+To satisfy the above-mentioned needs, the following ideas for a system-to-be were developed:
+
+* Implement a Gamified Progress System where users earn experience points (XP) for logging their workouts and unlock achievements and badges for challenging milestones. (i.e "1st Week Completed" or "I Can Bench Press Myself!").
+
+* Introduce a Muscle Group Progress tracker (i.e bronze, silver, gold, platinum tier, etc.) that showcases how much effort users are putting into each group.
+
+* Provide a Dashboard with charts that display training frequency and volume of work put into the different muscle groups in order to highlight strongpoints and weakpoints in routines.
+
+* Introduce a Friends page that provides users with the means to connect with friends or even rivals to compare progress, streaks, and achievements to promote accountability and competition.
 
 === 1.3 Scope, Span, and Synopsis
 
 ==== 1.3.1 Scope and Span
 
+  The project operates in the realm of personal fitness tracking, motivation, and community building. It will provide 
+the means for users to prepare and log their own workout routines alongside a vast list of known exercises that are 
+coupled with visual aids to understand what muscle groups are being worked. Additionally, it will utilize the statistics 
+obtained from the users' logs in order to create and update graphs that keep them updated on their progress. It will 
+also go beyond other competitor applications by introducing gamey aspects that promote commitment and dedication to 
+the users' fitness journeys.
+
+  To establish a proper foundation, the project will begin by identifying critical stakeholders, such as potential 
+users in need of a good start to their fitness journey or more experienced gym-goers that wish for a more playful 
+alternative to the often repetitive grind of maintining a healthy and fit body. Upon Analyzing their behaviour and 
+needs, a larger domain representation will be developed. This would allow the team to align the platform to meet their
+expectations and provide an optimal user experience. Requirements are to be derived from the stakeholder study and 
+further clarified by the development team to ensure the application meets user expectations. The defining of key 
+features such as workout logging, internal statistic tracking, and social interactions are part of this process. The 
+system will have a guided and intuitive process of logging workouts or viewing statistics by means of dedicated pages 
+for the features that are coupled with search items and sorting capabilities (in the case of viewing or finding 
+exercises in such a long list). These aspects are to be managed in the backend as a database of items to be retrieved
+on demand. On the other hand, the frontend will consist of a simple, interactive UI that promotes engagement and 
+exploration of the application.
+
 ==== 1.3.2 Synopsis
+
+  Gamified Gym is an android mobile application aimed at improving the fitness tracking experience for gym-goers, 
+particularly those who struggle to stay motivated or committed to their fitness journey. The project will cover the 
+phases of development, from preliminary domain and design analysis to the deployment of the application. It will be 
+built using a React Native frontend and a Supabase backend for a smooth and reliable user experience, using agile 
+methodology and features validated through manager and team leader reviews in GitHub and Visual Studio Code. The app 
+will centralize workout logging, progress tracking and social interactions bundled with motivational aspects designed 
+to engage users and further immerse them into their fitness goals. It will provide consistent updates to graphical 
+elements based on user input in order to maintain communication between the user and the service. Furthermore, it 
+will involve stakeholder and potential user interviews, requirements gathering, and general interest gathering 
+forms to pivot application requirements as needed. The end is to ensure the most amount of users are both interested 
+and satisfied with the deployed iteration of Gamified Gym.
 
 === 1.4 Other Activities Than Just Developing Source Code
 
+* Domain Engineering: Researching and documenting fitness principles, common user behaviors, and gamification techniques to ensure the app is effective and safe.
+
+* Requirements Engineering: Eliciting needs from potential users and translating them into detailed software requirements.
+
+* Stakeholder Liaison: Regularly communicating with beta testers and a potential fitness expert partner to gather feedback.
+
+* Software Architecture: Designing the high-level structure of the application, including the frontend-backend interaction and data models.
+
+* Testing: Creating and executing test plans for unit, integration, and user acceptance testing (UAT).
+
+* DevOps: Configuring the build pipeline for React Native and setting up the Supabase project.
+
 === 1.5 Derived Goals
+
+* Primary Goal: 
+
+ ** To create an engaging and motivating workout-tracking application that helps users maintain consistency, motivation and achieve a balanced physique.
+
+* Secondary Goals:
+
+ ** Educational Value: To subtly educate users on the importance of muscle group balance and progressive overload through the gamification mechanics.
+
+ ** Community Building: To foster a positive and supportive micro-community around fitness, moving away from toxic comparison and towards collective growth.
+
+ ** Technical Proficiency: To successfully implement and integrate a modern technology stack (React Native, Supabase) and demonstrate its effectiveness for building a full-stack mobile application.
 
 == 2. Descriptive part
 
@@ -68,6 +152,32 @@
 ==== 2.1.3 Domain terminology in relation to domain rough sketch
 
 ==== 2.1.4 Narrative
+In fitness, individuals engage in physical exercise to improve health, 
+strength, endurance, or appearance. Workouts are often organized into sets
+and repetitions of exercises targeting specific muscle groups such as chest, back,
+legs, arms and shoulders. People also measure progress in terms of performance (i.e.
+increasing weights lifted or repetitions completed), physical changes or overall 
+endurance. 
+
+Despite the availability of many training methods, individuals frequently enncounter
+difficulties in staying motivated and consistent. Some rely on notebooks, spreadsheets, or
+mental notes to keep track of their routines, while others may depend on general-purpose
+fitness apps. These methods record data but rarely provide meaningful feedback. As a result,
+people may unknowingly train some muscle groups more than others, leading to imbalances, overtraining,
+or plateaus in performance. 
+
+Within gym and fitness culture, motivation is often sustained through external factors
+such as competition, social comparison, and personal milestones. For example, athletes celebrate 
+when they achieve a new personal best or notice visible physical changes. Similarly, comparing progress
+with peers-whether with friends or in competitive settings-has long been part of the fitness experience. 
+Additionally, badges, milestones, and challenges exist as a symbol of their achievement, whether
+in the form of weightlifting belts, gym awards, or recognition in a community.
+
+Thus, the domain of fitness involves not only the physical act of exercising, but also the human
+tendency towards self-improvement, tracking performance, maintaining balance, and seeking motivation 
+through challenges. the difficulties arise from the absence of engaging, consistent methods of
+feedback and recognition that help individuals sustain long-term progress across different aspects of 
+their training.
 
 ==== 2.1.5 Events, Actions, and Behaviors
 
@@ -187,10 +297,6 @@ User Story: User Authentication Page Design
   - Story: As a first-time or returning user, I want to see a clear design for the
     login and sign-up pages, so that I can easily and confidently access my account or
     create a new one.
-  - Related Closed Tasks:
-    * Issue 63 Create Figma Design for Login Page
-    * Issue 64 Create Figma Design for Signup Page
-    * Issue 65 Create Figma Design for Forgot Password Page
     
   - UI Contribution: The completion of these tasks provided a cohesive design for the
     entire user authentication flow. The Figma designs ensure a consistent user
@@ -201,12 +307,6 @@ User Story: Core Page Design
 
   - Story: As a user, I want to see a clear and intuitive layout for the main pages, so
     that I can understand the purpose of each section at a glance.
-  - Related Closed Tasks:
-    * Issue 69 Create Figma Design for Profile Page
-    * Issue 70 Create Figma Design for Home Page
-    * Issue 71 Create Figma Design for Settings Page
-    * Issue 50 Build Home Page Screen
-    * Issue 81 Workouts Page UI Shell Objective: Create the base Workouts Page layout
 
   - UI Contribution: By designing these pages in Figma and building the base UI shells
     for the Home and Workouts pages, the team established a visual blueprint for the
@@ -218,24 +318,17 @@ User Story: Gamification Element Design
 
   - Story: As a user, I want to see visual representations of my progress and
     achievements, so that I can stay motivated to continue my fitness journey.
-  - Related Closed Tasks:
-    * Issue 62 Create Design of Page Showcasing Achievements
-    * Issue 85 Design Progression Bar (XP/Level System)
-    * Issue 88 Define XP System
-    * Issue 84 Design Page for Daily/Weekly/Monthly Challenges
 
   - UI Contribution: These design tasks focused on integrating gamification elements
     directly into the UI. The completed Figma pages and designs for the progression
     bar and challenges provide a visual guide for developers to implement these core
-    motivational features. The foundational work in defining the XP system (Issue 88)
+    motivational features. The foundational work in defining the XP system
     ensures that the visual elements are backed by clear and consistent logic.
 
 User Story: Post Creation Feature Design
 
   - Story: As a user, I want to design a way to create and share content, so that I
     can interact with the community.
-  - Related Closed Tasks:
-    * Issue 73 Design Create Post Feature in Figma
 
   - UI Contribution: The Figma design for the post creation feature lays out a
     user-friendly form. It includes placeholders for images and a text input area,
@@ -251,35 +344,25 @@ User Story: Workout Logging Feature
 
   - Story: As a user, I want to log a workout with an exercise timer/counter, so that
     I can accurately track my progress and performance.
-  - Related Closed Tasks:
-    * Issue 72 Explain and design Workout Logging feature
-    * Issue 97 Exercise Timer / Counter UI
-    * Issue 102 Exercise Detail Card Mockup
-    * Issue 112 Modeling the Life Cycle of a Workout in a Fitness Tracker
-    * Issue 108 Write 2.1.6 Function signatures
 
-  - UI Contribution: The UI for the exercise timer and counter, designed in task Issue 97,
+  - UI Contribution: The UI for the exercise timer and counter
     provides the direct user interaction point for this feature. It includes a visible
     timer, start/stop buttons, and a counter. The completion of the Exercise Detail
-    Card Mockup (Issue 102) defines how individual exercise information will be displayed.
-    The conceptual work in tasks Issue 72, Issue 112, and the function signatures (Issue 108)
-    provides the foundational logic that the UI will interact with, ensuring the UI's
-    functionality is backed by a robust and well-defined system.
+    Card Mockup defines how individual exercise information will be displayed.
+    The conceptual work and the function signatures provides the foundational logic that the 
+    UI will interact with, ensuring the UI's functionality is backed by a robust and 
+    well-defined system.
 
 User Story: Data Preparation and Management
 
   - Story: As the system, I need to manage and access structured exercise data, so
     that I can provide a variety of accurate and consistent workout information to the
     user.
-  - Related Closed Tasks:
-    * Issue 82 Prepare exercises data for UI
-    * Issue 99 Index Json Files
-    * Issue 101 Mock data for exercise logging
 
   - UI Contribution: While these tasks are primarily backend-focused, they directly
-    enable the UI to function. The data prepared in Issue 82 and Issue 99 provides the content
+    enable the UI to function. The data prepared provides the content
     that the UI will display (e.g., exercise names, descriptions, icons). The mock data
-    from Issue 101 allows for early-stage UI testing without a live backend, ensuring the
+    from allows for early-stage UI testing without a live backend, ensuring the
     front-end can be developed and refined in parallel. This shows a deep
     understanding of the inter-team dependencies crucial for project success.
 
@@ -287,9 +370,6 @@ User Story: Backend and API Initialization
 
   - Story: As the system, I need to establish a connection to a database, so that I
     can persistently store and retrieve user and fitness data.
-  - Related Closed Tasks:
-    * Issue 61 Decide backend/database stack
-    * Issue 67 Initialize Supabase in the project
 
   - UI Contribution: These foundational tasks are what allow for a dynamic,
     data-driven UI. Without the database initialization and the chosen backend stack,
@@ -403,6 +483,25 @@ User Story: Backend and API Initialization
 === 2.3 Implementation
 
 ==== 2.3.1 Selected Fragments of the Implementation
+
+*The following fragment illustrates the implementation of the **Top Card** component in the `HomeScreen`.  
+*The Top Card serves as the initial, user-facing element of the screen. It asks the user *“How are you feeling today?”* and provides a dedicated space (`topCardBody`) for interactive content such as mood tracking, quick inputs, or suggestions.  
+*This design:
+** Enhances user engagement by creating a personalized greeting and check-in experience.  
+** Provides a clear entry point for actions, acting as the first interactive area of the screen.  
+** Establishes visual hierarchy, ensuring the user immediately sees what the app prioritizes.  
+** Allows future expandability, since more features can be added inside the `topCardBody` without redesigning the layout.  
+* Code Fragment
+[source,jsx]
+----
+{/* Top card */}
+<View style={styles.topCard}>
+  <View style={styles.topCardHeader}>
+    <Text style={styles.topCardTitle}>How are you feeling today?</Text>
+  </View>
+  <View style={styles.topCardBody} />
+</View>
+----
 
 == 3. Analytic Part
 
