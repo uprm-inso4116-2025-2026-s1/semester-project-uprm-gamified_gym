@@ -9,6 +9,7 @@ One-Arm Dumbbell Row,Back,"['Biceps', 'Rear Delts']",Dumbbells,True,True,Beginne
 Lat Pulldown,Back,"['Biceps', 'Rear Delts']",Machine,True,False,Beginner,Vertical Pull,[],['lats']
 Pull-Up,Back,"['Biceps', 'Core']",Bodyweight,True,False,Intermediate,Vertical Pull,['Chin-Up (supinated)'],"['lats', 'scalable']"
 Seated Cable Row,Back,"['Biceps', 'Rear Delts']",Cable,True,False,Beginner,Horizontal Pull,[],['mid-back']
+Conventional Deadlift,Back,"['Glutes', 'Hamstrings', 'Core']",Barbell,True,False,Intermediate,Hip Hinge,['Deadlift'],"['full-body', 'strength']"
 Back Squat,Legs,"['Glutes', 'Core']",Barbell,True,False,Intermediate,Knee Dominant,['High-Bar Squat'],['strength']
 Front Squat,Legs,"['Quads', 'Core', 'Upper Back']",Barbell,True,False,Intermediate,Knee Dominant,[],['quad-focus']
 Leg Press,Legs,['Glutes'],Machine,True,False,Beginner,Knee Dominant,[],['machine']
@@ -30,7 +31,6 @@ Cable Woodchop,Core,['Obliques'],Cable,True,False,Beginner,Rotation,['Cable Chop
 Hip Thrust (Barbell),Glutes,"['Hamstrings', 'Core']",Barbell,True,False,Beginner,Hip Extension,[],['glute-focus']
 Glute Bridge,Glutes,['Hamstrings'],Bodyweight,True,False,Beginner,Hip Extension,[],['home']
 Bulgarian Split Squat,Glutes,"['Quads', 'Hamstrings', 'Core']",Dumbbells,True,True,Intermediate,Knee Dominant,['Rear-Foot Elevated Split Squat'],"['unilateral', 'balance']"
-Conventional Deadlift,Back,"['Glutes', 'Hamstrings', 'Core']",Barbell,True,False,Intermediate,Hip Hinge,['Deadlift'],"['full-body', 'strength']"
 Rowing Ergometer,Cardio/Conditioning,"['Back', 'Legs', 'Core']",Machine,True,False,Beginner,Cyclical,['Rowing Machine'],['conditioning']
 Treadmill Run,Cardio/Conditioning,"['Legs', 'Core']",Machine,True,False,Beginner,Cyclical,['Run'],['conditioning']
 Assault Bike,Cardio/Conditioning,['Full Body'],Machine,True,False,Beginner,Cyclical,"['AirBike', 'Airdyne']",['conditioning']
