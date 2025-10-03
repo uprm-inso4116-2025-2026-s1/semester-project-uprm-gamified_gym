@@ -4,6 +4,7 @@ import {
   TouchableOpacity, TextInput, KeyboardAvoidingView, Platform
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter, useLocalSearchParams } from "expo-router";
 
 const BLUE = "#2C82FF";
 const CARD_BG = "#FFFFFF";
@@ -15,14 +16,75 @@ const LIGHT_SHADOW = {
   elevation: 4,
 };
 
+// Expanded exercise data with Cardio group added
+const EXERCISES = [
+  // Chest
+  { name: "Bench Press", group: "Chest", type: "Strength" },
+  { name: "Push Ups", group: "Chest", type: "Bodyweight" },
+  { name: "Incline Dumbbell Press", group: "Chest", type: "Strength" },
+  { name: "Chest Fly", group: "Chest", type: "Strength" },
+
+  // Back
+  { name: "Pull Ups", group: "Back", type: "Bodyweight" },
+  { name: "Deadlift", group: "Back", type: "Strength" },
+  { name: "Bent Over Row", group: "Back", type: "Strength" },
+  { name: "Lat Pulldown", group: "Back", type: "Strength" },
+
+  // Legs
+  { name: "Squats", group: "Legs", type: "Strength" },
+  { name: "Lunges", group: "Legs", type: "Bodyweight" },
+  { name: "Leg Press", group: "Legs", type: "Strength" },
+  { name: "Leg Extension", group: "Legs", type: "Strength" },
+
+  // Shoulders
+  { name: "Overhead Press", group: "Shoulders", type: "Strength" },
+  { name: "Lateral Raise", group: "Shoulders", type: "Strength" },
+  { name: "Front Raise", group: "Shoulders", type: "Strength" },
+  { name: "Reverse Fly", group: "Shoulders", type: "Strength" },
+
+  // Arms
+  { name: "Bicep Curl", group: "Arms", type: "Strength" },
+  { name: "Tricep Dip", group: "Arms", type: "Bodyweight" },
+  { name: "Hammer Curl", group: "Arms", type: "Strength" },
+  { name: "Tricep Pushdown", group: "Arms", type: "Strength" },
+
+  // Cardio
+  { name: "Running", group: "Cardio", type: "Cardio" },
+  { name: "Cycling", group: "Cardio", type: "Cardio" },
+  { name: "Jump Rope", group: "Cardio", type: "Cardio" },
+  { name: "Rowing Machine", group: "Cardio", type: "Cardio" },
+];
+
 export default function AddWorkoutScreen() {
   const [title, setTitle] = useState("");
-  const [exCount, setExCount] = useState(0);
-  const [setCount, setSetCount] = useState(0);
-  const [search, setSearch] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("All"); // Add filter state
+  const [addedExercises, setAddedExercises] = useState<any[]>([]);
+  const router = useRouter();
+  const params = useLocalSearchParams();
 
-  const filterOptions = ["All", "Strength", "Cardio", "Flexibility"]; // Example filters
+  // Sync exercises from ExerciseList
+  React.useEffect(() => {
+    if (params.add) {
+      try {
+        const names = JSON.parse(params.add as string) as string[];
+        const newExercises = EXERCISES.filter(ex => names.includes(ex.name));
+        setAddedExercises(prev =>
+          [
+            ...prev,
+            ...newExercises.filter(
+              ex => !prev.some(e => e.name === ex.name)
+            ),
+          ]
+        );
+        router.setParams({ add: undefined });
+      } catch (e) {
+        // ignore parse errors
+      }
+    }
+  }, [params.add]);
+
+  const handleRemoveExercise = (exercise: any) => {
+    setAddedExercises(addedExercises.filter((ex) => ex.name !== exercise.name));
+  };
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -33,42 +95,6 @@ export default function AddWorkoutScreen() {
               <Text style={styles.headerText}>Add Workout</Text>
             </View>
 
-            {/* Search Bar */}
-            <View style={styles.searchBar}>
-              <Ionicons name="search" size={20} color="#888" style={{ marginRight: 8 }} />
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Search exercises"
-                placeholderTextColor="#888"
-                value={search}
-                onChangeText={setSearch}
-              />
-            </View>
-            {/* End Search Bar */}
-
-            {/* Filter Buttons */}
-            <View style={styles.filterRow}>
-              {filterOptions.map(option => (
-                <TouchableOpacity
-                  key={option}
-                  style={[
-                    styles.filterBtn,
-                    selectedFilter === option && styles.filterBtnActive
-                  ]}
-                  onPress={() => setSelectedFilter(option)}
-                  activeOpacity={0.7}
-                >
-                  <Text style={[
-                    styles.filterText,
-                    selectedFilter === option && styles.filterTextActive
-                  ]}>
-                    {option}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-            {/* End Filter Buttons */}
-
             <TextInput
               value={title}
               onChangeText={setTitle}
@@ -77,25 +103,43 @@ export default function AddWorkoutScreen() {
               style={styles.input}
             />
 
-            <Text style={styles.counts}>{exCount} exercises, {setCount} sets</Text>
+            <Text style={styles.counts}>
+              {addedExercises.length} exercises
+            </Text>
 
-            <Text style={styles.subTitle}>Add exercises</Text>
+            <Text style={styles.subTitle}>Added exercises</Text>
+            {addedExercises.length === 0 && (
+              <Text style={{ marginHorizontal: 16, color: "#888", marginBottom: 8 }}>
+                No exercises added yet.
+              </Text>
+            )}
+            {addedExercises.map((ex, idx) => (
+              <View key={ex.name} style={styles.addedExerciseRow}>
+                <Text style={styles.exerciseName}>{ex.name}</Text>
+                <View style={styles.exerciseTags}>
+                  <View style={styles.tag}><Text style={styles.tagText}>{ex.group}</Text></View>
+                  <View style={styles.tag}><Text style={styles.tagText}>{ex.type}</Text></View>
+                </View>
+                <TouchableOpacity onPress={() => handleRemoveExercise(ex)}>
+                  <Ionicons name="close-circle" size={22} color="#FF5A5A" />
+                </TouchableOpacity>
+              </View>
+            ))}
 
+            {/* Add exercises button that navigates to Exercise List */}
             <TouchableOpacity
               style={styles.addPill}
-              activeOpacity={0.75} 
-              onPress={() => {}}  //to give the add excercise button functionality
+              activeOpacity={0.8}
+              onPress={() => router.push("/(tabs)/ExerciseList")}
             >
               <View style={styles.plusIcon}>
-                <Ionicons name="add" size={18} />
+                <Ionicons name="add" size={18} color="#2C82FF" />
               </View>
               <Text style={styles.addPillText}>Add exercises</Text>
             </TouchableOpacity>
           </View>
-
           <View style={{ height: 120 }} />
         </ScrollView>
-
         <View style={styles.saveWrap}>
           <TouchableOpacity style={styles.saveBtn} activeOpacity={0.85} onPress={() => {}}>
             <Text style={styles.saveText}>Save Workout</Text>
@@ -108,45 +152,6 @@ export default function AddWorkoutScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: "#FFFFFF" },
-  filterRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 8,
-    marginBottom: 8,
-    gap: 8,
-  },
-  filterBtn: {
-    backgroundColor: "#EEE",
-    borderRadius: 16,
-    paddingHorizontal: 14,
-    paddingVertical: 7,
-  },
-  filterBtnActive: {
-    backgroundColor: "#2C82FF",
-  },
-  filterText: {
-    color: "#555",
-    fontWeight: "500",
-  },
-  filterTextActive: {
-    color: "#FFF",
-  },
-  searchBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F2F2F2",
-    borderRadius: 12,
-    margin: 14,
-    marginBottom: 0,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 16,
-    color: "#222",
-  },
-  scroll: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 16 },
 
   card: {
     backgroundColor: CARD_BG,
@@ -178,25 +183,64 @@ const styles = StyleSheet.create({
   counts: { marginTop: 10, marginHorizontal: 16, color: "#333" },
   subTitle: { marginTop: 16, marginHorizontal: 16, fontWeight: "700", color: "#222" },
 
-  addPill: {
-    marginTop: 10,
-    marginHorizontal: 16,
-    backgroundColor: "#E5E5E5",
-    borderRadius: 18,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
+  // Added exercises
+  addedExerciseRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10, 
+    marginHorizontal: 16,
+    marginBottom: 8,
+    backgroundColor: "#F7F7F7",
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    gap: 10,
   },
-  plusIcon: {
-    width: 28, height: 28, borderRadius: 14,
-    backgroundColor: "#FFF", alignItems: "center", justifyContent: "center",
-    marginRight: 10,
+  exerciseName: { fontWeight: "600", color: "#1F1F1F", fontSize: 15, flex: 1 },
+  exerciseTags: { flexDirection: "row", gap: 6 },
+  tag: {
+    backgroundColor: "#E6F0FF",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    alignSelf: "flex-start",
+    marginRight: 6,
   },
-  addPillText: { fontWeight: "700", color: "#1F1F1F" },
+  tagText: {
+    color: "#2C82FF",
+    fontWeight: "600",
+    fontSize: 12,
+    letterSpacing: 0.2,
+  },
 
   saveWrap: { position: "absolute", left: 0, right: 0, bottom: 80, alignItems: "center" },
   saveBtn: { backgroundColor: BLUE, paddingHorizontal: 26, paddingVertical: 12, borderRadius: 24, ...LIGHT_SHADOW },
   saveText: { color: "#FFF", fontWeight: "600" },
+
+  // Styles for the add exercises pill
+  addPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#E6F0FF",
+    borderRadius: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginHorizontal: 16,
+    marginTop: 8,
+    marginBottom: 16,
+  },
+  plusIcon: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "#D0E6FF",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 8,
+  },
+  addPillText: {
+    color: "#2C82FF",
+    fontWeight: "500",
+    fontSize: 15,
+  },
 });
