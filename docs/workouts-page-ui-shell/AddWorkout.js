@@ -1,18 +1,11 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
-  Modal,
+  View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity,
+  TextInput, KeyboardAvoidingView, Platform, Modal
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
+import { useExercises } from "./exerciseStore";
 
 const BLUE = "#2C82FF";
 const RED = "#E14B4B";
@@ -41,46 +34,76 @@ const EXERCISES = [
 
 export default function AddWorkoutScreen() {
   const [title, setTitle] = useState("");
-  const [exCount, setExCount] = useState(0);
-  const [setCount, setSetCount] = useState(0);
 
-  // Modal state
+  const { savedExercises, addExercise, updateExerciseAt, deleteExerciseAt } = useExercises();
+
+  const exCount = savedExercises.length;
+  const setCount = useMemo(
+    () => savedExercises.reduce((sum, e) => sum + (Number(e.sets) || 0), 0),
+    [savedExercises]
+  );
+
   const [showTile, setShowTile] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(null); 
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [sets, setSets] = useState(3);
   const [reps, setReps] = useState(12);
-  const [duration, setDuration] = useState(""); // "45s" or "1:00"
+  const [duration, setDuration] = useState("");
 
-  const resetTile = () => {
+  const openCreate = () => {
+    setEditingIndex(null);
     setSelectedExercise(null);
     setSets(3);
     setReps(12);
     setDuration("");
+    setShowTile(true);
   };
+
+  const openEdit = (index) => {
+    const ex = savedExercises[index];
+    setEditingIndex(index);
+    setSelectedExercise(ex.name);
+    setSets(ex.sets);
+    setReps(ex.reps);
+    setDuration(ex.duration || "");
+    setShowTile(true);
+  };
+
+  const closeModal = () => setShowTile(false);
 
   const onSaveExercise = () => {
     if (!selectedExercise) {
       alert("Please select an exercise");
       return;
     }
-    setExCount((c) => c + 1);
-    setSetCount((s) => s + sets);
+    if (editingIndex !== null) {
+      updateExerciseAt(editingIndex, {
+        name: selectedExercise,
+        sets,
+        reps,
+        duration,
+      });
+    } else {
+      addExercise({
+        name: selectedExercise,
+        sets,
+        reps,
+        duration,
+      });
+    }
+    setEditingIndex(null);
+    setSelectedExercise(null);
+    setSets(3);
+    setReps(12);
+    setDuration("");
     setShowTile(false);
-    resetTile();
-  };
-
-  const onDeleteExercise = () => {
-    setShowTile(false);
-    resetTile();
   };
 
   return (
     <SafeAreaView style={styles.safe}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+          {/* Main card */}
           <View style={styles.card}>
             <View style={styles.headerBar}>
               <Text style={styles.headerText}>Add Workout</Text>
@@ -94,22 +117,51 @@ export default function AddWorkoutScreen() {
               style={styles.input}
             />
 
-            <Text style={styles.counts}>
-              {exCount} exercises, {setCount} sets
-            </Text>
+            <Text style={styles.counts}>{exCount} exercises, {setCount} sets</Text>
 
             <Text style={styles.subTitle}>Add exercises</Text>
 
-            <TouchableOpacity
-              style={styles.addPill}
-              activeOpacity={0.75}
-              onPress={() => setShowTile(true)}
-            >
+            <TouchableOpacity style={styles.addPill} activeOpacity={0.75} onPress={openCreate}>
               <View style={styles.plusIcon}>
                 <Ionicons name="add" size={18} />
               </View>
               <Text style={styles.addPillText}>Add exercises</Text>
             </TouchableOpacity>
+          </View>
+
+          {/* Saved Exercises Section (shared) */}
+          <View style={[styles.card, { marginTop: 16 }]}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>Saved Exercises</Text>
+              <Text style={styles.sectionSub}>Tap to edit · {savedExercises.length} total</Text>
+            </View>
+
+            {savedExercises.length === 0 ? (
+              <Text style={{ color: "#666", marginHorizontal: 16, marginBottom: 14 }}>
+                No saved exercises yet. Add your first one!
+              </Text>
+            ) : (
+              <View style={{ paddingHorizontal: 12, paddingBottom: 8 }}>
+                {savedExercises.map((ex, idx) => (
+                  <View key={ex.id || `${ex.name}-${idx}`} style={styles.savedItem}>
+                    <TouchableOpacity style={{ flex: 1 }} activeOpacity={0.85} onPress={() => openEdit(idx)}>
+                      <Text style={styles.savedName}>{ex.name}</Text>
+                      <Text style={styles.savedMeta}>
+                        {ex.sets} sets · {ex.reps} reps{ex.duration ? ` · ${ex.duration}` : ""}
+                      </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      onPress={() => deleteExerciseAt(idx)}
+                      style={styles.trashBtn}
+                      activeOpacity={0.8}
+                    >
+                      <Ionicons name="trash" size={18} color="#A33" />
+                    </TouchableOpacity>
+                  </View>
+                ))}
+              </View>
+            )}
           </View>
 
           <View style={{ height: 120 }} />
@@ -122,25 +174,12 @@ export default function AddWorkoutScreen() {
         </View>
       </KeyboardAvoidingView>
 
-      {/* Exercise Tile Modal */}
-      <Modal
-        visible={showTile}
-        animationType="fade"
-        transparent
-        onRequestClose={() => setShowTile(false)}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          style={styles.modalRoot}
-        >
-          <TouchableOpacity
-            style={styles.backdrop}
-            activeOpacity={1}
-            onPress={() => setShowTile(false)}
-          />
+      {/* Create/Edit Exercise Modal */}
+      <Modal visible={showTile} animationType="fade" transparent onRequestClose={closeModal}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.modalRoot}>
+          <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={closeModal} />
           <View style={styles.tileCard}>
-            {/* Close X */}
-            <TouchableOpacity style={styles.closeBtn} onPress={() => setShowTile(false)}>
+            <TouchableOpacity style={styles.closeBtn} onPress={closeModal}>
               <Ionicons name="close" size={20} color="#333" />
             </TouchableOpacity>
 
@@ -160,46 +199,33 @@ export default function AddWorkoutScreen() {
 
             {/* Sets & Reps */}
             <View style={styles.row}>
-              {/* Sets */}
               <View style={styles.counterCard}>
-                <TouchableOpacity
-                  onPress={() => setSets((v) => Math.max(0, v - 1))}
-                  style={styles.counterBtn}
-                >
+                <TouchableOpacity onPress={() => setSets((v) => Math.max(0, v - 1))} style={styles.counterBtn}>
                   <Ionicons name="remove" size={18} />
                 </TouchableOpacity>
-
                 <View style={styles.counterBubble}>
                   <Text style={styles.counterNumber}>{sets}</Text>
                   <Text style={styles.counterSub}>Sets</Text>
                 </View>
-
                 <TouchableOpacity onPress={() => setSets((v) => v + 1)} style={styles.counterBtn}>
                   <Ionicons name="add" size={18} />
                 </TouchableOpacity>
               </View>
 
-              {/* Reps */}
               <View style={styles.counterCard}>
-                <TouchableOpacity
-                  onPress={() => setReps((v) => Math.max(0, v - 1))}
-                  style={styles.counterBtn}
-                >
+                <TouchableOpacity onPress={() => setReps((v) => Math.max(0, v - 1))} style={styles.counterBtn}>
                   <Ionicons name="remove" size={18} />
                 </TouchableOpacity>
-
                 <View style={styles.counterBubble}>
                   <Text style={styles.counterNumber}>{reps}</Text>
                   <Text style={styles.counterSub}>Reps</Text>
                 </View>
-
                 <TouchableOpacity onPress={() => setReps((v) => v + 1)} style={styles.counterBtn}>
                   <Ionicons name="add" size={18} />
                 </TouchableOpacity>
               </View>
             </View>
 
-            {/* Duration */}
             <Text style={[styles.tileLabel, { marginTop: 14 }]}>Duration:</Text>
             <TextInput
               value={duration}
@@ -209,17 +235,16 @@ export default function AddWorkoutScreen() {
               style={styles.tileInput}
             />
 
-            {/* Actions */}
             <View style={styles.actionsRow}>
-              <TouchableOpacity
-                style={[styles.actionBtn, { backgroundColor: BLUE }]}
-                onPress={onSaveExercise}
-              >
-                <Text style={styles.actionTextLight}>Save</Text>
+              <TouchableOpacity style={[styles.actionBtn, { backgroundColor: BLUE }]} onPress={onSaveExercise}>
+                <Text style={styles.actionTextLight}>{editingIndex !== null ? "Update" : "Save"}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.actionBtn, { backgroundColor: RED }]}
-                onPress={onDeleteExercise}
+                onPress={() => {
+                  if (editingIndex !== null) deleteExerciseAt(editingIndex);
+                  closeModal();
+                }}
               >
                 <Text style={styles.actionTextLight}>Delete</Text>
               </TouchableOpacity>
@@ -277,122 +302,55 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   plusIcon: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: "#FFF",
-    alignItems: "center",
-    justifyContent: "center",
+    width: 28, height: 28, borderRadius: 14,
+    backgroundColor: "#FFF", alignItems: "center", justifyContent: "center",
     marginRight: 10,
   },
   addPillText: { fontWeight: "700", color: "#1F1F1F" },
 
-  saveWrap: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 80,
-    alignItems: "center",
+  sectionHeader: {
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 6,
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "space-between",
   },
-  saveBtn: {
-    backgroundColor: BLUE,
-    paddingHorizontal: 26,
+  sectionTitle: { fontWeight: "700", color: "#1A1A1A" },
+  sectionSub: { color: "#666", fontSize: 12 },
+
+  savedItem: {
+    backgroundColor: "#F7F7F7",
+    borderRadius: 12,
     paddingVertical: 12,
-    borderRadius: 24,
+    paddingHorizontal: 12,
+    marginVertical: 6,
+    flexDirection: "row",
+    alignItems: "center",
     ...LIGHT_SHADOW,
   },
+  savedName: { fontWeight: "700", color: "#222" },
+  savedMeta: { color: "#666", marginTop: 2 },
+  trashBtn: { marginLeft: 10, padding: 8, backgroundColor: "#FFF", borderRadius: 8 },
+
+  saveWrap: { position: "absolute", left: 0, right: 0, bottom: 80, alignItems: "center" },
+  saveBtn: { backgroundColor: BLUE, paddingHorizontal: 26, paddingVertical: 12, borderRadius: 24, ...LIGHT_SHADOW },
   saveText: { color: "#FFF", fontWeight: "600" },
 
-  modalRoot: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  backdrop: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.25)",
-  },
-  tileCard: {
-    width: "88%",
-    backgroundColor: "#F1F1F1",
-    borderRadius: 16,
-    padding: 14,
-    ...LIGHT_SHADOW,
-  },
-  closeBtn: {
-    position: "absolute",
-    right: 10,
-    top: 10,
-    padding: 6,
-    zIndex: 2,
-  },
-  tileLabel: {
-    marginTop: 6,
-    marginBottom: 6,
-    fontWeight: "600",
-    color: "#222",
-  },
-  tileInput: {
-    backgroundColor: "#DFDFDF",
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    color: "#111",
-  },
-  pickerWrap: {
-    backgroundColor: "#DFDFDF",
-    borderRadius: 8,
-    overflow: "hidden",
-    height: Platform.OS === "ios" ? 48 : undefined,
-    justifyContent: "center",
-  },
-  row: {
-    marginTop: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 12,
-  },
-  counterCard: {
-    flex: 1,
-    backgroundColor: "#EEEEEE",
-    borderRadius: 14,
-    padding: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  counterBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: "#FFF",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  counterBubble: {
-    width: 70,
-    height: 70,
-    borderRadius: 14,
-    backgroundColor: "#FFFFFF",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  modalRoot: { flex: 1, justifyContent: "center", alignItems: "center" },
+  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(0,0,0,0.25)" },
+  tileCard: { width: "88%", backgroundColor: "#F1F1F1", borderRadius: 16, padding: 14, ...LIGHT_SHADOW },
+  closeBtn: { position: "absolute", right: 10, top: 10, padding: 6, zIndex: 2 },
+  tileLabel: { marginTop: 6, marginBottom: 6, fontWeight: "600", color: "#222" },
+  tileInput: { backgroundColor: "#DFDFDF", borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10, color: "#111" },
+  pickerWrap: { backgroundColor: "#DFDFDF", borderRadius: 8, overflow: "hidden", height: Platform.OS === "ios" ? 48 : undefined, justifyContent: "center" },
+  row: { marginTop: 12, flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 },
+  counterCard: { flex: 1, backgroundColor: "#EEEEEE", borderRadius: 14, padding: 10, flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  counterBtn: { width: 32, height: 32, borderRadius: 16, backgroundColor: "#FFF", alignItems: "center", justifyContent: "center" },
+  counterBubble: { width: 70, height: 70, borderRadius: 14, backgroundColor: "#FFFFFF", alignItems: "center", justifyContent: "center" },
   counterNumber: { fontSize: 20, fontWeight: "700", color: "#222" },
   counterSub: { fontSize: 12, color: "#666", marginTop: 2 },
-
-  actionsRow: {
-    marginTop: 14,
-    flexDirection: "row",
-    gap: 12,
-    justifyContent: "space-between",
-  },
-  actionBtn: {
-    flex: 1,
-    paddingVertical: 12,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  actionsRow: { marginTop: 14, flexDirection: "row", gap: 12, justifyContent: "space-between" },
+  actionBtn: { flex: 1, paddingVertical: 12, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   actionTextLight: { color: "#FFF", fontWeight: "700" },
 });
