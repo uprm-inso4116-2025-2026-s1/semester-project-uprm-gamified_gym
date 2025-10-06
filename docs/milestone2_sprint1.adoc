@@ -1,0 +1,48 @@
+= Milestone 2 – Sprint 1 Progress Report
+INSO 4116: Software Design
+Team: Fitness Tracker
+Author: Ernesto Soto (Team Lead)
+Date: 2025-10-03
+:toc:
+
+== Introduction
+Sprint 1 of Milestone 2 focused on building the foundation for the Workouts Page and its integration with Supabase. The main objective was to move toward a near-complete implementation where users can log exercises with sets and reps, store the information properly, and ensure each exercise is described and illustrated. The team also began establishing the navigation and data flow between pages, preparing for the following sprint’s functional and UI integration.
+
+== Progress Completed
+Several key features and improvements were completed this sprint, establishing the base structure for workout management and exercise visualization.
+
+* **#155 – Exercise Catalog Validation:** Reviewed and corrected exercise data to ensure consistent IDs, muscle groups, and names. This guarantees clean integration with Supabase and future filtering.
+* **#152 – Exercise List UI Polish:** Improved the visual layout of the exercise list with group separation, spacing, and muscle tags for a more user-friendly design.
+* **#124 – Add Visibility of Saved Exercises to the Add Workout Page:** Implemented a section showing previously saved exercises, allowing users to view their data directly from the workout page.
+* **#123 – Create the UI Page that Lets You Edit the Details of the Exercises:** Added a dedicated page to modify exercise attributes like name, sets, and reps, following the mock UI plan.
+
+These completions gave the team a solid visual and functional base for the upcoming Supabase integration and logging workflows.
+
+== In Progress / Blockers
+Several issues are still in active development as Sprint 1 nears completion. These tasks form the foundation of the workout logging functionality and are expected to be finalized by the end of the sprint or early in Sprint 2:
+
+* **#148 – Workout Validation:** Adding validation to prevent invalid workout entries (e.g., empty workouts, missing fields, or negative reps). This task depends on the save function to ensure clean data flow.
+* **#126 – Integrate Supabase for Storing Saved Exercises:** Establishing a working connection between the app and Supabase for persistent storage of exercise data.
+* **#153 – Save Workout Function:** Implementing the logic that saves logged workout data (sets and reps) into Supabase.
+* **#154 – Load Saved Workouts:** Retrieving and displaying saved workout sessions to verify correct data persistence.
+* **#156 – Add Notes Field to Workouts:** Introducing an optional text field for users to record short notes about their workout sessions.
+* **#159 – Workout Logging UI (Sets & Reps Inputs):** Developing the UI that allows users to input workout details.
+* **#158 – Workout Data Schema in Supabase:** Designing and refining the Supabase schema to support workout creation, logging, and retrieval.
+* **#169 – Basic Logging Demo Flow:** Creating a test flow that demonstrates the process of logging and saving a workout end-to-end.
+* **#131 – [Team Lead Task] Fitness Tracker Team 2:** Ongoing coordination, issue assignment, and communication with managers and other team leads.
+
+At the time of writing, no major blockers have been reported. However, several of these tasks are interconnected, so collaboration between developers working on the validation, saving, and loading components will be critical to ensure a consistent and functional data flow across the app.
+
+== Next Steps (Sprint 2 Goals)
+For Sprint 2, the team will focus on:
+* Completing the Supabase integration for saving and loading workouts.
+* Finalizing the validation logic and connecting it to the save function.
+* Implementing the search and filter features for exercises.
+* Adding navigation between the Home Page and Workouts Page.
+* Polishing UI responsiveness and refining the user experience across mobile and desktop views.
+* Expanding documentation and preparing for the milestone demo presentation.
+
+== References
+Closed Issues: #155, #152, #124, #123
+In Progress Issues: #148, #126, #153, #154, #156, #159, #158, #169, #131
+Repository: link:https://github.com/uprm-inso4101-2024-2025-s2/semester-project--uprm-lost-and-found.git
