@@ -25,6 +25,13 @@ const ExerciseCard = () => {
     const sets = parseInt(inputSets, 10);
     const reps = parseInt(inputReps, 10);
 
+    // check if inputs are valid numbers
+    if (isNaN(sets) || isNaN(reps)) {
+      Alert.alert('Invalid input', 'Sets and reps must be valid numbers.');
+      return;
+    }
+    
+    // check if inputs are greater than 0
     if (sets <= 0 || reps <= 0) {
     Alert.alert('Invalid input', 'Sets and reps must be greater than 0');
     return;
