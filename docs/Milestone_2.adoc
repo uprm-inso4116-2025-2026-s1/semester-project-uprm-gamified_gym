@@ -738,6 +738,13 @@ User Story: Workout Logging Feature
 * Potential ambiguities:
 ** Terms like goal, achievement, and reward may overlap. A goal is self-set, an achievement is earned, and a reward may be externally given. Deciding how these relate will be key for consistent use later.
 
+=== 3.1.1 Refactoring for deeper insight
+
+*Shallow vs. Deep Models:
+**Shallow Model: Focuses only on surface elements like reps, calories, or point. Example: "Do 10 push-ups, get 100 points" While simpl, this approach quickly feels arbitrary and fails to connect with teal fitness goals.
+**Deep Model: Emphizases core human motivatoes such as mastery progression, identify and purpose. Example: "Do 10 push ups, increase your strength skill, unlocking new workouts quest". This creates stronger connnections between in-app feedback and the user's actual growth.
+
+
 === 3.2 Validation and Verification
 
 *Validation*
