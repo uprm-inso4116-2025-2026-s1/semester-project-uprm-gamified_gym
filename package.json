@@ -2,7 +2,11 @@
   "name": "semester-project-uprm-gamified_gym",
   "version": "1.0.0",
   "description": "This repository template will create a repository with the metrics collection set up  automatically.",
+<<<<<<< HEAD
   "main": "index.js",
+=======
+  "main": "tailwind.config.js",
+>>>>>>> ba337d4e74ad504f0b5cb2757e685947123b0eca
   "directories": {
     "doc": "docs"
   },
