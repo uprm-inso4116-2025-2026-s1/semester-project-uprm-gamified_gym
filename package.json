@@ -1,23 +1,26 @@
 {
-  "name": "semester-project-uprm-gamified_gym",
-  "version": "1.0.0",
-  "description": "This repository template will create a repository with the metrics collection set up  automatically.",
-  "main": "tailwind.config.js",
-  "directories": {
-    "doc": "docs"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/uprm-inso4116-2025-2026-s1/semester-project-uprm-gamified_gym.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/uprm-inso4116-2025-2026-s1/semester-project-uprm-gamified_gym/issues"
-  },
-  "homepage": "https://github.com/uprm-inso4116-2025-2026-s1/semester-project-uprm-gamified_gym#readme"
-}
+    "name": "semester-project-uprm-gamified_gym",
+    "version": "1.0.0",
+    "description": "This repository template will create a repository with the metrics collection set up automatically.",
+    "main": "tailwind.config.js",
+    "directories": {
+      "doc": "docs"
+    },
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/uprm-inso4116-2025-2026-s1/semester-project-uprm-gamified_gym.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/uprm-inso4116-2025-2026-s1/semester-project-uprm-gamified_gym/issues"
+    },
+    "homepage": "https://github.com/uprm-inso4116-2025-2026-s1/semester-project-uprm-gamified_gym#readme"
+  } 
