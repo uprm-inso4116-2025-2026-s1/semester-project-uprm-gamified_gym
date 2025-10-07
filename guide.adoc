@@ -1,0 +1,113 @@
+//--------------------------------------------
+'''
+[source,python]
+----
+Section Titles:
+= at the start of a line defines headings.
+The number of = signs equals the depth of the section.
+
+Example:
+----
+
+//Example of Titles:
+== -> Level 2 heading
+=== -> Level 3 heading
+==== -> Level 4 heading
+===== -> Level 5 heading
+====== -> Level 6 heading
+// Level 7 doesnt exists 
+
+
+//--------------------------------------------
+'''
+[source,python]
+----
+Lists:
+* starts unordered lists (bullet points).
+Indentation or multiple * define nesting.
+
+Example:
+----
+
+//Example of Lists:
+* First item
+* Second item
+** Sub-item A
+** Sub-item B
+
+
+//--------------------------------------------
+'''
+[source,python]
+----
+Text formatting:
+----
+
+//Example of Formats:
+*bold* +
+_italic_ +
++monospace+ +
+[underline]#text# +
+#highlight#
+
+
+//--------------------------------------------
+'''
+[source,python]
+----
+Description list:
+----
+Term:: Definition
+
+
+//--------------------------------------------
+'''
+[source,python]
+----
+Comments:
+----
+//hidden
+The comment is hidden ;-;
+
+
+//--------------------------------------------
+'''
+[source,python]
+----
+Attributes ( Variables :D ):
+----
+:author: K
+:project: GG
+
+{project} made by {author}
+
+
+//--------------------------------------------
+'''
+[source,python]
+----
+Tables:
+Tables are defined with |=== fences
+----
+|===
+|Name | Role
+
+|{author} | Doc Team Leader
+|Marko | Profesor
+|===
+
+//--------------------------------------------
+'''
+[source,python]
+----
+Extras:
+-Notes
+-Tips
+-Warnings
+----
+
+NOTE: This is a note. 
+
+TIP: You can add tips like this. 
+
+WARNING: This is important. 
