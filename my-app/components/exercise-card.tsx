@@ -1,7 +1,20 @@
 import React from 'react';
 import {View,Text,StyleSheet,Image,TextInput,TouchableOpacity,Keyboard,Alert,} from 'react-native';
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+type RootStackParamList = {
+  Home: undefined;
+  ExerciseLog: undefined;
+};
+
+type ExerciseCardNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'ExerciseLog'
+>;
 
 const ExerciseCard = () => {
+  const navigation = useNavigation<ExerciseCardNavigationProp>();
 
   const defaultSets = 3;
   const defaultReps = 12;
@@ -116,9 +129,14 @@ const ExerciseCard = () => {
 
       {/* Display logged integers */}
       {loggedSets !== null && loggedReps !== null && (
-        <Text style={{ marginTop: 10 }}>
-          Logged: {loggedSets} sets × {loggedReps} reps
-        </Text>
+        <View style={styles.loggedRow}>
+          <Text style={styles.loggedText}>
+            Logged: {loggedSets} sets × {loggedReps} reps
+          </Text>
+          <TouchableOpacity style={styles.smallButton} onPress={() => navigation.navigate("Home")}>
+            <Text style={styles.smallButtonText}>Home</Text>
+          </TouchableOpacity>
+      </View>
       )}
 
     </View>
@@ -194,7 +212,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-
   doneButton: {
     marginTop: 15,
     backgroundColor: '#28a745',
@@ -202,9 +219,36 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
   },
+
   buttonText: {
     color: '#fff',
     fontSize: 16,
+    fontWeight: '600',
+  },
+
+  loggedRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    justifyContent: 'space-between',
+  },
+
+  loggedText: {
+    fontSize: 16,
+    flex: 1,
+  },
+
+  smallButton: {
+    backgroundColor: '#007bff',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+    marginLeft: 10,
+  },
+
+  smallButtonText: {
+    color: '#fff',
+    fontSize: 14,
     fontWeight: '600',
   },
 });
