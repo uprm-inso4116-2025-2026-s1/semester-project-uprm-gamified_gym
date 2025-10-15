@@ -8,18 +8,56 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  Alert,
 } from "react-native";
-
 import type { NavigationProp } from "@react-navigation/native";
+import { supabase } from "../../lib/supabaseClient"; // <-- make sure this path matches your setup
 
 export default function Password({ navigation }: { navigation: NavigationProp<any> }) {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = () => {
-    // Aquí luego conectas con tu flujo (API / Firebase / etc.)
-    // Por ahora solo valida sencillo:
-    if (!email.includes("@")) return;
-    // TODO: trigger password reset
+  // Test that the component is loading
+  console.log("Password component loaded!");
+  React.useEffect(() => {
+    console.log("Password component mounted!");
+  }, []);
+
+  const onSubmit = async () => {
+    console.log("onSubmit called with email:", email);
+    
+    if (!email.includes("@")) {
+      console.log("Email validation failed");
+      alert("Invalid Email: Please enter a valid email address.");
+      return;
+    }
+    
+    console.log("Email validation passed");
+
+    setLoading(true);
+
+    try {
+      // Send reset email - Supabase will only send if email exists, but won't tell us
+      // This follows security best practices to prevent email enumeration attacks
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: "https://switjvezhwonckihgokh.supabase.co/auth/v1/callback",
+      });
+
+      setLoading(false);
+
+      if (resetError) {
+        console.log("Reset error:", resetError.message);
+        alert("Error: " + resetError.message);
+      } else {
+        console.log("Reset email request processed");
+        // Always show success message for security - don't reveal if email exists or not
+        alert("Email Sent: If an account with that email exists, you will receive a link to reset your password.");
+      }
+    } catch (err) {
+      setLoading(false);
+      console.error("Password reset error:", err);
+      alert("Error: Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -55,12 +93,17 @@ export default function Password({ navigation }: { navigation: NavigationProp<an
               style={styles.input}
             />
 
-            {/* Botón principal */}
-            <Pressable onPress={onSubmit} style={({ pressed }) => [
-              styles.primaryBtn,
-              pressed && { opacity: 0.9 },
-            ]}>
-              <Text style={styles.primaryBtnText}>Reset Password</Text>
+            <Pressable
+              onPress={onSubmit}
+              disabled={loading}
+              style={({ pressed }) => [
+                styles.primaryBtn,
+                pressed && { opacity: 0.9 },
+              ]}
+            >
+              <Text style={styles.primaryBtnText}>
+                {loading ? "Sending..." : "Reset Password"}
+              </Text>
             </Pressable>
 
             {/* Link back */}
@@ -77,10 +120,7 @@ export default function Password({ navigation }: { navigation: NavigationProp<an
 const BLUE = "#2F80FF";
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: BLUE, // fondo azul de la pantalla
-  },
+  screen: { flex: 1, backgroundColor: BLUE },
   container: {
     flex: 1,
     paddingHorizontal: 20,
@@ -93,7 +133,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     paddingVertical: 28,
     paddingHorizontal: 20,
-    // sombra
     shadowColor: "#000",
     shadowOpacity: 0.15,
     shadowOffset: { width: 0, height: 6 },
@@ -146,7 +185,6 @@ const styles = StyleSheet.create({
     height: 44,
     borderRadius: 12,
     paddingHorizontal: 14,
-    // input azul claro como en la imagen
     backgroundColor: "rgba(114,167,255,0.85)",
     color: "#fff",
     fontWeight: "600",
