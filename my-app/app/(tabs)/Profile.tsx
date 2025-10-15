@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import PartialFillCard from "../../components/progress"
 
 export default function Profile() {
   return (
@@ -36,6 +37,10 @@ export default function Profile() {
             <Image source={require('../../assets/images/medal.png')} style={styles.badgeImage} />
           </View>
         </View>
+        <View>
+          <PartialFillCard />
+        </View>
+        
       </View>
     </View>
   );
