@@ -71,19 +71,19 @@ export default function Login() {
       >
         <View style={styles.container}>
           <View style={styles.card}>
-            {/* Logo and Titles */}
+            {/* Logo y Títulos */}
             <View style={styles.logoBox}><Text style={styles.logoText}>LOGO{"\n"}HERE</Text></View>
             <Text style={styles.title}>Welcome Back!</Text>
             <Text style={styles.subtitle}>Log in to your account</Text>
 
-            {/* Error Message Display */}
+            {/* Error Message */}
             {error ? (
               <Text style={styles.errorText}>
                 {error}
               </Text>
             ) : null}
 
-            {/* Email Input */}
+            {/* Email */}
             <Text style={styles.label}>Email</Text>
             <TextInput
               value={email}
@@ -95,7 +95,7 @@ export default function Login() {
               style={styles.input}
             />
 
-            {/* Password Input */}
+            {/* Password */}
             <Text style={[styles.label, { marginTop: 10 }]}>Password</Text>
             <TextInput
               value={pwd}
@@ -106,14 +106,14 @@ export default function Login() {
               style={styles.input}
             />
 
-            {/* Forgot Password */}
+            {/* Forgot Password (derecha) */}
             <View style={styles.inlineRight}>
               <Pressable onPress={() => navigation.navigate("Password")}>
                 <Text style={styles.linkInline}>Forgot Password?</Text>
               </Pressable>
             </View>
 
-            {/* Log In Button */}
+            {/* Butón Log In */}
             <Pressable 
               onPress={onLogin} 
               disabled={loading} 
@@ -130,7 +130,7 @@ export default function Login() {
               )}
             </Pressable>
 
-            {/* Sign Up */}
+            {/* Link a Sign Up */}
             <View style={{ marginTop: 12 }}>
               <Text style={styles.footerText}>
                 Don’t have an account?{" "}
