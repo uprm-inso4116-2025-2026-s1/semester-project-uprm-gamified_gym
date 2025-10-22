@@ -2,6 +2,7 @@ import React from 'react';
 import {View,Text,StyleSheet,Image,TextInput,TouchableOpacity,Keyboard,Alert,} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type RootStackParamList = {
   Home: undefined;
@@ -18,6 +19,7 @@ const ExerciseCard = () => {
 
   const defaultSets = 3;
   const defaultReps = 12;
+  const exerciseName = "Push-Up"
 
   //keep input strings while the user is typing
   const [inputSets, setInputSets] = React.useState<string>('');
@@ -29,7 +31,7 @@ const ExerciseCard = () => {
 
   const [isLogging, setIsLogging] = React.useState(false);
   
- const handleSaveLog = () => {
+ const handleSaveLog = async () => {
     if(!inputSets || !inputReps){
       Alert.alert('please log both sets and reps');
       return;
@@ -39,11 +41,12 @@ const ExerciseCard = () => {
     const reps = parseInt(inputReps, 10);
 
     // check if inputs are valid numbers
-    if (isNaN(sets) || isNaN(reps)) {
+    if (isNaN(sets) || isNaN(reps) || sets <= 0 || reps <= 0) {
       Alert.alert('Invalid input', 'Sets and reps must be valid numbers.');
       return;
     }
-    
+
+  
     // check if inputs are greater than 0
     if (sets <= 0 || reps <= 0) {
     Alert.alert('Invalid input', 'Sets and reps must be greater than 0');
@@ -59,6 +62,22 @@ const ExerciseCard = () => {
     Keyboard.dismiss();
 
     console.log('Workout logged (integers);', {sets, reps});
+
+    try {
+      const workoutData = {
+        exerciseName,
+        sets,
+        reps,
+        dateCompleted: new Date().toISOString(),
+      };
+
+      await AsyncStorage.setItem('mostRecentWorkout', JSON.stringify(workoutData));
+      console.log('Saved most recent workout:', workoutData);
+    } catch (error) {
+      console.error('Error saving workout:', error);
+    }
+
+
     //Save sets/reps integers to database here......
 
 
