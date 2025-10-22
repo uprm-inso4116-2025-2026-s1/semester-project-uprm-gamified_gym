@@ -11,6 +11,10 @@ import {
   Alert,
 } from "react-native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { supabase } from "../../lib/supabaseClient";
+import { useRouter } from "expo-router";
+
+const router = useRouter();
 
 type RootStackParamList = {
   Signup: undefined;
@@ -29,8 +33,9 @@ export default function Signup({ navigation }: SigupProps) {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const onSignup = () => {
+  async function onSignup() {
     // Validation
     if (!name.trim()) {
       Alert.alert("Error", "Please enter your name");
@@ -52,12 +57,62 @@ export default function Signup({ navigation }: SigupProps) {
       return;
     }
 
-    // TODO: integrar auth real (Firebase / API)
-    console.log("Signup attempt:", { name, email, pwd });
     
-    // For demo purposes, navigate to Login
-    // In real app, you'd call your auth service here
-    navigation.navigate("Login");
+    setLoading(true);
+    try {
+      const { data: userData, error: userError } = await supabase
+        .from("users")
+        .insert({
+          username: name.trim(), 
+          email: email.toLowerCase().trim(),
+          password_hash: pwd, 
+        })
+        .select("id") 
+        .single(); 
+
+      // Handle user insertion error
+      if (userError) {
+        Alert.alert("Signup Error", `Failed to create user: ${userError.message}`);
+        return;
+      }
+
+      if (!userData || !userData.id) {
+         Alert.alert("Error", "Failed to create user. Please try again.");
+         return;
+      }
+      
+      const newUserId = userData.id;
+
+      // Step 2: Split the full name into first and last names
+      const [firstName, ...lastNameParts] = name.trim().split(' ');
+      const lastName = lastNameParts.join(' ') || null;
+
+    
+      const { error: profileError } = await supabase
+        .from("user_profiles")
+        .insert({
+          id: newUserId,
+          first_name: firstName,
+          last_name: lastName,
+        });
+
+      // Handle profile insertion error
+      if (profileError) {
+        Alert.alert(
+          "Profile Error",
+          `Your account was created, but your profile failed to set up: ${profileError.message}`
+        );
+      } else {
+         Alert.alert("Success!", "Your account has been created.");
+      }
+
+      router.push("/(tabs)/Login");
+
+    } catch (e: any) {
+      Alert.alert("Error", e.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -123,11 +178,18 @@ export default function Signup({ navigation }: SigupProps) {
             />
 
             {/* Botón Sign Up */}
-            <Pressable onPress={onSignup} style={({ pressed }) => [
-              styles.primaryBtn,
-              pressed && { opacity: 0.9 },
-            ]}>
-              <Text style={styles.primaryBtnText}>Sign Up</Text>
+            <Pressable
+              onPress={onSignup}
+              disabled={loading}
+              style={({ pressed }) => [
+                styles.primaryBtn,
+                (pressed || loading) && { opacity: 0.9 },
+                loading && { backgroundColor: "#aaa" },
+              ]}
+            >
+              <Text style={styles.primaryBtnText}>
+                {loading ? "Creating Account..." : "Sign Up"}
+              </Text>
             </Pressable>
 
             {/* Link a Log in */}
@@ -136,7 +198,7 @@ export default function Signup({ navigation }: SigupProps) {
                 Already have an account?{" "}
                 <Text
                   style={styles.linkUnderline}
-                  onPress={() => navigation.navigate("Login")}
+                  onPress={() => router.push("/(tabs)/Login")}
                 >Log in
                 </Text>
               </Text>
