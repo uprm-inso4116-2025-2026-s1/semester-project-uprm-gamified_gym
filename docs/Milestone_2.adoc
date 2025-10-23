@@ -43,17 +43,13 @@
 
 ==== 1.2.1 Current Situation
 
-  The fitness application market is saturated with products that solely focus on data logging (sets, repetitions, and 
-calories burned). While other apps like MyFitnessPal, Strong, and Fitbod offer reliable tracking tools, studies, and user
-reviews often note that they fail to get long-term engagement. In the study from the "Journal of Medical Internet Research 
-(2021)" indicates that user retention in fitness apps drops by over 70% withing the first month due to repetetive data logging
-and lack of motivation. Similarly, Peng et al. (2016) found that users often perceive health and fitness apps as “tools that 
-just log data,” offering awareness but little actionable feedback or motivation to continue.
-
-  As a result, users perceive these applications as digital notebooks that record progress but offer little to no motivation to follow
-on their fitness routine. The absence of interaction reduces the sense of accomplishment and makes workouts feel boring. 
-Additionally, without visual feedback or balance tracking, users will favor specific muscle groups while neglecting others,
-which can lead to uneven development and increased injury risk.
+  The fitness application market is saturated with products that solely focus on data logging. Many users, particularly 
+novices and those who struggle with commitment, are prone to finding these apps mundane. These applications act more as 
+glorified digital notebooks rather than actual services for assistance in users' fitness efforts. The lack of engagement 
+leads to low user retention, especially with those who already have trouble starting or sticking with their fitness 
+journey. Additionally, without visual feedback on users' overall training ditribution, it is easy for users to favor 
+certain muscle groups over others (i.e Focus on chest and arms while neglecting legs and back). This would then lead 
+to uneven physical development and increased risk of injuries.
 
 === 1.2.2 Needs
 
@@ -228,7 +224,7 @@ limits.
 4. Domain Rules & Constraints
 * Achievement Criteria Rule: Achievements are only recognized if the defined conditions (e.g., specific 
 weights, repetitions, or time) are met.
-* Progress Validation Rule: Increases in performance must be measurable to qualify as milestones.
+* Progress Validation Rule: Increases in performance shall be measurable to qualify as milestones.
 
 
 ==== 2.1.4 Narrative
@@ -550,63 +546,62 @@ User Story: Workout Logging Feature
 ==== 2.2.3 Domain Requirements
 ===== Principles
 * Fitness as a Journey of Personal Progress
- ** Improvement in strength, endurance, and consistency is a core driver of motivation. The system must provide clear, 
+ ** Improvement in strength, endurance, and consistency is a core driver of motivation. The system shall provide clear, 
     quantifiable metrics and visual representations of a user's progress over time.
  ** A balanced approach targeting all major muscle groups is essential for preventing injury and achieving a 
-    well-rounded physique. The system must facilitate and encourage awareness of training distribution across the body.
+    well-rounded physique. The system shall facilitate and encourage awareness of training distribution across the body.
 
 * Engagement with Fitness Training
- ** Long-term consistency requires more than initial novelty. The system must implement a layered reward structure 
+ ** Long-term consistency requires more than initial novelty. The system shall implement a layered reward structure 
     (e.g., XP, achievements, ranks) that provides continuous feedback and celebrates milestones of varying difficulty.
- ** Fitness journeys can be reinforced through community. The system must provide means for positive social comparison 
+ ** Fitness journeys can be reinforced through community. The system shall provide means for positive social comparison 
     and mutual support that focuses on shared effort and consistency.
 
 ===== Functional Requirements
 * Workout Logging
- ** The system must allow a user to log an exercise by specifying the exercise name, weight lifted, number of sets, 
+ ** The system shall allow a user to log an exercise by specifying the exercise name, weight lifted, number of sets, 
     and number of repetitions per set.
- ** The system must require that every logged exercise be associated with at least one primary muscle group 
+ ** The system shall require that every logged exercise be associated with at least one primary muscle group 
     (e.g., Chest, Back, Legs).
 
 * Progress Tracking
- ** The system must calculate and display a historical graph of the total training volume (weight × sets × reps) 
+ ** The system shall calculate and display a historical graph of the total training volume (weight × sets × reps) 
     for each muscle group over a user-selectable time period.
- ** The system must track and highlight new Personal Records (PRs) when a user logs a set with a higher 
+ ** The system shall track and highlight new Personal Records (PRs) when a user logs a set with a higher 
     weight for a given exercise than any previous set.
 
 * Gamification System
- ** The system must assign a user a rank (Bronze, Silver, Gold, etc.) for each muscle group, calculated 
+ ** The system shall assign a user a rank (Bronze, Silver, Gold, etc.) for each muscle group, calculated 
     based on the total historical training volume and PRs for that muscle group.
- ** The system must award users experience points (XP) for completing workouts and achieving milestones.
- ** The system must display unlocked achievements and badges within a user's profile.
+ ** The system shall award users experience points (XP) for completing workouts and achieving milestones.
 
 * Social Features
- ** The system must allow users to send and accept friend requests from other users.
- ** The system must provide a leaderboard that ranks a user's friends based on their total consistency streak.
+ ** The system shall allow users to send and accept friend requests from other users.
+ ** The system shall provide a leaderboard that ranks a user's friends based on their total consistency streak.
 
 ===== Non-Functional Requirements
 * Usability
- ** The application must allow a user to log a standard 3-set exercise in under 30 seconds.
- ** All charts and graphs depicting muscle balance must be understandable at a glance without requiring 
+ ** The interface shall enable a user to input and submit a standard 3-set exercise in under 30 seconds.
+ ** All charts and graphs depicting muscle balance shall be understandable at a glance without requiring 
     manual interpretation of data tables.
 
 * Data Integrity
- ** A user's workout history and personal records must never be deleted automatically due to inactivity.
- ** All user data must be backed up automatically and daily.
+ ** A user's workout history and personal records shall never be deleted automatically due to inactivity.
+ ** All user data shall be backed up automatically and daily.
 
 * Security
- ** Users must only be able to view the profile and workout data of users they have accepted as friends.
- ** All passwords must be hashed and salted before storage in the database.
+ ** Users shall only be able to view the profile and workout data of users they have accepted as friends.
+ ** All passwords shall be hashed and salted before storage in the database.
 
 ==== 2.2.4 Interface Requirements
 ===== User Authentication and Navigation
 ===== Onboarding
-* For the initial sign-in screen, there must be a primary button for logging in and a secondary link or button that directs the user to the sign-up screen to create a new account.
-* The sign-up process must require a valid email, a username, and a password.
+* For the initial sign-in screen, there shall be a primary button for logging in and a secondary link or button that directs the user to the sign-up screen to create a new account.
+* The sign-up process shall require a valid email, a username, and a password.
 
 ===== Primary Navigation
-* A primary navigation bar, accessible from all main pages, must be included. It should be consistently located, typically at the bottom of the screen for mobile-first design.
-* The navigation bar must include the following clearly labeled icons and/or text links:
+* A primary navigation bar, accessible from all main pages, shall be included. It should be consistently located, typically at the bottom of the screen for mobile-first design.
+* The navigation bar shall include the following clearly labeled icons and/or text links:
 ** Dashboard: The main home screen.
 ** Log Workout: The primary form for data input.
 ** Progress: A view for visualizations and achievements.
@@ -616,7 +611,7 @@ User Story: Workout Logging Feature
 
 ===== Role-Based Interfaces & Dashboards
 ===== User Dashboard (Home Screen)
-* The dashboard must display a personalized summary of the user's current status to provide immediate motivation.
+* The dashboard shall display a personalized summary of the user's current status to provide immediate motivation.
 * Required Elements:
 ** A prominent "Start New Workout" or "Log Workout" call-to-action button.
 ** A visualization of the current workout streak (e.g., "5-day streak!").
@@ -625,7 +620,7 @@ User Story: Workout Logging Feature
 
 ===== Data Input/Forms
 ===== Workout Logging Form
-* The system must provide a simple and efficient form for users to log their workouts. Forms must allow submission via a button click.
+* The system shall provide a simple and efficient form for users to log their workouts. Forms shall allow submission via a button click.
 * Required Fields for each Exercise Entry:
 ** Exercise Name: Text input with autocomplete suggestions for common exercises.
 ** Muscle Group: A dropdown or tag system (e.g., Chest, Back, Legs, Biceps).
@@ -636,18 +631,18 @@ User Story: Workout Logging Feature
 
 ===== Error Dialog Specifications
 * Implement real-time validation to prevent incorrect data submission.
-* Error messages must appear adjacent to the relevant input field and clearly state the issue. Examples include:
-** "Reps must be a positive number."
+* Error messages shall appear adjacent to the relevant input field and clearly state the issue. Examples include:
+** "Reps shall be a positive number."
 ** "Please select a muscle group."
 ** "Weight cannot be negative."
-* Accessibility: All error dialogs must be screen reader-compatible and visually distinct (e.g., using red text and an icon).
+* Accessibility: All error dialogs shall be screen reader-compatible and visually distinct (e.g., using red text and an icon).
 
 ===== Progression and Visualization
 ===== Progress Screen
-* This screen must provide a comprehensive overview of the user's fitness journey and balance.
+* This screen shall provide a comprehensive overview of the user's fitness journey and balance.
 * Ranking System Display:
 ** Visually display the user's current rank (Bronze, Silver, Gold, Platinum, Diamond) for each major muscle group.
-** Each rank must be accompanied by a progress bar showing how close the user is to the next rank.
+** Each rank shall be accompanied by a progress bar showing how close the user is to the next rank.
 * Muscle Balance Visualization:
 ** Include a chart (e.g., radar chart, bar chart) that visually represents the training volume or rank across all muscle groups to help users identify imbalances.
 * Gamification Elements:
@@ -656,33 +651,34 @@ User Story: Workout Logging Feature
 
 ===== User Profile and Settings
 ===== Profile Page
-* The system must provide users with a profile page where they can:
+* The system shall provide users with a profile page where they can:
 ** Edit their username and profile avatar.
 ** View their complete workout history with options to filter by date or muscle group.
 ** See a list of their personal bests for major exercises.
+** The system shall display unlocked achievements and badges within a user's profile.
 
 ===== Settings Page
-* The system must offer users toggles and options to adjust:
+* The system shall offer users toggles and options to adjust:
 ** Weight Units: A toggle to switch between pounds (lbs) and kilograms (kg).
 ** Notifications: Toggles for workout reminders, streak warnings, and social notifications.
 ** Theme: Options for light or dark mode.
 
 ===== General System Requirements
 ===== Responsiveness
- * The interface must be fully responsive and optimized for a mobile-first experience, with support for tablet and desktop screen sizes.
+ * The interface shall be fully responsive and optimized for a mobile-first experience, with support for tablet and desktop screen sizes.
 ** Mobile (360x640 and higher): Single-column layout with a bottom navigation bar.
 ** Tablet (768x1024 and higher): Single or two-column layout with an adaptable navigation menu.
-* Touch Interactions: All interactive elements must have sufficiently large tap targets.
+* Touch Interactions: All interactive elements shall have sufficiently large tap targets.
 
 ===== Consistency
- * A consistent design language must be used throughout the app to ensure a cohesive experience.
-** Button Styles: Primary buttons (e.g., "Save Workout") and secondary buttons (e.g., "Cancel") must have distinct, consistent styles.
+ * A consistent design language shall be used throughout the app to ensure a cohesive experience.
+** Button Styles: Primary buttons (e.g., "Save Workout") and secondary buttons (e.g., "Cancel") shall have distinct, consistent styles.
 ** Color Palette: Use an energetic and motivating color palette. Specific colors should be designated for achievements (e.g., gold), progress bars, and error states (e.g., red).
 ** Fonts: Use a consistent and legible font family for all headings, body text, and data points.
 
 ===== Performance
-* Page Load Optimization: The app must load quickly, especially the workout logging screen, to avoid frustrating users during their workout.
-* Media Optimization: All images (e.g., avatars, badges) must be compressed for fast delivery on mobile networks.
+* Page Load Optimization: The app shall load quickly, especially the workout logging screen, to avoid frustrating users during their workout.
+* Media Optimization: All images (e.g., avatars, badges) shall be compressed for fast delivery on mobile networks.
 
 ===== Error Handling & Feedback
 * Error Dialogs: Display clear, non-technical error messages for system issues (e.g., "Could not connect to the server. Please check your internet connection.").
@@ -695,21 +691,25 @@ User Story: Workout Logging Feature
 * The system shall maintain an average response time of no more than 2 seconds for user interactions, such as updating activity data under normal operating conditions. In the event of a search query, the system shall provide results within 4 seconds, even during peak usage.
 * The system shall run under normal conditions, when  concurrently running 300 normal scenarios that all randomly start within a 5 minute interval. Beyond this threshold, the system shall gracefully degrade its performance, prioritizing essential functionalities such as the viewing and submission of available products. 
 * The system shall gracefully handle an increase when  concurrently running 100 normal scenarios at any given time by dynamically allocating resources. Beyond this threshold, new user connections shall be queued, and the system shall restrict additional connections until resources become available. 
+* The system shall process and store a standard 3-set exercise log within 2 seconds of submission.
 * Machine requirements shall be updated as the project progresses. The previously presented numbers are estimates that are in line with good practice but can only be verified through testing not yet performed. Additional requirements are currently under development, and specific criteria for system stability, acceptable degradation of services, and detailed circumstances for heavily loaded conditions will be researched and defined in subsequent project phases. 
 
 === 2.3 Implementation
 
 ==== 2.3.1 Selected Fragments of the Implementation
 
-*The following fragment illustrates the implementation of the **Top Card** component in the `HomeScreen`.  
-*The Top Card serves as the initial, user-facing element of the screen. It asks the user *“How are you feeling today?”* and provides a dedicated space (`topCardBody`) for interactive content such as mood tracking, quick inputs, or suggestions.  
-*This design:
-** Enhances user engagement by creating a personalized greeting and check-in experience.  
-** Provides a clear entry point for actions, acting as the first interactive area of the screen.  
-** Establishes visual hierarchy, ensuring the user immediately sees what the app prioritizes.  
-** Allows future expandability, since more features can be added inside the `topCardBody` without redesigning the layout.  
-* Code Fragment
-[source,jsx]
+The following fragment illustrates the implementation of the **Top Card** component in the `HomeScreen`.  
+
+The Top Card serves as the initial, user-facing element of the screen. It asks the user *“How are you feeling today?”* and provides a dedicated space (`topCardBody`) for interactive content such as mood tracking, quick inputs, or suggestions.  
+
+This design:  
+- Enhances user engagement by creating a personalized greeting and check-in experience.  
+- Provides a clear entry point for actions, acting as the first interactive area of the screen.  
+- Establishes visual hierarchy, ensuring the user immediately sees what the app prioritizes.  
+- Allows future expandability, since more features can be added inside the `topCardBody` without redesigning the layout.  
+
+*Code Fragment*  
+[source,jsx]  
 ----
 {/* Top card */}
 <View style={styles.topCard}>
