@@ -43,13 +43,17 @@
 
 ==== 1.2.1 Current Situation
 
-  The fitness application market is saturated with products that solely focus on data logging. Many users, particularly 
-novices and those who struggle with commitment, are prone to finding these apps mundane. These applications act more as 
-glorified digital notebooks rather than actual services for assistance in users' fitness efforts. The lack of engagement 
-leads to low user retention, especially with those who already have trouble starting or sticking with their fitness 
-journey. Additionally, without visual feedback on users' overall training ditribution, it is easy for users to favor 
-certain muscle groups over others (i.e Focus on chest and arms while neglecting legs and back). This would then lead 
-to uneven physical development and increased risk of injuries.
+  The fitness application market is saturated with products that solely focus on data logging (sets, repetitions, and 
+calories burned). While other apps like MyFitnessPal, Strong, and Fitbod offer reliable tracking tools, studies, and user
+reviews often note that they fail to get long-term engagement. In the study from the "Journal of Medical Internet Research 
+(2021)" indicates that user retention in fitness apps drops by over 70% withing the first month due to repetetive data logging
+and lack of motivation. Similarly, Peng et al. (2016) found that users often perceive health and fitness apps as “tools that 
+just log data,” offering awareness but little actionable feedback or motivation to continue.
+
+  As a result, users perceive these applications as digital notebooks that record progress but offer little to no motivation to follow
+on their fitness routine. The absence of interaction reduces the sense of accomplishment and makes workouts feel boring. 
+Additionally, without visual feedback or balance tracking, users will favor specific muscle groups while neglecting others,
+which can lead to uneven development and increased injury risk.
 
 === 1.2.2 Needs
 
