@@ -51,7 +51,11 @@ export default function index() {
       <Button
         title = "Go to Exercises"
         onPress={() => navigation.navigate("ExerciseLog")}
-        />
+      />
+      <Button
+        title = "Go to Activity tab"
+        onPress={() => navigation.navigate("activity_tab")}
+      />
 
     </View>
   );
