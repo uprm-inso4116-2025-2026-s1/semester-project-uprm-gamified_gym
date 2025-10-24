@@ -175,57 +175,57 @@ and satisfied with the deployed iteration of Gamified Gym.
 
 
 ==== 2.1.2 Terminology
-* Domain Terminology
-** Athlete: A person actively participating in gym workouts and exercises with the goal of 
+*Domain Terminology*
+* Athlete: A person actively participating in gym workouts and exercises with the goal of 
 improving fitness.
-** Exercise: A single physical movement that targets specific muscles.
-** Workout: A structured set of exercises performed during a training session.
-** Routine: A planned schedule of workouts designed to achieve fitness goals over time.
-** Muscle Group: A category of muscles (e.g., chest, legs, back, arms) that exercises are designed to develop.
-** Progress Metric: A measurable element such as repetitions, sets, weight lifted, or duration 
-that reflects improvement.
-** Achievement: A milestone or goal reached by an athlete (e.g., completing 100 push-ups, hitting a new personal best).
-** Milestone: A significant marker of progress in training that signals growth or improvement.
-** Balance: The state of evenly training muscle groups to avoid neglect or overtraining.
+* Exercise: A single physical movement that targets specific muscles.
+* Workout: A structured set of exercises performed during a training session.
+* Routine: A planned schedule of workouts designed to achieve fitness goals over time.
+* Muscle Group: A category of muscles (e.g., chest, legs, back, arms) that exercises are designed to develop.
+* Progress Metric: A measurable element such as repetitions, sets, weight lifted, or duration 
+hat reflects improvement.
+* Achievement: A milestone or goal reached by an athlete (e.g., completing 100 push-ups, hitting a new personal best).
+* Milestone: A significant marker of progress in training that signals growth or improvement.
+* Balance: The state of evenly training muscle groups to avoid neglect or overtraining.
 
-* Non-Domain Terminology
-** App User: A person interacting with the gamified gym application 
-** Profile: A digital representation of an athlete or user, containing personal and fitness-related data.
-** Notification: A system-generated alert that informs athletes of completed events, achievements, or reminders.
+*Non-Domain Terminology*
+* App User: A person interacting with the gamified gym application 
+* Profile: A digital representation of an athlete or user, containing personal and fitness-related data.
+* Notification: A system-generated alert that informs athletes of completed events, achievements, or reminders.
 
 
-==== 2.1.3 Domain terminology in relation to domain rough sketch
-1. Core Entities & Roles
-* Exercise: A single physical activity (e.g., push-up, squat, bench press).
-* Workout: A structured collection of exercises performed in a session.
-* Muscle Group: A classification of muscles (e.g., chest, legs, back) that exercises target.
-* Achievement: A milestone reached by an athlete (e.g., lifting a personal best, completing 
+*Domain Terminology in relation to domain rough sketch*
+* Core Entities & Roles
+** Exercise: A single physical activity (e.g., push-up, squat, bench press).
+** Workout: A structured collection of exercises performed in a session.
+** Muscle Group: A classification of muscles (e.g., chest, legs, back) that exercises target.
+** Achievement: A milestone reached by an athlete (e.g., lifting a personal best, completing 
 a challenge).
 
-2. Training Process & Tracking
-* Workout Session: The occurrence of an athlete performing a workout at a specific time.
-* Routine: A planned sequence of workouts over days or weeks, designed to achieve specific goals.
-* Progress Tracking: The process of recording and observing changes in metrics such as strength, 
+* Training Process & Tracking
+** Workout Session: The occurrence of an athlete performing a workout at a specific time.
+** Routine: A planned sequence of workouts over days or weeks, designed to achieve specific goals.
+** Progress Tracking: The process of recording and observing changes in metrics such as strength, 
 endurance, or body composition.
-* Milestone Recognition: The acknowledgment of reaching goals such as increased strength, endurance, 
+** Milestone Recognition: The acknowledgment of reaching goals such as increased strength, endurance, 
 or skill mastery.
 
-3. Domain Events & Triggers
-* Exercise Completion Event: Triggered when an athlete finishes a set or repetition of an exercise.
-* Workout Completion Event: Occurs when all planned exercises in a workout session are finished.
-* Personal Best Event: Happens when an athlete surpasses their previous record in weight, repetitions, 
+* Domain Events & Triggers
+** Exercise Completion Event: Triggered when an athlete finishes a set or repetition of an exercise.
+** Workout Completion Event: Occurs when all planned exercises in a workout session are finished.
+** Personal Best Event: Happens when an athlete surpasses their previous record in weight, repetitions, 
 or duration.
-* Achievement Unlocked Event: Confirmed when a milestone or challenge is reached.
-* Overtraining Warning Event: Triggered when repeated sessions cause imbalance or fatigue beyond healthy 
+** Achievement Unlocked Event: Confirmed when a milestone or challenge is reached.
+** Overtraining Warning Event: Triggered when repeated sessions cause imbalance or fatigue beyond healthy 
 limits.
 
-4. Domain Rules & Constraints
-* Achievement Criteria Rule: Achievements are only recognized if the defined conditions (e.g., specific 
+* Domain Rules & Constraints
+** Achievement Criteria Rule: Achievements are only recognized if the defined conditions (e.g., specific 
 weights, repetitions, or time) are met.
-* Progress Validation Rule: Increases in performance shall be measurable to qualify as milestones.
+** Progress Validation Rule: Increases in performance shall be measurable to qualify as milestones.
 
 
-==== 2.1.4 Narrative
+==== 2.1.3 Narrative
 In fitness, individuals engage in physical exercise to improve health, 
 strength, endurance, or appearance. Workouts are often organized into sets
 and repetitions of exercises targeting specific muscle groups such as chest, back,
@@ -254,7 +254,7 @@ feedback and recognition that help individuals sustain long-term progress across
 their training.
 
 
-==== 2.1.5 Events, Actions, and Behaviors
+==== 2.1.4 Events, Actions, and Behaviors
 1. Overview
 * In fitness, people engage in structured exercises to improve strength,
 endurance, and overall health. Understanding the difference between events, 
@@ -311,7 +311,7 @@ This sequence of actions and events illustrates how behaviors develop into a con
 lifestyle rather than isolated workout sessions.
 
 
-==== 2.1.6 Function Signatures
+==== 2.1.5 Function Signatures
 
 * In the context of this project, these signatures capture the 
 essential domain operations like creating exercises, starting 
@@ -374,7 +374,7 @@ createPost(userId User, title: String (not required), content: String, workoutId
 
 createWorkout(userId User, name: String, exercises: List<Exercise>) -> return WorkoutSession
 // Creates a new workout session for the given user with the given name and exercises.
-----
+
 // Aggregate Root Operations
 WorkoutSession.startWorkout(userId: UserId, template: WorkoutTemplate) -> WorkoutSession
 // Creates a new WorkoutSession aggregate root, enforcing workout invariants
@@ -403,7 +403,7 @@ UserProgressRepository.getByUserId(userId: UserId) -> UserProgress
 // Repository for user progression tracking
 ----
 
-==== 2.1.7 Domain Aggregates and Invariants
+==== 2.1.6 Domain Aggregates and Invariants
 
 ===== WorkoutSession Aggregate
 
@@ -437,7 +437,7 @@ Tracks user's fitness journey progression including XP, levels, and achievements
 ** Level progression follows defined curve (100 × N² XP)
 ** Achievements are only awarded when criteria are fully met
 
-==== 2.1.8 Implicit Concepts Made Explicit
+==== 2.1.7 Implicit Concepts Made Explicit
 
 Throughout development, we identified and made explicit several domain concepts:
 
@@ -532,6 +532,22 @@ User Story 1: Planned Social Integration
 	•	Story: As a socially active user, I want to connect with others, view their progress, and share achievements for a more interactive experience.
 	•	Planned Features: Community feed, leaderboards, and user profile enhancements.
 	•	Milestone Note: Preliminary layouts and backend architecture for these features have been drafted to support implementation in future milestones.
+
+=== Completed Features (End-to-End with Passing Tests)
+
+The following features have been fully implemented and validated through acceptance testing:
+
+Feature 1: Workout Logging System
+* Description: Users can create, log, and complete workout sessions with full exercise tracking
+* Technical Highlights: WorkoutSession aggregate pattern, repository abstraction, real-time validation
+
+Feature 2: XP Progression System  
+* Description: Implements the XP calculation and level progression as defined in the XP System Design
+* Technical Highlights: Factory pattern for different XP award types, invariant protection for level progression
+
+Feature 3: Supabase Data Integration
+* Description: Full database integration for user data and workout storage with proper data integrity
+* Technical Highlights: Repository pattern implementation, connection pooling, error handling
 
 ==== 2.2.2 Personas
 * Alex, the Beginner:
@@ -768,63 +784,35 @@ User Story 1: Planned Social Integration
 * The system shall process and store a standard 3-set exercise log within 2 seconds of submission.
 * Machine requirements shall be updated as the project progresses. The previously presented numbers are estimates that are in line with good practice but can only be verified through testing not yet performed. Additional requirements are currently under development, and specific criteria for system stability, acceptable degradation of services, and detailed circumstances for heavily loaded conditions will be researched and defined in subsequent project phases. 
 
-=== 2.3 Implementation
-
-==== 2.3.1 Selected Fragments of the Implementation
-
-The following fragment illustrates the implementation of the **Top Card** component in the `HomeScreen`.  
-
-The Top Card serves as the initial, user-facing element of the screen. It asks the user *“How are you feeling today?”* and provides a dedicated space (`topCardBody`) for interactive content such as mood tracking, quick inputs, or suggestions.  
-
-This design:  
-- Enhances user engagement by creating a personalized greeting and check-in experience.  
-- Provides a clear entry point for actions, acting as the first interactive area of the screen.  
-- Establishes visual hierarchy, ensuring the user immediately sees what the app prioritizes.  
-- Allows future expandability, since more features can be added inside the `topCardBody` without redesigning the layout.  
-
-*Code Fragment*  
-[source,jsx]  
-----
-{/* Top card */}
-<View style={styles.topCard}>
-  <View style={styles.topCardHeader}>
-    <Text style={styles.topCardTitle}>How are you feeling today?</Text>
-  </View>
-  <View style={styles.topCardBody} />
-</View>
-----
-
-
-image:ltt_select.png["Workout Log Diagram"]
-
-The goal of these diagrams is to gain as much usability while maintaining lower complexity especially in the query selects.
-In the diagram we can se the main three states of log its creation, locate/reconstitute, and deletion. 
-To maintain simplicity in the select query the Date object will not contain information about hour, minutes, or seconds. 
-getWorkoutlogs uses time_stamp for a select to locate/reonstitute the logs that have the same time_stamps effectively returning all the logs of the day the time_stamp. 
-deleteWorkoutsLogs uses time_stamp for a select to delete all the logs that have the same time_stamps effectively deleting all the logs of the day the time_stamp. 
-These functions can be very useful to develop a workout history feature that can keep track of the workouts performed in a specific day and to not overload the database the deleteWorkoutLog can be used to delete the logs that have reached a certain amount of time in the database such as 15 days. 
 
 == 3. Analytic Part
 
 === 3.1 Concept Analysis
 
-* Examples:
-** Example 1: Students often lose motivation after a few weeks at the gym; the app keeps them engaged by rewarding consistency with achievements. +
-** Example 2: Many beginners feel intimidated at the gym; gamified goals (like completing a quest) make fitness feel approachable and fun.
+* Statements:
+** *Statement A (The Fading Novice):* "I started going to the gym after Christmas last year and really got into it. I went on 4 days every week and did some yoga on the other days, but after about 6 weeks when the semester really picked up pace and there were the first exams coming up, 
+I lost drive and went less often. Then I noticed that I was lifting less than I had lifted just a week earlier and so I went even less often."
+** *Statement B (The Intimidated Beginner):* "I feel intimidated and out of place in the gym. I'm not sure if I'm doing the exercises right or if I'm making any progress. It's hard to stay motivated when it feels like a chore and you don't see immediate results."
+** *Statement C (The Plateaud Regular):* "I've been training consistently for two years, but I've hit a wall. My numbers aren't going up, and my routine feels repetitive. I suspect I might be neglecting some muscle groups, but I don't have the data to confirm it."
 
 * Observed abstractions:
-** Both examples revolve around sustaining participation in fitness activities.
-** Motivation can be influenced by external reinforcement (achievements, goals).
-** A recurring concept is activity engagement, which includes both physical actions (workouts) and mental states (confidence, motivation).
+** All statements highlight the challenge of maintaining long-term engagement in fitness activities.
+** Motivation appears closely tied to visible progress and external reinforcement mechanisms. (achievements, goals).
+** Training consistency emerges as a critical factor for both progress and sustained participation. 
+** Knowledge gaps and lack of feedback contribute to uncertainty and reduced commitment.
 
 * Key Domain Concepts: 
-** Activity: a structured effort like exercizing, meazured in duration or intensity.
-** Engagement: the degree to which participants continue with an activity over time.
-** Motivation factor: triggers that influence engagement.
-** Barrier: factors that reduce engagement.
+** *Activity Engagement:* The degree to which users participate in structured fitness activities over time, measured by frequency, duration, and intensity.
+** *Motivation Factor:* Internal and external triggers that influence a user's willingness to initiate and maintain fitness activities.
+** *Progress Tracking:* The systematic measurement and visualization of performance metrics to demonstrate improvement and maintain engagement.
+** *Training Balance:* The equitable distribution of training focus across major muscle groups to prevent imbalances and optimize development.
+** *Consistency Metric:* Quantitative measures of regular participation, such as workout streaks and completion rates.
+** *Performance Plateau:* A stagnation in measurable progress that often leads to reduced motivation and engagement.
 
 * Potential ambiguities:
 ** Terms like goal, achievement, and reward may overlap. A goal is self-set, an achievement is earned, and a reward may be externally given. Deciding how these relate will be key for consistent use later.
+** The threshold between consistent training and overtraining must be clearly defined to ensure user safety and sustainable progress.
+** The relationship between quantitative metrics (sets, reps, weights) and qualitative progress (confidence, technique improvement) needs explicit mapping.
 
 * Deep Domain Model Evolution:*
 Our understanding has evolved from tracking simple metrics to modeling complex fitness journeys:
