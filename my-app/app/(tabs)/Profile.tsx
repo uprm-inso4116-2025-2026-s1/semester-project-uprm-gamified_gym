@@ -6,19 +6,24 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  ScrollView,        // ← added
-  SafeAreaView,      // ← optional but nice for notches
+  ScrollView,
+  SafeAreaView,
+  Alert,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 
 import {
   ActiveUserProfile,
   fetchActiveUserProfile,
+  uploadAvatarToSupabase,
+  updateProfilePictureUrl,
 } from "../../lib/profileApi";
 
 export default function Profile() {
   const [profile, setProfile] = useState<ActiveUserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const loadProfile = useCallback(async () => {
@@ -47,6 +52,53 @@ export default function Profile() {
     return isNaN(d.getTime()) ? dob : d.toLocaleDateString();
   };
 
+  const onChangeAvatar = useCallback(async () => {
+    try {
+      // Ask permission
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "Permission needed",
+          "Please allow photo library access to change your profile picture."
+        );
+        return;
+      }
+
+      // Launch picker
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true, // crop
+        aspect: [1, 1],      // square avatar
+        quality: 0.8,
+      });
+
+      if (result.canceled) return;
+
+      const asset = result.assets?.[0];
+      if (!asset?.uri) return;
+
+      setUploading(true);
+
+      // Upload to Supabase Storage and get a public URL
+      const publicUrl = await uploadAvatarToSupabase(asset.uri, profile?.profileId);
+
+      // Save URL in your profile table (or via your API)
+      await updateProfilePictureUrl(publicUrl, profile?.profileId);
+
+      // Update local UI instantly
+      setProfile((p) => (p ? { ...p, profilePictureUrl: publicUrl } : p));
+      Alert.alert("Updated", "Your profile picture was updated.");
+    } catch (err: any) {
+      console.error(err);
+      Alert.alert(
+        "Upload failed",
+        err?.message ?? "We couldn't update your photo. Please try again."
+      );
+    } finally {
+      setUploading(false);
+    }
+  }, [profile?.profileId]);
+
   return (
     <SafeAreaView style={styles.safe}>
       <ScrollView
@@ -57,16 +109,35 @@ export default function Profile() {
       >
         <View style={styles.container}>
           <View style={styles.profileCard}>
-            <View style={styles.avatarPlaceholder}>
-              {profile?.profilePictureUrl ? (
-                <Image
-                  source={{ uri: profile.profilePictureUrl }}
-                  style={styles.avatarImage}
-                />
-              ) : (
-                <Ionicons name="person" size={60} color="#666" />
-              )}
-            </View>
+            {/* Avatar (now touchable) */}
+            <TouchableOpacity
+              style={styles.avatarTouchable}
+              activeOpacity={0.8}
+              onPress={onChangeAvatar}
+              disabled={uploading}
+              accessibilityRole="button"
+              accessibilityLabel="Change profile picture"
+            >
+              <View style={styles.avatarPlaceholder}>
+                {profile?.profilePictureUrl ? (
+                  <Image
+                    source={{ uri: profile.profilePictureUrl }}
+                    style={styles.avatarImage}
+                  />
+                ) : (
+                  <Ionicons name="person" size={60} color="#666" />
+                )}
+
+                {/* camera badge */}
+                <View style={styles.cameraBadge}>
+                  {uploading ? (
+                    <ActivityIndicator size="small" color="#fff" />
+                  ) : (
+                    <Ionicons name="camera" size={16} color="#fff" />
+                  )}
+                </View>
+              </View>
+            </TouchableOpacity>
 
             <Text style={styles.sectionTitle}>
               {loading
@@ -173,19 +244,16 @@ export default function Profile() {
 }
 
 const styles = StyleSheet.create({
-  // --- scroll container ---
   safe: { flex: 1, backgroundColor: "#3b82f6" },
   scroll: { flex: 1 },
-  // Keeps your original “card sits near bottom” feel, while allowing scroll.
   scrollContent: {
     flexGrow: 1,
     justifyContent: "flex-end",
     alignItems: "center",
     paddingTop: 16,
-    paddingBottom: 32, // prevents last button hugging the edge
+    paddingBottom: 32,
   },
 
-  // --- original styles preserved ---
   container: {
     width: "100%",
     alignItems: "center",
@@ -205,6 +273,8 @@ const styles = StyleSheet.create({
     elevation: 5,
     minHeight: 500,
   },
+
+  avatarTouchable: { marginBottom: 15 },
   avatarPlaceholder: {
     backgroundColor: "#eee",
     borderRadius: 50,
@@ -212,10 +282,25 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 15,
     overflow: "hidden",
+    position: "relative",
   },
   avatarImage: { width: 100, height: 100, borderRadius: 50 },
+
+  cameraBadge: {
+    position: "absolute",
+    right: -2,
+    bottom: -2,
+    backgroundColor: "#3b82f6",
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: "#fff",
+  },
+
   sectionTitle: { fontSize: 16, fontWeight: "600", marginBottom: 6 },
   subtitleHandle: { fontSize: 14, color: "#3b82f6", marginBottom: 20 },
   loader: { marginBottom: 20 },

@@ -1,5 +1,10 @@
 import { supabase } from './supabaseClient';
 
+const PROFILE_PICTURE_BUCKET =
+  process.env.EXPO_PUBLIC_SUPABASE_AVATAR_BUCKET?.trim() || 'profileImage';
+
+const PROFILE_PICTURE_CACHE_CONTROL = '3600';
+
 const DEFAULT_PROFILE_ID = 'fe2fbd92-fd7b-4152-8e92-4d77f169e6da';
 
 export interface ActiveUserProfile {
@@ -94,4 +99,92 @@ export async function fetchActiveUserProfile(
     gender: row.gender ?? null,
     updatedAt: row.updated_at ?? null,
   };
+}
+
+function extractFileExtension(uri: string): string | null {
+  const cleanUri = uri.split(/[?#]/)[0] ?? '';
+  const match = /\.([a-zA-Z0-9]+)$/.exec(cleanUri);
+  return match ? match[1].toLowerCase() : null;
+}
+
+function mimeFromExtension(ext: string | null): string | null {
+  switch (ext) {
+    case 'jpg':
+    case 'jpeg':
+      return 'image/jpeg';
+    case 'png':
+      return 'image/png';
+    case 'gif':
+      return 'image/gif';
+    case 'webp':
+      return 'image/webp';
+    case 'heic':
+      return 'image/heic';
+    default:
+      return null;
+  }
+}
+
+export async function uploadAvatarToSupabase(
+  localUri: string,
+  profileId: string = DEFAULT_PROFILE_ID
+): Promise<string> {
+  if (!localUri) throw new Error('No image selected.');
+
+  // Figure out extension & default content-type
+  const extFromUri = extractFileExtension(localUri);
+  const fileExtension = (extFromUri || 'jpg').toLowerCase();
+  const contentType = mimeFromExtension(fileExtension) || 'image/jpeg';
+
+  // Create FormData for upload
+  const formData = new FormData();
+
+  // For React Native, we need to structure the file object properly
+  const fileObj = {
+    uri: localUri,
+    type: contentType,
+    name: `avatar.${fileExtension}`,
+  } as any;
+
+  formData.append('file', fileObj);
+
+  // Where to store in the bucket (using profileId instead of user.id)
+  const objectPath = `${profileId}/${Date.now()}.${fileExtension}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from(PROFILE_PICTURE_BUCKET)
+    .upload(objectPath, formData, {
+      contentType,
+      cacheControl: PROFILE_PICTURE_CACHE_CONTROL,
+      upsert: true,
+    });
+
+  if (uploadError) throw uploadError;
+
+  const { data: publicUrlData } = supabase.storage
+    .from(PROFILE_PICTURE_BUCKET)
+    .getPublicUrl(objectPath);
+
+  const publicUrl = publicUrlData?.publicUrl;
+  if (!publicUrl) throw new Error('Unable to retrieve the uploaded image URL.');
+
+  return publicUrl;
+}
+
+
+export async function updateProfilePictureUrl(
+  publicUrl: string,
+  profileId: string = DEFAULT_PROFILE_ID
+): Promise<void> {
+  if (!publicUrl) throw new Error('Missing profile picture URL.');
+
+  const { error } = await supabase
+    .from('user_profiles')
+    .update({
+      profile_picture_url: publicUrl,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('profile_id', profileId);
+
+  if (error) throw error;
 }
