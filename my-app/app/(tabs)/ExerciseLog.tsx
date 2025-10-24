@@ -10,6 +10,8 @@ import {
     TextInput,
     Button,
     ScrollView,
+    Platform,
+    ToastAndroid,
 } from "react-native";
 import ExerciseCard from "../../components/exercise-card"; 
 import RecentWorkoutCard from "../../components/recent-workout-card";
@@ -59,6 +61,23 @@ export default function ExerciseLog() {
     );
     setSelectedWorkout(prev => (prev ? { ...prev, title: editingTitle } : prev));
     setIsEditing(false);
+
+    // Show confirmation toast / alert
+    if (Platform.OS === "android") {
+      ToastAndroid.show("Workout Saved Successfully.", ToastAndroid.SHORT);
+    } else {
+      Alert.alert("Success", "Workout Saved Successfully.");
+    }
+  }
+
+  // Add handler to show confirmation when a workout is saved/done
+  function handleWorkoutSaved(customMessage?: string) {
+    const msg = customMessage ?? "Workout Saved Successfully.";
+    if (Platform.OS === "android") {
+      ToastAndroid.show(msg, ToastAndroid.SHORT);
+    } else {
+      Alert.alert("Success", msg);
+    }
   }
 
   return (
@@ -99,7 +118,8 @@ export default function ExerciseLog() {
         />
       </View>
 
-      <ExerciseCard />
+      {/* Pass handler to ExerciseCard so it can notify when "Done" is tapped */}
+      <ExerciseCard onDone={handleWorkoutSaved} />
 
       {/* Modal: view / edit / delete */}
       <Modal

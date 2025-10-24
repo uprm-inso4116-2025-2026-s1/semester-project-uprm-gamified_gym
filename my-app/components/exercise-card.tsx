@@ -14,7 +14,11 @@ type ExerciseCardNavigationProp = NativeStackNavigationProp<
   'ExerciseLog'
 >;
 
-const ExerciseCard = () => {
+type Props = {
+  onDone?: (message?: string) => void;
+};
+
+const ExerciseCard = (props: Props) => {
   const navigation = useNavigation<ExerciseCardNavigationProp>();
 
   const defaultSets = 3;
@@ -85,6 +89,16 @@ const ExerciseCard = () => {
     
   };
 
+  async function handleDonePress() {
+    try {
+      await handleSaveLog();
+      props.onDone?.(); // show default message
+    } catch (err) {
+      // optional: notify parent of failure
+      props.onDone?.("Failed to save workout.");
+    }
+  }
+
   return (
     <View style={styles.card}>
       <Text style={styles.title}>Push-Up</Text>
@@ -134,7 +148,7 @@ const ExerciseCard = () => {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.doneButton} onPress={handleSaveLog}>
+          <TouchableOpacity style={styles.doneButton} onPress={handleDonePress}>
             <Text style={styles.buttonText}>Done</Text>
           </TouchableOpacity>
         </>
