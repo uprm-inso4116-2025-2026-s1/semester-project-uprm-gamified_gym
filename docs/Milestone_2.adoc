@@ -460,121 +460,78 @@ Throughout development, we identified and made explicit several domain concepts:
 
 ==== 2.2.1 User Stories, Epics, Features
 
-This section details the functional and non-functional requirements of the 'Gamified Gym'
-system, expressed through user stories and grouped into larger epics. The requirements are
-directly derived from the completed work during Milestone 1, as evidenced by the closed
-tasks. This approach ensures a direct link between the project's design and its tangible
-development progress, including both front-end and back-end work.
+This section outlines both the functional and non-functional specifications of the Gamified Gym System. Requirements are represented as user stories organized into broader epics. Each story is derived from the deliverables completed during Milestone 2, ensuring all items correspond directly to implemented work in the front-end and back-end.
 
 === Epics
 
-For Milestone 1, the team focused on two core epics that lay the foundation for the entire
-application.
+For Milestone 2, the development team refined the system’s epics to better emphasize user and business value. Feedback from Milestone 1 guided these updates. Technical and design-related efforts are now treated as supporting elements tied to clear, user-centered outcomes rather than standalone goals.
 
-Epic 1: Foundational Design and User Interface (UI)
+Epic 1: Workout Monitoring and Recording
 
-  - Goal: To establish a consistent and user-friendly visual and interactive design
-    for the application's core pages.
-  - Justification: This epic addresses the critical need for a well-structured and
-    intuitive user experience from the very start. A solid design foundation is
-    necessary for all subsequent feature development.
+Goal:
+Enable users to efficiently capture, manage, and review their exercise sessions through an interactive interface.
 
-Epic 2: Core Fitness and Data Management
-  
-  - Goal: To establish the fundamental data structures and logic required to track and
-    manage user workout data.
-  - Justification: This epic is the core of the application's value proposition. It
-    ensures that the system can accurately handle, store, and process the primary data
-    (exercises, workouts, etc.) that the user will interact with, directly supporting
-    the app's fitness tracking goals.
+Justification:
+This epic represents the system’s core functionality—empowering users to document workouts, measure performance, and visualize progress. It connects front-end enhancements with back-end logic to deliver a unified, data-driven workout experience.
 
+User Story 1: Workout Entry and Progress Tracking
+	•	Story: As a strength athlete, I want to record my exercises with timing and set details so that I can accurately follow my progress.
+	•	Implemented Features: Redesigned workout interface, polished exercise catalog, and persistent workout saving function.
+	•	UI Update: The workout page now includes session timers, improved exercise cards, and a refined exercise list view. The Save Workout function is linked to the database, ensuring sessions are securely stored.
 
-=== User Stories and UI Contributions
+User Story 2: Workout Overview and Analytics
+	•	Story: As an active user, I want to view an overview of my completed sessions so that I can easily assess my performance.
+	•	Implemented Features: Workout Summary Card and session history integration.
+	•	UI Update: Developed a summary module displaying key metrics—duration, sets, and XP gained—providing immediate post-workout feedback while reinforcing the XP system.
 
-The following user stories and their associated UI tasks were completed during Milestone 1.
-Each story is mapped to the specific closed issues that contributed to its completion,
-demonstrating a clear link between requirements and implementation.
+Epic 2: Performance Rewards and Gamification
 
-User Stories for Epic 1: Foundational Design and UI
+Goal:
+Increase user motivation by rewarding consistency through XP, badges, and achievement milestones.
 
----
+Justification:
+This epic enhances user engagement by transforming regular workouts into a rewarding, game-like experience that promotes consistency and personal growth.
 
-User Story: User Authentication Page Design
+User Story 1: Experience Point Progression
+	•	Story: As a motivated participant, I want to earn XP from completed workouts so I can track my progress and stay engaged.
+	•	Implemented Features: Dynamic XP tracker, database logic for XP updates, and animated XP progress bar.
+	•	UI Update: Added a responsive XP progress bar integrated into the summary view. The backend automatically updates XP in real time, ensuring accurate progression tracking.
 
-  - Story: As a first-time or returning user, I want to see a clear design for the
-    login and sign-up pages, so that I can easily and confidently access my account or
-    create a new one.
-    
-  - UI Contribution: The completion of these tasks provided a cohesive design for the
-    entire user authentication flow. The Figma designs ensure a consistent user
-    journey across these critical pages, using a defined color palette, typography, and
-    layout for a professional feel.
+User Story 2: Achievements and Badge Rewards
+	•	Story: As a goal-oriented member, I want to unlock achievements and earn badges to celebrate my milestones.
+	•	Implemented Features: Achievement tracking system and categorized badge modules.
+	•	UI Update: Designed an Achievements page displaying earned badges, grouped by category and synchronized with XP milestones for a cohesive gamified experience.
 
-User Story: Core Page Design
+Epic 3: Interface Consistency and Data Connectivity
 
-  - Story: As a user, I want to see a clear and intuitive layout for the main pages, so
-    that I can understand the purpose of each section at a glance.
+Goal:
+Ensure a unified, data-driven experience by linking all major UI components to a central database schema.
 
-  - UI Contribution: By designing these pages in Figma and building the base UI shells
-    for the Home and Workouts pages, the team established a visual blueprint for the
-    application's main interface. This work defined the location of key elements like
-    the profile picture, navigation menus, and content feeds, ensuring a logical flow
-    and a predictable user experience.
+Justification:
+This epic solidifies the system’s backend integration. By establishing consistent data flow across components, users experience seamless updates and accurate synchronization throughout the app.
 
-User Story: Gamification Element Design
+User Story 1: Login and Navigation Optimization
+	•	Story: As a returning user, I want a smoother login process and quicker access to my personalized data.
+	•	Implemented Features: Updated authentication workflow and improved navigation logic tied to user profiles.
+	•	UI Update: The Workout Login UI is now connected to the central schema, supporting persistent sessions and faster data retrieval.
 
-  - Story: As a user, I want to see visual representations of my progress and
-    achievements, so that I can stay motivated to continue my fitness journey.
+User Story 2: Database Schema Integration
+	•	Story: As a developer or administrator, I want key pages connected to the central schema so updates reflect in real time.
+	•	Implemented Features: Unified database schema for workouts, XP, and achievements.
+	•	UI Update: The Workout, Summary, and Achievements pages now retrieve and display live data through consistent schema integration.
 
-  - UI Contribution: These design tasks focused on integrating gamification elements
-    directly into the UI. The completed Figma pages and designs for the progression
-    bar and challenges provide a visual guide for developers to implement these core
-    motivational features. The foundational work in defining the XP system
-    ensures that the visual elements are backed by clear and consistent logic.
+Epic 4: Community Features and Future Growth
 
-User Story: Post Creation Feature Design
+Goal:
+Lay the foundation for social components that encourage collaboration, competition, and peer motivation.
 
-  - Story: As a user, I want to design a way to create and share content, so that I
-    can interact with the community.
+Justification:
+Expanding social engagement features supports long-term user retention and builds a connected fitness community within the platform.
 
-  - UI Contribution: The Figma design for the post creation feature lays out a
-    user-friendly form. It includes placeholders for images and a text input area,
-    providing a clear and easy-to-use interface that directly supports content sharing.
-
----
-
-User Story for Epic 2: Core Fitness
-
----
-
-User Story: Workout Logging Feature
-
-  - Story: As a user, I want to log a workout with an exercise timer/counter, so that
-    I can accurately track my progress and performance.
-
-  - UI Contribution: The UI for the exercise timer and counter
-    provides the direct user interaction point for this feature. It includes a visible
-    timer, start/stop buttons, and a counter. The completion of the Exercise Detail
-    Card Mockup defines how individual exercise information will be displayed.
-    The conceptual work and the function signatures provides the foundational logic that the 
-    UI will interact with, ensuring the UI's functionality is backed by a robust and 
-    well-defined system.
-
-=== Completed Features (End-to-End with Passing Tests)
-
-The following features have been fully implemented and validated through acceptance testing:
-
-Feature 1: Workout Logging System
-* Description: Users can create, log, and complete workout sessions with full exercise tracking
-* Technical Highlights: WorkoutSession aggregate pattern, repository abstraction, real-time validation
-
-Feature 2: XP Progression System  
-* Description: Implements the XP calculation and level progression as defined in the XP System Design
-* Technical Highlights: Factory pattern for different XP award types, invariant protection for level progression
-
-Feature 3: Supabase Data Integration
-* Description: Full database integration for user data and workout storage with proper data integrity
-* Technical Highlights: Repository pattern implementation, connection pooling, error handling
+User Story 1: Planned Social Integration
+	•	Story: As a socially active user, I want to connect with others, view their progress, and share achievements for a more interactive experience.
+	•	Planned Features: Community feed, leaderboards, and user profile enhancements.
+	•	Milestone Note: Preliminary layouts and backend architecture for these features have been drafted to support implementation in future milestones.
 
 ==== 2.2.2 Personas
 * Alex, the Beginner:
