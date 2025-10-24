@@ -147,33 +147,31 @@ and satisfied with the deployed iteration of Gamified Gym.
 
 ==== 2.1.1 Domain rough sketch
 1. Entities and Relationships
-* Gym-goer: Works out to improve health, strength, or appearance; often tracks sets, 
-reps, and weights.
-* Trainer: Provides guidance, workout plans, and helps monitor balance across muscle 
-groups.
-* Peers & friends: Offer encouragement or competition (e.g., who can lift more, who goes more often).
+* Gym-goer: Maik arrives at the gym at 7 AM. He scans his membership card, grabs a towel, and heads to the squat rack. He checks his workout plan on the app, logs the warm-up set, and prepares for his first working set. Each rep he completes gets tracked automatically through his smartwatch.
+* Trainer: When Maik wants guidance, they can book a trainer. The trainer meets them during a scheduled session, observes their squat form, records their performance, and adjusts next week’s workout plan. This creates a Trainer Session Record and ties to the Workout Plan entity.
+* Peers & friends: After finishing his last set, Maik’s friend Ana checks his time and challenges him to a plank contest. They both record their results in the app, and a leaderboard updates showing who held the plank longer. Maik comments on Javier’s post, encouraging her for tomorrow’s session.
 
 2. Workouts & Training Elements
-* Exercise: Push-ups, Squats, Bench Press, Deadlift, Pull-ups, etc.
-* Muscle Groups: Chest, Back, Legs, Arms, Shoulders, Core
-* Workout Session: Date, duration, exercises performed, sets/reps/weights
-* Personal Best: Heaviest lift, most reps, longest endurance
-* Rest/Recovery: Sleep, nutrition, time off training
+* Exercise: Maik selects ‘Bench Press’ from the exercise catalog. He logs 3 sets of 8 reps at 90 lb each. The system saves the reps, weight, and timestamp under his session.
+* Muscle Groups: When Maik picks Bench Press, the app automatically tags it under the ‘Chest’ and ‘Triceps’ muscle groups. Later, analytics shows that his leg training volume is lagging behind his upper body.
+* Workout Session: Maik starts a workout session at 7:05 AM and ends at 8:10 AM. The app records all exercises, rests, notes, and trainer interactions during that time. At the end, the session is stored as a single structured record.
+* Personal Best: Maik attempts to deadlift 200 lb for the first time. He successfully completes 1 rep. The system compares it with his previous best of 195 lb and automatically updates his personal record.
+* Rest/Recovery: After a tough workout week, Maik logs 2 rest days. His smartwatch records sleep quality and nutrition notes. The app adjusts his weekly plan to allow muscle recovery.
 
 3. Processes & Events
-* Start Workout: Person enters gym and begins training.
-* Complete Exercise: finish sets and reps targeting a muscle group.
-* Track Performance: note weight, reps, or distance achieved.
-* Hit Milestone: first pull-up, first 10k run, lifting one’s bodyweight, etc.
-* Compare with Others: Compete or share progress.
-* Lose Streak: training becomes inconsistent, drop-off in attendance.
+* Start Workout: When Maik taps ‘Start Workout’ in the app, a new session begins tracking time, heart rate, and location. The system prepares an empty log to fill with exercises and notes.
+* Complete Exercise: Maik finishes his 3rd set of squats. The system detects the last rep and closes the set. It asks if he wants to add notes or move to the next exercise.
+* Track Performance: Maik compares his last week’s 5K run pace with today’s. The app shows he improved his average speed by 7%. This performance data feeds into his milestone progression.
+* Hit Milestone: Maik completes his first unassisted pull-up. The app recognizes this as a milestone and unlocks a ‘First Pull-up’ achievement.
+* Compare with Others: Maik opens the leaderboard for deadlifts among his gym peers. He sees that Javier just surpassed his record by 5 lb and decides to schedule a PR attempt tomorrow.
+* Lose Streak: After skipping the gym for a week, Maik's streak resets to zero. The app notifies him and suggests a comeback plan.
 
 4. Event Triggers
-* First-time Workout Event: When someone starts training.
-* Personal Best Event: When a record is broken (heaviest lift, most reps).
-* Consistency Event: When a person keeps a streak (e.g., 3x a week for a month).
-* Achievement Event: When a person completes the requisites for an achievement.
-* Badge Event: When a person obtains a badge after completion of a number of achievements.
+* First-time Workout Event: Maik taps ‘Start Workout’ for the first time ever. The app creates his first workout session and sends a welcome badge.
+* Personal Best Event: Maik breaks his previous squat record of 175 lb by lifting 180 lb. The system logs the event and updates his Personal Best table.
+* Consistency Event: After training 3x per week for a month, Maik hits a 12-session streak. The system unlocks a consistency reward.
+* Achievement Event: Maik completes the last requirement in the ‘Strength Builder’ program. The system registers the achievement and triggers a notification.
+* Badge Event: Maik earns the ‘Iron Core’ badge after completing 5 different abs milestones. The badge is added to his profile and visible to friends.
 
 
 ==== 2.1.2 Terminology
