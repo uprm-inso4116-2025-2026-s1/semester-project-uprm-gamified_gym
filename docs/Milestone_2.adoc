@@ -375,6 +375,86 @@ createPost(userId User, title: String (not required), content: String, workoutId
 createWorkout(userId User, name: String, exercises: List<Exercise>) -> return WorkoutSession
 // Creates a new workout session for the given user with the given name and exercises.
 ----
+// Aggregate Root Operations
+WorkoutSession.startWorkout(userId: UserId, template: WorkoutTemplate) -> WorkoutSession
+// Creates a new WorkoutSession aggregate root, enforcing workout invariants
+
+WorkoutSession.logExercise(exerciseId: ExerciseId, sets: List<SetEntry>) -> WorkoutSession
+// Adds exercises to the workout session through the aggregate root
+
+WorkoutSession.completeWorkout() -> CompletedWorkout
+// Finalizes the workout and calculates XP through the aggregate root
+
+// Factory Patterns
+AchievementFactory.createStreakAchievement(userId: UserId, streakType: StreakType) -> Achievement
+// Factory method for creating different achievement types with complex initialization
+
+AchievementFactory.createPRAchievement(userId: UserId, exerciseId: ExerciseId, oldPR: Double, newPR: Double) -> Achievement
+// Factory for personal record achievements with validation logic
+
+// Repository Interfaces
+WorkoutRepository.findByUserAndDate(userId: UserId, date: Date) -> List<WorkoutSession>
+// Repository pattern for workout persistence
+
+AchievementRepository.findByUserId(userId: UserId) -> List<Achievement>
+// Repository for achievement data access
+
+UserProgressRepository.getByUserId(userId: UserId) -> UserProgress
+// Repository for user progression tracking
+----
+
+==== 2.1.7 Domain Aggregates and Invariants
+
+===== WorkoutSession Aggregate
+
+The WorkoutSession serves as an aggregate root containing Exercise entries and Set records.
+
+*Aggregate Structure:*
+** Root: WorkoutSession
+** Entities: ExerciseEntry, SetEntry
+** Value Objects: Duration, IntensityScore
+
+*Invariants:*
+** A workout cannot have negative duration
+** Each exercise must target at least one valid muscle group
+** Set weights and reps must be positive numbers
+** Workout completion requires all logged exercises to have at least one set
+
+*Temporary Invariant Violation:*
+During exercise logging, sets may be added incrementally. The "completed sets" invariant is temporarily violated until all planned exercises are logged, but is reestablished when the workout is marked as complete.
+
+===== UserProgress Aggregate
+
+Tracks user's fitness journey progression including XP, levels, and achievements.
+
+*Aggregate Structure:*
+** Root: UserProgress
+** Entities: Achievement, Milestone
+** Value Objects: XP, Level, Badge
+
+*Invariants:*
+** XP cannot be negative
+** Level progression follows defined curve (100 × N² XP)
+** Achievements are only awarded when criteria are fully met
+
+==== 2.1.8 Implicit Concepts Made Explicit
+
+Throughout development, we identified and made explicit several domain concepts:
+
+===== Training Balance Concept
+
+*Initial Understanding:* Users should train all muscle groups
+*Explicit Concept:* `MuscleGroupBalance` - A value object that tracks and scores distribution across muscle groups, with methods to identify imbalances and suggest corrective exercises.
+
+===== Progressive Overload Tracking
+
+*Initial Understanding:* Users get stronger over time
+*Explicit Concept:* `ProgressiveOverloadTracker` - An entity that monitors weight/repetition increases over time, calculating improvement rates and detecting plateaus.
+
+===== Social Motivation Metrics
+
+*Initial Understanding:* Friends motivate each other
+*Explicit Concept:* `SocialMotivationScore` - A value object that quantifies social influence based on friend activity, leaderboard position, and shared achievements.
 
 === 2.2 Requirements
 
@@ -480,6 +560,21 @@ User Story: Workout Logging Feature
     UI will interact with, ensuring the UI's functionality is backed by a robust and 
     well-defined system.
 
+=== Completed Features (End-to-End with Passing Tests)
+
+The following features have been fully implemented and validated through acceptance testing:
+
+Feature 1: Workout Logging System
+* Description: Users can create, log, and complete workout sessions with full exercise tracking
+* Technical Highlights: WorkoutSession aggregate pattern, repository abstraction, real-time validation
+
+Feature 2: XP Progression System  
+* Description: Implements the XP calculation and level progression as defined in the XP System Design
+* Technical Highlights: Factory pattern for different XP award types, invariant protection for level progression
+
+Feature 3: Supabase Data Integration
+* Description: Full database integration for user data and workout storage with proper data integrity
+* Technical Highlights: Repository pattern implementation, connection pooling, error handling
 
 ==== 2.2.2 Personas
 * Alex, the Beginner:
