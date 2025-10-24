@@ -1,3 +1,5 @@
+// this is old ExerciseLog.tsx file before integrating supabase saved workouts
+
 import React from "react";
 import {
     View,

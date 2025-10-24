@@ -12,6 +12,7 @@ type RootStackParamList = {
   Password: undefined;
   ExerciseLog: undefined; 
   NewExerciseLog: undefined;
+  logHistory: undefined;
 };
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
@@ -49,6 +50,12 @@ export default function index() {
         title="Go to Password"
         onPress={() => navigation.navigate("Password")}
       />
+      <Button
+        title = "Go to logged workout history"
+        onPress={() => navigation.navigate("logHistory")}
+        />
+        
+     {/*This is the old logger we can delete this after*/}
       <Button
         title = "Go to Exercises"
         onPress={() => navigation.navigate("ExerciseLog")}
