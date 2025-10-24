@@ -19,6 +19,7 @@ import {
   uploadAvatarToSupabase,
   updateProfilePictureUrl,
 } from "../../lib/profileApi";
+import PartialFillCard from "../../components/progress"
 
 export default function Profile() {
   const [profile, setProfile] = useState<ActiveUserProfile | null>(null);
@@ -238,6 +239,10 @@ export default function Profile() {
             )}
           </View>
         </View>
+        <View>
+          <PartialFillCard />
+        </View>
+        
       </ScrollView>
     </SafeAreaView>
   );
