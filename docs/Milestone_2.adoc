@@ -851,23 +851,30 @@ These functions can be very useful to develop a workout history feature that can
 
 === 3.1 Concept Analysis
 
-* Examples:
-** Example 1: Students often lose motivation after a few weeks at the gym; the app keeps them engaged by rewarding consistency with achievements. +
-** Example 2: Many beginners feel intimidated at the gym; gamified goals (like completing a quest) make fitness feel approachable and fun.
+* Statements:
+** *Statement A (The Fading Novice):* "I started going to the gym after Christmas last year and really got into it. I went on 4 days every week and did some yoga on the other days, but after about 6 weeks when the semester really picked up pace and there were the first exams coming up, 
+I lost drive and went less often. Then I noticed that I was lifting less than I had lifted just a week earlier and so I went even less often."
+** *Statement B (The Intimidated Beginner):* "I feel intimidated and out of place in the gym. I'm not sure if I'm doing the exercises right or if I'm making any progress. It's hard to stay motivated when it feels like a chore and you don't see immediate results."
+** *Statement C (The Plateaud Regular):* "I've been training consistently for two years, but I've hit a wall. My numbers aren't going up, and my routine feels repetitive. I suspect I might be neglecting some muscle groups, but I don't have the data to confirm it."
 
 * Observed abstractions:
-** Both examples revolve around sustaining participation in fitness activities.
-** Motivation can be influenced by external reinforcement (achievements, goals).
-** A recurring concept is activity engagement, which includes both physical actions (workouts) and mental states (confidence, motivation).
+** All statements highlight the challenge of maintaining long-term engagement in fitness activities.
+** Motivation appears closely tied to visible progress and external reinforcement mechanisms. (achievements, goals).
+** Training consistency emerges as a critical factor for both progress and sustained participation. 
+** Knowledge gaps and lack of feedback contribute to uncertainty and reduced commitment.
 
 * Key Domain Concepts: 
-** Activity: a structured effort like exercizing, meazured in duration or intensity.
-** Engagement: the degree to which participants continue with an activity over time.
-** Motivation factor: triggers that influence engagement.
-** Barrier: factors that reduce engagement.
+** *Activity Engagement:* The degree to which users participate in structured fitness activities over time, measured by frequency, duration, and intensity.
+** *Motivation Factor:* Internal and external triggers that influence a user's willingness to initiate and maintain fitness activities.
+** *Progress Tracking:* The systematic measurement and visualization of performance metrics to demonstrate improvement and maintain engagement.
+** *Training Balance:* The equitable distribution of training focus across major muscle groups to prevent imbalances and optimize development.
+** *Consistency Metric:* Quantitative measures of regular participation, such as workout streaks and completion rates.
+** *Performance Plateau:* A stagnation in measurable progress that often leads to reduced motivation and engagement.
 
 * Potential ambiguities:
 ** Terms like goal, achievement, and reward may overlap. A goal is self-set, an achievement is earned, and a reward may be externally given. Deciding how these relate will be key for consistent use later.
+** The threshold between consistent training and overtraining must be clearly defined to ensure user safety and sustainable progress.
+** The relationship between quantitative metrics (sets, reps, weights) and qualitative progress (confidence, technique improvement) needs explicit mapping.
 
 * Deep Domain Model Evolution:*
 Our understanding has evolved from tracking simple metrics to modeling complex fitness journeys:
