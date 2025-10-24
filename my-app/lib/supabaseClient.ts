@@ -6,3 +6,5 @@ const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOi
 
 // Create and export the Supabase client
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+//to test it you can create ur own Supabase project and replace the url and anon key above with yours
