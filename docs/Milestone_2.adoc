@@ -869,6 +869,20 @@ These functions can be very useful to develop a workout history feature that can
 * Potential ambiguities:
 ** Terms like goal, achievement, and reward may overlap. A goal is self-set, an achievement is earned, and a reward may be externally given. Deciding how these relate will be key for consistent use later.
 
+* Deep Domain Model Evolution:*
+Our understanding has evolved from tracking simple metrics to modeling complex fitness journeys:
+
+**Shallow Model:** "Log exercises, earn points"
+**Deep Model:** "Users engage in progressive training journeys where consistency, balanced development, and social accountability create sustainable fitness lifestyles"
+
+* Key Aggregate Boundaries Identified:*
+- WorkoutSession as the central training unit
+- UserProgress as the longitudinal journey tracker  
+- SocialNetwork as the motivation ecosystem
+
+* Ubiquitous Language Refinement:*
+Terms like "TrainingBalance," "ProgressiveOverload," and "SocialMotivation" have been explicitly defined and integrated into our domain language.
+
 === 3.1.1 Refactoring for deeper insight
 
 *Shallow vs. Deep Models:
