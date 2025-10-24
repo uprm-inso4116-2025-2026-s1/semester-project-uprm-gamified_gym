@@ -374,7 +374,7 @@ createPost(userId User, title: String (not required), content: String, workoutId
 
 createWorkout(userId User, name: String, exercises: List<Exercise>) -> return WorkoutSession
 // Creates a new workout session for the given user with the given name and exercises.
-----
+
 // Aggregate Root Operations
 WorkoutSession.startWorkout(userId: UserId, template: WorkoutTemplate) -> WorkoutSession
 // Creates a new WorkoutSession aggregate root, enforcing workout invariants
