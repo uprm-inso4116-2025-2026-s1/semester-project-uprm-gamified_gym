@@ -175,57 +175,57 @@ and satisfied with the deployed iteration of Gamified Gym.
 
 
 ==== 2.1.2 Terminology
-* Domain Terminology
-** Athlete: A person actively participating in gym workouts and exercises with the goal of 
+*Domain Terminology*
+* Athlete: A person actively participating in gym workouts and exercises with the goal of 
 improving fitness.
-** Exercise: A single physical movement that targets specific muscles.
-** Workout: A structured set of exercises performed during a training session.
-** Routine: A planned schedule of workouts designed to achieve fitness goals over time.
-** Muscle Group: A category of muscles (e.g., chest, legs, back, arms) that exercises are designed to develop.
-** Progress Metric: A measurable element such as repetitions, sets, weight lifted, or duration 
-that reflects improvement.
-** Achievement: A milestone or goal reached by an athlete (e.g., completing 100 push-ups, hitting a new personal best).
-** Milestone: A significant marker of progress in training that signals growth or improvement.
-** Balance: The state of evenly training muscle groups to avoid neglect or overtraining.
+* Exercise: A single physical movement that targets specific muscles.
+* Workout: A structured set of exercises performed during a training session.
+* Routine: A planned schedule of workouts designed to achieve fitness goals over time.
+* Muscle Group: A category of muscles (e.g., chest, legs, back, arms) that exercises are designed to develop.
+* Progress Metric: A measurable element such as repetitions, sets, weight lifted, or duration 
+hat reflects improvement.
+* Achievement: A milestone or goal reached by an athlete (e.g., completing 100 push-ups, hitting a new personal best).
+* Milestone: A significant marker of progress in training that signals growth or improvement.
+* Balance: The state of evenly training muscle groups to avoid neglect or overtraining.
 
-* Non-Domain Terminology
-** App User: A person interacting with the gamified gym application 
-** Profile: A digital representation of an athlete or user, containing personal and fitness-related data.
-** Notification: A system-generated alert that informs athletes of completed events, achievements, or reminders.
+*Non-Domain Terminology*
+* App User: A person interacting with the gamified gym application 
+* Profile: A digital representation of an athlete or user, containing personal and fitness-related data.
+* Notification: A system-generated alert that informs athletes of completed events, achievements, or reminders.
 
 
-==== 2.1.3 Domain terminology in relation to domain rough sketch
-1. Core Entities & Roles
-* Exercise: A single physical activity (e.g., push-up, squat, bench press).
-* Workout: A structured collection of exercises performed in a session.
-* Muscle Group: A classification of muscles (e.g., chest, legs, back) that exercises target.
-* Achievement: A milestone reached by an athlete (e.g., lifting a personal best, completing 
+*Domain Terminology in relation to domain rough sketch*
+* Core Entities & Roles
+** Exercise: A single physical activity (e.g., push-up, squat, bench press).
+** Workout: A structured collection of exercises performed in a session.
+** Muscle Group: A classification of muscles (e.g., chest, legs, back) that exercises target.
+** Achievement: A milestone reached by an athlete (e.g., lifting a personal best, completing 
 a challenge).
 
-2. Training Process & Tracking
-* Workout Session: The occurrence of an athlete performing a workout at a specific time.
-* Routine: A planned sequence of workouts over days or weeks, designed to achieve specific goals.
-* Progress Tracking: The process of recording and observing changes in metrics such as strength, 
+* Training Process & Tracking
+** Workout Session: The occurrence of an athlete performing a workout at a specific time.
+** Routine: A planned sequence of workouts over days or weeks, designed to achieve specific goals.
+** Progress Tracking: The process of recording and observing changes in metrics such as strength, 
 endurance, or body composition.
-* Milestone Recognition: The acknowledgment of reaching goals such as increased strength, endurance, 
+** Milestone Recognition: The acknowledgment of reaching goals such as increased strength, endurance, 
 or skill mastery.
 
-3. Domain Events & Triggers
-* Exercise Completion Event: Triggered when an athlete finishes a set or repetition of an exercise.
-* Workout Completion Event: Occurs when all planned exercises in a workout session are finished.
-* Personal Best Event: Happens when an athlete surpasses their previous record in weight, repetitions, 
+* Domain Events & Triggers
+** Exercise Completion Event: Triggered when an athlete finishes a set or repetition of an exercise.
+** Workout Completion Event: Occurs when all planned exercises in a workout session are finished.
+** Personal Best Event: Happens when an athlete surpasses their previous record in weight, repetitions, 
 or duration.
-* Achievement Unlocked Event: Confirmed when a milestone or challenge is reached.
-* Overtraining Warning Event: Triggered when repeated sessions cause imbalance or fatigue beyond healthy 
+** Achievement Unlocked Event: Confirmed when a milestone or challenge is reached.
+** Overtraining Warning Event: Triggered when repeated sessions cause imbalance or fatigue beyond healthy 
 limits.
 
-4. Domain Rules & Constraints
-* Achievement Criteria Rule: Achievements are only recognized if the defined conditions (e.g., specific 
+* Domain Rules & Constraints
+** Achievement Criteria Rule: Achievements are only recognized if the defined conditions (e.g., specific 
 weights, repetitions, or time) are met.
-* Progress Validation Rule: Increases in performance shall be measurable to qualify as milestones.
+** Progress Validation Rule: Increases in performance shall be measurable to qualify as milestones.
 
 
-==== 2.1.4 Narrative
+==== 2.1.3 Narrative
 In fitness, individuals engage in physical exercise to improve health, 
 strength, endurance, or appearance. Workouts are often organized into sets
 and repetitions of exercises targeting specific muscle groups such as chest, back,
@@ -254,7 +254,7 @@ feedback and recognition that help individuals sustain long-term progress across
 their training.
 
 
-==== 2.1.5 Events, Actions, and Behaviors
+==== 2.1.4 Events, Actions, and Behaviors
 1. Overview
 * In fitness, people engage in structured exercises to improve strength,
 endurance, and overall health. Understanding the difference between events, 
@@ -311,7 +311,7 @@ This sequence of actions and events illustrates how behaviors develop into a con
 lifestyle rather than isolated workout sessions.
 
 
-==== 2.1.6 Function Signatures
+==== 2.1.5 Function Signatures
 
 * In the context of this project, these signatures capture the 
 essential domain operations like creating exercises, starting 
@@ -374,7 +374,7 @@ createPost(userId User, title: String (not required), content: String, workoutId
 
 createWorkout(userId User, name: String, exercises: List<Exercise>) -> return WorkoutSession
 // Creates a new workout session for the given user with the given name and exercises.
-----
+
 // Aggregate Root Operations
 WorkoutSession.startWorkout(userId: UserId, template: WorkoutTemplate) -> WorkoutSession
 // Creates a new WorkoutSession aggregate root, enforcing workout invariants
@@ -403,7 +403,7 @@ UserProgressRepository.getByUserId(userId: UserId) -> UserProgress
 // Repository for user progression tracking
 ----
 
-==== 2.1.7 Domain Aggregates and Invariants
+==== 2.1.6 Domain Aggregates and Invariants
 
 ===== WorkoutSession Aggregate
 
@@ -437,7 +437,7 @@ Tracks user's fitness journey progression including XP, levels, and achievements
 ** Level progression follows defined curve (100 × N² XP)
 ** Achievements are only awarded when criteria are fully met
 
-==== 2.1.8 Implicit Concepts Made Explicit
+==== 2.1.7 Implicit Concepts Made Explicit
 
 Throughout development, we identified and made explicit several domain concepts:
 
@@ -497,8 +497,6 @@ demonstrating a clear link between requirements and implementation.
 
 User Stories for Epic 1: Foundational Design and UI
 
----
-
 User Story: User Authentication Page Design
 
   - Story: As a first-time or returning user, I want to see a clear design for the
@@ -541,11 +539,9 @@ User Story: Post Creation Feature Design
     user-friendly form. It includes placeholders for images and a text input area,
     providing a clear and easy-to-use interface that directly supports content sharing.
 
----
+
 
 User Story for Epic 2: Core Fitness
-
----
 
 User Story: Workout Logging Feature
 
