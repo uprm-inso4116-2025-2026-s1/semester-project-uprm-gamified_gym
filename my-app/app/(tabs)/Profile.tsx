@@ -13,6 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import PartialFillCard from "../../components/progress"
 
 type RootStackParamList = {
   Home: undefined;
@@ -193,6 +194,11 @@ export default function Profile() {
         </View>
       </View>
 
+      {/* Partial Fill / XP Progress */}
+      <View style={{ marginTop: 0, width: "98%", marginBottom: 70, borderRadius: 23 }}>
+        <PartialFillCard />
+      </View>
+
       {/* Bottom Navigation */}
       <View style={styles.bottomTabs}>
         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
@@ -234,6 +240,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowRadius: 3.84,
     elevation: 5,
+    flex: 1,
   },
   profileInfo: { width: "90%", alignItems: "center" },
   avatarTouchable: { marginBottom: 10 },
