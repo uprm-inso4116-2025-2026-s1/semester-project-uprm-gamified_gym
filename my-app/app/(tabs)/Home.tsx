@@ -3,8 +3,8 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function Home() {
   return (
-    <View style={styles.outerContainer}>
-      <View style={styles.cardContainer}>
+    <View style={styles.background}>
+      <View style={styles.homeCard}>
         {/* Header with avatar on the right */}
         <View style={styles.headerRow}>
           <View style={styles.headerLeft}>
@@ -78,14 +78,14 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-  outerContainer: {
+  background: {
     flex: 1,
     backgroundColor: "#2E89FF",
     justifyContent: "flex-start",
     alignItems: "center",
     paddingTop: 0,
   },
-  cardContainer: {
+  homeCard: {
     width: "92%",
     height: "88%",
     backgroundColor: "#FFFFFF",
@@ -122,13 +122,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#2E89FF",
   },
-
-  /* (Old header kept in case you need it elsewhere)
-  header: {
-    width: '100%',
-    alignItems: 'flex-start',
-    marginBottom: 20,
-  }, */
 
   title: {
     fontSize: 28,
