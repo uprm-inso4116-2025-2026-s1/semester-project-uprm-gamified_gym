@@ -17,8 +17,7 @@ export default function Settings() {
     email: "",
     weight: "",
   });
-  const [editingField, setEditingField] = useState<string | null>(null);
-  const [tempValue, setTempValue] = useState<string>("");
+  const [isEditing, setIsEditing] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -35,7 +34,7 @@ export default function Settings() {
       if (!user) return;
 
       const { data, error } = await supabase
-        .from("user_profiles")
+        .from("user_profiles_test")
         .select("*")
         .eq("id", user.id)
         .single();
@@ -55,93 +54,93 @@ export default function Settings() {
     }
   }
 
-  async function saveField(field: string, value: string) {
+  async function saveProfile() {
+    if (!profile.first_name.trim() || !profile.last_name.trim() || !profile.weight.trim()) {
+    Alert.alert("Error", "Fields cannot be empty!");
+    return;
+  }
     setLoading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const updates: any = { updated_at: new Date() };
+      const updates: any = {
+        first_name: profile.first_name,
+        last_name: profile.last_name,
+        weight: profile.weight,
+        updated_at: new Date(),
+      };
 
-      if (field === "email") {
-        const { error } = await supabase.from("users").update({ email: value }).eq("id", user.id);
-        if (error) throw error;
-      } else {
-        updates[field] = value;
-        const { error } = await supabase.from("user_profiles").update(updates).eq("id", user.id);
-        if (error) throw error;
-      }
+      const { error } = await supabase
+        .from("user_profiles_test")
+        .update(updates)
+        .eq("id", user.id);
 
-      setProfile({ ...profile, [field]: value });
-      Alert.alert("Success", `${field} updated!`);
-      setEditingField(null);
+      if (error) throw error;
+
+      Alert.alert("Success", "Profile updated!");
+      setIsEditing(false);
     } catch (error: any) {
-      Alert.alert("Error updating field", error.message);
+      Alert.alert("Error updating profile", error.message);
     } finally {
       setLoading(false);
     }
   }
 
-  const renderEditableField = (label: string, fieldKey: string, keyboardType: any = "default") => {
-    if (editingField === fieldKey) {
-      return (
-        <View style={{ width: "100%" }}>
-          <TextInput
-            style={styles.input}
-            value={tempValue}
-            onChangeText={setTempValue}
-            placeholder={label} // <-- Placeholder added
-            placeholderTextColor="rgba(0,0,0,0.4)" // <-- dimmed opacity
-            keyboardType={keyboardType}
-          />
-          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <TouchableOpacity
-              style={[styles.Buttons, { flex: 1, marginRight: 5 }]}
-              onPress={() => saveField(fieldKey, tempValue)}
-            >
-              <Text style={styles.buttonText}>{loading ? "Saving..." : "Save"}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.Buttons, { flex: 1, marginLeft: 5, backgroundColor: "#ccc" }]}
-              onPress={() => {
-                setEditingField(null);
-                setTempValue(profile[fieldKey as keyof typeof profile]);
-              }}
-            >
-              <Text style={[styles.buttonText, { color: "#000" }]}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
-    }
-
+  const renderField = (label: string, fieldKey: keyof typeof profile, keyboardType: any = "default") => {
+    const isEmail = fieldKey === "email";
     return (
-      <TouchableOpacity
-        style={styles.Buttons}
-        onPress={() => {
-          setEditingField(fieldKey);
-          setTempValue(profile[fieldKey as keyof typeof profile]);
-        }}
-      >
-        <Text style={styles.buttonText}>
-          {label}: {profile[fieldKey as keyof typeof profile]}
-        </Text>
-      </TouchableOpacity>
+      <View style={{ width: "100%", marginBottom: 10 }}>
+        <Text style={styles.label}>{label}</Text>
+        <TextInput
+          value={profile[fieldKey]}
+          editable={isEditing && !isEmail}
+          keyboardType={keyboardType}
+          onChangeText={(val) => setProfile({ ...profile, [fieldKey]: val })}
+          style={[
+            styles.input,
+            isEmail ? { backgroundColor: "#e5e7eb", color: "#6b7280" } : {},
+          ]}
+        />
+      </View>
     );
   };
 
   return (
     <View style={styles.background}>
       <View style={styles.settingCard}>
-        <Text style={styles.title}>Settings</Text>
-        <Text style={[styles.normalText, { alignSelf: "flex-start" }]}>Account</Text>
+        <Text style={styles.title}>Account Settings</Text>
 
-        {renderEditableField("First Name", "first_name")}
-        {renderEditableField("Last Name", "last_name")}
-        {renderEditableField("Email", "email")}
-        {renderEditableField("Weight", "weight", "numeric")}
+        {renderField("First Name:", "first_name")}
+        {renderField("Last Name:", "last_name")}
+        {renderField("Email:", "email")}
+        {renderField("Weight lb:", "weight", "numeric")}
 
-        <Text style={[styles.normalText, { alignSelf: "flex-start", marginBottom: 10 }]}>Preferences</Text>
+        {!isEditing ? (
+          <TouchableOpacity style={styles.Buttons} onPress={() => setIsEditing(true)}>
+            <Text style={styles.buttonText}>Edit</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+            <TouchableOpacity
+              style={[styles.Buttons, { flex: 1, marginRight: 5 }]}
+              onPress={saveProfile}
+            >
+              <Text style={styles.buttonText}>{loading ? "Saving..." : "Save"}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.Buttons, { flex: 1, marginLeft: 5, backgroundColor: "#ccc" }]}
+              onPress={() => {
+                fetchProfile(); // reset fields
+                setIsEditing(false);
+              }}
+            >
+              <Text style={[styles.buttonText, { color: "#000" }]}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        <Text style={[styles.normalText, { alignSelf: "flex-start", marginBottom: 5 }]}>Preferences</Text>
 
         <View style={styles.toggleRow}>
           <Text style={[styles.normalText, { alignSelf: "center", marginBottom: 0 }]}>
@@ -212,7 +211,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 8,
-    marginVertical: 10,
+    marginBottom: 10,
     width: "100%",
     alignItems: "center",
   },
@@ -224,13 +223,18 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 50,
     color: "#2E89FF",
-    marginTop: -20,
+    marginTop: -50,
     marginBottom: 20,
   },
   normalText: {
     fontSize: 18,
     color: "#2E89FF",
     marginBottom: 10,
+  },
+  label: {
+    color: "#2E89FF",
+    fontWeight: "700",
+  
   },
   settingCard: {
     marginTop: -20,
@@ -260,7 +264,7 @@ const styles = StyleSheet.create({
     borderColor: "#d1d5db",
     borderRadius: 8,
     padding: 12,
-    marginVertical: 10,
+    marginVertical: 5,
     fontSize: 16,
     width: "100%",
   },
