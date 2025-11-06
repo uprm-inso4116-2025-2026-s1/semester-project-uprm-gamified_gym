@@ -9,13 +9,14 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   SafeAreaView,
+  ScrollView,
   Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import PartialFillCard from "../../components/progress"
+import PartialFillCard from "../../components/progress";
 
 type RootStackParamList = {
   Home: undefined;
@@ -42,35 +43,33 @@ export default function Profile() {
     try {
       setLoading(true);
       setError(null);
-    // Get the authenticated user
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError) throw userError;
-    if (!user) throw new Error("No authenticated user");
 
-    // Fetch the profile from your table
-    const { data: profileData, error: profileError } = await supabase
-      .from("user_profiles_test")
-      .select("*")
-      .eq("id", user.id)
-      .single();
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError) throw userError;
+      if (!user) throw new Error("No authenticated user");
 
-    if (profileError) throw profileError;
+      const { data: profileData, error: profileError } = await supabase
+        .from("user_profiles_test")
+        .select("*")
+        .eq("id", user.id)
+        .single();
 
-    // Map the table fields to your ActiveUserProfile
-    const activeProfile: ActiveUserProfile = {
-      profileId: profileData.id,
-      id: profileData.id,
-      fullName: `${profileData.first_name ?? ""} ${profileData.last_name ?? ""}`,
-      username: profileData.username ?? "",
-      email: profileData.email ?? user.email ?? "",
-      gender: profileData.gender ?? "",
-      dateOfBirth: profileData.date_of_birth ?? null,
-      firstName: profileData.first_name ?? "",
-      lastName: profileData.last_name ?? "",
-      profilePictureUrl: profileData.avatar_url ?? "",
-      bio: profileData.bio ?? "",
-      updatedAt: profileData.updated_at ?? null,
-    };
+      if (profileError) throw profileError;
+
+      const activeProfile: ActiveUserProfile = {
+        profileId: profileData.id,
+        id: profileData.id,
+        fullName: `${profileData.first_name ?? ""} ${profileData.last_name ?? ""}`,
+        username: profileData.username ?? "",
+        email: profileData.email ?? user.email ?? "",
+        gender: profileData.gender ?? "",
+        dateOfBirth: profileData.date_of_birth ?? null,
+        firstName: profileData.first_name ?? "",
+        lastName: profileData.last_name ?? "",
+        profilePictureUrl: profileData.avatar_url ?? "",
+        bio: profileData.bio ?? "",
+        updatedAt: profileData.updated_at ?? null,
+      };
 
       setProfile(activeProfile);
     } catch (err: any) {
@@ -83,11 +82,7 @@ export default function Profile() {
     }
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      loadProfile();
-    }, [])
-  );
+  useFocusEffect(useCallback(() => { loadProfile(); }, []));
 
   const formatDOB = (dob?: string | null) => {
     if (!dob) return "Unavailable";
@@ -99,10 +94,7 @@ export default function Profile() {
     try {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
-        Alert.alert(
-          "Permission needed",
-          "Please allow photo library access to change your profile picture."
-        );
+        Alert.alert("Permission needed", "Please allow photo library access.");
         return;
       }
 
@@ -114,22 +106,17 @@ export default function Profile() {
       });
 
       if (result.canceled) return;
-
       const asset = result.assets?.[0];
       if (!asset?.uri) return;
 
       setUploading(true);
       const publicUrl = await uploadAvatarToSupabase(asset.uri, profile?.profileId);
       await updateProfilePictureUrl(publicUrl, profile?.profileId);
-
       setProfile((p) => (p ? { ...p, profilePictureUrl: publicUrl } : p));
       Alert.alert("Updated", "Your profile picture was updated.");
     } catch (err: any) {
       console.error(err);
-      Alert.alert(
-        "Upload failed",
-        err?.message ?? "We couldn't update your photo. Please try again."
-      );
+      Alert.alert("Upload failed", err?.message ?? "Please try again.");
     } finally {
       setUploading(false);
     }
@@ -137,7 +124,10 @@ export default function Profile() {
 
   return (
     <SafeAreaView style={styles.background}>
-      <View style={styles.contentContainer}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.profileCard}>
           {/* Avatar */}
           <TouchableOpacity
@@ -183,29 +173,12 @@ export default function Profile() {
 
             {!loading && !error && profile && (
               <>
-                <TouchableOpacity style={styles.infoButton}>
-                  <Text style={styles.infoText}>Email: {profile.email || "Unavailable"}</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.infoButton}>
-                  <Text style={styles.infoText}>Username: {profile.username ?? "Unavailable"}</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.infoButton}>
-                  <Text style={styles.infoText}>Gender: {profile.gender ?? "Unavailable"}</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.infoButton}>
-                  <Text style={styles.infoText}>Date of Birth: {formatDOB(profile.dateOfBirth)}</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.infoButton}>
-                  <Text style={styles.infoText}>First Name: {profile.firstName ?? "Unavailable"}</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.infoButton}>
-                  <Text style={styles.infoText}>Last Name: {profile.lastName ?? "Unavailable"}</Text>
-                </TouchableOpacity>
+                <Text style={styles.infoText}>Email: {profile.email}</Text>
+                <Text style={styles.infoText}>Username: {profile.username}</Text>
+                <Text style={styles.infoText}>Gender: {profile.gender}</Text>
+                <Text style={styles.infoText}>Date of Birth: {formatDOB(profile.dateOfBirth)}</Text>
+                <Text style={styles.infoText}>First Name: {profile.firstName}</Text>
+                <Text style={styles.infoText}>Last Name: {profile.lastName}</Text>
               </>
             )}
           </View>
@@ -224,12 +197,12 @@ export default function Profile() {
             <Text style={styles.refreshText}>Refresh Profile</Text>
           </TouchableOpacity>
         </View>
-      </View>
 
-      {/* Partial Fill / XP Progress */}
-      <View style={{ marginTop: 0, width: "98%", marginBottom: 70, borderRadius: 23 }}>
-        <PartialFillCard />
-      </View>
+        {/* XP / Partial Fill */}
+        <View style={styles.partialFillContainer}>
+          <PartialFillCard />
+        </View>
+      </ScrollView>
 
       {/* Bottom Navigation */}
       <View style={styles.bottomTabs}>
@@ -251,30 +224,25 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: "#2E89FF",
-    alignItems: "center",
-    justifyContent: "center",
   },
-  contentContainer: {
-    width: "100%",
+  scrollContainer: {
     alignItems: "center",
-    justifyContent: "flex-start",
-    flex: 1,
+    paddingVertical: 25,
+    paddingTop: 15,
+    paddingBottom: 110,
   },
   profileCard: {
     width: "92%",
-    height: "88%",
     backgroundColor: "#fff",
     borderRadius: 23,
     padding: 20,
-    marginTop: 15,
     alignItems: "center",
     justifyContent: "flex-start",
-    shadowOpacity: 0.35,
-    shadowRadius: 3.84,
-    elevation: 5,
-    flex: 1,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 6,
   },
-  profileInfo: { width: "90%", alignItems: "center" },
   avatarTouchable: { marginBottom: 10 },
   avatarPlaceholder: {
     backgroundColor: "#eee",
@@ -300,31 +268,28 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#fff",
   },
-  sectionTitle: { fontSize: 16, fontWeight: "600", marginBottom: 4 },
+  profileInfo: { alignItems: "center", marginTop: 8 },
+  sectionTitle: { fontSize: 18, fontWeight: "600", marginBottom: 4, color: "#111" },
   subtitleHandle: { fontSize: 14, color: "#3b82f6", marginBottom: 10 },
   loader: { marginBottom: 10 },
-  statusText: {
-    color: "#374151",
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 10,
-  },
+  statusText: { color: "#374151", fontSize: 16, textAlign: "center", marginBottom: 10 },
   statusTextError: { color: "#b91c1c" },
-  infoButton: {
-    backgroundColor: "#3b82f6",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+  infoText: {
+    backgroundColor: "rgba(114,167,255,0.85)",
+    color: "#111",
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 10,
     marginVertical: 3,
-    width: "80%",
-    alignItems: "center",
+    fontSize: 15,
+    width: "85%",
+    textAlign: "center",
   },
-  infoText: { color: "#fff", fontSize: 16, fontWeight: "500" },
   badgesRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 10,
-    width: "80%",
+    marginTop: 15,
+    width: "70%",
   },
   badgeImage: { width: 40, height: 40, resizeMode: "contain" },
   separator: {
@@ -334,24 +299,35 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   refreshButton: {
-    marginTop: 30,
+    marginTop: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,
     backgroundColor: "#111827",
   },
   refreshText: { color: "#fff", fontSize: 14, fontWeight: "500" },
-  bottomTabs: {
-    position: "absolute",
-    bottom: 0,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    backgroundColor: "#2E89FF",
-    width: "100%",
-    height: 85,
-    alignItems: "center",
-    paddingHorizontal: 42,
-    paddingTop: 17,
+  partialFillContainer: {
+    marginTop: 25,
+    width: "92%",
+    borderRadius: 23,
   },
-  navIcon: { width: 29, height: 29, resizeMode: "contain" },
+  bottomTabs: {
+  position: "absolute",
+  backgroundColor: "#ffffff",
+  bottom: 20,
+  flexDirection: "row",
+  justifyContent: "space-around",
+  alignItems: "center",
+  width: "90%", // narrower than full width for the floating effect
+  height: 65,
+  borderRadius: 35,
+  alignSelf: "center",
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 4 },  //MEJORAR: AÑADIR ANIMACION DE LA PAGINA QUE SE ENCUENTRA ACTIVA, AGRANDAR Y PONER AZUL EJ
+  shadowOpacity: 0.25,
+  shadowRadius: 5,
+  elevation: 6, // for Android shadow
+  paddingHorizontal: 30,
+},
+  navIcon: { width: 28, height: 28, resizeMode: "contain", tintColor: "#000000ff" },
 });
