@@ -40,7 +40,7 @@ export default function Password() {
 
     try {
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: "https://switjvezhwonckihgokh.supabase.co/auth/v1/callback",
+        redirectTo: "http://localhost:8081/resetPassword",
       });
 
       setLoading(false);
