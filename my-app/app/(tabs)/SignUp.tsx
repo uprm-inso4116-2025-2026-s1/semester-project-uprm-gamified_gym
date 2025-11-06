@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -10,110 +10,137 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { supabase } from "../../lib/supabaseClient";
+import {checkUsernameAvailable} from "../../utils/checkUsername"; 
 import { useRouter } from "expo-router";
 
-const router = useRouter();
 
-type RootStackParamList = {
-  Signup: undefined;
-  Password: undefined;
-  Login: undefined;
-};
 
-type SignupScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Signup">;
+export default function Signup() {
+  const router = useRouter();
 
-interface SigupProps {
-  navigation: SignupScreenNavigationProp;
-}
-
-export default function Signup({ navigation }: SigupProps) {
+  const [username, setUsername] = useState("");
+  const [usernameStatus, setUsernameStatus] = useState<{ available: boolean; message: string }>({
+    available: false,
+    message: "",
+  });
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Clear passwords on mount
+  useEffect(() => {
+    setPwd("");
+    setConfirmPwd("");
+  }, []);
+
+  // Real-time username check (debounced)
+  useEffect(() => {
+    if (!username) {
+      setUsernameStatus({ available: false, message: "" });
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      const status = await checkUsernameAvailable(username.trim());
+      setUsernameStatus(status);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [username]);
+
   async function onSignup() {
-    // Validation
+    setLoading(true);
+    const cleanedUsername = username.trim();
+
+    // --- VALIDATIONS ---
+    if (!cleanedUsername) {
+      Alert.alert("Error", "Please enter a username");
+      setLoading(false);
+      return;
+    }
+
+    if (!usernameStatus.available) {
+      Alert.alert("Error", usernameStatus.message);
+      setLoading(false);
+      return;
+    }
+
     if (!name.trim()) {
-      Alert.alert("Error", "Please enter your name");
+      Alert.alert("Error", "Please enter your full name");
+      setLoading(false);
       return;
     }
 
     if (!email.includes("@")) {
       Alert.alert("Error", "Please enter a valid email address");
+      setLoading(false);
       return;
     }
 
     if (pwd.length < 8) {
       Alert.alert("Error", "Password must be at least 8 characters long");
+      setLoading(false);
       return;
     }
 
     if (pwd !== confirmPwd) {
       Alert.alert("Error", "Passwords do not match");
+      setLoading(false);
       return;
     }
 
-    
-    setLoading(true);
     try {
-      const { data: userData, error: userError } = await supabase
-        .from("users")
-        .insert({
-          username: name.trim(), 
-          email: email.toLowerCase().trim(),
-          password_hash: pwd, 
-        })
-        .select("id") 
-        .single(); 
+      // --- SPLIT FULL NAME ---
+      const [firstName, ...lastNameParts] = name.trim().split(" ");
+      const lastName = lastNameParts.join(" ") || null;
 
-      // Handle user insertion error
-      if (userError) {
-        Alert.alert("Signup Error", `Failed to create user: ${userError.message}`);
+      // --- CREATE SUPABASE AUTH ---
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: email.trim().toLowerCase(),
+        password: pwd,
+      });
+
+      if (authError) {
+        Alert.alert("Signup Error", authError.message);
+        setLoading(false);
+        return;
+      }
+      if (!authData.user) {
+        Alert.alert("Error", "Failed to create user.");
+        setLoading(false);
         return;
       }
 
-      if (!userData || !userData.id) {
-         Alert.alert("Error", "Failed to create user. Please try again.");
-         return;
-      }
-      
-      const newUserId = userData.id;
+      const userId = authData.user.id;
 
-      // Step 2: Split the full name into first and last names
-      const [firstName, ...lastNameParts] = name.trim().split(' ');
-      const lastName = lastNameParts.join(' ') || null;
-
-    
+      // --- INSERT INTO user_profiles ---
       const { error: profileError } = await supabase
-        .from("user_profiles")
+        .from("user_profiles_test")
         .insert({
-          id: newUserId,
+          id: userId,
+          username: cleanedUsername,
           first_name: firstName,
           last_name: lastName,
         });
 
-      // Handle profile insertion error
       if (profileError) {
         Alert.alert(
           "Profile Error",
-          `Your account was created, but your profile failed to set up: ${profileError.message}`
+          `Account created, but profile failed: ${profileError.message}`
         );
       } else {
-         Alert.alert("Success!", "Your account has been created.");
+        Alert.alert("Success!", "Your account has been created.");
+        router.push("/(tabs)/Login");
       }
-
-      router.push("/(tabs)/Login");
-
     } catch (e: any) {
       Alert.alert("Error", e.message || "An unexpected error occurred.");
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -123,22 +150,39 @@ export default function Signup({ navigation }: SigupProps) {
       >
         <View style={styles.container}>
           <View style={styles.card}>
-            {/* Logo */}
             <View style={styles.logoBox}>
               <Text style={styles.logoText}>LOGO{"\n"}HERE</Text>
             </View>
 
-            {/* Títulos */}
             <Text style={styles.title}>Sign up!</Text>
             <Text style={styles.subtitle}>Create an account</Text>
 
-            {/* Name */}
-            <Text style={styles.label}>Name</Text>
+            {/* Username */}
+            <Text style={styles.label}>Username</Text>
+            <TextInput
+              value={username}
+              onChangeText={setUsername}
+              autoCapitalize="none"
+              placeholder="Choose a username"
+              placeholderTextColor="rgba(255,255,255,0.9)"
+              style={[
+                styles.input,
+                usernameStatus.available === false && username ? { borderColor: "red", borderWidth: 1 } : {},
+              ]}
+            />
+            {username ? (
+              <Text style={{ color: usernameStatus.available ? "green" : "red", marginBottom: 6 }}>
+                {usernameStatus.message}
+              </Text>
+            ) : null}
+
+            {/* Full Name */}
+            <Text style={styles.label}>Full Name</Text>
             <TextInput
               value={name}
               onChangeText={setName}
               autoCapitalize="words"
-              placeholder="Full Name"
+              placeholder="Your Name"
               placeholderTextColor="rgba(255,255,255,0.9)"
               style={styles.input}
             />
@@ -166,10 +210,10 @@ export default function Signup({ navigation }: SigupProps) {
               style={styles.input}
             />
 
-            {/* Confirm password */}
-            <Text style={styles.label}>Confirm password</Text>
+            {/* Confirm Password */}
+            <Text style={styles.label}>Confirm Password</Text>
             <TextInput
-              value={confirmPwd}     
+              value={confirmPwd}
               onChangeText={setConfirmPwd}
               secureTextEntry
               placeholder="••••••••"
@@ -177,7 +221,6 @@ export default function Signup({ navigation }: SigupProps) {
               style={styles.input}
             />
 
-            {/* Botón Sign Up */}
             <Pressable
               onPress={onSignup}
               disabled={loading}
@@ -192,14 +235,14 @@ export default function Signup({ navigation }: SigupProps) {
               </Text>
             </Pressable>
 
-            {/* Link a Log in */}
             <View style={{ marginTop: 12 }}>
               <Text style={styles.footerText}>
                 Already have an account?{" "}
                 <Text
                   style={styles.linkUnderline}
                   onPress={() => router.push("/(tabs)/Login")}
-                >Log in
+                >
+                  Log in
                 </Text>
               </Text>
             </View>
@@ -210,22 +253,15 @@ export default function Signup({ navigation }: SigupProps) {
   );
 }
 
+// --- Styles ---
 const BLUE = "#2F80FF";
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: BLUE,
-  },
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  screen: { flex: 1, backgroundColor: BLUE },
+  container: { flex: 1, paddingHorizontal: 20, justifyContent: "center", alignItems: "center" },
   card: {
     width: "92%",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#fff",
     borderRadius: 18,
     paddingVertical: 28,
     paddingHorizontal: 20,
@@ -236,87 +272,14 @@ const styles = StyleSheet.create({
     elevation: 8,
     alignItems: "center",
   },
-  logoBox: {
-    width: 140,
-    height: 90,
-    borderRadius: 18,
-    backgroundColor: BLUE,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  logoText: {
-    color: "#fff",
-    fontWeight: "700",
-    textAlign: "center",
-    letterSpacing: 1,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: "900",
-    color: BLUE,
-    textAlign: "center",
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: BLUE,
-    opacity: 0.9,
-    textAlign: "center",
-    marginBottom: 10,
-  },
-  label: {
-    alignSelf: "flex-start",
-    width: "100%",
-    maxWidth: 440,
-    color: BLUE,
-    fontWeight: "700",
-    marginBottom: 6,
-  },
-  input: {
-    width: "100%",
-    maxWidth: 440,
-    height: 44,
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    backgroundColor: "rgba(114,167,255,0.85)",
-    color: "#fff",
-    fontWeight: "600",
-    marginBottom: 8,
-  },
-  inlineRight: {
-    width: "100%",
-    maxWidth: 440,
-    alignItems: "flex-end",
-    marginBottom: 6,
-  },
-  linkInline: {
-    color: BLUE,
-    fontWeight: "700",
-  },
-  primaryBtn: {
-    width: "100%",
-    maxWidth: 440,
-    height: 50,
-    borderRadius: 16,
-    backgroundColor: BLUE,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 6,
-  },
-  primaryBtnText: {
-    color: "#fff",
-    fontWeight: "900",
-    fontSize: 18,
-  },
-  footerText: {
-    color: BLUE,
-    fontWeight: "700",
-    textAlign: "center",
-  },
-  linkUnderline: {
-    color: BLUE,
-    fontWeight: "800",
-    textDecorationLine: "underline",
-  },
+  logoBox: { width: 140, height: 90, borderRadius: 18, backgroundColor: BLUE, justifyContent: "center", alignItems: "center", marginBottom: 16 },
+  logoText: { color: "#fff", fontWeight: "700", textAlign: "center", letterSpacing: 1 },
+  title: { fontSize: 30, fontWeight: "900", color: BLUE, textAlign: "center", marginBottom: 4 },
+  subtitle: { fontSize: 14, color: BLUE, opacity: 0.9, textAlign: "center", marginBottom: 10 },
+  label: { alignSelf: "flex-start", width: "100%", maxWidth: 440, color: BLUE, fontWeight: "700", marginBottom: 6 },
+  input: { width: "100%", maxWidth: 440, height: 44, borderRadius: 12, paddingHorizontal: 14, backgroundColor: "rgba(114,167,255,0.85)", color: "#fff", fontWeight: "600", marginBottom: 8 },
+  primaryBtn: { width: "100%", maxWidth: 440, height: 50, borderRadius: 16, backgroundColor: BLUE, justifyContent: "center", alignItems: "center", marginTop: 6 },
+  primaryBtnText: { color: "#fff", fontWeight: "900", fontSize: 18 },
+  footerText: { color: BLUE, fontWeight: "700", textAlign: "center" },
+  linkUnderline: { color: BLUE, fontWeight: "800", textDecorationLine: "underline" },
 });

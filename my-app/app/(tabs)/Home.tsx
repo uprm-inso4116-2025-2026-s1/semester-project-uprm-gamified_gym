@@ -1,7 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { supabase } from "../../lib/supabaseClient";
+import { RootStackParamList } from "./index";
+
+type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function Home() {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const session = supabase.auth.getSession().then(res => res.data.session);
+      const user = (await session)?.user;
+
+      if (user) {
+        // Fetch user profile
+        const { data: profile, error } = await supabase
+          .from("user_profiles_test")
+          .select("username")
+          .eq("id", user.id)
+          .single();
+
+        if (!error && profile) {
+          setUserName(profile.username);
+        }
+      } else {
+        setUserName(null);
+      }
+    }
+
+    fetchUser();
+
+    // Listen for auth changes (login/logout)
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        fetchUser();
+      } else {
+        setUserName(null);
+      }
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
   return (
     <View style={styles.background}>
       <View style={styles.homeCard}>
@@ -9,21 +55,37 @@ export default function Home() {
         <View style={styles.headerRow}>
           <View style={styles.headerLeft}>
             <Text style={styles.title}>HOME</Text>
-            <Text style={styles.subtitle}>Welcome back, USER!</Text>
+
+            {userName ? (
+              <Text style={styles.subtitle}>Welcome back, {userName}!</Text>
+            ) : (
+              <Text style={styles.subtitle}>
+                Welcome,{" "}
+                <Text
+                  style={styles.linkUnderline}
+                  onPress={() => navigation.navigate("Login")}
+                >
+                  Log in
+                </Text>
+              </Text>
+            )}
           </View>
 
-          {/* Avatar (right side) */}
-          <TouchableOpacity activeOpacity={0.8} style={styles.avatarWrap}>
+          {/* Avatar */}
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.avatarWrap}
+            onPress={() => navigation.navigate("Profile")}
+          >
             <Image
-              // Local placeholder — swap for your real image
               source={require("../../assets/images/user.png")}
-              // For remote image, use: source={{ uri: "https://your-cdn.com/avatar.jpg" }}
               style={styles.avatar}
               accessibilityLabel="User profile"
             />
           </TouchableOpacity>
         </View>
 
+        {/* Stats */}
         <View style={styles.statsRow}>
           <View style={[styles.statBox, { backgroundColor: "#FFEB0C" }]}>
             <Text style={styles.statLabel}>Steps</Text>
@@ -41,16 +103,22 @@ export default function Home() {
           </View>
         </View>
 
+        {/* Quick Actions */}
         <Text style={styles.quickTitle}>QUICK ACTIONS</Text>
         <View style={styles.actionsRow}>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => navigation.navigate("ExerciseLog")}
+          >
             <Text style={styles.actionText}>Start Workout</Text>
           </TouchableOpacity>
+
           <TouchableOpacity style={styles.actionButton}>
             <Text style={styles.actionText}>Log Meal</Text>
           </TouchableOpacity>
         </View>
 
+        {/* Calendar */}
         <TouchableOpacity style={styles.calendarBox}>
           <Image
             source={require("../../assets/images/calendar.png")}
@@ -59,25 +127,40 @@ export default function Home() {
         </TouchableOpacity>
       </View>
 
+      {/* Bottom Navigation Tabs */}
       <View style={styles.bottomTabs}>
-        <Image
-          source={require("../../assets/images/home.png")}
-          style={styles.navIcon}
-        />
-        <Image
-          source={require("../../assets/images/user.png")}
-          style={styles.navIcon}
-        />
-        <Image
-          source={require("../../assets/images/settings.png")}
-          style={styles.navIcon}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+          <Image
+            source={require("../../assets/images/home.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <Image
+            source={require("../../assets/images/user.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+          <Image
+            source={require("../../assets/images/settings.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
 
+
 const styles = StyleSheet.create({
+  linkUnderline: {
+    color: "#2E89FF",
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+  },
   background: {
     flex: 1,
     backgroundColor: "#2E89FF",

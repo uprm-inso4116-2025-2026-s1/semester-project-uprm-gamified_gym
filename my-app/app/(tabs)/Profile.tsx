@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { supabase } from "../../lib/supabaseClient";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -25,7 +27,6 @@ type NavigationProp = StackNavigationProp<RootStackParamList>;
 
 import {
   ActiveUserProfile,
-  fetchActiveUserProfile,
   uploadAvatarToSupabase,
   updateProfilePictureUrl,
 } from "../../lib/profileApi";
@@ -41,7 +42,36 @@ export default function Profile() {
     try {
       setLoading(true);
       setError(null);
-      const activeProfile = await fetchActiveUserProfile();
+    // Get the authenticated user
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError) throw userError;
+    if (!user) throw new Error("No authenticated user");
+
+    // Fetch the profile from your table
+    const { data: profileData, error: profileError } = await supabase
+      .from("user_profiles_test")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    if (profileError) throw profileError;
+
+    // Map the table fields to your ActiveUserProfile
+    const activeProfile: ActiveUserProfile = {
+      profileId: profileData.id,
+      id: profileData.id,
+      fullName: `${profileData.first_name ?? ""} ${profileData.last_name ?? ""}`,
+      username: profileData.username ?? "",
+      email: profileData.email ?? user.email ?? "",
+      gender: profileData.gender ?? "",
+      dateOfBirth: profileData.date_of_birth ?? null,
+      firstName: profileData.first_name ?? "",
+      lastName: profileData.last_name ?? "",
+      profilePictureUrl: profileData.avatar_url ?? "",
+      bio: profileData.bio ?? "",
+      updatedAt: profileData.updated_at ?? null,
+    };
+
       setProfile(activeProfile);
     } catch (err: any) {
       const message =
@@ -53,14 +83,16 @@ export default function Profile() {
     }
   }, []);
 
-  useEffect(() => {
-    loadProfile();
-  }, [loadProfile]);
+  useFocusEffect(
+    useCallback(() => {
+      loadProfile();
+    }, [])
+  );
 
   const formatDOB = (dob?: string | null) => {
     if (!dob) return "Unavailable";
     const d = new Date(dob);
-    return isNaN(d.getTime()) ? dob : d.toLocaleDateString();
+    return Number.isNaN(d.getTime()) ? dob : d.toLocaleDateString();
   };
 
   const onChangeAvatar = useCallback(async () => {
