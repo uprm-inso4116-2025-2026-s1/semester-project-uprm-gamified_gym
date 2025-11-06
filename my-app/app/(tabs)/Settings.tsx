@@ -64,7 +64,7 @@ export default function Settings() {
         first_name: data.first_name || "",
         last_name: data.last_name || "",
         email: user.email || "",
-        weight: data.weight || "",
+        weight: data.weight ? String(data.weight) : "",
       });
     } catch (error: any) {
       Alert.alert("Error fetching profile", error.message);
@@ -74,7 +74,7 @@ export default function Settings() {
   }
 
   async function saveProfile() {
-    if (!profile.first_name.trim() || !profile.last_name.trim() || !profile.weight.trim()) {
+    if (!profile.first_name.trim() || !profile.last_name.trim() || !String(profile.weight).trim()) {
       Alert.alert("Error", "Fields cannot be empty!");
       return;
     }
