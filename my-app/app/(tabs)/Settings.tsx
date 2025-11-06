@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     paddingBottom: 34,
-    paddingHorizontal: 52,
+    paddingHorizontal: 42,
     paddingTop: 25,
   },
   navIcon: { width: 29, height: 29, resizeMode: "contain" },
