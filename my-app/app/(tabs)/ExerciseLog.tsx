@@ -48,8 +48,6 @@ export default function ExerciseLog() {
         {showRecent && <RecentWorkoutCard />}
 
         <ExerciseCard />
-        <ExerciseCard />
-        <ExerciseCard />
       </ScrollView>
 
       <View style={styles.bottomTabs}>
