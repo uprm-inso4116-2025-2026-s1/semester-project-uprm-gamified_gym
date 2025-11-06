@@ -1,6 +1,7 @@
 import { supabase } from "../../lib/supabaseClient";
-import { useFocusEffect } from "@react-navigation/native";
-import React, { useState, useCallback } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -8,15 +9,15 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  SafeAreaView,
   ScrollView,
+  SafeAreaView,
   Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { uploadAndSetAvatar } from "../../lib/profileApi";
 import PartialFillCard from "../../components/progress";
+
 
 type RootStackParamList = {
   Home: undefined;
@@ -24,65 +25,92 @@ type RootStackParamList = {
   Settings: undefined;
 };
 
-type NavigationProp = StackNavigationProp<RootStackParamList>;
 
-import {
-  ActiveUserProfile,
-  uploadAvatarToSupabase,
-  updateProfilePictureUrl,
-} from "../../lib/profileApi";
 
 export default function Profile() {
-  const navigation = useNavigation<NavigationProp>();
-  const [profile, setProfile] = useState<ActiveUserProfile | null>(null);
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  type UserProfile = {
+    profileId: string;
+    id: string;
+    fullName: string;
+    username: string;
+    email: string;
+    gender: string;
+    dateOfBirth: string | null;
+    firstName: string;
+    lastName: string;
+    profilePictureUrl: string;
+    bio: string;
+    updatedAt: string | null;
+  };
+
+  const [authUser, setAuthUser] = useState<any | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetch authenticated user
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (error) {
+        console.error("Failed to get user", error);
+        setError("Failed to get authenticated user.");
+        setLoading(false);
+        return;
+      }
+      setAuthUser(user);
+    };
+    fetchUser();
+  }, []);
+
+  // Load profile from Supabase
   const loadProfile = useCallback(async () => {
+    if (!authUser) return;
+
     try {
       setLoading(true);
       setError(null);
 
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
-      if (userError) throw userError;
-      if (!user) throw new Error("No authenticated user");
-
       const { data: profileData, error: profileError } = await supabase
         .from("user_profiles_test")
         .select("*")
-        .eq("id", user.id)
+        .eq("id", authUser.id)
         .single();
 
       if (profileError) throw profileError;
 
-      const activeProfile: ActiveUserProfile = {
+      const activeProfile = {
         profileId: profileData.id,
         id: profileData.id,
         fullName: `${profileData.first_name ?? ""} ${profileData.last_name ?? ""}`,
         username: profileData.username ?? "",
-        email: profileData.email ?? user.email ?? "",
+        email: profileData.email ?? authUser.email ?? "",
         gender: profileData.gender ?? "",
         dateOfBirth: profileData.date_of_birth ?? null,
         firstName: profileData.first_name ?? "",
         lastName: profileData.last_name ?? "",
-        profilePictureUrl: profileData.avatar_url ?? "",
+        profilePictureUrl: profileData.profile_picture_url ?? "",
         bio: profileData.bio ?? "",
         updatedAt: profileData.updated_at ?? null,
       };
 
       setProfile(activeProfile);
     } catch (err: any) {
-      const message =
-        err?.message ??
-        "Something went wrong while loading your profile. Please try again later.";
-      setError(message);
+      console.error(err);
+      setError(err?.message ?? "Failed to load profile.");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [authUser]);
 
-  useFocusEffect(useCallback(() => { loadProfile(); }, []));
+  useFocusEffect(
+    useCallback(() => {
+      loadProfile();
+    }, [loadProfile])
+  );
 
   const formatDOB = (dob?: string | null) => {
     if (!dob) return "Unavailable";
@@ -90,11 +118,17 @@ export default function Profile() {
     return Number.isNaN(d.getTime()) ? dob : d.toLocaleDateString();
   };
 
+  // Change avatar using new uploadAndSetAvatar function
   const onChangeAvatar = useCallback(async () => {
+    if (!profile) return;
+
     try {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
-        Alert.alert("Permission needed", "Please allow photo library access.");
+        Alert.alert(
+          "Permission needed",
+          "Please allow photo library access to change your profile picture."
+        );
         return;
       }
 
@@ -110,62 +144,67 @@ export default function Profile() {
       if (!asset?.uri) return;
 
       setUploading(true);
-      const publicUrl = await uploadAvatarToSupabase(asset.uri, profile?.profileId);
-      await updateProfilePictureUrl(publicUrl, profile?.profileId);
+
+      // Upload avatar and update profile
+      const publicUrl = await uploadAndSetAvatar(profile.profileId, asset.uri);
+
       setProfile((p) => (p ? { ...p, profilePictureUrl: publicUrl } : p));
       Alert.alert("Updated", "Your profile picture was updated.");
     } catch (err: any) {
       console.error(err);
-      Alert.alert("Upload failed", err?.message ?? "Please try again.");
+      Alert.alert(
+        "Upload failed",
+        err?.message ?? "We couldn't update your photo. Please try again."
+      );
     } finally {
       setUploading(false);
     }
-  }, [profile?.profileId]);
+  }, [profile]);
 
   return (
-    <SafeAreaView style={styles.background}>
+    <SafeAreaView style={styles.safe}>
       <ScrollView
-        contentContainerStyle={styles.scrollContainer}
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.profileCard}>
-          {/* Avatar */}
-          <TouchableOpacity
-            style={styles.avatarTouchable}
-            activeOpacity={0.8}
-            onPress={onChangeAvatar}
-            disabled={uploading}
-          >
-            <View style={styles.avatarPlaceholder}>
-              {profile?.profilePictureUrl ? (
-                <Image
-                  source={{ uri: profile.profilePictureUrl }}
-                  style={styles.avatarImage}
-                />
-              ) : (
-                <Ionicons name="person" size={60} color="#666" />
-              )}
-              <View style={styles.cameraBadge}>
-                {uploading ? (
-                  <ActivityIndicator size="small" color="#fff" />
+        <View style={styles.container}>
+          <View style={styles.profileCard}>
+            {/* Avatar */}
+            <TouchableOpacity
+              style={styles.avatarTouchable}
+              activeOpacity={0.8}
+              onPress={onChangeAvatar}
+              disabled={uploading}
+            >
+              <View style={styles.avatarPlaceholder}>
+                {profile?.profilePictureUrl ? (
+                  <Image
+                    source={{ uri: profile.profilePictureUrl }}
+                    style={styles.avatarImage}
+                  />
                 ) : (
-                  <Ionicons name="camera" size={16} color="#fff" />
+                  <Ionicons name="person" size={60} color="#666" />
                 )}
+                <View style={styles.cameraBadge}>
+                  {uploading ? (
+                    <ActivityIndicator size="small" color="#fff" />
+                  ) : (
+                    <Ionicons name="camera" size={16} color="#fff" />
+                  )}
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
 
-          <View style={styles.profileInfo}>
             <Text style={styles.sectionTitle}>
               {loading
                 ? "Loading profile..."
                 : profile?.fullName || profile?.username || "Profile"}
             </Text>
-
             {!loading && !error && profile?.username && (
               <Text style={styles.subtitleHandle}>@{profile.username}</Text>
             )}
-
             {loading && <ActivityIndicator style={styles.loader} color="#3b82f6" size="large" />}
             {!loading && error && (
               <Text style={[styles.statusText, styles.statusTextError]}>{error}</Text>
@@ -173,38 +212,54 @@ export default function Profile() {
 
             {!loading && !error && profile && (
               <>
-                <Text style={styles.infoText}>Email: {profile.email}</Text>
-                <Text style={styles.infoText}>Username: {profile.username}</Text>
-                <Text style={styles.infoText}>Gender: {profile.gender}</Text>
-                <Text style={styles.infoText}>Date of Birth: {formatDOB(profile.dateOfBirth)}</Text>
-                <Text style={styles.infoText}>First Name: {profile.firstName}</Text>
-                <Text style={styles.infoText}>Last Name: {profile.lastName}</Text>
+                <TouchableOpacity style={styles.infoButton}>
+                  <Text style={styles.infoText}>Email: {profile.email || "Unavailable"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.infoButton}>
+                  <Text style={styles.infoText}>Username: {profile.username ?? "Unavailable"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.infoButton}>
+                  <Text style={styles.infoText}>Gender: {profile.gender ?? "Unavailable"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.infoButton}>
+                  <Text style={styles.infoText}>Date of Birth: {formatDOB(profile.dateOfBirth)}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.infoButton}>
+                  <Text style={styles.infoText}>First Name: {profile.firstName ?? "Unavailable"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.infoButton}>
+                  <Text style={styles.infoText}>Last Name: {profile.lastName ?? "Unavailable"}</Text>
+                </TouchableOpacity>
               </>
             )}
+
+            <View style={styles.separator} />
+
+            {/* Badges */}
+            <View style={styles.badgesRow}>
+              <View style={styles.badge}>
+                <Image source={require("../../assets/images/medal.png")} style={styles.badgeImage} />
+              </View>
+              <View style={styles.badge}>
+                <Image source={require("../../assets/images/medal.png")} style={styles.badgeImage} />
+              </View>
+              <View style={styles.badge}>
+                <Image source={require("../../assets/images/medal.png")} style={styles.badgeImage} />
+              </View>
+            </View>
+
+            {!loading && !error && (
+              <TouchableOpacity style={styles.refreshButton} onPress={loadProfile}>
+                <Text style={styles.refreshText}>Refresh Profile</Text>
+              </TouchableOpacity>
+            )}
           </View>
-
-          <View style={styles.separator} />
-
-          {/* Badges */}
-          <View style={styles.badgesRow}>
-            <Image source={require("../../assets/images/medal.png")} style={styles.badgeImage} />
-            <Image source={require("../../assets/images/medal.png")} style={styles.badgeImage} />
-            <Image source={require("../../assets/images/medal.png")} style={styles.badgeImage} />
-          </View>
-
-          {/* Refresh Button */}
-          <TouchableOpacity style={styles.refreshButton} onPress={loadProfile}>
-            <Text style={styles.refreshText}>Refresh Profile</Text>
-          </TouchableOpacity>
         </View>
-
-        {/* XP / Partial Fill */}
-        <View style={styles.partialFillContainer}>
+        <View>
           <PartialFillCard />
         </View>
       </ScrollView>
-
-      {/* Bottom Navigation */}
+        {/* Bottom Navigation */}
       <View style={styles.bottomTabs}>
         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
           <Image source={require("../../assets/images/home.png")} style={styles.navIcon} />
@@ -216,101 +271,12 @@ export default function Profile() {
           <Image source={require("../../assets/images/settings.png")} style={styles.navIcon} />
         </TouchableOpacity>
       </View>
+
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    backgroundColor: "#2E89FF",
-  },
-  scrollContainer: {
-    alignItems: "center",
-    paddingVertical: 25,
-    paddingTop: 15,
-    paddingBottom: 110,
-  },
-  profileCard: {
-    width: "92%",
-    backgroundColor: "#fff",
-    borderRadius: 23,
-    padding: 20,
-    alignItems: "center",
-    justifyContent: "flex-start",
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 6,
-  },
-  avatarTouchable: { marginBottom: 10 },
-  avatarPlaceholder: {
-    backgroundColor: "#eee",
-    borderRadius: 50,
-    width: 100,
-    height: 100,
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
-    position: "relative",
-  },
-  avatarImage: { width: 90, height: 90, borderRadius: 50 },
-  cameraBadge: {
-    position: "absolute",
-    right: -2,
-    bottom: -2,
-    backgroundColor: "#3b82f6",
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "#fff",
-  },
-  profileInfo: { alignItems: "center", marginTop: 8 },
-  sectionTitle: { fontSize: 18, fontWeight: "600", marginBottom: 4, color: "#111" },
-  subtitleHandle: { fontSize: 14, color: "#3b82f6", marginBottom: 10 },
-  loader: { marginBottom: 10 },
-  statusText: { color: "#374151", fontSize: 16, textAlign: "center", marginBottom: 10 },
-  statusTextError: { color: "#b91c1c" },
-  infoText: {
-    backgroundColor: "rgba(114,167,255,0.85)",
-    color: "#111",
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    marginVertical: 3,
-    fontSize: 15,
-    width: "85%",
-    textAlign: "center",
-  },
-  badgesRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 15,
-    width: "70%",
-  },
-  badgeImage: { width: 40, height: 40, resizeMode: "contain" },
-  separator: {
-    height: 1,
-    backgroundColor: "#e5e7eb",
-    width: "80%",
-    marginVertical: 20,
-  },
-  refreshButton: {
-    marginTop: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    backgroundColor: "#111827",
-  },
-  refreshText: { color: "#fff", fontSize: 14, fontWeight: "500" },
-  partialFillContainer: {
-    marginTop: 25,
-    width: "92%",
-    borderRadius: 23,
-  },
   bottomTabs: {
   position: "absolute",
   backgroundColor: "#ffffff",
@@ -318,16 +284,53 @@ const styles = StyleSheet.create({
   flexDirection: "row",
   justifyContent: "space-around",
   alignItems: "center",
-  width: "90%", // narrower than full width for the floating effect
+  width: "90%",
   height: 65,
   borderRadius: 35,
   alignSelf: "center",
   shadowColor: "#000",
-  shadowOffset: { width: 0, height: 4 },  //MEJORAR: AÑADIR ANIMACION DE LA PAGINA QUE SE ENCUENTRA ACTIVA, AGRANDAR Y PONER AZUL EJ
+  shadowOffset: { width: 0, height: 4 },
   shadowOpacity: 0.25,
   shadowRadius: 5,
-  elevation: 6, // for Android shadow
+  elevation: 6,
   paddingHorizontal: 30,
 },
-  navIcon: { width: 28, height: 28, resizeMode: "contain", tintColor: "#000000ff" },
+navIcon: { width: 28, height: 28, resizeMode: "contain", tintColor: "#000000ff" },
+
+  safe: { flex: 1, backgroundColor: "#3b82f6" },
+  scroll: { flex: 1 },
+  scrollContent: { flexGrow: 1, justifyContent: "flex-end", alignItems: "center", paddingTop: 16, paddingBottom: 100 },
+  container: { width: "100%", alignItems: "center" },
+  profileCard: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingVertical: 60,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    width: "85%",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 6,
+    elevation: 5,
+    minHeight: 500,
+  },
+  avatarTouchable: { marginBottom: 15 },
+  avatarPlaceholder: { backgroundColor: "#eee", borderRadius: 50, width: 100, height: 100, justifyContent: "center", alignItems: "center", overflow: "hidden", position: "relative" },
+  avatarImage: { width: 100, height: 100, borderRadius: 50 },
+  cameraBadge: { position: "absolute", right: -2, bottom: -2, backgroundColor: "#3b82f6", width: 28, height: 28, borderRadius: 14, alignItems: "center", justifyContent: "center", borderWidth: 2, borderColor: "#fff" },
+  sectionTitle: { fontSize: 16, fontWeight: "600", marginBottom: 6 },
+  subtitleHandle: { fontSize: 14, color: "#3b82f6", marginBottom: 20 },
+  loader: { marginBottom: 20 },
+  statusText: { color: "#374151", fontSize: 16, textAlign: "center", marginBottom: 20 },
+  statusTextError: { color: "#b91c1c" },
+  infoButton: { backgroundColor: "#3b82f6", paddingVertical: 12, paddingHorizontal: 25, borderRadius: 8, marginVertical: 10, width: "80%", alignItems: "center" },
+  infoText: { color: "#fff", fontSize: 16, fontWeight: "500" },
+  badgesRow: { flexDirection: "row", justifyContent: "space-between", marginTop: 25, width: "80%" },
+  badge: { backgroundColor: "#3b82f6", borderRadius: 20, padding: 15, alignItems: "center", justifyContent: "center", width: 80, height: 80 },
+  badgeImage: { width: 36, height: 36, resizeMode: "contain" },
+  separator: { height: 1, backgroundColor: "#e5e7eb", width: "80%", marginVertical: 20 },
+  refreshButton: { marginTop: 30, paddingVertical: 10, paddingHorizontal: 20, borderRadius: 8, backgroundColor: "#111827" },
+  refreshText: { color: "#fff", fontSize: 14, fontWeight: "500" },
 });
