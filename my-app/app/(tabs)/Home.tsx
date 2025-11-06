@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   },
   calendarBox: {
     width: "90%",
-    height: 160,
+    height: 220,
     borderRadius: 10,
     backgroundColor: "#2E89FF",
     justifyContent: "center",
