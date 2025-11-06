@@ -261,10 +261,9 @@ const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 20, justifyContent: "center", alignItems: "center" },
   card: {
     width: "92%",
-    height: "88%",
-    backgroundColor: "#fff",
-    borderRadius: 18,
-    marginTop: 15,
+    height: "96%",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 23,
     paddingVertical: 28,
     paddingHorizontal: 20,
     shadowColor: "#000",

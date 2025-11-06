@@ -35,6 +35,8 @@ export default function Settings() {
   const [isEnabled, setIsEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
   const toggleSwitch = () => setIsEnabled((prev) => !prev);
 
   useEffect(() => {
@@ -109,7 +111,7 @@ export default function Settings() {
     const isEmail = fieldKey === "email";
     return (
       <View style={{ width: "100%", marginBottom: 10 }}>
-        <Text style={styles.label}>{label}</Text>
+        <Text style={styles.labelText}>{label}</Text>
         <TextInput
           value={profile[fieldKey]}
           editable={isEditing && !isEmail}
@@ -158,10 +160,10 @@ export default function Settings() {
           </View>
         )}
 
-        <Text style={[styles.normalText, { alignSelf: "flex-start", marginBottom: 5 }]}>Preferences</Text>
+        <Text style={[styles.toggleText, { alignSelf: "flex-start", marginBottom: 5 }]}>Preferences</Text>
 
         <View style={styles.toggleRow}>
-          <Text style={[styles.normalText, { alignSelf: "center", marginBottom: 0 }]}>
+          <Text style={[styles.toggleText, { alignSelf: "center", marginBottom: 0 }]}>
             PUSH NOTIFICATIONS
           </Text>
           <Switch
@@ -209,8 +211,8 @@ export default function Settings() {
 }
 
 const styles = StyleSheet.create({
-  label: {
-    fontSize: 16,
+  labelText: {
+    fontSize: 13.5,
     color: "#374151",
     marginBottom: 4,
   },
@@ -245,14 +247,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: { color: "#000000", fontSize: 16, fontWeight: "500" },
-  title: { fontSize: 50, fontWeight: "600", color: "#2E89FF", marginTop: -10, marginBottom: 20 },
-  normalText: { fontSize: 18, color: "#2E89FF", marginBottom: 10 },
+  title: { fontSize: 33, fontWeight: "600", color: "#2E89FF", marginTop: -10, marginBottom: 20 },
+  toggleText: { fontSize: 13.5, color: "#2E89FF", marginBottom: 10 },
   settingCard: {
     width: "92%",
     height: "88%",
     backgroundColor: "#FFFFFF",
     borderRadius: 23,
-    padding: 20,
+    paddingTop: 20,
+    paddingHorizontal: 20,
     marginTop: 15,
     alignItems: "center",
     shadowOpacity: 0.35,
@@ -264,6 +267,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
+    height: 32,
   },
   input: {
     borderWidth: 1,
@@ -271,11 +275,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     marginVertical: 5,
-    fontSize: 16,
+    fontSize: 10,
     width: "100%",
   },
 });
-// Replace the placeholder with a proper React state hook for editing mode.
-// Put this inside the Settings component along with the other useState calls:
-const [isEditing, setIsEditing] = useState<boolean>(false);
-
