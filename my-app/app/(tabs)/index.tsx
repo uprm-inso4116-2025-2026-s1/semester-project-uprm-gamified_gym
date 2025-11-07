@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { View, Text, Button, StyleSheet, ImageBackground, TouchableOpacity  } from "react-native";
+import { View, Text, Button, StyleSheet, ImageBackground, TouchableOpacity, LogBox  } from "react-native";
 
 type RootStackParamList = {
   Home: undefined;
@@ -27,7 +27,10 @@ export default function index() {
           source={require('../../assets/images/indexbackground.jpg')} 
           style={styles.background}
           resizeMode="cover">
-          <View style={styles.container}>        
+          <View style={styles.container}> 
+            <div style={styles.logo}>
+              <Text style={styles.logotext}> LOGO HERE </Text>
+            </div>       
             <Text style={styles.title}>Welcome to our</Text>
             <Text style={styles.title}>mobile Gamified app</Text>
             <Text style={styles.subtitle1}>If you do not have an account with us, please register here</Text>
@@ -104,6 +107,21 @@ const styles = StyleSheet.create({
     backgroundColor: BLUE,
     padding: 10,
   },
+  logo: {
+    position: 'absolute',
+    top: 15,
+    width: 140,
+    height: 140,
+    borderRadius: 20,
+    backgroundColor: BLUE,
+  },
+  logotext: {
+    position: 'absolute',
+    top: 55,
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   container: {
     flex: 1,
     width: '100%',
@@ -118,14 +136,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
     marginBottom: 10,
-    top: -80,
+    top: -20,
     width: '100%',
     textAlign: 'center',
   },
   subtitle1: {
     width: '80%',
     textAlign: 'center',
-    top: -60,
+    top: 0,
     fontSize: 20,
     fontWeight: "bold",
     color: "white",
@@ -133,13 +151,13 @@ const styles = StyleSheet.create({
   subtitle2: {
     width: '80%',
     textAlign: 'center',
-    top: 20,
+    top: 50,
     fontSize: 20,
     fontWeight: "bold",
     color: "white",
   },
   signupbutton: {
-    top: -50,
+    top: 10,
     width: 140,
     height: 40,
   },
