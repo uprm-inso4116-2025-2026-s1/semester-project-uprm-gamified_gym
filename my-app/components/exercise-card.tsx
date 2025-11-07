@@ -1,275 +1,335 @@
 import React from 'react';
-import {View,Text,StyleSheet,Image,TextInput,TouchableOpacity,Keyboard,Alert,} from 'react-native';
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { 
+  View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, 
+  Keyboard, Alert, Dimensions, Platform 
+} from 'react-native';
+import { supabase } from '../lib/supabaseClient';
 
-type RootStackParamList = {
-  Home: undefined;
-  ExerciseLog: undefined;
-};
+const SCREEN_WIDTH = Math.min(Dimensions.get('window').width, 600);
 
-type ExerciseCardNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'ExerciseLog'
->;
+interface WorkoutSet {
+  reps: string;
+  weight: string;
+}
 
-const ExerciseCard = () => {
-  const navigation = useNavigation<ExerciseCardNavigationProp>();
+interface Exercise {
+  name: string;
+  sets: WorkoutSet[];
+  notes?: string;
+}
 
-  const defaultSets = 3;
-  const defaultReps = 12;
-  const exerciseName = "Push-Up"
+const BLUE = "#2F80FF";
+const GREEN = "#28a745";
+const GRAY = "#888";
 
-  //keep input strings while the user is typing
-  const [inputSets, setInputSets] = React.useState<string>('');
-  const [inputReps, setInputReps] = React.useState<string>('');
+const ExerciseLogScreen = () => {
+  const [workoutName, setWorkoutName] = React.useState<string>("My Workout");
+  const [exercises, setExercises] = React.useState<Exercise[]>([
+    { name: "Bench Press", sets: [{ reps: "", weight: "" }] },
+  ]);
 
-  //Final logged number as integers
-  const [loggedSets, setLoggedSets] = React.useState<number | null>(null);
-  const [loggedReps, setLoggedReps] = React.useState<number | null>(null);
+  const handleAddExercise = () => {
+    setExercises(prev => [...prev, { name: "", sets: [{ reps: "", weight: "" }] }]);
+  };
 
-  const [isLogging, setIsLogging] = React.useState(false);
-  
- const handleSaveLog = async () => {
-    if(!inputSets || !inputReps){
-      Alert.alert('please log both sets and reps');
-      return;
-    } 
+  const handleChangeExerciseName = (index: number, value: string) => {
+    const newExercises = [...exercises];
+    newExercises[index].name = value;
+    setExercises(newExercises);
+  };
 
-    const sets = parseInt(inputSets, 10);
-    const reps = parseInt(inputReps, 10);
+  const handleChangeExerciseNotes = (index: number, value: string) => {
+    const newExercises = [...exercises];
+    newExercises[index].notes = value;
+    setExercises(newExercises);
+  };
 
-    // check if inputs are valid numbers
-    if (isNaN(sets) || isNaN(reps) || sets <= 0 || reps <= 0) {
-      Alert.alert('Invalid input', 'Sets and reps must be valid numbers.');
-      return;
-    }
+  const handleAddSet = (exerciseIndex: number) => {
+    const newExercises = [...exercises];
+    newExercises[exerciseIndex].sets.push({ reps: "", weight: "" });
+    setExercises(newExercises);
+  };
 
-  
-    // check if inputs are greater than 0
-    if (sets <= 0 || reps <= 0) {
-    Alert.alert('Invalid input', 'Sets and reps must be greater than 0');
-    return;
-  }
+  const handleChangeSet = (exerciseIndex: number, setIndex: number, field: "reps" | "weight", value: string) => {
+    const newExercises = [...exercises];
+    newExercises[exerciseIndex].sets[setIndex][field] = value.replaceAll(/[^0-9.]/g, '');
+    setExercises(newExercises);
+  };
 
-    setLoggedSets(sets);
-    setLoggedReps(reps);
+  const handleDeleteSet = (exerciseIndex: number, setIndex: number) => {
+    const newExercises = [...exercises];
+    newExercises[exerciseIndex].sets.splice(setIndex, 1);
+    setExercises(newExercises);
+  };
 
-    setInputSets('');
-    setInputReps('');
-    setIsLogging(false);
-    Keyboard.dismiss();
+  const handleDeleteExercise = (index: number) => {
+    const newExercises = [...exercises];
+    newExercises.splice(index, 1);
+    setExercises(newExercises);
+  };
 
-    console.log('Workout logged (integers);', {sets, reps});
-
+  const handleSaveWorkout = async () => {
     try {
-      const workoutData = {
-        exerciseName,
-        sets,
-        reps,
-        dateCompleted: new Date().toISOString(),
-      };
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        Alert.alert("Error", "No logged-in user found.");
+        return;
+      }
 
-      await AsyncStorage.setItem('mostRecentWorkout', JSON.stringify(workoutData));
-      console.log('Saved most recent workout:', workoutData);
-    } catch (error) {
-      console.error('Error saving workout:', error);
+      for (let ex of exercises) {
+        if (!ex.name.trim()) {
+          Alert.alert("Error", "All exercises must have a name");
+          return;
+        }
+        for (let i = 0; i < ex.sets.length; i++) {
+          const { reps, weight } = ex.sets[i];
+          if (!reps || Number.isNaN(Number(reps)) || Number(reps) <= 0) {
+            Alert.alert("Error", `${ex.name} Set ${i + 1} reps must be a number > 0`);
+            return;
+          }
+          if (!weight || Number.isNaN(Number(weight)) || Number(weight) < 0) {
+            Alert.alert("Error", `${ex.name} Set ${i + 1} weight must be >= 0`);
+            return;
+          }
+        }
+      }
+
+      const exercisesJSON = exercises.map(ex => ({
+        name: ex.name,
+        sets: ex.sets.map(s => ({ reps: Number(s.reps), weight: Number(s.weight) })),
+        notes: ex.notes || ""
+      }));
+
+      const { error } = await supabase.from("workouts_test").insert({
+        user_id: user.id,
+        workout_name: workoutName,
+        exercises: exercisesJSON,
+        date_completed: new Date().toISOString(),
+      });
+
+      if (error) throw error;
+
+      Alert.alert("Success", "Workout saved!");
+      setWorkoutName("My Workout");
+      setExercises([{ name: "Bench Press", sets: [{ reps: "", weight: "" }] }]);
+      Keyboard.dismiss();
+
+    } catch (err: any) {
+      console.error(err);
+      Alert.alert("Error", err.message || "Failed to save workout");
     }
-
-
-    //Save sets/reps integers to database here......
-
-
-    //.............................................
-    
   };
 
   return (
-    <View style={styles.card}>
-      <Text style={styles.title}>Push-Up</Text>
-      <Text style={styles.description}>
-        A bodyweight exercise that primarily targets the chest, triceps, and shoulders.
-      </Text>
-      <Image
-        style={styles.image}
-        source={require('../assets/images/push-up.png')}
-        resizeMode="cover"
-      />
-      <View style={styles.row}>
-        <View style={styles.inputGroup}>
-          <Text>Recommended Sets</Text>
-          <Text style={styles.staticValue}>{defaultSets}</Text>
-        </View>
-        <View style={styles.inputGroup}>
-          <Text>Recommended Reps</Text>
-          <Text style={styles.staticValue}>{defaultReps}</Text>
-        </View>
-      </View>
+    <View style={styles.outerContainer}>
+      <View style={styles.cardContainer}>
+        <ScrollView
+          style={{ width: '100%' }}
+          contentContainerStyle={{ alignItems: 'center', paddingBottom: 20 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <TextInput
+            style={styles.workoutNameInput}
+            value={workoutName}
+            onChangeText={setWorkoutName}
+            placeholder="Workout Name"
+            placeholderTextColor={GRAY}
+          />
 
-      {isLogging && (
-        <>
-          <View style={[styles.row, { marginTop: 10 }]}>
-            <View style={styles.inputGroup}>
-              <Text>Sets Completed</Text>
+          {exercises.map((exercise, exIndex) => (
+            <View key={exIndex} style={styles.exerciseCard}>
+              <TouchableOpacity 
+                style={styles.deleteExerciseBtn} 
+                onPress={() => handleDeleteExercise(exIndex)}
+              >
+                <Text style={{ color: 'white', fontWeight: '700' }}>x</Text>
+              </TouchableOpacity>
+
               <TextInput
-                style={styles.input}
-                keyboardType="number-pad"
-                value={inputSets}
-                onChangeText={(val) => setInputSets(val.replace(/[^0-9]/g, ''))}
-                placeholder="1+"
-                maxLength={2}
+                style={styles.exerciseName}
+                value={exercise.name}
+                onChangeText={(val) => handleChangeExerciseName(exIndex, val)}
+                placeholder="Exercise name"
+                placeholderTextColor={GRAY}
               />
-            </View>
-            <View style={styles.inputGroup}>
-              <Text>Reps Completed</Text>
+
               <TextInput
-                style={styles.input}
-                keyboardType="number-pad"
-                value={inputReps}
-                onChangeText={(val) => setInputReps(val.replace(/[^0-9]/g, ''))}
-                placeholder="1+"
-                maxLength={3}
+                style={styles.exerciseNotes}
+                value={exercise.notes || ""}
+                onChangeText={(val) => handleChangeExerciseNotes(exIndex, val)}
+                placeholder="Notes (optional)"
+                placeholderTextColor={GRAY}
               />
+
+              {exercise.sets.map((set, setIndex) => (
+                <View key={setIndex} style={styles.setRow}>
+                  <Text style={styles.setLabel}>Set {setIndex + 1}</Text>
+                  <TextInput
+                    style={styles.setInput}
+                    value={set.reps}
+                    placeholder="Reps"
+                    keyboardType="number-pad"
+                    onChangeText={(val) => handleChangeSet(exIndex, setIndex, "reps", val)}
+                  />
+                  <TextInput
+                    style={styles.setInput}
+                    value={set.weight}
+                    placeholder="Weight"
+                    keyboardType="decimal-pad"
+                    onChangeText={(val) => handleChangeSet(exIndex, setIndex, "weight", val)}
+                  />
+                  <TouchableOpacity
+                    style={styles.deleteSetBtn}
+                    onPress={() => handleDeleteSet(exIndex, setIndex)}
+                  >
+                    <Text style={{ color: 'white', fontWeight: '700' }}>x</Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+
+              <TouchableOpacity style={styles.addSetBtn} onPress={() => handleAddSet(exIndex)}>
+                <Text style={styles.addBtnText}>+ Add Set</Text>
+              </TouchableOpacity>
             </View>
-          </View>
+          ))}
 
-          <TouchableOpacity style={styles.doneButton} onPress={handleSaveLog}>
-            <Text style={styles.buttonText}>Done</Text>
+          <TouchableOpacity style={styles.addExerciseBtn} onPress={handleAddExercise}>
+            <Text style={styles.addBtnText}>+ Add Exercise</Text>
           </TouchableOpacity>
-        </>
-      )}
 
-      {!isLogging && (
-        <TouchableOpacity style={styles.button} onPress={() => setIsLogging(true)}>
-          <Text style={styles.buttonText}>Log Workout</Text>
-        </TouchableOpacity>
-      )}
-
-      {/* Display logged integers */}
-      {loggedSets !== null && loggedReps !== null && (
-        <View style={styles.loggedRow}>
-          <Text style={styles.loggedText}>
-            Logged: {loggedSets} sets × {loggedReps} reps
-          </Text>
-          <TouchableOpacity style={styles.smallButton} onPress={() => navigation.navigate("Home")}>
-            <Text style={styles.smallButtonText}>Home</Text>
+          <TouchableOpacity style={styles.saveBtn} onPress={handleSaveWorkout}>
+            <Text style={styles.saveBtnText}>Save Workout</Text>
           </TouchableOpacity>
+        </ScrollView>
       </View>
-      )}
-
     </View>
-
-    
-
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#FCFCFC',
-    borderRadius: 20,
-    padding: 20,
-    margin: 18,
-    elevation: 3,
-    shadowColor: '#000000ff',
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
-    width: '95%', // Make card almost full width
-    alignSelf: 'center', // Center the card
+  outerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f7f8fa',
+    paddingTop: Platform.OS === 'web' ? 24 : 0,
+    borderRadius:20,
   },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
+  cardContainer: {
+    width: '95%',
+    maxWidth: 600,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 16,
+    maxHeight: '90%',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+  },
+  workoutNameInput: {
+    fontSize: 20,
+    fontWeight: '700',
+    marginVertical: 12,
+    width: '100%',
+    borderBottomWidth: 2,
+    borderBottomColor: '#ccc',
+    paddingVertical: 6,
+  },
+  exerciseCard: {
+    width: '100%',
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 16,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+    position: 'relative',
+  },
+  exerciseName: {
+    fontSize: 18,
+    fontWeight: '700',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    paddingVertical: 8,
     marginBottom: 8,
   },
-  description: {
-    marginBottom: 12,
-    color: '#000000ff',
-  },
-  image: {
-    width: '100%',
-    height: 70,
-    backgroundColor: '#000000ff',
-    marginBottom: 16,
-    borderRadius: 8,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  inputGroup: {
-    flex: 1,
-    alignItems: 'center',
-  },
-
-  input:{
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 4,
+  exerciseNotes: {
+    fontSize: 14,
+    fontWeight: '500',
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 8,
-    width: 80,
-    textAlign: 'center',
-    paddingVertical: 4,
-    backgroundColor: '#fff',
+    padding: 6,
+    marginBottom: 8,
+    color: '#333'
   },
-
-  staticValue: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 4,
-  },
-
-  button: {
-    marginTop: 20,
-    backgroundColor: '#007bff',
-    borderRadius: 10,
-    paddingVertical: 10,
-    alignItems: 'center',
-  },
-
-  doneButton: {
-    marginTop: 15,
-    backgroundColor: '#28a745',
-    borderRadius: 10,
-    paddingVertical: 10,
-    alignItems: 'center',
-  },
-
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-
-  loggedRow: {
+  setRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
-    justifyContent: 'space-between',
+    marginBottom: 8,
   },
-
-  loggedText: {
-    fontSize: 16,
+  setLabel: { width: 60, fontWeight: '600', color: '#333' },
+  setInput: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
     flex: 1,
+    marginLeft: 8,
+    paddingVertical: 6,
+    textAlign: 'center',
+    fontWeight: '600',
   },
-
-  smallButton: {
-    backgroundColor: '#007bff',
+  addSetBtn: {
+    alignSelf: 'flex-end',
+    marginTop: 8,
+    marginBottom: 12,
+    backgroundColor: BLUE,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 6,
-    marginLeft: 10,
+    borderRadius: 8,
   },
-
-  smallButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
+  addExerciseBtn: {
+    backgroundColor: BLUE,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 16,
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  addBtnText: { color: '#fff', fontWeight: '700', fontSize: 16},
+  saveBtn: {
+    backgroundColor: GREEN,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 16,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  saveBtnText: { color: '#fff', fontWeight: '700', fontSize: 16 },
+  deleteSetBtn: {
+    marginLeft: 8,
+    backgroundColor: '#a43535ff',
+    borderRadius: 6,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  deleteExerciseBtn: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    backgroundColor: '#a43535ff',
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
   },
 });
 
-export default ExerciseCard;
+export default ExerciseLogScreen;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -10,53 +10,52 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import type { NavigationProp } from "@react-navigation/native";
-import { supabase } from "../../lib/supabaseClient"; // <-- make sure this path matches your setup
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "./index";
+import { supabase } from "../../lib/supabaseClient";
 
-export default function Password({ navigation }: { navigation: NavigationProp<any> }) {
+type PasswordScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Password"
+>;
+
+export default function Password() {
+  const navigation = useNavigation<PasswordScreenNavigationProp>();
+  
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Test that the component is loading
-  console.log("Password component loaded!");
-  React.useEffect(() => {
-    console.log("Password component mounted!");
+  useEffect(() => {
+    console.log("Password screen mounted");
   }, []);
 
   const onSubmit = async () => {
-    console.log("onSubmit called with email:", email);
-    
     if (!email.includes("@")) {
-      console.log("Email validation failed");
-      alert("Invalid Email: Please enter a valid email address.");
+      Alert.alert("Invalid Email", "Please enter a valid email address.");
       return;
     }
-    
-    console.log("Email validation passed");
 
     setLoading(true);
 
     try {
-      // Send reset email - Supabase will only send if email exists, but won't tell us
-      // This follows security best practices to prevent email enumeration attacks
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: "https://switjvezhwonckihgokh.supabase.co/auth/v1/callback",
+        redirectTo: "http://localhost:8081/resetPassword",
       });
 
       setLoading(false);
 
       if (resetError) {
-        console.log("Reset error:", resetError.message);
-        alert("Error: " + resetError.message);
+        Alert.alert("Error", resetError.message);
       } else {
-        console.log("Reset email request processed");
-        // Always show success message for security - don't reveal if email exists or not
-        alert("Email Sent: If an account with that email exists, you will receive a link to reset your password.");
+        Alert.alert(
+          "Email Sent",
+          "If an account with that email exists, you will receive a link to reset your password."
+        );
       }
     } catch (err) {
       setLoading(false);
-      console.error("Password reset error:", err);
-      alert("Error: Something went wrong. Please try again.");
+      Alert.alert("Error", "Something went wrong. Please try again.");
     }
   };
 
@@ -67,21 +66,17 @@ export default function Password({ navigation }: { navigation: NavigationProp<an
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.container}>
-          {/* Card blanca */}
           <View style={styles.card}>
-            {/* Logo placeholder redondeado */}
             <View style={styles.logoBox}>
               <Text style={styles.logoText}>LOGO{"\n"}HERE</Text>
             </View>
 
-            {/* Título / subtítulo */}
             <Text style={styles.title}>Forgot Password</Text>
             <Text style={styles.subtitle}>
               Please enter the email address you&apos;d like your {"\n"}
               password reset information sent to
             </Text>
 
-            {/* Label + input */}
             <Text style={styles.label}>Email</Text>
             <TextInput
               value={email}
@@ -106,7 +101,6 @@ export default function Password({ navigation }: { navigation: NavigationProp<an
               </Text>
             </Pressable>
 
-            {/* Link back */}
             <Pressable onPress={() => navigation.navigate("Login")}>
               <Text style={styles.backLink}>Back to Log In</Text>
             </Pressable>

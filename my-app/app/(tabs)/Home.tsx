@@ -1,29 +1,91 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { supabase } from "../../lib/supabaseClient";
+import { RootStackParamList } from "./index";
+
+type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function Home() {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const session = supabase.auth.getSession().then(res => res.data.session);
+      const user = (await session)?.user;
+
+      if (user) {
+        // Fetch user profile
+        const { data: profile, error } = await supabase
+          .from("user_profiles_test")
+          .select("username")
+          .eq("id", user.id)
+          .single();
+
+        if (!error && profile) {
+          setUserName(profile.username);
+        }
+      } else {
+        setUserName(null);
+      }
+    }
+
+    fetchUser();
+
+    // Listen for auth changes (login/logout)
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        fetchUser();
+      } else {
+        setUserName(null);
+      }
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
   return (
-    <View style={styles.outerContainer}>
-      <View style={styles.cardContainer}>
+    <View style={styles.background}>
+      <View style={styles.homeCard}>
         {/* Header with avatar on the right */}
         <View style={styles.headerRow}>
           <View style={styles.headerLeft}>
             <Text style={styles.title}>HOME</Text>
-            <Text style={styles.subtitle}>Welcome back, USER!</Text>
+
+            {userName ? (
+              <Text style={styles.subtitle}>Welcome back, {userName}!</Text>
+            ) : (
+              <Text style={styles.subtitle}>
+                Welcome,{" "}
+                <Text
+                  style={styles.linkUnderline}
+                  onPress={() => navigation.navigate("Login")}
+                >
+                  Log in
+                </Text>
+              </Text>
+            )}
           </View>
 
-          {/* Avatar (right side) */}
-          <TouchableOpacity activeOpacity={0.8} style={styles.avatarWrap}>
+          {/* Avatar */}
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.avatarWrap}
+            onPress={() => navigation.navigate("Profile")}
+          >
             <Image
-              // Local placeholder — swap for your real image
               source={require("../../assets/images/user.png")}
-              // For remote image, use: source={{ uri: "https://your-cdn.com/avatar.jpg" }}
               style={styles.avatar}
               accessibilityLabel="User profile"
             />
           </TouchableOpacity>
         </View>
 
+        {/* Stats */}
         <View style={styles.statsRow}>
           <View style={[styles.statBox, { backgroundColor: "#FFEB0C" }]}>
             <Text style={styles.statLabel}>Steps</Text>
@@ -41,16 +103,22 @@ export default function Home() {
           </View>
         </View>
 
+        {/* Quick Actions */}
         <Text style={styles.quickTitle}>QUICK ACTIONS</Text>
         <View style={styles.actionsRow}>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => navigation.navigate("ExerciseLog")}
+          >
             <Text style={styles.actionText}>Start Workout</Text>
           </TouchableOpacity>
+
           <TouchableOpacity style={styles.actionButton}>
             <Text style={styles.actionText}>Log Meal</Text>
           </TouchableOpacity>
         </View>
 
+        {/* Calendar */}
         <TouchableOpacity style={styles.calendarBox}>
           <Image
             source={require("../../assets/images/calendar.png")}
@@ -59,35 +127,50 @@ export default function Home() {
         </TouchableOpacity>
       </View>
 
+      {/* Bottom Navigation Tabs */}
       <View style={styles.bottomTabs}>
-        <Image
-          source={require("../../assets/images/home.png")}
-          style={styles.navIcon}
-        />
-        <Image
-          source={require("../../assets/images/user.png")}
-          style={styles.navIcon}
-        />
-        <Image
-          source={require("../../assets/images/settings.png")}
-          style={styles.navIcon}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+          <Image
+            source={require("../../assets/images/home.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <Image
+            source={require("../../assets/images/user.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+          <Image
+            source={require("../../assets/images/settings.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
 
+
 const styles = StyleSheet.create({
-  outerContainer: {
+  linkUnderline: {
+    color: "#2E89FF",
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+  },
+  background: {
     flex: 1,
     backgroundColor: "#2E89FF",
     justifyContent: "flex-start",
     alignItems: "center",
     paddingTop: 0,
   },
-  cardContainer: {
+  homeCard: {
     width: "92%",
-    height: "88%",
+    height: "82%",
     backgroundColor: "#FFFFFF",
     borderRadius: 23,
     padding: 20,
@@ -122,13 +205,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#2E89FF",
   },
-
-  /* (Old header kept in case you need it elsewhere)
-  header: {
-    width: '100%',
-    alignItems: 'flex-start',
-    marginBottom: 20,
-  }, */
 
   title: {
     fontSize: 28,
@@ -218,7 +294,7 @@ const styles = StyleSheet.create({
   },
   calendarBox: {
     width: "90%",
-    height: 195,
+    height: 220,
     borderRadius: 10,
     backgroundColor: "#2E89FF",
     justifyContent: "center",
@@ -236,21 +312,28 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     resizeMode: "contain",
   },
-  navIcon: {
-    width: 29,
-    height: 29,
-    marginHorizontal: 20,
-    resizeMode: "contain",
-  },
   bottomTabs: {
     position: "absolute",
-    backgroundColor: "#2E89FF",
-    bottom: 0,
+    backgroundColor: "#ffffff",
+    bottom: 20,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    width: "80%",
-    height: 50,
-    paddingBottom: 18,
+    width: "90%",
+    height: 65,
+    borderRadius: 35,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 5,
+    elevation: 6,
+    paddingHorizontal: 30,
+  },
+  navIcon: {
+    width: 28,
+    height: 28,
+    resizeMode: "contain",
+    tintColor: "#000000ff",
   },
 });
