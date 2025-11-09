@@ -1,9 +1,28 @@
 import React from 'react';
 import { 
   View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, 
-  Keyboard, Alert, Dimensions, Platform 
+  Keyboard, Alert, Dimensions, Platform, Image 
 } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { supabase } from '../lib/supabaseClient';
+
+const predefinedExercises = [
+  "Chest",
+  "Back",
+  "Legs",
+  "Arms",
+  "Shoulders",
+  "Core",
+];
+
+const muscleGroupImages: Record<string, any> = {
+  Chest: require("../assets/images/chestimage.png"),
+  Back: require('../assets/images/backimage.png'),
+  Legs: require('../assets/images/legimage.png'),
+  Arms: require('../assets/images/armimage.png'),
+  Shoulders: require('../assets/images/shoulderimage.png'),
+  Core: require('../assets/images/coreimage.png'),
+};
 
 const SCREEN_WIDTH = Math.min(Dimensions.get('window').width, 600);
 
@@ -16,6 +35,7 @@ interface Exercise {
   name: string;
   sets: WorkoutSet[];
   notes?: string;
+  muscleGroup?: string;  
 }
 
 const BLUE = "#2F80FF";
@@ -128,14 +148,6 @@ const ExerciseLogScreen = () => {
           contentContainerStyle={{ alignItems: 'center', paddingBottom: 20 }}
           showsVerticalScrollIndicator={false}
         >
-          <TextInput
-            style={styles.workoutNameInput}
-            value={workoutName}
-            onChangeText={setWorkoutName}
-            placeholder="Workout Name"
-            placeholderTextColor={GRAY}
-          />
-
           {exercises.map((exercise, exIndex) => (
             <View key={exIndex} style={styles.exerciseCard}>
               <TouchableOpacity 
@@ -145,14 +157,56 @@ const ExerciseLogScreen = () => {
                 <Text style={{ color: 'white', fontWeight: '700' }}>x</Text>
               </TouchableOpacity>
 
-              <TextInput
-                style={styles.exerciseName}
-                value={exercise.name}
-                onChangeText={(val) => handleChangeExerciseName(exIndex, val)}
-                placeholder="Exercise name"
-                placeholderTextColor={GRAY}
-              />
+              {/* Muscle group image */}
+              {exercise.muscleGroup && muscleGroupImages[exercise.muscleGroup] && (
+                <Image
+                  source={muscleGroupImages[exercise.muscleGroup]}
+                  style={{ width: SCREEN_WIDTH * 0.8, height: 150, resizeMode: 'contain', marginBottom: 8 }}
+                />
+              )}
 
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
+                <View
+                  style={{
+                    borderWidth: 1,
+                    borderColor: BLUE,
+                    borderRadius: 8,
+                    backgroundColor: '#fff',
+                    marginRight: 8,
+                    overflow: 'hidden',
+                    marginTop: -8
+                  }}
+                >
+                  <Picker
+                    selectedValue={exercise.muscleGroup || ""}
+                    style={{ width: 150, height: 40 }}
+                    onValueChange={(itemValue) => {
+                      setExercises(prevExercises => {
+                        const updated = [...prevExercises];
+                        if (updated[exIndex]) {
+                          updated[exIndex].muscleGroup = String(itemValue);
+                        }
+                        return updated;
+                      });
+                    }}
+                    mode="dropdown"
+                  >
+                    <Picker.Item label="Select Muscle Group" value="" />
+                    {predefinedExercises.map((ex, idx) => (
+                      <Picker.Item key={idx} label={ex} value={ex} />
+                    ))}
+                  </Picker>
+                </View>
+
+                <TextInput
+                  style={[styles.exerciseName, { flex: 1 }]}
+                  value={exercise.name}
+                  onChangeText={(val) => handleChangeExerciseName(exIndex, val)}
+                  placeholder="Exercise name"
+                  placeholderTextColor={GRAY}
+                />
+              </View>
+              
               <TextInput
                 style={styles.exerciseNotes}
                 value={exercise.notes || ""}
@@ -257,6 +311,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
     paddingVertical: 8,
     marginBottom: 8,
+    paddingLeft: 4,
   },
   exerciseNotes: {
     fontSize: 14,
