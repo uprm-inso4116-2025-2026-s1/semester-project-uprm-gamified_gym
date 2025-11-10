@@ -10,10 +10,15 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Workout save
 async function addEntry(workout, set, repetition, time_stamp) {
+    // Explicit constraint 
+    // Set and reppetitions can not be 0, to prevent illegal opertions and useless log.   
+     if(set == 0 || repetitions == 0){
+        return;
+    }
     const { data, error } = await supabase
     .from(table) 
-    .insert([{workouts: workout, sets: set, repetitions: repetition, time_stamps: time_stamp}]) // Pass an array, even for a single entry, blue brakets is the array, we can add mulitple entries in the same function if added to this array
-  
+    // Pass an array, even for a single entry, blue brakets is the array, we can add mulitple entries in the same function if added to this array
+    .insert([{workouts: workout, sets: set, repetitions: repetition, time_stamps: time_stamp}]) 
     //.select() // Optional: Returns the inserted data
       if (error) {
         console.error('Error inserting data:', error)
