@@ -11,26 +11,52 @@ import {
   Alert,
 } from "react-native";
 import { supabase } from "../../lib/supabaseClient";
-import {checkUsernameAvailable} from "../../utils/checkUsername"; 
+import { checkUsernameAvailable } from "../../utils/checkUsername";
 import { useRouter } from "expo-router";
 
+// --- Password validation helper ---
+function validatePassword(pwd: string) {
+  const hasMinLength = pwd.length >= 8;
+  const hasUpper = /[A-Z]/.test(pwd);
+  const hasLower = /[a-z]/.test(pwd);
+  const hasNumber = /\d/.test(pwd);
+  const hasSpecial = /[^A-Za-z0-9]/.test(pwd);
 
+  const isValid =
+    hasMinLength && hasUpper && hasLower && hasNumber && hasSpecial;
 
-export default function Signup() {
+  return {
+    isValid,
+    hasMinLength,
+    hasUpper,
+    hasLower,
+    hasNumber,
+    hasSpecial,
+  };
+}
+
+export default function SignUp() {
   const router = useRouter();
 
   const [username, setUsername] = useState("");
-  const [usernameStatus, setUsernameStatus] = useState<{ available: boolean; message: string }>({
+  const [usernameStatus, setUsernameStatus] = useState<{
+    available: boolean;
+    message: string;
+  }>({
     available: false,
     message: "",
   });
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Clear passwords on mount
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+  console.log("SIGNUP VERSION >>> 999");
+
   useEffect(() => {
     setPwd("");
     setConfirmPwd("");
@@ -54,8 +80,8 @@ export default function Signup() {
   async function onSignup() {
     setLoading(true);
     const cleanedUsername = username.trim();
+    const passwordCheck = validatePassword(pwd);
 
-    // --- VALIDATIONS ---
     if (!cleanedUsername) {
       Alert.alert("Error", "Please enter a username");
       setLoading(false);
@@ -63,7 +89,10 @@ export default function Signup() {
     }
 
     if (!usernameStatus.available) {
-      Alert.alert("Error", usernameStatus.message);
+      Alert.alert(
+        "Error",
+        usernameStatus.message || "Username is not available"
+      );
       setLoading(false);
       return;
     }
@@ -80,8 +109,11 @@ export default function Signup() {
       return;
     }
 
-    if (pwd.length < 8) {
-      Alert.alert("Error", "Password must be at least 8 characters long");
+    if (!passwordCheck.isValid) {
+      Alert.alert(
+        "Weak password",
+        "Password must be at least 8 characters and include an uppercase letter, lowercase letter, number, and special character."
+      );
       setLoading(false);
       return;
     }
@@ -93,11 +125,9 @@ export default function Signup() {
     }
 
     try {
-      // --- SPLIT FULL NAME ---
       const [firstName, ...lastNameParts] = name.trim().split(" ");
       const lastName = lastNameParts.join(" ") || null;
 
-      // --- CREATE SUPABASE AUTH ---
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: email.trim().toLowerCase(),
         password: pwd,
@@ -116,7 +146,6 @@ export default function Signup() {
 
       const userId = authData.user.id;
 
-      // --- INSERT INTO user_profiles ---
       const { error: profileError } = await supabase
         .from("user_profiles_test")
         .insert({
@@ -127,13 +156,27 @@ export default function Signup() {
         });
 
       if (profileError) {
-        Alert.alert(
-          "Profile Error",
-          `Account created, but profile failed: ${profileError.message}`
-        );
+        const msg = profileError.message || "";
+        if (
+          msg.includes("duplicate key value violates unique constraint") &&
+          msg.toLowerCase().includes("username")
+        ) {
+          Alert.alert(
+            "Username Taken",
+            "This username was just taken. Please choose a different one."
+          );
+        } else {
+          Alert.alert(
+            "Profile Error",
+            "Your account was created, but there was an issue setting up your profile. Please try again."
+          );
+        }
       } else {
-        Alert.alert("Success!", "Your account has been created.");
-        router.push("/(tabs)/Login");
+        setShowSuccessPopup(true);
+        setTimeout(() => {
+          setShowSuccessPopup(false);
+          router.push("/(tabs)/Login");
+        }, 2200);
       }
     } catch (e: any) {
       Alert.alert("Error", e.message || "An unexpected error occurred.");
@@ -142,6 +185,8 @@ export default function Signup() {
     }
   }
 
+  const passwordState = validatePassword(pwd);
+
   return (
     <SafeAreaView style={styles.screen}>
       <KeyboardAvoidingView
@@ -149,7 +194,7 @@ export default function Signup() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.container}>
-          <View style={styles.card}>
+          <View className="card" style={styles.card}>
             <View style={styles.logoBox}>
               <Text style={styles.logoText}>LOGO{"\n"}HERE</Text>
             </View>
@@ -167,11 +212,23 @@ export default function Signup() {
               placeholderTextColor="rgba(255,255,255,0.9)"
               style={[
                 styles.input,
-                usernameStatus.available === false && username ? { borderColor: "red", borderWidth: 1 } : {},
+                usernameStatus.available === false &&
+                  username &&
+                  usernameStatus.message
+                  ? { borderColor: ERROR_RED, borderWidth: 1 }
+                  : {},
               ]}
             />
             {username ? (
-              <Text style={{ color: usernameStatus.available ? "green" : "red", marginBottom: 6 }}>
+              <Text
+                style={{
+                  color: usernameStatus.available
+                    ? SUCCESS_GREEN
+                    : ERROR_RED,
+                  marginBottom: 6,
+                  alignSelf: "flex-start",
+                }}
+              >
                 {usernameStatus.message}
               </Text>
             ) : null}
@@ -209,6 +266,52 @@ export default function Signup() {
               placeholderTextColor="rgba(255,255,255,0.9)"
               style={styles.input}
             />
+
+            {/* Password Requirements */}
+            {pwd.length > 0 && (
+              <View style={styles.passwordHelper}>
+                <Text
+                  style={[
+                    styles.requirementText,
+                    passwordState.hasMinLength && styles.requirementMet,
+                  ]}
+                >
+                  {passwordState.hasMinLength ? "•" : "○"} At least 8 characters
+                </Text>
+                <Text
+                  style={[
+                    styles.requirementText,
+                    passwordState.hasUpper && styles.requirementMet,
+                  ]}
+                >
+                  {passwordState.hasUpper ? "•" : "○"} One uppercase letter
+                </Text>
+                <Text
+                  style={[
+                    styles.requirementText,
+                    passwordState.hasLower && styles.requirementMet,
+                  ]}
+                >
+                  {passwordState.hasLower ? "•" : "○"} One lowercase letter
+                </Text>
+                <Text
+                  style={[
+                    styles.requirementText,
+                    passwordState.hasNumber && styles.requirementMet,
+                  ]}
+                >
+                  {passwordState.hasNumber ? "•" : "○"} One number
+                </Text>
+                <Text
+                  style={[
+                    styles.requirementText,
+                    passwordState.hasSpecial && styles.requirementMet,
+                  ]}
+                >
+                  {passwordState.hasSpecial ? "•" : "○"} One special character
+                </Text>
+              </View>
+            )}
 
             {/* Confirm Password */}
             <Text style={styles.label}>Confirm Password</Text>
@@ -248,6 +351,19 @@ export default function Signup() {
             </View>
           </View>
         </View>
+
+        {/* Success Popup */}
+        {showSuccessPopup && (
+          <View style={styles.popupOverlay}>
+            <View style={styles.popupCard}>
+              <Text style={styles.popupIcon}>✅</Text>
+              <Text style={styles.popupTitle}>Account Created</Text>
+              <Text style={styles.popupMessage}>
+                You’re all set! Redirecting you to login...
+              </Text>
+            </View>
+          </View>
+        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -255,10 +371,17 @@ export default function Signup() {
 
 // --- Styles ---
 const BLUE = "#2F80FF";
+const ERROR_RED = "#FF4D4F";
+const SUCCESS_GREEN = "#27AE60";
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: BLUE },
-  container: { flex: 1, paddingHorizontal: 20, justifyContent: "center", alignItems: "center" },
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   card: {
     width: "92%",
     height: "96%",
@@ -273,14 +396,125 @@ const styles = StyleSheet.create({
     elevation: 8,
     alignItems: "center",
   },
-  logoBox: { width: 140, height: 90, borderRadius: 18, backgroundColor: BLUE, justifyContent: "center", alignItems: "center", marginBottom: 16 },
-  logoText: { color: "#fff", fontWeight: "700", textAlign: "center", letterSpacing: 1 },
-  title: { fontSize: 30, fontWeight: "900", color: BLUE, textAlign: "center", marginBottom: 4 },
-  subtitle: { fontSize: 14, color: BLUE, opacity: 0.9, textAlign: "center", marginBottom: 10 },
-  label: { alignSelf: "flex-start", width: "100%", maxWidth: 440, color: BLUE, fontWeight: "700", marginBottom: 6 },
-  input: { width: "100%", maxWidth: 440, height: 44, borderRadius: 12, paddingHorizontal: 14, backgroundColor: "rgba(114,167,255,0.85)", color: "#fff", fontWeight: "600", marginBottom: 8 },
-  primaryBtn: { width: "100%", maxWidth: 440, height: 50, borderRadius: 16, backgroundColor: BLUE, justifyContent: "center", alignItems: "center", marginTop: 6 },
-  primaryBtnText: { color: "#fff", fontWeight: "900", fontSize: 18 },
+  logoBox: {
+    width: 140,
+    height: 90,
+    borderRadius: 18,
+    backgroundColor: BLUE,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  logoText: {
+    color: "#fff",
+    fontWeight: "700",
+    textAlign: "center",
+    letterSpacing: 1,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "900",
+    color: BLUE,
+    textAlign: "center",
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: BLUE,
+    opacity: 0.9,
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  label: {
+    alignSelf: "flex-start",
+    width: "100%",
+    maxWidth: 440,
+    color: BLUE,
+    fontWeight: "700",
+    marginBottom: 6,
+  },
+  input: {
+    width: "100%",
+    maxWidth: 440,
+    height: 44,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    backgroundColor: "rgba(114,167,255,0.85)",
+    color: "#fff",
+    fontWeight: "600",
+    marginBottom: 8,
+  },
+  primaryBtn: {
+    width: "100%",
+    maxWidth: 440,
+    height: 50,
+    borderRadius: 16,
+    backgroundColor: BLUE,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 6,
+  },
+  primaryBtnText: {
+    color: "#fff",
+    fontWeight: "900",
+    fontSize: 18,
+  },
   footerText: { color: BLUE, fontWeight: "700", textAlign: "center" },
-  linkUnderline: { color: BLUE, fontWeight: "800", textDecorationLine: "underline" },
+  linkUnderline: {
+    color: BLUE,
+    fontWeight: "800",
+    textDecorationLine: "underline",
+  },
+  passwordHelper: {
+    width: "100%",
+    maxWidth: 440,
+    marginTop: 2,
+    marginBottom: 8,
+  },
+  requirementText: {
+    fontSize: 11,
+    color: ERROR_RED,
+  },
+  requirementMet: {
+    color: SUCCESS_GREEN,
+    fontWeight: "700",
+  },
+  popupOverlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.25)",
+  },
+  popupCard: {
+    width: "78%",
+    backgroundColor: "#FFFFFF",
+    paddingVertical: 20,
+    paddingHorizontal: 18,
+    borderRadius: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 8 },
+    shadowRadius: 18,
+    elevation: 10,
+  },
+  popupIcon: {
+    fontSize: 34,
+    marginBottom: 6,
+  },
+  popupTitle: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: BLUE,
+    marginBottom: 4,
+  },
+  popupMessage: {
+    fontSize: 13,
+    color: "#4F4F4F",
+    textAlign: "center",
+  },
 });
