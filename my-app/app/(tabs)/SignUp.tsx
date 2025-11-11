@@ -10,9 +10,10 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
+import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "../../lib/supabaseClient";
 import { checkUsernameAvailable } from "../../utils/checkUsername";
-import { useRouter } from "expo-router";
 
 // --- Password validation helper ---
 function validatePassword(pwd: string) {
@@ -52,11 +53,9 @@ export default function SignUp() {
   const [pwd, setPwd] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
   const [loading, setLoading] = useState(false);
-
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
-  console.log("SIGNUP VERSION >>> 999");
-
+  // Clear passwords on mount
   useEffect(() => {
     setPwd("");
     setConfirmPwd("");
@@ -82,6 +81,7 @@ export default function SignUp() {
     const cleanedUsername = username.trim();
     const passwordCheck = validatePassword(pwd);
 
+    // --- VALIDATIONS ---
     if (!cleanedUsername) {
       Alert.alert("Error", "Please enter a username");
       setLoading(false);
@@ -125,9 +125,11 @@ export default function SignUp() {
     }
 
     try {
+      // Split full name
       const [firstName, ...lastNameParts] = name.trim().split(" ");
       const lastName = lastNameParts.join(" ") || null;
 
+      // Create Supabase auth user
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: email.trim().toLowerCase(),
         password: pwd,
@@ -138,6 +140,7 @@ export default function SignUp() {
         setLoading(false);
         return;
       }
+
       if (!authData.user) {
         Alert.alert("Error", "Failed to create user.");
         setLoading(false);
@@ -146,6 +149,7 @@ export default function SignUp() {
 
       const userId = authData.user.id;
 
+      // Insert profile
       const { error: profileError } = await supabase
         .from("user_profiles_test")
         .insert({
@@ -172,6 +176,7 @@ export default function SignUp() {
           );
         }
       } else {
+        // Show success popup and redirect
         setShowSuccessPopup(true);
         setTimeout(() => {
           setShowSuccessPopup(false);
@@ -194,7 +199,7 @@ export default function SignUp() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.container}>
-          <View className="card" style={styles.card}>
+          <View style={styles.card}>
             <View style={styles.logoBox}>
               <Text style={styles.logoText}>LOGO{"\n"}HERE</Text>
             </View>
@@ -267,51 +272,49 @@ export default function SignUp() {
               style={styles.input}
             />
 
-            {/* Password Requirements */}
-            {pwd.length > 0 && (
-              <View style={styles.passwordHelper}>
-                <Text
-                  style={[
-                    styles.requirementText,
-                    passwordState.hasMinLength && styles.requirementMet,
-                  ]}
-                >
-                  {passwordState.hasMinLength ? "•" : "○"} At least 8 characters
-                </Text>
-                <Text
-                  style={[
-                    styles.requirementText,
-                    passwordState.hasUpper && styles.requirementMet,
-                  ]}
-                >
-                  {passwordState.hasUpper ? "•" : "○"} One uppercase letter
-                </Text>
-                <Text
-                  style={[
-                    styles.requirementText,
-                    passwordState.hasLower && styles.requirementMet,
-                  ]}
-                >
-                  {passwordState.hasLower ? "•" : "○"} One lowercase letter
-                </Text>
-                <Text
-                  style={[
-                    styles.requirementText,
-                    passwordState.hasNumber && styles.requirementMet,
-                  ]}
-                >
-                  {passwordState.hasNumber ? "•" : "○"} One number
-                </Text>
-                <Text
-                  style={[
-                    styles.requirementText,
-                    passwordState.hasSpecial && styles.requirementMet,
-                  ]}
-                >
-                  {passwordState.hasSpecial ? "•" : "○"} One special character
-                </Text>
-              </View>
-            )}
+            {/* Password Requirements (always visible) */}
+            <View style={styles.passwordHelper}>
+              <Text
+                style={[
+                  styles.requirementText,
+                  passwordState.hasMinLength && styles.requirementMet,
+                ]}
+              >
+                {passwordState.hasMinLength ? "•" : "○"} At least 8 characters
+              </Text>
+              <Text
+                style={[
+                  styles.requirementText,
+                  passwordState.hasUpper && styles.requirementMet,
+                ]}
+              >
+                {passwordState.hasUpper ? "•" : "○"} One uppercase letter
+              </Text>
+              <Text
+                style={[
+                  styles.requirementText,
+                  passwordState.hasLower && styles.requirementMet,
+                ]}
+              >
+                {passwordState.hasLower ? "•" : "○"} One lowercase letter
+              </Text>
+              <Text
+                style={[
+                  styles.requirementText,
+                  passwordState.hasNumber && styles.requirementMet,
+                ]}
+              >
+                {passwordState.hasNumber ? "•" : "○"} One number
+              </Text>
+              <Text
+                style={[
+                  styles.requirementText,
+                  passwordState.hasSpecial && styles.requirementMet,
+                ]}
+              >
+                {passwordState.hasSpecial ? "•" : "○"} One special character
+              </Text>
+            </View>
 
             {/* Confirm Password */}
             <Text style={styles.label}>Confirm Password</Text>
@@ -356,7 +359,12 @@ export default function SignUp() {
         {showSuccessPopup && (
           <View style={styles.popupOverlay}>
             <View style={styles.popupCard}>
-              <Text style={styles.popupIcon}>✅</Text>
+              <Ionicons
+                name="checkmark-circle"
+                size={40}
+                color={BLUE}
+                style={styles.popupIcon}
+              />
               <Text style={styles.popupTitle}>Account Created</Text>
               <Text style={styles.popupMessage}>
                 You’re all set! Redirecting you to login...
@@ -384,7 +392,6 @@ const styles = StyleSheet.create({
   },
   card: {
     width: "92%",
-    height: "96%",
     backgroundColor: "#FFFFFF",
     borderRadius: 23,
     paddingVertical: 28,
@@ -465,11 +472,13 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     textDecorationLine: "underline",
   },
+
+  // Password helper
   passwordHelper: {
     width: "100%",
     maxWidth: 440,
-    marginTop: 2,
-    marginBottom: 8,
+    marginTop: 4,
+    marginBottom: 10,
   },
   requirementText: {
     fontSize: 11,
@@ -479,6 +488,8 @@ const styles = StyleSheet.create({
     color: SUCCESS_GREEN,
     fontWeight: "700",
   },
+
+  // Success popup
   popupOverlay: {
     position: "absolute",
     top: 0,
@@ -503,7 +514,6 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   popupIcon: {
-    fontSize: 34,
     marginBottom: 6,
   },
   popupTitle: {
