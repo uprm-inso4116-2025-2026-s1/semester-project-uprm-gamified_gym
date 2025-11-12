@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
-import { uploadAndSetAvatar } from "../../lib/profileApi";
+import { uploadProfilePictureAndUpdateRecord } from "../../lib/profileApi";
 import PartialFillCard from "../../components/progress";
 
 
@@ -45,49 +45,53 @@ export default function Profile() {
     updatedAt: string | null;
   };
 
-  const [authUser, setAuthUser] = useState<any | null>(null);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [authenticatedUser, setAuthenticatedUser] = useState<any | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [loading, setIsProfileLoading] = useState(true);
+  const [isAvatarUploading, setIsAvatarUploading] = useState(false);
+  const [error, setProfileError] = useState<string | null>(null);
 
-  // Fetch authenticated user
+  // Fetch the currently authenticated user from Supabase
   useEffect(() => {
-    const fetchUser = async () => {
+    const retrieveAuthenticatedUser = async () => {
       const { data: { user }, error } = await supabase.auth.getUser();
+
       if (error) {
-        console.error("Failed to get user", error);
-        setError("Failed to get authenticated user.");
-        setLoading(false);
+        console.error("Failed to retrieve authenticated user", error);
+        setProfileError("Failed to get authenticated user.");
+        setIsProfileLoading(false);
         return;
       }
-      setAuthUser(user);
+
+      setAuthenticatedUser(user);
     };
-    fetchUser();
+
+    retrieveAuthenticatedUser();
+
   }, []);
 
-  // Load profile from Supabase
-  const loadProfile = useCallback(async () => {
-    if (!authUser) return;
+  // Load the authenticated user’s profile from Supabase
+  const loadActiveUserProfile  = useCallback(async () => {
+    if (!authenticatedUser) return;
 
     try {
-      setLoading(true);
-      setError(null);
+      setIsProfileLoading(true);
+      setProfileError(null);
 
-      const { data: profileData, error: profileError } = await supabase
+      const { data: profileData, error: profileFetchError } = await supabase
         .from("user_profiles_test")
         .select("*")
-        .eq("id", authUser.id)
+        .eq("id", authenticatedUser.id)
         .single();
 
-      if (profileError) throw profileError;
+      if (profileFetchError) throw profileFetchError;
 
-      const activeProfile = {
+      const formattedProfile = {
         profileId: profileData.id,
         id: profileData.id,
         fullName: `${profileData.first_name ?? ""} ${profileData.last_name ?? ""}`,
         username: profileData.username ?? "",
-        email: profileData.email ?? authUser.email ?? "",
+        email: profileData.email ?? authenticatedUser.email ?? "",
         gender: profileData.gender ?? "",
         dateOfBirth: profileData.date_of_birth ?? null,
         firstName: profileData.first_name ?? "",
@@ -97,69 +101,72 @@ export default function Profile() {
         updatedAt: profileData.updated_at ?? null,
       };
 
-      setProfile(activeProfile);
+      setUserProfile(formattedProfile);
     } catch (err: any) {
       console.error(err);
-      setError(err?.message ?? "Failed to load profile.");
+      setProfileError(err?.message ?? "Failed to load profile information.");
     } finally {
-      setLoading(false);
+      setIsProfileLoading(false);
     }
-  }, [authUser]);
+  }, [authenticatedUser]);
 
   useFocusEffect(
     useCallback(() => {
-      loadProfile();
-    }, [loadProfile])
+      loadActiveUserProfile();
+    }, [loadActiveUserProfile])
   );
 
-  const formatDOB = (dob?: string | null) => {
+  const formatDateOfBirth = (dob?: string | null) => {
     if (!dob) return "Unavailable";
     const d = new Date(dob);
     return Number.isNaN(d.getTime()) ? dob : d.toLocaleDateString();
   };
 
-  // Change avatar using new uploadAndSetAvatar function
-  const onChangeAvatar = useCallback(async () => {
-    if (!profile) return;
+  // Change avatar using new uploadProfilePictureAndUpdateRecord function
+  const handleProfilePictureUpdate = useCallback(async () => {
+    if (!userProfile) return;
 
     try {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
         Alert.alert(
           "Permission needed",
-          "Please allow photo library access to change your profile picture."
+          "Please allow access to your photo library to change your profile picture."
         );
         return;
       }
 
-      const result = await ImagePicker.launchImageLibraryAsync({
+      const selectedImage = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
         quality: 0.8,
       });
 
-      if (result.canceled) return;
-      const asset = result.assets?.[0];
+      if (selectedImage.canceled) return;
+      const asset = selectedImage.assets?.[0];
       if (!asset?.uri) return;
 
-      setUploading(true);
+      setIsAvatarUploading(true);
 
       // Upload avatar and update profile
-      const publicUrl = await uploadAndSetAvatar(profile.profileId, asset.uri);
+      const publicUrl = await uploadProfilePictureAndUpdateRecord(
+        userProfile.profileId, 
+        asset.uri
+      );
 
-      setProfile((p) => (p ? { ...p, profilePictureUrl: publicUrl } : p));
-      Alert.alert("Updated", "Your profile picture was updated.");
+      setUserProfile((p) => (p ? { ...p, profilePictureUrl: publicUrl } : p));
+      Alert.alert("Profile Updated", "Your profile picture has been updated successfully.");
     } catch (err: any) {
       console.error(err);
       Alert.alert(
         "Upload failed",
-        err?.message ?? "We couldn't update your photo. Please try again."
+        err?.message ?? "Unable to update your photo. Please try again."
       );
     } finally {
-      setUploading(false);
+      setIsAvatarUploading(false);
     }
-  }, [profile]);
+  }, [userProfile]);
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -175,20 +182,20 @@ export default function Profile() {
             <TouchableOpacity
               style={styles.avatarTouchable}
               activeOpacity={0.8}
-              onPress={onChangeAvatar}
-              disabled={uploading}
+              onPress={handleProfilePictureUpdate}
+              disabled={isAvatarUploading}
             >
               <View style={styles.avatarPlaceholder}>
-                {profile?.profilePictureUrl ? (
+                {userProfile?.profilePictureUrl ? (
                   <Image
-                    source={{ uri: profile.profilePictureUrl }}
+                    source={{ uri: userProfile.profilePictureUrl }}
                     style={styles.avatarImage}
                   />
                 ) : (
                   <Ionicons name="person" size={60} color="#666" />
                 )}
                 <View style={styles.cameraBadge}>
-                  {uploading ? (
+                  {isAvatarUploading ? (
                     <ActivityIndicator size="small" color="#fff" />
                   ) : (
                     <Ionicons name="camera" size={16} color="#fff" />
@@ -200,35 +207,35 @@ export default function Profile() {
             <Text style={styles.sectionTitle}>
               {loading
                 ? "Loading profile..."
-                : profile?.fullName || profile?.username || "Profile"}
+                : userProfile?.fullName || userProfile?.username || "Profile"}
             </Text>
-            {!loading && !error && profile?.username && (
-              <Text style={styles.subtitleHandle}>@{profile.username}</Text>
+            {!loading && !error && userProfile?.username && (
+              <Text style={styles.subtitleHandle}>@{userProfile.username}</Text>
             )}
             {loading && <ActivityIndicator style={styles.loader} color="#3b82f6" size="large" />}
             {!loading && error && (
               <Text style={[styles.statusText, styles.statusTextError]}>{error}</Text>
             )}
 
-            {!loading && !error && profile && (
+            {!loading && !error && userProfile && (
               <>
                 <TouchableOpacity style={styles.infoButton}>
-                  <Text style={styles.infoText}>Email: {profile.email || "Unavailable"}</Text>
+                  <Text style={styles.infoText}>Email: {userProfile.email || "Unavailable"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.infoButton}>
-                  <Text style={styles.infoText}>Username: {profile.username ?? "Unavailable"}</Text>
+                  <Text style={styles.infoText}>Username: {userProfile.username ?? "Unavailable"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.infoButton}>
-                  <Text style={styles.infoText}>Gender: {profile.gender ?? "Unavailable"}</Text>
+                  <Text style={styles.infoText}>Gender: {userProfile.gender ?? "Unavailable"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.infoButton}>
-                  <Text style={styles.infoText}>Date of Birth: {formatDOB(profile.dateOfBirth)}</Text>
+                  <Text style={styles.infoText}>Date of Birth: {formatDateOfBirth(userProfile.dateOfBirth)}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.infoButton}>
-                  <Text style={styles.infoText}>First Name: {profile.firstName ?? "Unavailable"}</Text>
+                  <Text style={styles.infoText}>First Name: {userProfile.firstName ?? "Unavailable"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.infoButton}>
-                  <Text style={styles.infoText}>Last Name: {profile.lastName ?? "Unavailable"}</Text>
+                  <Text style={styles.infoText}>Last Name: {userProfile.lastName ?? "Unavailable"}</Text>
                 </TouchableOpacity>
               </>
             )}
@@ -249,7 +256,7 @@ export default function Profile() {
             </View>
 
             {!loading && !error && (
-              <TouchableOpacity style={styles.refreshButton} onPress={loadProfile}>
+              <TouchableOpacity style={styles.refreshButton} onPress={loadActiveUserProfile}>
                 <Text style={styles.refreshText}>Refresh Profile</Text>
               </TouchableOpacity>
             )}
