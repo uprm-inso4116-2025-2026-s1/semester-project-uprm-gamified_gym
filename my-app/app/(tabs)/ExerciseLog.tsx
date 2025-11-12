@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,11 +6,15 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
 import ExerciseCard from "../../components/exercise-card";
 import RecentWorkoutCard from "../../components/recent-workout-card";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Link } from "expo-router";
+import { supabase } from "../../lib/supabaseClient"; // <- make sure this path is correct
 
 type RootStackParamList = {
   Home: undefined;
@@ -24,9 +28,39 @@ type ExerciseLogScreenNavigationProp = NativeStackNavigationProp<
   "ExerciseLog"
 >;
 
+type Session = {
+  id: string;
+  title: string | null;
+  notes: string | null;
+  started_at: string | null;
+};
+
 export default function ExerciseLog() {
   const navigation = useNavigation<ExerciseLogScreenNavigationProp>();
   const [showRecent, setShowRecent] = useState(false);
+  const [recent, setRecent] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!showRecent) return;
+    (async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from("workout_sessions")
+          .select("id, title, notes, started_at")
+          .order("started_at", { ascending: false })
+          .limit(1);
+
+        if (error) throw error;
+        setRecent(data && data.length ? (data[0] as Session) : null);
+      } catch (e: any) {
+        Alert.alert("Error loading recent workout", e.message ?? String(e));
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [showRecent]);
 
   return (
     <View style={styles.background}>
@@ -45,7 +79,34 @@ export default function ExerciseLog() {
           </Text>
         </TouchableOpacity>
 
-        {showRecent && <RecentWorkoutCard />}
+        {showRecent && (
+          <View style={{ width: "90%", alignItems: "stretch" }}>
+             <RecentWorkoutCard />
+
+            <View style={styles.recentCard}>
+              <Text style={styles.recentTitle}>Most Recent Workout</Text>
+              <View style={{ marginTop: 6, gap: 2 }}>
+                <Text>Title: {recent?.title ?? "—"}</Text>
+                <Text>
+                  Date:{" "}
+                  {recent?.started_at
+                    ? new Date(recent.started_at).toLocaleDateString()
+                    : "—"}
+                </Text>
+              </View>
+
+              {loading ? (
+                <ActivityIndicator style={{ marginTop: 10 }} />
+              ) : recent ? (
+                <Link href={`/workouts/${recent.id}/edit`} asChild>
+                  <TouchableOpacity style={styles.editBtn}>
+                    <Text style={{ fontWeight: "600" }}>Edit</Text>
+                  </TouchableOpacity>
+                </Link>
+              ) : null}
+            </View>
+          </View>
+        )}
 
         <ExerciseCard />
       </ScrollView>
@@ -86,19 +147,20 @@ const styles = StyleSheet.create({
   scrollContainer: {
     alignItems: "center",
     paddingBottom: 120,
+    width: "100%",
+    gap: 16,
   },
   header: {
     fontSize: 30,
     fontWeight: "700",
     color: "#ffffff",
-    marginBottom: 20,
+    marginBottom: 4,
   },
   button: {
     backgroundColor: "white",
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 12,
-    marginBottom: 20,
     shadowColor: "#000",
     shadowOpacity: 0.2,
     shadowRadius: 3,
@@ -108,6 +170,28 @@ const styles = StyleSheet.create({
     color: "#2E89FF",
     fontWeight: "600",
     fontSize: 16,
+  },
+  recentCard: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 14,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  recentTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+  },
+  editBtn: {
+    marginTop: 10,
+    alignSelf: "flex-start",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderRadius: 8,
+    backgroundColor: "#fff",
   },
   bottomTabs: {
     position: "absolute",
