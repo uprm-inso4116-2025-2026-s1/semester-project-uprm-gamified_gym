@@ -402,6 +402,24 @@ AchievementRepository.findByUserId(userId: UserId) -> List<Achievement>
 UserProgressRepository.getByUserId(userId: UserId) -> UserProgress
 // Repository for user progression tracking
 ----
+==== 2.1.5.1 Applying the Strategy Pattern to XP Calculation
+
+* In GamifiedGym, experience points (XP) can be calculated in different ways depending on
+the workout context—for example, XP based on repetitions, XP based on total weight
+lifted, or XP based on workout duration. These represent different algorithms that may be
+selected or changed over time as the gamification system evolves.
+
+* To keep this variability manageable, the XP calculation mechanism follows the
+Strategy Pattern from the lecture *Relating Design Patterns to the Model*. A common
+interface (XPCalculationStrategy) defines the method for computing XP, while multiple
+concrete strategies implement different formulas such as RepsBasedXPCalculation,
+WeightBasedXPCalculation, or DurationBasedXPCalculation.
+
+* This prevents the WorkoutSession aggregate from containing hard-coded conditionals
+and makes the model easier to extend and maintain. By encapsulating swappable
+algorithms, GamifiedGym supports future features—such as seasonal XP boosts,
+difficulty modes, or exercise-specific XP rules—without changing the domain logic.
+
 
 ==== 2.1.6 Domain Aggregates and Invariants
 
