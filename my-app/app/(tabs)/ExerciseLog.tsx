@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,11 +6,15 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
 import ExerciseEntryCard from "../../components/exercise-card";
 import RecentWorkoutSummary from "../../components/recent-workout-card";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Link } from "expo-router";
+import { supabase } from "../../lib/supabaseClient"; // <- make sure this path is correct
 
 /**
  * ExerciseLogScreen
@@ -108,19 +112,20 @@ const styles = StyleSheet.create({
   scrollContainer: {
     alignItems: "center",
     paddingBottom: 120,
+    width: "100%",
+    gap: 16,
   },
   header: {
     fontSize: 30,
     fontWeight: "700",
     color: "#ffffff",
-    marginBottom: 20,
+    marginBottom: 4,
   },
   button: {
     backgroundColor: "white",
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 12,
-    marginBottom: 20,
     shadowColor: "#000",
     shadowOpacity: 0.2,
     shadowRadius: 3,
@@ -130,6 +135,28 @@ const styles = StyleSheet.create({
     color: "#2E89FF",
     fontWeight: "600",
     fontSize: 16,
+  },
+  recentCard: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 14,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  recentTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+  },
+  editBtn: {
+    marginTop: 10,
+    alignSelf: "flex-start",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderRadius: 8,
+    backgroundColor: "#fff",
   },
   bottomTabs: {
     position: "absolute",

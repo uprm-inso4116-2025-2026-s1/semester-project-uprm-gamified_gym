@@ -48,3 +48,22 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## Profile.tsx - Public Functions
+
+| Function | Purpose | Outcome |
+|-----------|----------|----------|
+| `retrieveAuthenticatedUser()` | Gets the current logged-in user from Supabase. | Updates `authenticatedUser` state. |
+| `loadActiveUserProfile()` | Fetches the user’s full profile information from Supabase. | Populates `userProfile` state. |
+| `handleProfilePictureUpdate()` | Opens image picker and updates the profile picture in Supabase. | Updates `userProfile.profilePictureUrl` and shows confirmation. |
+| `formatDateOfBirth(dob)` | Formats a given date string into a readable format. | Returns a locale-specific formatted date. |
+| `reloadUserProfile()` | Manual trigger for refreshing the profile. | Calls `loadActiveUserProfile()`. |
+
+## Settings.tsx - Public Functions
+| Function | Purpose | Outcome |
+|-----------|----------|----------|
+| `loadUserProfile()` | Retrieves the authenticated user’s profile details (first name, last name, email, and weight) from Supabase. | Populates `userProfile` state with the user’s stored information. |
+| `updateUserProfileDetails()` | Validates input fields and updates the user’s profile details in Supabase. | Persists profile changes and exits edit mode upon success. |
+| `togglePushNotifications()` | Switches the push notification preference on or off. | Updates `pushNotificationsEnabled` state to reflect user preference. |
+| `handleLogout()` | Signs the user out of the current session via Supabase and navigates to the login screen. | Logs out the user and resets navigation state. |
+| `renderField(label, fieldKey, keyboardType?)` | Renders a labeled text input for a profile field (e.g., First Name, Weight). | Displays a consistent form input, editable only in edit mode. |

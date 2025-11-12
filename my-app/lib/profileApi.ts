@@ -30,7 +30,7 @@ function mimeFromExtension(ext: string): string {
 }
 
 // ---------------------- UPLOAD & SET AVATAR ----------------------
-export async function uploadAndSetAvatar(
+export async function uploadProfilePictureAndUpdateRecord(
   profileId: string,
   fileUri: string
 ): Promise<string> {
