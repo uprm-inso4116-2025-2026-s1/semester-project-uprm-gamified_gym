@@ -1,0 +1,914 @@
+:pname: GamifiedGym
+
+== 1. Informative part
+=== 1.1 Team Composition
+* Managers:
+** Gian Gonzalez
+** Kevin Lopez
+** Ricardo Perez
+
+* Fitness Tracker Team:
+** Ernesto Soto (Team Leader)
+** Cristian Massini
+** Pedro Matos
+** Cristian Barreras
+** Nelson Caban
+** Yandiel Hernandez
+** Luis Sorrentini
+** Michael Martinez
+
+* Foundations Team:
+** Reinaldo Martinez (Team Leader)
+** Estefania Roca
+** Lianette Alberto
+** Christian Rodriguez
+** Marcelo Perez
+** Christian Medina
+** Angel Ramos
+** Kevin Ibarra
+** Fernando Hidalgo
+
+* Game Design Team:
+** Emmanuel Guadalupe (Team Leader)
+** Aliana Santiago
+** Jorge Peralta
+** Keishlyany Sanabria
+** Diego Vazquez
+** Kiam Perez
+** Andrea Seda
+** Samael Alvarez
+
+
+=== 1.2 Current Situation, Needs, Ideas
+
+==== 1.2.1 Current Situation
+
+  The fitness application market is saturated with products that solely focus on data logging. Many users, particularly 
+novices and those who struggle with commitment, are prone to finding these apps mundane. These applications act more as 
+glorified digital notebooks rather than actual services for assistance in users' fitness efforts. The lack of engagement 
+leads to low user retention, especially with those who already have trouble starting or sticking with their fitness 
+journey. Additionally, without visual feedback on users' overall training ditribution, it is easy for users to favor 
+certain muscle groups over others (i.e Focus on chest and arms while neglecting legs and back). This would then lead 
+to uneven physical development and increased risk of injuries.
+
+=== 1.2.2 Needs
+
+People committed to fitness training need:
+
+* An experience that promotes consistency, effort, and varied workouts to reduce repetitiveness.
+
+* A clear visual regarding their progress beyond simple numbers and statistics to better convey their improvements over time.
+
+* To know the importance of maintaining a balanced training regiment and understand how to maintain this balance across all muscle groups for uniform fitness and reduced injury risks. 
+
+* A structured platform in which they will be able to compare efforts with their peers to foster accountability and commitment.
+
+==== 1.2.3 Ideas
+
+To satisfy the above-mentioned needs, the following ideas for a system-to-be were developed:
+
+* Implement a Gamified Progress System where users earn experience points (XP) for logging their workouts and unlock achievements and badges for challenging milestones. (i.e "1st Week Completed" or "I Can Bench Press Myself!").
+
+* Introduce a Muscle Group Progress tracker (i.e bronze, silver, gold, platinum tier, etc.) that showcases how much effort users are putting into each group.
+
+* Provide a Dashboard with charts that display training frequency and volume of work put into the different muscle groups in order to highlight strongpoints and weakpoints in routines.
+
+* Introduce a Friends page that provides users with the means to connect with friends or even rivals to compare progress, streaks, and achievements to promote accountability and competition.
+
+=== 1.3 Scope, Span, and Synopsis
+
+==== 1.3.1 Scope and Span
+
+  The project operates in the realm of personal fitness tracking, motivation, and community building. It will provide 
+the means for users to prepare and log their own workout routines alongside a vast list of known exercises that are 
+coupled with visual aids to understand what muscle groups are being worked. Additionally, it will utilize the statistics 
+obtained from the users' logs in order to create and update graphs that keep them updated on their progress. It will 
+also go beyond other competitor applications by introducing gamey aspects that promote commitment and dedication to 
+the users' fitness journeys.
+
+  To establish a proper foundation, the project will begin by identifying critical stakeholders, such as potential 
+users in need of a good start to their fitness journey or more experienced gym-goers that wish for a more playful 
+alternative to the often repetitive grind of maintining a healthy and fit body. Upon Analyzing their behaviour and 
+needs, a larger domain representation will be developed. This would allow the team to align the platform to meet their
+expectations and provide an optimal user experience. Requirements are to be derived from the stakeholder study and 
+further clarified by the development team to ensure the application meets user expectations. The defining of key 
+features such as workout logging, internal statistic tracking, and social interactions are part of this process. The 
+system will have a guided and intuitive process of logging workouts or viewing statistics by means of dedicated pages 
+for the features that are coupled with search items and sorting capabilities (in the case of viewing or finding 
+exercises in such a long list). These aspects are to be managed in the backend as a database of items to be retrieved
+on demand. On the other hand, the frontend will consist of a simple, interactive UI that promotes engagement and 
+exploration of the application.
+
+==== 1.3.2 Synopsis
+
+  Gamified Gym is an android mobile application aimed at improving the fitness tracking experience for gym-goers, 
+particularly those who struggle to stay motivated or committed to their fitness journey. The project will cover the 
+phases of development, from preliminary domain and design analysis to the deployment of the application. It will be 
+built using a React Native frontend and a Supabase backend for a smooth and reliable user experience, using agile 
+methodology and features validated through manager and team leader reviews in GitHub and Visual Studio Code. The app 
+will centralize workout logging, progress tracking and social interactions bundled with motivational aspects designed 
+to engage users and further immerse them into their fitness goals. It will provide consistent updates to graphical 
+elements based on user input in order to maintain communication between the user and the service. Furthermore, it 
+will involve stakeholder and potential user interviews, requirements gathering, and general interest gathering 
+forms to pivot application requirements as needed. The end is to ensure the most amount of users are both interested 
+and satisfied with the deployed iteration of Gamified Gym.
+
+=== 1.4 Other Activities Than Just Developing Source Code
+
+* Domain Engineering: Researching and documenting fitness principles, common user behaviors, and gamification techniques to ensure the app is effective and safe.
+
+* Requirements Engineering: Eliciting needs from potential users and translating them into detailed software requirements.
+
+* Stakeholder Liaison: Regularly communicating with beta testers and a potential fitness expert partner to gather feedback.
+
+* Software Architecture: Designing the high-level structure of the application, including the frontend-backend interaction and data models.
+
+* Testing: Creating and executing test plans for unit, integration, and user acceptance testing (UAT).
+
+* DevOps: Configuring the build pipeline for React Native and setting up the Supabase project.
+
+=== 1.5 Derived Goals
+
+* Primary Goal: 
+
+ ** To create an engaging and motivating workout-tracking application that helps users maintain consistency, motivation and achieve a balanced physique.
+
+* Secondary Goals:
+
+ ** Educational Value: To subtly educate users on the importance of muscle group balance and progressive overload through the gamification mechanics.
+
+ ** Community Building: To foster a positive and supportive micro-community around fitness, moving away from toxic comparison and towards collective growth.
+
+ ** Technical Proficiency: To successfully implement and integrate a modern technology stack (React Native, Supabase) and demonstrate its effectiveness for building a full-stack mobile application.
+
+== 2. Descriptive part
+
+=== 2.1 Domain description
+
+==== 2.1.1 Domain rough sketch
+1. Entities and Relationships
+* Gym-goer: Maik arrives at the gym at 7 AM. He scans his membership card, grabs a towel, and heads to the squat rack. He checks his workout plan on the app, logs the warm-up set, and prepares for his first working set. Each rep he completes gets tracked automatically through his smartwatch.
+* Trainer: When Maik wants guidance, they can book a trainer. The trainer meets them during a scheduled session, observes their squat form, records their performance, and adjusts next week’s workout plan. This creates a Trainer Session Record and ties to the Workout Plan entity.
+* Peers & friends: After finishing his last set, Maik’s friend Ana checks his time and challenges him to a plank contest. They both record their results in the app, and a leaderboard updates showing who held the plank longer. Maik comments on Javier’s post, encouraging her for tomorrow’s session.
+
+2. Workouts & Training Elements
+* Exercise: Maik selects ‘Bench Press’ from the exercise catalog. He logs 3 sets of 8 reps at 90 lb each. The system saves the reps, weight, and timestamp under his session.
+* Muscle Groups: When Maik picks Bench Press, the app automatically tags it under the ‘Chest’ and ‘Triceps’ muscle groups. Later, analytics shows that his leg training volume is lagging behind his upper body.
+* Workout Session: Maik starts a workout session at 7:05 AM and ends at 8:10 AM. The app records all exercises, rests, notes, and trainer interactions during that time. At the end, the session is stored as a single structured record.
+* Personal Best: Maik attempts to deadlift 200 lb for the first time. He successfully completes 1 rep. The system compares it with his previous best of 195 lb and automatically updates his personal record.
+* Rest/Recovery: After a tough workout week, Maik logs 2 rest days. His smartwatch records sleep quality and nutrition notes. The app adjusts his weekly plan to allow muscle recovery.
+
+3. Processes & Events
+* Start Workout: When Maik taps ‘Start Workout’ in the app, a new session begins tracking time, heart rate, and location. The system prepares an empty log to fill with exercises and notes.
+* Complete Exercise: Maik finishes his 3rd set of squats. The system detects the last rep and closes the set. It asks if he wants to add notes or move to the next exercise.
+* Track Performance: Maik compares his last week’s 5K run pace with today’s. The app shows he improved his average speed by 7%. This performance data feeds into his milestone progression.
+* Hit Milestone: Maik completes his first unassisted pull-up. The app recognizes this as a milestone and unlocks a ‘First Pull-up’ achievement.
+* Compare with Others: Maik opens the leaderboard for deadlifts among his gym peers. He sees that Javier just surpassed his record by 5 lb and decides to schedule a PR attempt tomorrow.
+* Lose Streak: After skipping the gym for a week, Maik's streak resets to zero. The app notifies him and suggests a comeback plan.
+
+4. Event Triggers
+* First-time Workout Event: Maik taps ‘Start Workout’ for the first time ever. The app creates his first workout session and sends a welcome badge.
+* Personal Best Event: Maik breaks his previous squat record of 175 lb by lifting 180 lb. The system logs the event and updates his Personal Best table.
+* Consistency Event: After training 3x per week for a month, Maik hits a 12-session streak. The system unlocks a consistency reward.
+* Achievement Event: Maik completes the last requirement in the ‘Strength Builder’ program. The system registers the achievement and triggers a notification.
+* Badge Event: Maik earns the ‘Iron Core’ badge after completing 5 different abs milestones. The badge is added to his profile and visible to friends.
+
+
+==== 2.1.2 Terminology
+*Domain Terminology*
+* Athlete: A person actively participating in gym workouts and exercises with the goal of 
+improving fitness.
+* Exercise: A single physical movement that targets specific muscles.
+* Workout: A structured set of exercises performed during a training session.
+* Routine: A planned schedule of workouts designed to achieve fitness goals over time.
+* Muscle Group: A category of muscles (e.g., chest, legs, back, arms) that exercises are designed to develop.
+* Progress Metric: A measurable element such as repetitions, sets, weight lifted, or duration 
+hat reflects improvement.
+* Achievement: A milestone or goal reached by an athlete (e.g., completing 100 push-ups, hitting a new personal best).
+* Milestone: A significant marker of progress in training that signals growth or improvement.
+* Balance: The state of evenly training muscle groups to avoid neglect or overtraining.
+
+*Non-Domain Terminology*
+* App User: A person interacting with the gamified gym application 
+* Profile: A digital representation of an athlete or user, containing personal and fitness-related data.
+* Notification: A system-generated alert that informs athletes of completed events, achievements, or reminders.
+
+
+*Domain Terminology in relation to domain rough sketch*
+* Core Entities & Roles
+** Exercise: A single physical activity (e.g., push-up, squat, bench press).
+** Workout: A structured collection of exercises performed in a session.
+** Muscle Group: A classification of muscles (e.g., chest, legs, back) that exercises target.
+** Achievement: A milestone reached by an athlete (e.g., lifting a personal best, completing 
+a challenge).
+
+* Training Process & Tracking
+** Workout Session: The occurrence of an athlete performing a workout at a specific time.
+** Routine: A planned sequence of workouts over days or weeks, designed to achieve specific goals.
+** Progress Tracking: The process of recording and observing changes in metrics such as strength, 
+endurance, or body composition.
+** Milestone Recognition: The acknowledgment of reaching goals such as increased strength, endurance, 
+or skill mastery.
+
+* Domain Events & Triggers
+** Exercise Completion Event: Triggered when an athlete finishes a set or repetition of an exercise.
+** Workout Completion Event: Occurs when all planned exercises in a workout session are finished.
+** Personal Best Event: Happens when an athlete surpasses their previous record in weight, repetitions, 
+or duration.
+** Achievement Unlocked Event: Confirmed when a milestone or challenge is reached.
+** Overtraining Warning Event: Triggered when repeated sessions cause imbalance or fatigue beyond healthy 
+limits.
+
+* Domain Rules & Constraints
+** Achievement Criteria Rule: Achievements are only recognized if the defined conditions (e.g., specific 
+weights, repetitions, or time) are met.
+** Progress Validation Rule: Increases in performance shall be measurable to qualify as milestones.
+
+
+==== 2.1.3 Narrative
+In fitness, individuals engage in physical exercise to improve health, 
+strength, endurance, or appearance. Workouts are often organized into sets
+and repetitions of exercises targeting specific muscle groups such as chest, back,
+legs, arms and shoulders. People also measure progress in terms of performance (i.e.
+increasing weights lifted or repetitions completed), physical changes or overall 
+endurance. 
+
+Despite the availability of many training methods, individuals frequently enncounter
+difficulties in staying motivated and consistent. Some rely on notebooks, spreadsheets, or
+mental notes to keep track of their routines, while others may depend on general-purpose
+fitness apps. These methods record data but rarely provide meaningful feedback. As a result,
+people may unknowingly train some muscle groups more than others, leading to imbalances, overtraining,
+or plateaus in performance. 
+
+Within gym and fitness culture, motivation is often sustained through external factors
+such as competition, social comparison, and personal milestones. For example, athletes celebrate 
+when they achieve a new personal best or notice visible physical changes. Similarly, comparing progress
+with peers-whether with friends or in competitive settings-has long been part of the fitness experience. 
+Additionally, badges, milestones, and challenges exist as a symbol of their achievement, whether
+in the form of weightlifting belts, gym awards, or recognition in a community.
+
+Thus, the domain of fitness involves not only the physical act of exercising, but also the human
+tendency towards self-improvement, tracking performance, maintaining balance, and seeking motivation 
+through challenges. the difficulties arise from the absence of engaging, consistent methods of
+feedback and recognition that help individuals sustain long-term progress across different aspects of 
+their training.
+
+
+==== 2.1.4 Events, Actions, and Behaviors
+1. Overview
+* In fitness, people engage in structured exercises to improve strength,
+endurance, and overall health. Understanding the difference between events, 
+actions, and behaviors helps clarify how individuals interact with the fitness 
+process over time. These distinctions highlight the milestones that occur during 
+training, the steps people take to achieve them, and the broader routines and patterns 
+that emerge in pursuit of fitness goals.
+
+2. Key Terminologies
+* *Event:* A significant occurrence in the fitness journey that marks a milestone or state change.
+* *Action:* A specific activity performed by the individual in relation to an event.
+* *Behavior:* The overall pattern of repeated actions that make up a fitness routine or
+progression path.
+** For example, achieving a new personal best in weightlifting is an *event*. The *actions*
+leading up to it include performing sets, increasing weights gradually, and tracking
+results. The *behavior* is the long-term commitment to progressive overload and consistent training.
+
+3. Application in Gamified Gym
+* *Events: Key Fitness Milestones:* Events in the domain of fitness represent meaningful achievements or turning points, such 
+as:
+  ** Beginning a workout session.
+  ** Completing a workout targeting a specific muscle group.
+  ** Achieving a personal best in weight, repetitions, or endurance.
+  ** Reaching a new performance tier (e.g., first time benching one’s body weight).
+  ** Maintaining consistency over a defined period (e.g., exercising three times per week 
+  for a month).
+
+* *Actions: Steps in Fitness Process:* Actions are the concrete steps individuals take in their training journey. In the fitness 
+context, these include:
+  ** Choosing a workout plan or exercise.
+  ** Performing sets and repetitions.
+  ** Recording weights used for each set.
+  ** Tracking rest periods between exercises.
+  ** Adjusting training loads to match progress.
+  ** Measuring physical results (e.g., strength gains,
+  endurance improvements).
+  **Comparing progress with peers or training partners.
+
+Each action contributes to building toward larger events, such as hitting new milestones 
+or maintaining balanced progress.
+
+* *Behavior: The Training Journey:* Behavior refers to the recurring, long-term patterns of training and progression. The 
+fitness journey can be described in these phases:
+  ** Initiation Phase: The individual starts a training routine, often motivated by goals such as improved 
+  health, strength, or appearance.
+  ** Development Phase: The individual consistently trains, records progress, and adapts routines. This stage 
+  involves refining technique and gradually increasing intensity.
+  ** Achievement Phase: Significant events occur, such as personal bests, visible improvements, or reaching a 
+  fitness benchmark.
+  ** Sustainment Phase: The individual maintains habits, focuses on balance across muscle groups, and avoids 
+  overtraining by adhering to consistent routines.
+
+This sequence of actions and events illustrates how behaviors develop into a continuous fitness 
+lifestyle rather than isolated workout sessions.
+
+
+==== 2.1.5 Function Signatures
+
+* In the context of this project, these signatures capture the 
+essential domain operations like creating exercises, starting 
+and ending workouts, logging sets, awarding achievements, and 
+updating user profiles.
+
+* These are concise pseudo-code definitions that outline the 
+function's name, the expected input parameters (exercises, 
+sets, repetitions, etc.) and the output with their return type. 
+They don't describe the internal logic of the function, they 
+just define how different parts will interact in the system.
+
+* These signatures are the blueprint of the system's capabilities
+that developers and non-developers alike can understand. This helps
+us show how abstract requirements are translated into easy to understand
+that can be later implemented in code. These functions bridge the gap 
+between conceptual design and actual implementation and working software,
+like explaining a complex track workout to a person that doesn't even know
+what a track workout is.
+
+----
+createExercise(name: String, sets: Int, reps: Int, duration: DateTime) -> return exercises
+// Creates a new exercise with the given name, sets, reps, and duration.
+
+startWorkout(user: User, startTime; Timestamp) -> return WorkoutSession
+// Starts a new workout session for the given user at the given start time.
+
+endWorkout(workoutSession: WorkoutSession, endTime: Timestamp) -> return WorkoutSession
+// Ends the given workout session at the given end time.
+
+logSet(workoutSession: WorkoutSession, exercise: Exercise, setNumber: Int, reps: Int, weight: Double) -> return Set
+// Logs a new set for the given workout session, exercise, set number, reps, and weight.
+
+awardAchievement(user: User, achievement: Achievement) -> return Achievement
+// Awards the given achievement to the given user.
+
+calculateExperience(userId: User, setEntry: SetEntry) -> return Experience
+// Calculates the experience gained from a logged set based on reps, weight, or duration.
+
+updateUserProfile(user: User, name: String, age: Int, gender: String, height: Double, weight: Double) -> return User
+// Updates the given user's profile with the given name, age, gender, height, and weight.
+
+getLeaderboard(period: Timeframe, limit: int) -> return List<LeaderboardEntry
+// Return the top users ranked by experience in the given time period.
+
+sendFriendRequest(senderId: User, receiverId: User) -> return FriendRequest
+// Creates a pending friend request from one user to another.
+
+acceptFriendRequest(requestId: FriendRequest) -> return Friendship
+// Accepts a pending friend request and establishes a friendship connection.
+
+logChallengeProgress(userId: User, challengeId: Challenge, progress: Int) -> return ChallengeProgress
+// Logs the progress of a user in a challenge.
+
+awardMedal(userId: User, medal: Medal) -> return Medal
+// Awards the given medal to the given user.
+
+createPost(userId User, title: String (not required), content: String, workoutId: WorkoutSession, media: List<MediaFile> (not required)) -> return Post
+// Creates a new post with the given title, content, media, and workout session.
+
+createWorkout(userId User, name: String, exercises: List<Exercise>) -> return WorkoutSession
+// Creates a new workout session for the given user with the given name and exercises.
+
+// Aggregate Root Operations
+WorkoutSession.startWorkout(userId: UserId, template: WorkoutTemplate) -> WorkoutSession
+// Creates a new WorkoutSession aggregate root, enforcing workout invariants
+
+WorkoutSession.logExercise(exerciseId: ExerciseId, sets: List<SetEntry>) -> WorkoutSession
+// Adds exercises to the workout session through the aggregate root
+
+WorkoutSession.completeWorkout() -> CompletedWorkout
+// Finalizes the workout and calculates XP through the aggregate root
+
+// Factory Patterns
+AchievementFactory.createStreakAchievement(userId: UserId, streakType: StreakType) -> Achievement
+// Factory method for creating different achievement types with complex initialization
+
+AchievementFactory.createPRAchievement(userId: UserId, exerciseId: ExerciseId, oldPR: Double, newPR: Double) -> Achievement
+// Factory for personal record achievements with validation logic
+
+// Repository Interfaces
+WorkoutRepository.findByUserAndDate(userId: UserId, date: Date) -> List<WorkoutSession>
+// Repository pattern for workout persistence
+
+AchievementRepository.findByUserId(userId: UserId) -> List<Achievement>
+// Repository for achievement data access
+
+UserProgressRepository.getByUserId(userId: UserId) -> UserProgress
+// Repository for user progression tracking
+----
+
+==== 2.1.6 Domain Aggregates and Invariants
+
+===== WorkoutSession Aggregate
+
+The WorkoutSession serves as an aggregate root containing Exercise entries and Set records.
+
+*Aggregate Structure:*
+** Root: WorkoutSession
+** Entities: ExerciseEntry, SetEntry
+** Value Objects: Duration, IntensityScore
+
+*Invariants:*
+** A workout cannot have negative duration
+** Each exercise must target at least one valid muscle group
+** Set weights and reps must be positive numbers
+** Workout completion requires all logged exercises to have at least one set
+
+*Temporary Invariant Violation:*
+During exercise logging, sets may be added incrementally. The "completed sets" invariant is temporarily violated until all planned exercises are logged, but is reestablished when the workout is marked as complete.
+
+===== UserProgress Aggregate
+
+Tracks user's fitness journey progression including XP, levels, and achievements.
+
+*Aggregate Structure:*
+** Root: UserProgress
+** Entities: Achievement, Milestone
+** Value Objects: XP, Level, Badge
+
+*Invariants:*
+** XP cannot be negative
+** Level progression follows defined curve (100 × N² XP)
+** Achievements are only awarded when criteria are fully met
+
+==== 2.1.7 Implicit Concepts Made Explicit
+
+Throughout development, we identified and made explicit several domain concepts:
+
+===== Training Balance Concept
+
+*Initial Understanding:* Users should train all muscle groups
+*Explicit Concept:* `MuscleGroupBalance` - A value object that tracks and scores distribution across muscle groups, with methods to identify imbalances and suggest corrective exercises.
+
+===== Progressive Overload Tracking
+
+*Initial Understanding:* Users get stronger over time
+*Explicit Concept:* `ProgressiveOverloadTracker` - An entity that monitors weight/repetition increases over time, calculating improvement rates and detecting plateaus.
+
+===== Social Motivation Metrics
+
+*Initial Understanding:* Friends motivate each other
+*Explicit Concept:* `SocialMotivationScore` - A value object that quantifies social influence based on friend activity, leaderboard position, and shared achievements.
+
+=== 2.2 Requirements
+
+==== 2.2.1 User Stories, Epics, Features
+
+This section outlines both the functional and non-functional specifications of the Gamified Gym System. Requirements are represented as user stories organized into broader epics. Each story is derived from the deliverables completed during Milestone 2, ensuring all items correspond directly to implemented work in the front-end and back-end.
+
+=== Epics
+
+For Milestone 2, the development team refined the system’s epics to better emphasize user and business value. Feedback from Milestone 1 guided these updates. Technical and design-related efforts are now treated as supporting elements tied to clear, user-centered outcomes rather than standalone goals.
+
+Epic 1: Workout Monitoring and Recording
+
+Goal:
+Enable users to efficiently capture, manage, and review their exercise sessions through an interactive interface.
+
+Justification:
+This epic represents the system’s core functionality—empowering users to document workouts, measure performance, and visualize progress. It connects front-end enhancements with back-end logic to deliver a unified, data-driven workout experience.
+
+User Story 1: Workout Entry and Progress Tracking
+	•	Story: As a strength athlete, I want to record my exercises with timing and set details so that I can accurately follow my progress.
+	•	Implemented Features: Redesigned workout interface, polished exercise catalog, and persistent workout saving function.
+	•	UI Update: The workout page now includes session timers, improved exercise cards, and a refined exercise list view. The Save Workout function is linked to the database, ensuring sessions are securely stored.
+
+User Story 2: Workout Overview and Analytics
+	•	Story: As an active user, I want to view an overview of my completed sessions so that I can easily assess my performance.
+	•	Implemented Features: Workout Summary Card and session history integration.
+	•	UI Update: Developed a summary module displaying key metrics—duration, sets, and XP gained—providing immediate post-workout feedback while reinforcing the XP system.
+
+Epic 2: Performance Rewards and Gamification
+
+Goal:
+Increase user motivation by rewarding consistency through XP, badges, and achievement milestones.
+
+Justification:
+This epic enhances user engagement by transforming regular workouts into a rewarding, game-like experience that promotes consistency and personal growth.
+
+User Story 1: Experience Point Progression
+	•	Story: As a motivated participant, I want to earn XP from completed workouts so I can track my progress and stay engaged.
+	•	Implemented Features: Dynamic XP tracker, database logic for XP updates, and animated XP progress bar.
+	•	UI Update: Added a responsive XP progress bar integrated into the summary view. The backend automatically updates XP in real time, ensuring accurate progression tracking.
+
+User Story 2: Achievements and Badge Rewards
+	•	Story: As a goal-oriented member, I want to unlock achievements and earn badges to celebrate my milestones.
+	•	Implemented Features: Achievement tracking system and categorized badge modules.
+	•	UI Update: Designed an Achievements page displaying earned badges, grouped by category and synchronized with XP milestones for a cohesive gamified experience.
+
+Epic 3: Interface Consistency and Data Connectivity
+
+Goal:
+Ensure a unified, data-driven experience by linking all major UI components to a central database schema.
+
+Justification:
+This epic solidifies the system’s backend integration. By establishing consistent data flow across components, users experience seamless updates and accurate synchronization throughout the app.
+
+User Story 1: Login and Navigation Optimization
+	•	Story: As a returning user, I want a smoother login process and quicker access to my personalized data.
+	•	Implemented Features: Updated authentication workflow and improved navigation logic tied to user profiles.
+	•	UI Update: The Workout Login UI is now connected to the central schema, supporting persistent sessions and faster data retrieval.
+
+User Story 2: Database Schema Integration
+	•	Story: As a developer or administrator, I want key pages connected to the central schema so updates reflect in real time.
+	•	Implemented Features: Unified database schema for workouts, XP, and achievements.
+	•	UI Update: The Workout, Summary, and Achievements pages now retrieve and display live data through consistent schema integration.
+
+Epic 4: Community Features and Future Growth
+
+Goal:
+Lay the foundation for social components that encourage collaboration, competition, and peer motivation.
+
+Justification:
+Expanding social engagement features supports long-term user retention and builds a connected fitness community within the platform.
+
+User Story 1: Planned Social Integration
+	•	Story: As a socially active user, I want to connect with others, view their progress, and share achievements for a more interactive experience.
+	•	Planned Features: Community feed, leaderboards, and user profile enhancements.
+	•	Milestone Note: Preliminary layouts and backend architecture for these features have been drafted to support implementation in future milestones.
+
+=== Completed Features (End-to-End with Passing Tests)
+
+The following features have been fully implemented and validated through acceptance testing:
+
+Feature 1: Workout Logging System
+* Description: Users can create, log, and complete workout sessions with full exercise tracking
+* Technical Highlights: WorkoutSession aggregate pattern, repository abstraction, real-time validation
+
+Feature 2: XP Progression System  
+* Description: Implements the XP calculation and level progression as defined in the XP System Design
+* Technical Highlights: Factory pattern for different XP award types, invariant protection for level progression
+
+Feature 3: Supabase Data Integration
+* Description: Full database integration for user data and workout storage with proper data integrity
+* Technical Highlights: Repository pattern implementation, connection pooling, error handling
+
+==== 2.2.2 Personas
+* Alex, the Beginner:
+  ** Background and daily habits:
+    Alex is a 28-year-old office worker from Miami, Florida. He works long hours at a marketing firm and often ends the day feeling
+    drained. Outside of working hours, he enjoys cooking simple meals, listens to podcasts about technology and entrepreneurship, and occasionally
+    playing casual mobile games to relax. Alex is new to fitness and often feels overwhelmed and out of place in the gym, unsure of where to
+    start or whether he is making any progress. His primary goal is to build a consistent workout habit to improve his health, energy levels,
+    and overall well-being, as he feels sluggish from sitting all day at the office. He has tried a few popular fitness apps but found them to
+    be boring digital logs that he quickly stopped using. Alex is motivated by music and likes to listen to high-energy playlists on Spotify
+    during workouts to stay focused. He is curious, eager to learn, and wants clear guidance to help him feel confident as he begins his fitness journey.
+  ** Motivations and goals:
+    Alex wants an application that feels more like a game than a chore. He seeks clear, visual proof of his progress and simple guidance to
+    know he is on the right track. Beyond fitness, he wants to build self-discipline and manage his time better, so achieving small wins in
+    the app can boost his confidence across other areas of life, such as work and personal projects.   
+  ** Pain points and needs:
+    Current fitness apps only log data but fail to provide engaging feedback or build motivation. Alex struggles to understand fitness
+    terminology and is unsure if his training is balanced, leading to a fear of developing imbalances or injuring himself by overdoing
+    certain exercises. Additionally, he prefers features that fit into busy, irregular schedules and offer clear visual rewards. 
+    He needs an intuitive, encouraging, and gamified guide to help him build a foundation.
+
+* Diego, the Competitive Gamer:
+  ** Background and daily habits:
+    Diego is a 22-year-old computer science student from San Juan, Puerto Rico. He spends much of his free time gaming, streaming, or
+    coding with friends online. He loves competitive environments and progression systems, whether it’s climbing ranked ladders in his
+    favorite games or improving his game stats. Outside of gaming Diego enjoys testing with his friends who have more strength, endurance,
+    or who can make the best dish, but he feels weaker than them in physical challenges. Although he joined a gym last semester, he quickly
+    lost motivation because it felt repetitive and lacked the sense of achievement he gets from gaming.
+  ** Motivations and goals:
+    Diego wants a fitness app that makes working out feel like leveling up in a video game. He is motivated by points, rankings, and visual
+    progress bars that show him getting stronger in real time. His main goal is to stay consistent by turning workouts into daily “missions”
+    that reward effort and let him compete with friends. He also wants to improve his physical strength so he can win physical challenges against his friends.
+  ** Pain points and needs:
+    Current gym apps feel lifeless to him; they only track sets and reps without giving a sense of reward or excitement. He struggles with
+    accountability when training alone and needs an app that transforms progress into a fun, measurable system that keeps him hooked like a
+    game. He also wants an app that provides clear, visual indicators of his improvements as if he is improving stats in a game.
+
+* Sarah, the Consistent:
+  ** Background and daily habits:
+    Sarah is a 32 year old teacher from Austin, Texas, who has maintained a regular gym routine for the past two years. She teaches high school
+    health and wellness classes, and her curiosity about nutrition, fitness, and exercise science allows her to apply what she learns both in school
+    and in her personal life. She is knowledgeable about basic exercises and tracks her sets and reps diligently in a notes app. She enjoys the discipline
+    of training and typically works out early in the morning before school to maintain consistency. Outside the gym and school, Sarah enjoys reading about
+    nutrition and wellness, trying out new healthy recipes, and occasionally attending local fitness classes to expand her knowledge. She secretly allows
+    herself a cheat day every two weeks, indulging in foods like Burger King or fully loaded pizzas. However, she has recently hit a progress plateau and feels
+    her routine has become repetitive. She suspects she may be neglecting certain muscle groups but lacks the data to confirm it.
+  ** Motivations and goals:
+    Sarah wants to optimize her training to overcome her current progress plateau. She is motivated by measurable results and personal challenges,
+    using data to track improvements and hold herself accountable. Her main goal is to ensure balanced development across all muscle groups while
+    adding a new layer of challenge and enjoyment to her well-established fitness routine, beyond simply lifting heavier weights.
+ ** Pain points and needs:
+    Sarah has hit a progress plateau and feels her workouts have become repetitive. She suspects she may be neglecting certain muscle groups
+    but lacks the data to confirm it. Her current tracking method is fragmented and offers no actionable insights. She finds most fitness apps
+    too simplistic and not designed for someone with her experience and discipline. She needs a tool that provides detailed, data driven analytics
+    on her performance and muscle development, and incorporates sophisticated gamification, such as specific muscle goals, to target weaknesses
+    while celebrating her strengths, making her routine more engaging and challenging.
+
+* Marcos, the Motivator:
+  ** Background and daily habits:
+    Marcos is a 24-year-old graduate student from Chicago, Illinois, who treats fitness as a social activity. He works out with a close-knit
+    group of friends, relying on their presence for accountability and friendly competition. Marcos and his friends constantly challenge
+    each other to show up and push harder. He often shares workout milestones on social media like, Instagram but wishes there were a more
+    integrated way to track his progress and stay connected with his friends’ achievements. Outside the gym, Marcos balances his studies, 
+    part-time tutoring, and social life. He enjoys attending local fitness events, trying new workout classes, and exploring healthy restaurants
+    with friends. He is curious about sports science and occasionally reads articles on training techniques and recovery methods. Although
+    disciplined, he sometimes struggles to stay consistent when friends are unavailable or during particularly busy weeks, which makes him
+    value social accountability even more. Marcos also enjoys mentoring others in fitness and often motivates classmates or peers to adopt
+    healthier habits. He sees exercise not just as a personal goal but as a way to connect with others, challenge himself, and maintain
+    a sense of structure in his life.
+
+  ** Motivations and goals:
+    Marcos primary motivation is community, accountability, and shared achievement. He wants an app that strengthens his workout group’s
+    connection by making it easy to share progress, celebrate each other’s accomplishments, and maintain streaks together. He thrives in
+    a positive, friendly competitive environment that emphasizes consistency and effort rather than solely focusing on raw strength.
+    Beyond personal improvement, Marcos also wants to inspire and motivate others, helping peers adopt healthier habits while enjoying
+    a sense of community and shared challenge.
+  ** Pain points and needs:
+    Marcos finds current fitness apps to be isolating experiences, designed for individual use with limited and often clunky social
+    features. There is no seamless way to create a private leaderboard with just his friends to track consistency, celebrate milestones,
+    and encourage each other. He struggles to stay motivated when his workout group is unavailable and wants a platform that fosters a
+    small, supportive community centered around collective growth. Additionally, he needs features that make challenges engaging,
+    provide meaningful progress tracking, and help structure friendly competitions so both he and his friends stay accountable and inspired.
+
+
+
+==== 2.2.3 Domain Requirements
+===== Principles
+* Fitness as a Journey of Personal Progress
+ ** Improvement in strength, endurance, and consistency is a core driver of motivation. The system shall provide clear, 
+    quantifiable metrics and visual representations of a user's progress over time.
+ ** A balanced approach targeting all major muscle groups is essential for preventing injury and achieving a 
+    well-rounded physique. The system shall facilitate and encourage awareness of training distribution across the body.
+
+* Engagement with Fitness Training
+ ** Long-term consistency requires more than initial novelty. The system shall implement a layered reward structure 
+    (e.g., XP, achievements, ranks) that provides continuous feedback and celebrates milestones of varying difficulty.
+ ** Fitness journeys can be reinforced through community. The system shall provide means for positive social comparison 
+    and mutual support that focuses on shared effort and consistency.
+
+===== Functional Requirements
+* Workout Logging
+ ** The system shall allow a user to log an exercise by specifying the exercise name, weight lifted, number of sets, 
+    and number of repetitions per set.
+ ** The system shall require that every logged exercise be associated with at least one primary muscle group 
+    (e.g., Chest, Back, Legs).
+
+* Progress Tracking
+ ** The system shall calculate and display a historical graph of the total training volume (weight × sets × reps) 
+    for each muscle group over a user-selectable time period.
+ ** The system shall track and highlight new Personal Records (PRs) when a user logs a set with a higher 
+    weight for a given exercise than any previous set.
+
+* Gamification System
+ ** The system shall assign a user a rank (Bronze, Silver, Gold, etc.) for each muscle group, calculated 
+    based on the total historical training volume and PRs for that muscle group.
+ ** The system shall award users experience points (XP) for completing workouts and achieving milestones.
+
+* Social Features
+ ** The system shall allow users to send and accept friend requests from other users.
+ ** The system shall provide a leaderboard that ranks a user's friends based on their total consistency streak.
+
+===== Non-Functional Requirements
+* Usability
+ ** The interface shall enable a user to input and submit a standard 3-set exercise in under 30 seconds.
+ ** All charts and graphs depicting muscle balance shall be understandable at a glance without requiring 
+    manual interpretation of data tables.
+
+* Data Integrity
+ ** A user's workout history and personal records shall never be deleted automatically due to inactivity.
+ ** All user data shall be backed up automatically and daily.
+
+* Security
+ ** Users shall only be able to view the profile and workout data of users they have accepted as friends.
+ ** All passwords shall be hashed and salted before storage in the database.
+
+==== 2.2.4 Interface Requirements
+===== User Authentication and Navigation
+===== Onboarding
+* For the initial sign-in screen, there shall be a primary button for logging in and a secondary link or button that directs the user to the sign-up screen to create a new account.
+* The sign-up process shall require a valid email, a username, and a password.
+
+===== Primary Navigation
+* A primary navigation bar, accessible from all main pages, shall be included. It should be consistently located, typically at the bottom of the screen for mobile-first design.
+* The navigation bar shall include the following clearly labeled icons and/or text links:
+** Dashboard: The main home screen.
+** Log Workout: The primary form for data input.
+** Progress: A view for visualizations and achievements.
+** Leaderboard: Social comparison features.
+** Profile: User settings and history.
+* Guiding Goal: Provide users with immediate access to the app's core features from anywhere in the application.
+
+===== Role-Based Interfaces & Dashboards
+===== User Dashboard (Home Screen)
+* The dashboard shall display a personalized summary of the user's current status to provide immediate motivation.
+* Required Elements:
+** A prominent "Start New Workout" or "Log Workout" call-to-action button.
+** A visualization of the current workout streak (e.g., "5-day streak!").
+** A summary view of muscle group ranks, potentially highlighting the highest and lowest-ranked groups.
+** A feed of recent achievements or badges earned.
+
+===== Data Input/Forms
+===== Workout Logging Form
+* The system shall provide a simple and efficient form for users to log their workouts. Forms shall allow submission via a button click.
+* Required Fields for each Exercise Entry:
+** Exercise Name: Text input with autocomplete suggestions for common exercises.
+** Muscle Group: A dropdown or tag system (e.g., Chest, Back, Legs, Biceps).
+** Sets: A table or dynamic list where users can input individual sets.
+** Reps: Numeric input field for each set.
+** Weight: Numeric input field for each set (with unit selection like lbs/kg in settings).
+* The form should allow users to easily add or remove sets and duplicate previous entries for efficiency.
+
+===== Error Dialog Specifications
+* Implement real-time validation to prevent incorrect data submission.
+* Error messages shall appear adjacent to the relevant input field and clearly state the issue. Examples include:
+** "Reps shall be a positive number."
+** "Please select a muscle group."
+** "Weight cannot be negative."
+* Accessibility: All error dialogs shall be screen reader-compatible and visually distinct (e.g., using red text and an icon).
+
+===== Progression and Visualization
+===== Progress Screen
+* This screen shall provide a comprehensive overview of the user's fitness journey and balance.
+* Ranking System Display:
+** Visually display the user's current rank (Bronze, Silver, Gold, Platinum, Diamond) for each major muscle group.
+** Each rank shall be accompanied by a progress bar showing how close the user is to the next rank.
+* Muscle Balance Visualization:
+** Include a chart (e.g., radar chart, bar chart) that visually represents the training volume or rank across all muscle groups to help users identify imbalances.
+* Gamification Elements:
+** An Achievements/Badges section where users can view all earned and locked achievements (e.g., "First 10 Workouts Logged," "Chest Day Champion").
+** A dedicated view for tracking workout streaks and personal bests (PBs) for key lifts.
+
+===== User Profile and Settings
+===== Profile Page
+* The system shall provide users with a profile page where they can:
+** Edit their username and profile avatar.
+** View their complete workout history with options to filter by date or muscle group.
+** See a list of their personal bests for major exercises.
+** The system shall display unlocked achievements and badges within a user's profile.
+
+===== Settings Page
+* The system shall offer users toggles and options to adjust:
+** Weight Units: A toggle to switch between pounds (lbs) and kilograms (kg).
+** Notifications: Toggles for workout reminders, streak warnings, and social notifications.
+** Theme: Options for light or dark mode.
+
+===== General System Requirements
+===== Responsiveness
+ * The interface shall be fully responsive and optimized for a mobile-first experience, with support for tablet and desktop screen sizes.
+** Mobile (360x640 and higher): Single-column layout with a bottom navigation bar.
+** Tablet (768x1024 and higher): Single or two-column layout with an adaptable navigation menu.
+* Touch Interactions: All interactive elements shall have sufficiently large tap targets.
+
+===== Consistency
+ * A consistent design language shall be used throughout the app to ensure a cohesive experience.
+** Button Styles: Primary buttons (e.g., "Save Workout") and secondary buttons (e.g., "Cancel") shall have distinct, consistent styles.
+** Color Palette: Use an energetic and motivating color palette. Specific colors should be designated for achievements (e.g., gold), progress bars, and error states (e.g., red).
+** Fonts: Use a consistent and legible font family for all headings, body text, and data points.
+
+===== Performance
+* Page Load Optimization: The app shall load quickly, especially the workout logging screen, to avoid frustrating users during their workout.
+* Media Optimization: All images (e.g., avatars, badges) shall be compressed for fast delivery on mobile networks.
+
+===== Error Handling & Feedback
+* Error Dialogs: Display clear, non-technical error messages for system issues (e.g., "Could not connect to the server. Please check your internet connection.").
+* Positive Feedback: Provide immediate visual confirmation after a user completes a key action.
+** Successful Workout Log: A confirmation message or animation (e.g., "Workout Saved!").
+** Achievement Unlocked: A celebratory pop-up or notification.
+** New Rank Attained: A visually distinct animation celebrating the rank-up.
+
+==== 2.2.5 Machine Requirements
+* The system shall maintain an average response time of no more than 2 seconds for user interactions, such as updating activity data under normal operating conditions. In the event of a search query, the system shall provide results within 4 seconds, even during peak usage.
+* The system shall run under normal conditions, when  concurrently running 300 normal scenarios that all randomly start within a 5 minute interval. Beyond this threshold, the system shall gracefully degrade its performance, prioritizing essential functionalities such as the viewing and submission of available products. 
+* The system shall gracefully handle an increase when  concurrently running 100 normal scenarios at any given time by dynamically allocating resources. Beyond this threshold, new user connections shall be queued, and the system shall restrict additional connections until resources become available. 
+* The system shall process and store a standard 3-set exercise log within 2 seconds of submission.
+* Machine requirements shall be updated as the project progresses. The previously presented numbers are estimates that are in line with good practice but can only be verified through testing not yet performed. Additional requirements are currently under development, and specific criteria for system stability, acceptable degradation of services, and detailed circumstances for heavily loaded conditions will be researched and defined in subsequent project phases. 
+
+==== 2.2.6 Modeling Entities
+* User
+** Role: Core entity representing the app user (gym-goer).
+** Responsibilities: Stores personal data, progress, completed workouts, challenges, achievements, rewards, level, and streaks.
+
+* Workout Session
+** Role: Represents a single gym session logged by the User.
+** Responsibilities: Contains exercises, tracks metrics like duration, calories burned, and triggers achievement checks.
+
+* Exercise
+** Role: Atomic unit of a Workout Session.
+** Responsibilities: Tracks exercise-specific stats (sets, reps, duration, calories). Contributes to Goals.
+
+* Goal
+** Role: Represents user-defined or system-defined targets.
+** Responsibilities: Tracks progress (frequency, consistency, performance). Completion linked to Achievements and Rewards.
+
+* Achievement
+** Role: Gamification reward for reaching milestones.
+** Responsibilities: Recognizes completion of Goals, streaks, or Challenges. May grant Rewards or badges.
+
+* Reward
+** Role: Incentives to motivate Users.
+** Responsibilities: Can be points, badges, in-app currency, or unlockables. Linked to Achievements, Levels, or Challenge completion.
+
+* Level
+** Role: Represents progression in gamification.
+** Responsibilities: Tracks XP accumulation and unlocks higher-level features. Each User has a Level.
+
+* Challenge
+** Role: Social or individual competitions.
+** Responsibilities: Tracks participating Users, goals, or exercises for completion. Grants Achievements/Rewards upon success.
+
+* Leaderboard
+** Role: Provides a ranked view of Users based on XP, points, or streaks.
+** Responsibilities: Aggregates User stats. Typically read-only; updated dynamically.
+
+* Scalability Notes
+** New entities like Badges, Community Events, or Friend interactions can be added by linking them with User or Challenge.
+** Many-to-many relationships allow social and competitive features without altering the core model.
+** Composition (Workout Session → Exercise) ensures exercises are always tied to a session, maintaining data integrity.
+
+== 3. Analytic Part
+
+=== 3.1 Concept Analysis
+
+* Statements:
+** *Statement A (The Fading Novice):* "I started going to the gym after Christmas last year and really got into it. I went on 4 days every week and did some yoga on the other days, but after about 6 weeks when the semester really picked up pace and there were the first exams coming up, 
+I lost drive and went less often. Then I noticed that I was lifting less than I had lifted just a week earlier and so I went even less often."
+** *Statement B (The Intimidated Beginner):* "I feel intimidated and out of place in the gym. I'm not sure if I'm doing the exercises right or if I'm making any progress. It's hard to stay motivated when it feels like a chore and you don't see immediate results."
+** *Statement C (The Plateaud Regular):* "I've been training consistently for two years, but I've hit a wall. My numbers aren't going up, and my routine feels repetitive. I suspect I might be neglecting some muscle groups, but I don't have the data to confirm it."
+
+* Observed abstractions:
+** All statements highlight the challenge of maintaining long-term engagement in fitness activities.
+** Motivation appears closely tied to visible progress and external reinforcement mechanisms. (achievements, goals).
+** Training consistency emerges as a critical factor for both progress and sustained participation. 
+** Knowledge gaps and lack of feedback contribute to uncertainty and reduced commitment.
+
+* Key Domain Concepts: 
+** *Activity Engagement:* The degree to which users participate in structured fitness activities over time, measured by frequency, duration, and intensity.
+** *Motivation Factor:* Internal and external triggers that influence a user's willingness to initiate and maintain fitness activities.
+** *Progress Tracking:* The systematic measurement and visualization of performance metrics to demonstrate improvement and maintain engagement.
+** *Training Balance:* The equitable distribution of training focus across major muscle groups to prevent imbalances and optimize development.
+** *Consistency Metric:* Quantitative measures of regular participation, such as workout streaks and completion rates.
+** *Performance Plateau:* A stagnation in measurable progress that often leads to reduced motivation and engagement.
+
+* Potential ambiguities:
+** Terms like goal, achievement, and reward may overlap. A goal is self-set, an achievement is earned, and a reward may be externally given. Deciding how these relate will be key for consistent use later.
+** The threshold between consistent training and overtraining must be clearly defined to ensure user safety and sustainable progress.
+** The relationship between quantitative metrics (sets, reps, weights) and qualitative progress (confidence, technique improvement) needs explicit mapping.
+
+* Deep Domain Model Evolution:*
+Our understanding has evolved from tracking simple metrics to modeling complex fitness journeys:
+
+**Shallow Model:** "Log exercises, earn points"
+**Deep Model:** "Users engage in progressive training journeys where consistency, balanced development, and social accountability create sustainable fitness lifestyles"
+
+* Key Aggregate Boundaries Identified:*
+- WorkoutSession as the central training unit
+- UserProgress as the longitudinal journey tracker  
+- SocialNetwork as the motivation ecosystem
+
+* Ubiquitous Language Refinement:*
+Terms like "TrainingBalance," "ProgressiveOverload," and "SocialMotivation" have been explicitly defined and integrated into our domain language.
+
+=== 3.1.1 Refactoring for deeper insight
+
+*Shallow vs. Deep Models:
+**Shallow Model: Focuses only on surface elements like reps, calories, or point. Example: "Do 10 push-ups, get 100 points" While simpl, this approach quickly feels arbitrary and fails to connect with teal fitness goals.
+**Deep Model: Emphizases core human motivatoes such as mastery progression, identify and purpose. Example: "Do 10 push ups, increase your strength skill, unlocking new workouts quest". This creates stronger connnections between in-app feedback and the user's actual growth.
+
+
+=== 3.2 Validation and Verification
+
+*Validation*
+
+Validation is the process of ensuring that the {pname} application meets the needs and expectations of its target users. 
+
+The validation process for {pname} will be conducted through scenario walkthroughs and stakeholder feedback. For example, one scenario we generated was: “Students often lose motivation after a few weeks at the gym; the app keeps them engaged by rewarding consistency with achievements”. We assumed that rewarding consistency with achievements would help sustain engagement. When this scenario was shown to prospective users, they confirmed that achievements can indeed be motivating but suggested that rewards should be frequent and incremental, rather than delayed. This validated the idea of achievements but refined it into a need for short- and long-term milestones.
+
+Additional validation activities include:
+
+* *Terminology checks:* Ensuring consistency of terms such as goal, achievement, and quest across requirements and scenarios.
+* *Stakeholder workshops:* Presenting narratives of motivational barriers and gamified reinforcement strategies to verify alignment with real experiences.
+* *Early prototypes:* Low-fidelity UI mockups will be used to validate whether users clearly understand progression and rewards.
+
+Validation activities will be carried out collaboratively by all project stakeholders throughout development. These stakeholders include:
+
+* *Project Supervisor (Professor):* Provides guidance and feedback on whether validation outcomes align with project goals.
+
+* *Development Team:* Continuously iterates on design ideas and gathers validation data to refine motivational features.
+
+* *End Users (Students/Gym-goers):* Share firsthand feedback on scenarios, prototypes, and usability, serving as the most critical source of validation for motivational effectiveness.
+
+*Verification*
+
+Verification is the process of ensuring that GamifiedGym is being built correctly and that it fulfills the specified requirements. It confirms that the apps features and deliverables work as intended.
+
+*Purpose and Importance:*
+
+Verification will ensure that deliverables meet their stated requirements and perform as intended. Planned verification methods include:
+
+* *Unit testing:* Testing core functions such as goal creation, achievement assignment, and quest completion in isolation.
+
+* *Integration testing:* Verifying end-to-end flows.
+
+* *Completeness checks:* Ensuring all concepts identified in Section 3.1 are fully represented in requirements and implementation.
+
