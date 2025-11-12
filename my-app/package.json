@@ -49,8 +49,8 @@
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
-    "@types/uuid": "^10.0.0",
     "@types/react-native": "^0.72.8",
+    "@types/uuid": "^10.0.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
     "metro": "^0.83.3",
