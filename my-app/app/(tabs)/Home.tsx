@@ -4,6 +4,26 @@ import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { supabase } from "../../lib/supabaseClient";
 import { RootStackParamList } from "./index";
+import { Alert } from "react-native";
+
+/**
+ * Simple assertion utility to make preconditions/postconditions explicit.
+ */
+function assert(condition: boolean, message: string): asserts condition {
+  if (!condition) {
+    console.error("Assertion failed:", message);
+    throw new Error(message);
+  }
+}
+
+/**
+ * Navigation invariants:
+ * - User must be logged in to access Profile or ExerciseLog.
+ * - Home page should always have a valid navigation object.
+ */
+function checkNavigationInvariants(navigation: any) {
+  assert(navigation != null, "Navigation object must exist before using it");
+}
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
@@ -12,6 +32,8 @@ export default function Home() {
   const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
+    assert(supabase != null, "Supabase client must be initialized before use");
+    
     async function fetchUser() {
       const session = supabase.auth.getSession().then(res => res.data.session);
       const user = (await session)?.user;
@@ -108,7 +130,14 @@ export default function Home() {
         <View style={styles.actionsRow}>
           <TouchableOpacity
             style={styles.actionButton}
-            onPress={() => navigation.navigate("ExerciseLog")}
+            onPress={() => {
+              checkNavigationInvariants(navigation);
+              if (!userName) {
+                Alert.alert("Access Denied", "You must be logged in to start a workout.");
+                return;
+              }
+              navigation.navigate("ExerciseLog");
+            }}
           >
             <Text style={styles.actionText}>Start Workout</Text>
           </TouchableOpacity>
@@ -136,7 +165,14 @@ export default function Home() {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+        <TouchableOpacity onPress={() => {
+              checkNavigationInvariants(navigation);
+              if (!userName) {
+                Alert.alert("Access Denied", "You must be logged in to access profile.");
+                return;
+              }
+              navigation.navigate("Profile");
+            }}>
           <Image
             source={require("../../assets/images/user.png")}
             style={styles.navIcon}
