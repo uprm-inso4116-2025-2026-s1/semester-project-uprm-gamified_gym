@@ -7,10 +7,18 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import ExerciseCard from "../../components/exercise-card";
-import RecentWorkoutCard from "../../components/recent-workout-card";
+import ExerciseEntryCard from "../../components/exercise-card";
+import RecentWorkoutSummary from "../../components/recent-workout-card";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+/**
+ * ExerciseLogScreen
+ * Displays the Exercises page with Supple Design refactor:
+ * - Clear function naming (toggleRecentWorkoutView)
+ * - Component naming consistency (ExerciseEntryCard, RecentWorkoutSummary)
+ * - Intentional separation of UI commands and data rendering
+ */
 
 type RootStackParamList = {
   Home: undefined;
@@ -19,14 +27,18 @@ type RootStackParamList = {
   ExerciseLog: undefined;
 };
 
-type ExerciseLogScreenNavigationProp = NativeStackNavigationProp<
+type ExerciseLogNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   "ExerciseLog"
 >;
 
-export default function ExerciseLog() {
-  const navigation = useNavigation<ExerciseLogScreenNavigationProp>();
-  const [showRecent, setShowRecent] = useState(false);
+export default function ExerciseLogScreen() {
+  const navigation = useNavigation<ExerciseLogNavigationProp>();
+  const [isRecentWorkoutVisible, setIsRecentWorkoutVisible] = useState(false);
+
+  function toggleRecentWorkoutView() {
+    setIsRecentWorkoutVisible((prev) => !prev);
+  }
 
   return (
     <View style={styles.background}>
@@ -36,43 +48,52 @@ export default function ExerciseLog() {
       >
         <Text style={styles.header}>Exercises</Text>
 
-        // changes in ExerciseLog.tsx
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => setShowRecent(!showRecent)}
-        >
+        <TouchableOpacity style={styles.button} onPress={toggleRecentWorkoutView}>
           <Text style={styles.buttonText}>
-            {showRecent ? "Hide Recent Workout" : "Show Recent Workout"}
+            {isRecentWorkoutVisible ? "Hide Recent Workout" : "Show Recent Workout"}
           </Text>
         </TouchableOpacity>
 
-        {showRecent && <RecentWorkoutCard />}
+        {isRecentWorkoutVisible && <RecentWorkoutSummary />}
 
-        <ExerciseCard />
+        <ExerciseEntryCard />
       </ScrollView>
 
-      <View style={styles.bottomTabs}>
-        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-          <Image
-            source={require("../../assets/images/home.png")}
-            style={styles.navIcon}
-          />
-        </TouchableOpacity>
+      <BottomNavigation navigation={navigation} />
+    </View>
+  );
+}
 
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Image
-            source={require("../../assets/images/user.png")}
-            style={styles.navIcon}
-          />
-        </TouchableOpacity>
+/** 
+ * Bottom navigation bar with clear structure for navigational commands only.
+ */
+function BottomNavigation({
+  navigation,
+}: {
+  navigation: ExerciseLogNavigationProp;
+}) {
+  return (
+    <View style={styles.bottomTabs}>
+      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+        <Image
+          source={require("../../assets/images/home.png")}
+          style={styles.navIcon}
+        />
+      </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          <Image
-            source={require("../../assets/images/settings.png")}
-            style={styles.navIcon}
-          />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+        <Image
+          source={require("../../assets/images/user.png")}
+          style={styles.navIcon}
+        />
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+        <Image
+          source={require("../../assets/images/settings.png")}
+          style={styles.navIcon}
+        />
+      </TouchableOpacity>
     </View>
   );
 }
