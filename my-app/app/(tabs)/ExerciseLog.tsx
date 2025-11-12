@@ -36,6 +36,7 @@ export default function ExerciseLog() {
       >
         <Text style={styles.header}>Exercises</Text>
 
+        // changes in ExerciseLog.tsx
         <TouchableOpacity
           style={styles.button}
           onPress={() => setShowRecent(!showRecent)}
