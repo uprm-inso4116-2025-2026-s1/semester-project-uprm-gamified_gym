@@ -23,6 +23,7 @@ type RootStackParamList = {
   Home: undefined;
   Profile: undefined;
   Settings: undefined;
+  Achievements: undefined;
 };
 
 
@@ -268,6 +269,14 @@ export default function Profile() {
         <View>
           <PartialFillCard />
         </View>
+
+        <TouchableOpacity
+          style={styles.achievementsButton}
+          onPress={() => navigation.navigate("Achievements")}
+        >
+          <Text style={styles.achievementsButtonText}>Go to Achievements</Text>
+        </TouchableOpacity>
+        
       </ScrollView>
         {/* Bottom Navigation */}
       <View style={styles.bottomTabs}>
@@ -375,6 +384,25 @@ navIcon: { width: 28, height: 28, resizeMode: "contain", tintColor: "#000000ff" 
     color: "#111827",
     marginBottom: 10,
     textAlign: "center",
+  },
+
+  achievementsButton: {
+    backgroundColor: "#2F80FF",
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 20,
+    alignItems: "center",
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    elevation: 4,
+  },
+  achievementsButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 
 });
