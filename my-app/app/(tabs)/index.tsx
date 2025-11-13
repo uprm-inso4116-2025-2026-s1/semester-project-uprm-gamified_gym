@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
   loginbutton: {
-    top: 30,
+    marginTop: 60,
     width: 140,
     height: 40,
   },
