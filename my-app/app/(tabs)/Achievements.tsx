@@ -9,12 +9,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type RootStackParamList = {
   Tabs: undefined;
-  Achievements: undefined;
+  Achievements: { from?: string };
 };
 
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
@@ -58,6 +58,9 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
 
 const Achievements: React.FC = () => {
   const navigation = useNavigation<NavProp>();
+  const route = useRoute();
+  const { from } = route.params as { from?: string };
+
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -71,7 +74,9 @@ const Achievements: React.FC = () => {
             <View style={styles.headerTopRow}>
               <TouchableOpacity
                 style={styles.backButton}
-                onPress={() => navigation.goBack()}
+                onPress={() =>
+                    from ? navigation.navigate(from as never) : navigation.goBack()
+                }
               >
                 <Ionicons name="chevron-back" size={24} color="#ffffff" />
               </TouchableOpacity>

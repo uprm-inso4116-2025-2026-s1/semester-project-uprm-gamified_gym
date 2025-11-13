@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { View, Text, Button, StyleSheet, ImageBackground, TouchableOpacity, LogBox  } from "react-native";
 
@@ -11,6 +11,7 @@ export type RootStackParamList = {
   Settings: undefined;
   Password: undefined;
   ExerciseLog: undefined; 
+  Achievements: { from?: string };
 };
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
@@ -76,7 +77,19 @@ export default function index() {
               onPress={() => navigation.navigate("ExerciseLog")}
               /> */}
           </View>
+
+
+
         </ImageBackground>
+
+
+        {/* Achievements Button */}
+        <TouchableOpacity
+          style={styles.achievementsButton}
+          onPress={() => navigation.navigate("Achievements", { from: "index"})}
+        >
+          <Text style={styles.achievementsButtonText}>🏆</Text>
+        </TouchableOpacity>
       </View>
   );
 } 
@@ -175,5 +188,29 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: BLUE,
     borderRadius: 10,
-  }
+  },
+
+  achievementsButton: {
+    position: "absolute",
+    bottom: 30,
+    right: 30,
+    backgroundColor: "#2F80FF",
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 4,
+    elevation: 6,
+  },
+
+  achievementsButtonText: {
+    fontSize: 28,
+    color: "white",
+    fontWeight: "bold",
+  },
+
 });

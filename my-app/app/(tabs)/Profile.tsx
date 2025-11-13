@@ -23,7 +23,7 @@ type RootStackParamList = {
   Home: undefined;
   Profile: undefined;
   Settings: undefined;
-  Achievements: undefined;
+  Achievements: { from?: string };
 };
 
 
@@ -272,7 +272,7 @@ export default function Profile() {
 
         <TouchableOpacity
           style={styles.achievementsButton}
-          onPress={() => navigation.navigate("Achievements")}
+          onPress={() => navigation.navigate("Achievements", { from: "Profile" })}
         >
           <Text style={styles.achievementsButtonText}>Go to Achievements</Text>
         </TouchableOpacity>
