@@ -25,27 +25,45 @@ type RootStackParamList = {
   Login: undefined;
 };
 
+/**
+ * Settings screen component for managing user account details and preferences.
+ * 
+ * Provides functionality to:
+ *  - View and edit profile information (first name, last name, email, weight)
+ *  - Enable or disable push notifications
+ *  - Log out of the application
+ * 
+ * This component communicates with Supabase for user data retrieval and updates.
+ */
 export default function Settings() {
   const navigation = useNavigation<SettingsScreenNavigationProp>();
 
-  const [profile, setProfile] = useState({
+  const [userProfile, setUserProfile] = useState({
     first_name: "",
     last_name: "",
     email: "",
     weight: "",
   });
-  const [isEnabled, setIsEnabled] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+  const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(false);
+  const [isLoadingProfileData, setIsLoadingProfileData] = useState(false);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
 
-  const toggleSwitch = () => setIsEnabled((prev) => !prev);
+  /**
+ * Toggles whether the user receives push notifications for fitness goals and progress updates.
+ */
+  const togglePushNotifications = () => setPushNotificationsEnabled((previousState) => !previousState);
 
+  // Automatically loads the user's profile data when the screen mounts.
   useEffect(() => {
-    fetchProfile();
+    loadUserProfile();
   }, []);
 
-  async function fetchProfile() {
-    setLoading(true);
+  /**
+ * Loads the currently authenticated user's profile data from Supabase.
+ * Populates the userProfile state with first name, last name, email, and weight.
+ */
+  async function loadUserProfile() {
+    setIsLoadingProfileData(true);
     try {
       const {
         data: { user },
@@ -60,25 +78,29 @@ export default function Settings() {
 
       if (error) throw error;
 
-      setProfile({
+      setUserProfile({
         first_name: data.first_name || "",
         last_name: data.last_name || "",
         email: user.email || "",
         weight: data.weight ? String(data.weight) : "",
       });
     } catch (error: any) {
-      Alert.alert("Error fetching profile", error.message);
+      Alert.alert("Error loading profile", error.message);
     } finally {
-      setLoading(false);
+      setIsLoadingProfileData(false);
     }
   }
 
-  async function saveProfile() {
-    if (!profile.first_name.trim() || !profile.last_name.trim() || !String(profile.weight).trim()) {
+  /**
+ * Persists updated profile details to Supabase.
+ * Shows a success alert and exits edit mode upon completion.
+ */
+  async function updateUserProfileDetails() {
+    if (!userProfile.first_name.trim() || !userProfile.last_name.trim() || !String(userProfile.weight).trim()) {
       Alert.alert("Error", "Fields cannot be empty!");
       return;
     }
-    setLoading(true);
+    setIsLoadingProfileData(true);
     try {
       const {
         data: { user },
@@ -86,9 +108,9 @@ export default function Settings() {
       if (!user) return;
 
       const updates = {
-        first_name: profile.first_name,
-        last_name: profile.last_name,
-        weight: profile.weight,
+        first_name: userProfile.first_name,
+        last_name: userProfile.last_name,
+        weight: userProfile.weight,
         updated_at: new Date(),
       };
 
@@ -100,24 +122,33 @@ export default function Settings() {
       if (error) throw error;
 
       Alert.alert("Success", "Profile updated!");
-      setIsEditing(false);
+      setIsEditingProfile(false);
     } catch (error: any) {
       Alert.alert("Error updating profile", error.message);
     } finally {
-      setLoading(false);
+      setIsLoadingProfileData(false);
     }
   }
 
-  const renderField = (label: string, fieldKey: keyof typeof profile, keyboardType: any = "default") => {
+  /**
+ * Renders a labeled text input field for a given profile attribute.
+ *
+ * @param label - The descriptive label for the input (e.g., "First Name").
+ * @param fieldKey - The key of the userProfile object this input controls.
+ * @param keyboardType - The keyboard type (default is "default"; use "numeric" for number fields).
+ *
+ * Fields like email are displayed but not editable.
+ */
+  const renderField = (label: string, fieldKey: keyof typeof userProfile, keyboardType: any = "default") => {
     const isEmail = fieldKey === "email";
     return (
       <View style={{ width: "100%", marginBottom: 10 }}>
         <Text style={styles.labelText}>{label}</Text>
         <TextInput
-          value={profile[fieldKey]}
-          editable={isEditing && !isEmail}
+          value={userProfile[fieldKey]}
+          editable={isEditingProfile && !isEmail}
           keyboardType={keyboardType}
-          onChangeText={(val) => setProfile({ ...profile, [fieldKey]: val })}
+          onChangeText={(val) => setUserProfile({ ...userProfile, [fieldKey]: val })}
           style={[
             styles.input,
             isEmail ? { backgroundColor: "#e5e7eb", color: "#6b7280" } : {},
@@ -146,8 +177,8 @@ export default function Settings() {
             {renderField("Email:", "email")}
             {renderField("Weight lb:", "weight", "numeric")}
 
-            {!isEditing ? (
-              <TouchableOpacity style={styles.Buttons} onPress={() => setIsEditing(true)}>
+            {!isEditingProfile ? (
+              <TouchableOpacity style={styles.Buttons} onPress={() => setIsEditingProfile(true)}>
                 <Text style={styles.buttonText}>Edit</Text>
               </TouchableOpacity>
             ) : (
@@ -156,15 +187,15 @@ export default function Settings() {
               >
                 <TouchableOpacity
                   style={[styles.Buttons, { flex: 1, marginRight: 5 }]}
-                  onPress={saveProfile}
+                  onPress={updateUserProfileDetails}
                 >
-                  <Text style={styles.buttonText}>{loading ? "Saving..." : "Save"}</Text>
+                  <Text style={styles.buttonText}>{isLoadingProfileData ? "Saving..." : "Save"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.Buttons, { flex: 1, marginLeft: 5, backgroundColor: "#ccc" }]}
                   onPress={() => {
-                    fetchProfile();
-                    setIsEditing(false);
+                    loadUserProfile();
+                    setIsEditingProfile(false);
                   }}
                 >
                   <Text style={[styles.buttonText, { color: "#000" }]}>Cancel</Text>
@@ -184,13 +215,17 @@ export default function Settings() {
               </Text>
               <Switch
                 trackColor={{ false: "#767577", true: "#2E89FF" }}
-                thumbColor={isEnabled ? "#000000" : "#f4f3f4"}
+                thumbColor={pushNotificationsEnabled ? "#000000" : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
+                onValueChange={togglePushNotifications}
+                value={pushNotificationsEnabled}
               />
             </View>
 
+            /**
+            * Logs the current user out of the session via Supabase and navigates back to the Login screen.
+            * Displays an alert upon success or failure.
+            */
             <TouchableOpacity
               style={[styles.Buttons, { marginTop: 30, backgroundColor: "#FF9395" }]}
               onPress={async () => {
@@ -212,6 +247,12 @@ export default function Settings() {
         </ScrollView>
       </KeyboardAvoidingView>
 
+      /**
+      * Navigation shortcuts for primary sections of the app:
+      * Home, Profile, and Settings.
+      *
+      * Each button redirects to its respective screen in the stack.
+      */
       <View style={styles.bottomTabs}>
         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
           <Image source={require("../../assets/images/home.png")} style={styles.navIcon} />
