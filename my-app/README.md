@@ -4,6 +4,11 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 ## Get started
 
+0. Go to the correct directory
+   ```bash
+   cd my-app
+   ```
+
 1. Install dependencies
 
    ```bash
