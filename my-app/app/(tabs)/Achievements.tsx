@@ -1,4 +1,5 @@
-import React from "react";
+import { Animated, Pressable } from "react-native";
+import React, { useRef } from "react";
 import {
   View,
   Text,
@@ -34,27 +35,73 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
   progress,
   iconSource,
 }) => {
+  const scale = useRef(new Animated.Value(1)).current;
+
+  const animateIn = () => {
+    Animated.spring(scale, {
+      toValue: 1.06,
+      useNativeDriver: true,
+      friction: 6,
+    }).start();
+  };
+
+  const animateOut = () => {
+    Animated.spring(scale, {
+      toValue: 1,
+      useNativeDriver: true,
+      friction: 6,
+    }).start();
+  };
+
   return (
-    <View style={styles.card}>
-      <Text style={styles.cardTitle}>{title}</Text>
+    <Pressable
+      onHoverIn={animateIn}
+      onHoverOut={animateOut}
+      onPressIn={animateIn}
+      onPressOut={animateOut}
+    >
+      <Animated.View style={[styles.card, { transform: [{ scale }] }]}>
+        
+        <Text style={styles.cardTitle}>{title}</Text>
 
-      <View style={styles.cardIconWrapper}>
-        <Image source={iconSource} style={styles.cardIcon} />
-      </View>
-
-      <View style={styles.ribbon}>
-        <Text style={styles.ribbonText}>{subtitle}</Text>
-      </View>
-
-      <View style={styles.progressRow}>
-        <Text style={styles.progressLabel}>{progress}%</Text>
-        <View style={styles.progressTrack}>
-          <View style={[styles.progressFill, { width: `${progress}%` }]} />
+        <View style={styles.cardIconWrapper}>
+          <Image source={iconSource} style={styles.cardIcon} />
         </View>
-      </View>
-    </View>
+
+        <View style={styles.ribbon}>
+          <Text style={styles.ribbonText}>{subtitle}</Text>
+        </View>
+
+        <View style={styles.progressRow}>
+          <Text style={styles.progressLabel}>{progress}%</Text>
+          <View style={styles.progressTrack}>
+            <View style={[styles.progressFill, { width: `${progress}%` }]} />
+          </View>
+        </View>
+
+      </Animated.View>
+    </Pressable>
   );
 };
+
+const achievementsList = [
+  { title: "Ranked", subtitle: "Star", progress: 0 },
+  { title: "Streaks", subtitle: "Freshman", progress: 0 },
+  { title: "Strength", subtitle: "Sophomore", progress: 0 },
+  { title: "Holidays", subtitle: "Sophomore", progress: 0 },
+
+  // ⭐ Add 9 more
+  { title: "Flexibility", subtitle: "Bronze", progress: 0 },
+  { title: "Cardio", subtitle: "Rookie", progress: 0 },
+  { title: "Endurance", subtitle: "Silver", progress: 0 },
+  { title: "Consistency", subtitle: "Gold", progress: 0 },
+  { title: "Hydration", subtitle: "Hydrated", progress: 0 },
+  { title: "Calories Burned", subtitle: "Burner", progress: 0 },
+  { title: "Workouts Logged", subtitle: "Tracker", progress: 0 },
+  { title: "Daily Check-ins", subtitle: "Visitor", progress: 0 },
+  { title: "Gym Time", subtitle: "Grinder", progress: 0 },
+];
+
 
 const Achievements: React.FC = () => {
   const navigation = useNavigation<NavProp>();
@@ -97,33 +144,19 @@ const Achievements: React.FC = () => {
             </View>
           </View>
 
-          {/* Cards Grid */}
-          <View style={styles.cardsGrid}>
-              <AchievementCard
-    title="Ranked"
-    subtitle="Star"
-    progress={0}
-    iconSource={require("../../assets/images/medal.png")}
-  />
-  <AchievementCard
-    title="Streaks"
-    subtitle="Freshman"
-    progress={0}
-    iconSource={require("../../assets/images/medal.png")}
-  />
-  <AchievementCard
-    title="Strength"
-    subtitle="Sophomore"
-    progress={0}
-    iconSource={require("../../assets/images/medal.png")}
-  />
-  <AchievementCard
-    title="Holidays"
-    subtitle="Sophomore"
-    progress={0}
-    iconSource={require("../../assets/images/medal.png")}
-  />
-          </View>
+{/* Cards Grid */}
+<View style={styles.cardsGrid}>
+  {achievementsList.map((item, index) => (
+    <AchievementCard
+      key={index}
+      title={item.title}
+      subtitle={item.subtitle}
+      progress={item.progress}
+      iconSource={require("../../assets/images/medal.png")}
+    />
+  ))}
+</View>
+
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -131,6 +164,7 @@ const Achievements: React.FC = () => {
 };
 
 export default Achievements;
+
 
 /* ------------ STYLES ------------ */
 
@@ -209,14 +243,16 @@ const styles = StyleSheet.create({
 
   cardsGrid: {
     marginTop: 16,
-    paddingHorizontal: 12,
+    paddingHorizontal: 20,
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    columnGap: 20,
+    rowGap: 20,
   },
 
   card: {
-    width: "30%",
+    width: 280,
     backgroundColor: "#ffffff",
     borderRadius: 18,
     paddingVertical: 14,
