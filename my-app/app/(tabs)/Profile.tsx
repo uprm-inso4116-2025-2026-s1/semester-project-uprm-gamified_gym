@@ -23,6 +23,7 @@ type RootStackParamList = {
   Home: undefined;
   Profile: undefined;
   Settings: undefined;
+  Achievements: { from?: string };
 };
 
 
@@ -242,7 +243,10 @@ export default function Profile() {
 
             <View style={styles.separator} />
 
-            {/* Badges */}
+            {/* Badges Section */}
+
+            <Text style={styles.badgesTitle}>Badges</Text>
+
             <View style={styles.badgesRow}>
               <View style={styles.badge}>
                 <Image source={require("../../assets/images/medal.png")} style={styles.badgeImage} />
@@ -265,6 +269,14 @@ export default function Profile() {
         <View>
           <PartialFillCard />
         </View>
+
+        <TouchableOpacity
+          style={styles.achievementsButton}
+          onPress={() => navigation.navigate("Achievements", { from: "Profile" })}
+        >
+          <Text style={styles.achievementsButtonText}>Go to Achievements</Text>
+        </TouchableOpacity>
+        
       </ScrollView>
         {/* Bottom Navigation */}
       <View style={styles.bottomTabs}>
@@ -334,10 +346,63 @@ navIcon: { width: 28, height: 28, resizeMode: "contain", tintColor: "#000000ff" 
   statusTextError: { color: "#b91c1c" },
   infoButton: { backgroundColor: "#3b82f6", paddingVertical: 12, paddingHorizontal: 25, borderRadius: 8, marginVertical: 10, width: "80%", alignItems: "center" },
   infoText: { color: "#fff", fontSize: 16, fontWeight: "500" },
-  badgesRow: { flexDirection: "row", justifyContent: "space-between", marginTop: 25, width: "80%" },
-  badge: { backgroundColor: "#3b82f6", borderRadius: 20, padding: 15, alignItems: "center", justifyContent: "center", width: 80, height: 80 },
-  badgeImage: { width: 36, height: 36, resizeMode: "contain" },
+  badgesRow: { 
+    flexDirection: "row", 
+    justifyContent: "center", 
+    alignItems: "center", 
+    gap: 15, 
+    marginTop: 25, 
+    width: "80%" 
+  },
+  badge: { 
+    backgroundColor: "#3b82f6", 
+    borderRadius: 25, 
+    padding: 20, 
+    alignItems: "center", 
+    justifyContent: "center", 
+    width: 95, 
+    height: 95, 
+  },
+
+  badgeImage: { 
+    width: 48, 
+    height: 48, 
+    resizeMode: "contain" 
+  },
   separator: { height: 1, backgroundColor: "#e5e7eb", width: "80%", marginVertical: 20 },
   refreshButton: { marginTop: 30, paddingVertical: 10, paddingHorizontal: 20, borderRadius: 8, backgroundColor: "#111827" },
   refreshText: { color: "#fff", fontSize: 14, fontWeight: "500" },
+
+  badgesSection: {
+    alignItems: "center",
+    marginTop: 20,
+  },
+
+  badgesTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#111827",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+
+  achievementsButton: {
+    backgroundColor: "#2F80FF",
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 20,
+    alignItems: "center",
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    elevation: 4,
+  },
+  achievementsButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
 });
