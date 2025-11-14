@@ -1,9 +1,11 @@
-name: Generate PDF for Milestone_3
+name: Generate PDFs for Milestones
 
 on:
   push:
     paths:
-      - "docs/Milestone_2.adoc"   # Only run when this file changes
+      - "docs/Milestone_1.adoc"
+      - "docs/Milestone_2.adoc"
+      - "docs/Milestone_3.adoc"
 
 permissions:
   contents: write   # Allow committing PDFs to the repo
@@ -27,25 +29,29 @@ jobs:
         run: |
           gem install asciidoctor-pdf --no-document
 
-      - name: Build PDF into Milestone_docs folder
+      - name: Build PDFs into Milestone_docs folder
         run: |
-          mkdir -p Milestone_docs   # Create folder if needed
-          ruby -S asciidoctor-pdf docs/Milestone_2.adoc -o Milestone_docs/Milestone_3.pdf
-          ls -R .
+          mkdir -p Milestone_docs
+          # Build all milestone PDFs
+          ruby -S asciidoctor-pdf docs/Milestone_1.adoc -o Milestone_docs/Milestone_1.pdf
+          ruby -S asciidoctor-pdf docs/Milestone_2.adoc -o Milestone_docs/Milestone_2.pdf
+          ruby -S asciidoctor-pdf docs/Milestone_3.adoc -o Milestone_docs/Milestone_3.pdf
           ls -R Milestone_docs
 
-      - name: Commit and push generated PDF
+      - name: Commit and push generated PDFs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Force-add the PDF even if it's in .gitignore
-          git add -f Milestone_docs/Milestone_3.pdf || echo "Nothing to add"
+          # Force-add all milestone PDFs
+          git add -f Milestone_docs/Milestone_1.pdf || true
+          git add -f Milestone_docs/Milestone_2.pdf || true
+          git add -f Milestone_docs/Milestone_3.pdf || true
 
-          # Check if anything is staged
+          # Commit only if there are changes
           if git diff --cached --quiet; then
-            echo "No changes to commit."
+            echo "No PDF changes to commit."
           else
-            git commit -m "chore: auto-generate Milestone_3.pdf [skip ci]" || echo "No changes to commit"
+            git commit -m "chore: auto-generate milestone PDFs [skip ci]" || echo "No changes to commit"
             git push
           fi
