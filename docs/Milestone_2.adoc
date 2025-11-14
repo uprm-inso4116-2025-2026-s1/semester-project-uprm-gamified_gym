@@ -7,7 +7,7 @@
 ** Kevin Lopez
 ** Ricardo Perez
 
-* Fitness Tracker Team:
+* Fitness Tracker Team::
 ** Ernesto Soto (Team Leader)
 ** Cristian Massini
 ** Pedro Matos
