@@ -3,7 +3,7 @@ name: Generate PDF for Milestone_3
 on:
   push:
     paths:
-      - "docs/Milestone_3.adoc"   # Only run when this file changes
+      - "docs/Milestone_2.adoc"   # Only run when this file changes
 
 permissions:
   contents: write   # Allow committing PDFs to the repo
@@ -30,7 +30,7 @@ jobs:
       - name: Build PDF into Milestone_docs folder
         run: |
           mkdir -p Milestone_docs   # Create folder if needed
-          ruby -S asciidoctor-pdf docs/Milestone_3.adoc -o Milestone_docs/Milestone_3.pdf
+          ruby -S asciidoctor-pdf docs/Milestone_2.adoc -o Milestone_docs/Milestone_3.pdf
           ls -R .
           ls -R Milestone_docs
 
