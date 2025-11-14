@@ -1,0 +1,46 @@
+name: Generate PDF for Milestone_3
+
+on:
+  push:
+    paths:
+      - "docs/Milestone_3.adoc"   # Only run when this file changes
+
+permissions:
+  contents: write   # Allow committing PDFs to the repo
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+
+      - name: Install Asciidoctor PDF
+        run: |
+          gem install asciidoctor-pdf --no-document
+
+      - name: Build PDF into Milestone_docs folder
+        run: |
+            mkdir -p Milestone_docs   # Create folder if needed
+            asciidoctor-pdf docs/Milestone_3.adoc -o Milestone_docs/Milestone_3.pdf
+
+      - name: Commit and push generated PDF
+        run: |
+          if git status --porcelain | grep -q 'Milestone_docs/Milestone_3.pdf'; then
+            echo "PDF changed, committing..."
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add Milestone_docs/Milestone_3.pdf
+            git commit -m "chore: auto-generate Milestone_3.pdf [skip ci]" || echo "No changes to commit"
+            git push
+          else
+            echo "No PDF changes to commit."
+          fi
