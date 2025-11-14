@@ -6,7 +6,9 @@
 include::requirements.adoc[]
 
 == Milestones
-include::milestones.adoc[]
+include::Milestone_1.adoc[]
+include::Milestone_2.adoc[]
+include::Milestone_3.adoc[]
 
 == Meetings
 include::meetings.adoc[]
