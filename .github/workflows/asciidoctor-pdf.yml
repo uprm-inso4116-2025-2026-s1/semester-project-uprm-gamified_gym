@@ -31,6 +31,8 @@ jobs:
         run: |
             mkdir -p Milestone_docs   # Create folder if needed
             ruby -S asciidoctor-pdf docs/Milestone_3.adoc -o Milestone_docs/Milestone_3.pdf
+            ls -R .
+            ls -R Milestone_docs
 
       - name: Commit and push generated PDF
         run: |
