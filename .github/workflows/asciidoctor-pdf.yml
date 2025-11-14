@@ -36,13 +36,16 @@ jobs:
 
       - name: Commit and push generated PDF
         run: |
-          if git status --porcelain | grep -q 'Milestone_docs/Milestone_3.pdf'; then
-            echo "PDF changed, committing..."
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add Milestone_docs/Milestone_3.pdf
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Force-add the PDF even if it's in .gitignore
+          git add -f Milestone_docs/Milestone_3.pdf || echo "Nothing to add"
+
+          # Check if anything is staged
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
             git commit -m "chore: auto-generate Milestone_3.pdf [skip ci]" || echo "No changes to commit"
             git push
-          else
-            echo "No PDF changes to commit."
           fi
