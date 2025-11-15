@@ -790,11 +790,11 @@ Feature 3: Supabase Data Integration
 
 * The Top Card serves as the initial, user-facing element of the screen. It asks the user *“How are you feeling today?”* and provides a dedicated space (`topCardBody`) for interactive content such as mood tracking, quick inputs, or suggestions.  
 
-**This design:  
-***- Enhances user engagement by creating a personalized greeting and check-in experience.  
-***- Provides a clear entry point for actions, acting as the first interactive area of the screen.  
-***- Establishes visual hierarchy, ensuring the user immediately sees what the app prioritizes.  
-***- Allows future expandability, since more features can be added inside the `topCardBody` without redesigning the layout.  
+** *This design:  
+** *- Enhances user engagement by creating a personalized greeting and check-in experience.  
+** *- Provides a clear entry point for actions, acting as the first interactive area of the screen.  
+** *- Establishes visual hierarchy, ensuring the user immediately sees what the app prioritizes.  
+** *- Allows future expandability, since more features can be added inside the `topCardBody` without redesigning the layout.  
 
 *Code Fragment*  
 [source,jsx]  
