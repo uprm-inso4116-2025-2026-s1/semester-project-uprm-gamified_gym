@@ -25,6 +25,7 @@ type AchievementCardProps = {
   subtitle: string;
   progress: number;
   iconSource: any;
+  onPress?: () => void;
 };
 
 const BLUE = "#2C82FF";
@@ -34,6 +35,7 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
   subtitle,
   progress,
   iconSource,
+  onPress,
 }) => {
   const scale = useRef(new Animated.Value(1)).current;
 
@@ -55,6 +57,7 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
 
   return (
     <Pressable
+      onPress={onPress}
       onHoverIn={animateIn}
       onHoverOut={animateOut}
       onPressIn={animateIn}
@@ -107,6 +110,26 @@ const Achievements: React.FC = () => {
   const navigation = useNavigation<NavProp>();
   const route = useRoute();
   const { from } = route.params as { from?: string };
+  const [selected, setSelected] = React.useState<any>(null);
+  const slideAnim = useRef(new Animated.Value(0)).current; // 1 = off-screen
+
+  const openPanel = (item: any) => {
+    setSelected(item);
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const closePanel = () => {
+    Animated.timing(slideAnim, {
+      toValue: 1,
+      duration: 250,
+      useNativeDriver: true,
+    }).start(() => setSelected(null));
+  };
+
 
 
   return (
@@ -153,11 +176,60 @@ const Achievements: React.FC = () => {
       subtitle={item.subtitle}
       progress={item.progress}
       iconSource={require("../../assets/images/medal.png")}
+      onPress={() => openPanel(item)}   // ⭐ NOW WORKS ⭐
     />
   ))}
 </View>
-
         </ScrollView>
+        {/* ⭐ Bottom Sheet Overlay + Panel ⭐ */}
+{selected && (
+  <>
+    <Pressable style={styles.overlay} onPress={closePanel} />
+
+    <Animated.View
+      style={[
+        styles.bottomSheet,
+        {
+          transform: [
+            {
+              translateY: slideAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 400],  // slide from bottom
+              }),
+            },
+          ],
+        },
+      ]}
+    >
+      <View style={styles.sheetHandle} />
+
+      <Text style={styles.sheetTitle}>{selected.title}</Text>
+      <Text style={styles.sheetSubtitle}>{selected.subtitle}</Text>
+
+      <Image
+        source={require("../../assets/images/medal.png")}
+        style={styles.sheetIcon}
+      />
+
+      <View style={styles.sheetProgressRow}>
+        <Text style={styles.sheetProgressText}>{selected.progress}%</Text>
+        <View style={styles.sheetProgressTrack}>
+          <View
+            style={[
+              styles.sheetProgressFill,
+              { width: `${selected.progress}%` },
+            ]}
+          />
+        </View>
+      </View>
+
+      <Text style={styles.sheetDescription}>
+        This achievement tracks your {selected.title.toLowerCase()}. Keep
+        progressing to unlock rewards!
+      </Text>
+    </Animated.View>
+  </>
+)}
       </View>
     </SafeAreaView>
   );
@@ -175,7 +247,7 @@ const styles = StyleSheet.create({
   },
   safeBackground: {
     flex: 1,
-    backgroundColor: "#F3F4F6",
+    backgroundColor: "#44474fff",
   },
   scrollContent: {
     paddingBottom: 24,
@@ -315,4 +387,89 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     backgroundColor: "#2563EB",
   },
+
+
+  overlay: {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0,0,0,0.4)",
+},
+
+bottomSheet: {
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  right: 0,
+  padding: 20,
+  backgroundColor: "#fff",
+  borderTopLeftRadius: 20,
+  borderTopRightRadius: 20,
+  elevation: 20,
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: -4 },
+  shadowOpacity: 0.3,
+  shadowRadius: 6,
+},
+
+sheetHandle: {
+  width: 50,
+  height: 6,
+  backgroundColor: "#ccc",
+  borderRadius: 3,
+  alignSelf: "center",
+  marginBottom: 12,
+},
+
+sheetTitle: {
+  fontSize: 22,
+  fontWeight: "bold",
+  textAlign: "center",
+  marginBottom: 4,
+},
+
+sheetSubtitle: {
+  fontSize: 16,
+  textAlign: "center",
+  marginBottom: 10,
+},
+
+sheetIcon: {
+  width: 100,
+  height: 100,
+  alignSelf: "center",
+  marginBottom: 20,
+},
+
+sheetProgressRow: {
+  marginBottom: 10,
+},
+
+sheetProgressText: {
+  fontSize: 14,
+  fontWeight: "600",
+  marginBottom: 6,
+},
+
+sheetProgressTrack: {
+  height: 8,
+  backgroundColor: "#eee",
+  borderRadius: 4,
+},
+
+sheetProgressFill: {
+  height: "100%",
+  backgroundColor: "#2C82FF",
+  borderRadius: 4,
+},
+
+sheetDescription: {
+  marginTop: 20,
+  fontSize: 14,
+  textAlign: "center",
+  color: "#444",
+},
+
 });
