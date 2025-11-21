@@ -1,475 +1,718 @@
-import { Animated, Pressable } from "react-native";
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   SafeAreaView,
   ScrollView,
-  Image,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { LinearGradient } from "expo-linear-gradient";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-type RootStackParamList = {
-  Tabs: undefined;
-  Achievements: { from?: string };
-};
+const { width } = Dimensions.get("window");
+const CARD_WIDTH = (width - 48) / 2; // 2 columns with padding
 
-type NavProp = NativeStackNavigationProp<RootStackParamList>;
-
-type AchievementCardProps = {
+type Achievement = {
+  id: string;
   title: string;
-  subtitle: string;
+  description: string;
+  category: "Strength" | "Consistency" | "Progress" | "Milestones";
   progress: number;
-  iconSource: any;
-  onPress?: () => void;
+  target: number;
+  locked: boolean;
+  icon: string;
+  reward: string;
 };
 
-const BLUE = "#2C82FF";
-
-const AchievementCard: React.FC<AchievementCardProps> = ({
-  title,
-  subtitle,
-  progress,
-  iconSource,
-  onPress,
-}) => {
-  const scale = useRef(new Animated.Value(1)).current;
-
-  const animateIn = () => {
-    Animated.spring(scale, {
-      toValue: 1.06,
-      useNativeDriver: true,
-      friction: 6,
-    }).start();
-  };
-
-  const animateOut = () => {
-    Animated.spring(scale, {
-      toValue: 1,
-      useNativeDriver: true,
-      friction: 6,
-    }).start();
-  };
-
-  return (
-    <Pressable
-      onPress={onPress}
-      onHoverIn={animateIn}
-      onHoverOut={animateOut}
-      onPressIn={animateIn}
-      onPressOut={animateOut}
-    >
-      <Animated.View style={[styles.card, { transform: [{ scale }] }]}>
-        
-        <Text style={styles.cardTitle}>{title}</Text>
-
-        <View style={styles.cardIconWrapper}>
-          <Image source={iconSource} style={styles.cardIcon} />
-        </View>
-
-        <View style={styles.ribbon}>
-          <Text style={styles.ribbonText}>{subtitle}</Text>
-        </View>
-
-        <View style={styles.progressRow}>
-          <Text style={styles.progressLabel}>{progress}%</Text>
-          <View style={styles.progressTrack}>
-            <View style={[styles.progressFill, { width: `${progress}%` }]} />
-          </View>
-        </View>
-
-      </Animated.View>
-    </Pressable>
-  );
-};
-
-const achievementsList = [
-  { title: "Ranked", subtitle: "Star", progress: 0 },
-  { title: "Streaks", subtitle: "Freshman", progress: 0 },
-  { title: "Strength", subtitle: "Sophomore", progress: 0 },
-  { title: "Holidays", subtitle: "Sophomore", progress: 0 },
-
-  // ⭐ Add 9 more
-  { title: "Flexibility", subtitle: "Bronze", progress: 0 },
-  { title: "Cardio", subtitle: "Rookie", progress: 0 },
-  { title: "Endurance", subtitle: "Silver", progress: 0 },
-  { title: "Consistency", subtitle: "Gold", progress: 0 },
-  { title: "Hydration", subtitle: "Hydrated", progress: 0 },
-  { title: "Calories Burned", subtitle: "Burner", progress: 0 },
-  { title: "Workouts Logged", subtitle: "Tracker", progress: 0 },
-  { title: "Daily Check-ins", subtitle: "Visitor", progress: 0 },
-  { title: "Gym Time", subtitle: "Grinder", progress: 0 },
+const ACHIEVEMENTS: Achievement[] = [
+  {
+    id: "1",
+    title: "First Steps",
+    description: "Complete your first workout",
+    category: "Milestones",
+    progress: 1,
+    target: 1,
+    locked: false,
+    icon: "footsteps",
+    reward: "50 XP",
+  },
+  {
+    id: "2",
+    title: "Week Warrior",
+    description: "Work out 7 days in a row",
+    category: "Consistency",
+    progress: 3,
+    target: 7,
+    locked: false,
+    icon: "flame",
+    reward: "100 XP",
+  },
+  {
+    id: "3",
+    title: "Iron Lifter",
+    description: "Lift 1000 lbs total",
+    category: "Strength",
+    progress: 450,
+    target: 1000,
+    locked: false,
+    icon: "barbell",
+    reward: "200 XP",
+  },
+  {
+    id: "4",
+    title: "Century Club",
+    description: "Complete 100 total workouts",
+    category: "Milestones",
+    progress: 23,
+    target: 100,
+    locked: false,
+    icon: "trophy",
+    reward: "500 XP",
+  },
+  {
+    id: "5",
+    title: "Early Bird",
+    description: "Work out before 7 AM",
+    category: "Milestones",
+    progress: 0,
+    target: 1,
+    locked: true,
+    icon: "sunny",
+    reward: "75 XP",
+  },
+  {
+    id: "6",
+    title: "PR Breaker",
+    description: "Set a new personal record",
+    category: "Progress",
+    progress: 0,
+    target: 1,
+    locked: true,
+    icon: "ribbon",
+    reward: "150 XP",
+  },
+  {
+    id: "7",
+    title: "Streak Master",
+    description: "30-day workout streak",
+    category: "Consistency",
+    progress: 3,
+    target: 30,
+    locked: false,
+    icon: "calendar",
+    reward: "300 XP",
+  },
+  {
+    id: "8",
+    title: "Beast Mode",
+    description: "Complete 10 intense workouts",
+    category: "Strength",
+    progress: 0,
+    target: 10,
+    locked: true,
+    icon: "flash",
+    reward: "250 XP",
+  },
 ];
 
+const CATEGORIES = ["All", "Strength", "Consistency", "Progress", "Milestones"];
 
-const Achievements: React.FC = () => {
-  const navigation = useNavigation<NavProp>();
-  const route = useRoute();
-  const { from } = route.params as { from?: string };
-  const [selected, setSelected] = React.useState<any>(null);
-  const slideAnim = useRef(new Animated.Value(0)).current; // 1 = off-screen
+const CATEGORY_COLORS: Record<string, [string, string]> = {
+  Strength: ["#FF6B6B", "#FF8E53"],
+  Consistency: ["#4ECDC4", "#44A08D"],
+  Progress: ["#A8E6CF", "#56AB2F"],
+  Milestones: ["#FFD93D", "#F39C12"],
+  All: ["#667EEA", "#764BA2"],
+};
 
-  const openPanel = (item: any) => {
-    setSelected(item);
-    Animated.timing(slideAnim, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
+export default function Achievements() {
+  const insets = useSafeAreaInsets();
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedAchievement, setSelectedAchievement] =
+    useState<Achievement | null>(null);
+
+  const filteredAchievements =
+    selectedCategory === "All"
+      ? ACHIEVEMENTS
+      : ACHIEVEMENTS.filter((a) => a.category === selectedCategory);
+
+  const stats = {
+    total: ACHIEVEMENTS.length,
+    completed: ACHIEVEMENTS.filter((a) => a.progress >= a.target).length,
+    inProgress: ACHIEVEMENTS.filter(
+      (a) => a.progress > 0 && a.progress < a.target
+    ).length,
+    locked: ACHIEVEMENTS.filter((a) => a.locked).length,
   };
 
-  const closePanel = () => {
-    Animated.timing(slideAnim, {
-      toValue: 1,
-      duration: 250,
-      useNativeDriver: true,
-    }).start(() => setSelected(null));
-  };
-
-
+  const completionPercentage = Math.round((stats.completed / stats.total) * 100);
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <View style={styles.safeBackground}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        {/* Header */}
+        <LinearGradient
+          colors={["#2E89FF", "#1E5FCC"]}
+          style={styles.header}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
         >
-          {/* Header */}
-          <View style={styles.header}>
-            <View style={styles.headerTopRow}>
-              <TouchableOpacity
-                style={styles.backButton}
-                onPress={() =>
-                    from ? navigation.navigate(from as never) : navigation.goBack()
-                }
-              >
-                <Ionicons name="chevron-back" size={24} color="#ffffff" />
-              </TouchableOpacity>
-
-              <Text style={styles.headerTitle}>My Achievements</Text>
-
-              <View style={styles.headerBadge}>
-                <Image
-                  source={require("../../assets/images/medal.png")}
-                  style={styles.headerBadgeIcon}
-                />
-              </View>
+          <View style={styles.headerContent}>
+            <View>
+              <Text style={styles.headerTitle}>Achievements</Text>
+              <Text style={styles.headerSubtitle}>
+                {stats.completed} of {stats.total} unlocked
+              </Text>
             </View>
-
-            <View style={styles.awardPill}>
-              <View style={styles.awardDot} />
-              <Text style={styles.awardText}>Award 1/10</Text>
+            <View style={styles.progressRing}>
+              <Text style={styles.progressPercentage}>{completionPercentage}%</Text>
             </View>
           </View>
 
-{/* Cards Grid */}
-<View style={styles.cardsGrid}>
-  {achievementsList.map((item, index) => (
-    <AchievementCard
-      key={index}
-      title={item.title}
-      subtitle={item.subtitle}
-      progress={item.progress}
-      iconSource={require("../../assets/images/medal.png")}
-      onPress={() => openPanel(item)}   // ⭐ NOW WORKS ⭐
-    />
-  ))}
-</View>
+          {/* Stats Cards */}
+          <View style={styles.statsContainer}>
+            <View style={styles.statCard}>
+              <Ionicons name="checkmark-circle" size={24} color="#4CAF50" />
+              <Text style={styles.statValue}>{stats.completed}</Text>
+              <Text style={styles.statLabel}>Completed</Text>
+            </View>
+            <View style={styles.statCard}>
+              <Ionicons name="hourglass" size={24} color="#FF9800" />
+              <Text style={styles.statValue}>{stats.inProgress}</Text>
+              <Text style={styles.statLabel}>In Progress</Text>
+            </View>
+            <View style={styles.statCard}>
+              <Ionicons name="lock-closed" size={24} color="#9E9E9E" />
+              <Text style={styles.statValue}>{stats.locked}</Text>
+              <Text style={styles.statLabel}>Locked</Text>
+            </View>
+          </View>
+        </LinearGradient>
+
+        {/* Category Filter */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.categoryScroll}
+          contentContainerStyle={styles.categoryScrollContent}
+        >
+          {CATEGORIES.map((category) => (
+            <TouchableOpacity
+              key={category}
+              style={[
+                styles.categoryChip,
+                selectedCategory === category && styles.categoryChipActive,
+              ]}
+              onPress={() => setSelectedCategory(category)}
+              activeOpacity={0.7}
+            >
+              <Text
+                style={[
+                  styles.categoryChipText,
+                  selectedCategory === category &&
+                    styles.categoryChipTextActive,
+                ]}
+              >
+                {category}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </ScrollView>
-        {/* ⭐ Bottom Sheet Overlay + Panel ⭐ */}
-{selected && (
-  <>
-    <Pressable style={styles.overlay} onPress={closePanel} />
 
-    <Animated.View
-      style={[
-        styles.bottomSheet,
-        {
-          transform: [
-            {
-              translateY: slideAnim.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 400],  // slide from bottom
-              }),
-            },
-          ],
-        },
-      ]}
-    >
-      <View style={styles.sheetHandle} />
+        {/* Achievements Grid */}
+        <ScrollView
+          style={styles.content}
+          contentContainerStyle={[
+            styles.achievementsGrid,
+            { paddingBottom: insets.bottom + 80 },
+          ]}
+          showsVerticalScrollIndicator={false}
+        >
+          {filteredAchievements.map((achievement, index) => (
+            <AchievementCard
+              key={achievement.id}
+              achievement={achievement}
+              onPress={() => setSelectedAchievement(achievement)}
+            />
+          ))}
+        </ScrollView>
 
-      <Text style={styles.sheetTitle}>{selected.title}</Text>
-      <Text style={styles.sheetSubtitle}>{selected.subtitle}</Text>
+        {/* Achievement Detail Modal */}
+        {selectedAchievement && (
+          <TouchableOpacity
+            style={styles.modalOverlay}
+            activeOpacity={1}
+            onPress={() => setSelectedAchievement(null)}
+          >
+            <TouchableOpacity
+              style={styles.modalContent}
+              activeOpacity={1}
+              onPress={(e) => e.stopPropagation()}
+            >
+              <LinearGradient
+                colors={CATEGORY_COLORS[selectedAchievement.category]}
+                style={styles.modalHeader}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+              >
+                <View style={styles.modalIconContainer}>
+                  <Ionicons
+                    name={selectedAchievement.icon as any}
+                    size={64}
+                    color="#fff"
+                  />
+                </View>
+              </LinearGradient>
 
-      <Image
-        source={require("../../assets/images/medal.png")}
-        style={styles.sheetIcon}
-      />
+              <View style={styles.modalBody}>
+                <Text style={styles.modalTitle}>{selectedAchievement.title}</Text>
+                <Text style={styles.modalDescription}>
+                  {selectedAchievement.description}
+                </Text>
 
-      <View style={styles.sheetProgressRow}>
-        <Text style={styles.sheetProgressText}>{selected.progress}%</Text>
-        <View style={styles.sheetProgressTrack}>
-          <View
-            style={[
-              styles.sheetProgressFill,
-              { width: `${selected.progress}%` },
-            ]}
-          />
-        </View>
-      </View>
+                {/* Progress Bar */}
+                <View style={styles.progressSection}>
+                  <View style={styles.progressHeader}>
+                    <Text style={styles.progressText}>
+                      {selectedAchievement.progress} / {selectedAchievement.target}
+                    </Text>
+                    <Text style={styles.progressPercentageText}>
+                      {Math.round(
+                        (selectedAchievement.progress /
+                          selectedAchievement.target) *
+                          100
+                      )}
+                      %
+                    </Text>
+                  </View>
+                  <View style={styles.progressBar}>
+                    <View
+                      style={[
+                        styles.progressFill,
+                        {
+                          width: `${Math.min(
+                            (selectedAchievement.progress /
+                              selectedAchievement.target) *
+                              100,
+                            100
+                          )}%`,
+                          backgroundColor:
+                            CATEGORY_COLORS[selectedAchievement.category][0],
+                        },
+                      ]}
+                    />
+                  </View>
+                </View>
 
-      <Text style={styles.sheetDescription}>
-        This achievement tracks your {selected.title.toLowerCase()}. Keep
-        progressing to unlock rewards!
-      </Text>
-    </Animated.View>
-  </>
-)}
+                {/* Reward */}
+                <View style={styles.rewardContainer}>
+                  <Ionicons name="gift" size={24} color="#FFD93D" />
+                  <Text style={styles.rewardText}>
+                    Reward: {selectedAchievement.reward}
+                  </Text>
+                </View>
+
+                {/* Status Badge */}
+                <View
+                  style={[
+                    styles.statusBadge,
+                    {
+                      backgroundColor:
+                        selectedAchievement.progress >= selectedAchievement.target
+                          ? "#4CAF50"
+                          : selectedAchievement.locked
+                          ? "#9E9E9E"
+                          : "#FF9800",
+                    },
+                  ]}
+                >
+                  <Text style={styles.statusBadgeText}>
+                    {selectedAchievement.progress >= selectedAchievement.target
+                      ? "COMPLETED"
+                      : selectedAchievement.locked
+                      ? "LOCKED"
+                      : "IN PROGRESS"}
+                  </Text>
+                </View>
+
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setSelectedAchievement(null)}
+                >
+                  <Text style={styles.closeButtonText}>Close</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );
-};
+}
 
-export default Achievements;
+function AchievementCard({
+  achievement,
+  onPress,
+}: {
+  achievement: Achievement;
+  onPress: () => void;
+}) {
+  const isCompleted = achievement.progress >= achievement.target;
+  const progressPercentage = Math.round(
+    (achievement.progress / achievement.target) * 100
+  );
 
+  return (
+    <TouchableOpacity
+      style={[
+        styles.achievementCard,
+        achievement.locked && styles.achievementCardLocked,
+      ]}
+      onPress={onPress}
+      activeOpacity={0.8}
+    >
+      <LinearGradient
+        colors={
+          achievement.locked
+            ? ["#E0E0E0", "#BDBDBD"]
+            : CATEGORY_COLORS[achievement.category]
+        }
+        style={styles.achievementIconContainer}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+      >
+        {achievement.locked ? (
+          <Ionicons name="lock-closed" size={32} color="#fff" />
+        ) : (
+          <Ionicons name={achievement.icon as any} size={32} color="#fff" />
+        )}
+      </LinearGradient>
 
-/* ------------ STYLES ------------ */
+      <Text style={styles.achievementTitle} numberOfLines={1}>
+        {achievement.title}
+      </Text>
+      <Text style={styles.achievementDescription} numberOfLines={2}>
+        {achievement.description}
+      </Text>
+
+      {/* Progress */}
+      {!achievement.locked && (
+        <View style={styles.cardProgressContainer}>
+          <View style={styles.cardProgressBar}>
+            <View
+              style={[
+                styles.cardProgressFill,
+                {
+                  width: `${Math.min(progressPercentage, 100)}%`,
+                  backgroundColor: CATEGORY_COLORS[achievement.category][0],
+                },
+              ]}
+            />
+          </View>
+          <Text style={styles.cardProgressText}>{progressPercentage}%</Text>
+        </View>
+      )}
+
+      {/* Status Badge */}
+      {isCompleted && (
+        <View style={styles.completedBadge}>
+          <Ionicons name="checkmark-circle" size={16} color="#4CAF50" />
+        </View>
+      )}
+    </TouchableOpacity>
+  );
+}
 
 const styles = StyleSheet.create({
-  safe: {
+  safeArea: {
     flex: 1,
-    backgroundColor: BLUE,
+    backgroundColor: "#2E89FF",
   },
-  safeBackground: {
+  container: {
     flex: 1,
-    backgroundColor: "#44474fff",
+    backgroundColor: "#F5F7FA",
   },
-  scrollContent: {
-    paddingBottom: 24,
-  },
-
-  /* Header */
   header: {
-    backgroundColor: BLUE,
-    paddingHorizontal: 20,
-    paddingTop: 8,
+    paddingTop: 20,
     paddingBottom: 24,
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
+    paddingHorizontal: 20,
   },
-  headerTopRow: {
+  headerContent: {
     flexDirection: "row",
-    alignItems: "center",
-  },
-  backButton: {
-    padding: 4,
-    marginRight: 8,
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 24,
   },
   headerTitle: {
-    flex: 1,
-    fontSize: 26,
-    fontWeight: "700",
-    color: "#ffffff",
+    fontSize: 32,
+    fontWeight: "800",
+    color: "#fff",
+    letterSpacing: -0.5,
   },
-  headerBadge: {
-    width: 60,
-    height: 60,
-    borderRadius: 20,
-    backgroundColor: "#FFD66B",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  headerBadgeIcon: {
-    width: 36,
-    height: 36,
-    resizeMode: "contain",
-  },
-
-  awardPill: {
-    marginTop: 16,
-    alignSelf: "flex-start",
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 18,
-  },
-  awardDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: "#111827",
-    marginRight: 8,
-  },
-  awardText: {
-    fontSize: 13,
-    fontWeight: "600",
-    color: "#111827",
-  },
-
-  cardsGrid: {
-    marginTop: 16,
-    paddingHorizontal: 20,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    columnGap: 20,
-    rowGap: 20,
-  },
-
-  card: {
-    width: 300,
-    backgroundColor: "#ffffff",
-    borderRadius: 18,
-    paddingVertical: 14,
-    paddingHorizontal: 10,
-    marginBottom: 14,
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 3,
-  },
-  cardTitle: {
-    fontSize: 14,
-    fontWeight: "700",
-    color: "#374151",
-    marginBottom: 8,
-    textAlign: "center",
-  },
-  cardIconWrapper: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 8,
-  },
-  cardIcon: {
-    width: 72,
-    height: 72,
-    resizeMode: "contain",
-  },
-
-  ribbon: {
-    alignSelf: "center",
-    backgroundColor: "#2F855A",
-    paddingHorizontal: 14,
-    paddingVertical: 4,
-    borderRadius: 999,
-    marginBottom: 10,
-  },
-  ribbonText: {
-    color: "#ffffff",
-    fontSize: 12,
-    fontWeight: "600",
-  },
-
-  progressRow: {
+  headerSubtitle: {
+    fontSize: 16,
+    color: "rgba(255,255,255,0.9)",
     marginTop: 4,
   },
-  progressLabel: {
-    fontSize: 11,
-    color: "#4B5563",
-    marginBottom: 4,
+  progressRing: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 3,
+    borderColor: "#fff",
   },
-  progressTrack: {
+  progressPercentage: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: "#fff",
+  },
+  statsContainer: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  statCard: {
+    flex: 1,
+    backgroundColor: "rgba(255,255,255,0.95)",
+    borderRadius: 16,
+    padding: 16,
+    alignItems: "center",
+    gap: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  statValue: {
+    fontSize: 24,
+    fontWeight: "800",
+    color: "#333",
+  },
+  statLabel: {
+    fontSize: 12,
+    color: "#666",
+    fontWeight: "600",
+  },
+  categoryScroll: {
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#E0E0E0",
+    maxHeight: 40,
+  },
+  categoryScrollContent: {
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    gap: 6,
+  },
+  categoryChip: {
+    paddingHorizontal: 14,
+    paddingVertical: 4,
+    borderRadius: 14,
+    backgroundColor: "#F0F0F0",
+    marginRight: 8,
+  },
+  categoryChipActive: {
+    backgroundColor: "#2E89FF",
+  },
+  categoryChipText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#666",
+  },
+  categoryChipTextActive: {
+    color: "#fff",
+  },
+  content: {
+    flex: 1,
+  },
+  achievementsGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    padding: 16,
+    gap: 16,
+  },
+  achievementCard: {
+    width: CARD_WIDTH,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  achievementCardLocked: {
+    opacity: 0.6,
+  },
+  achievementIconContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+    alignSelf: "center",
+  },
+  achievementTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#333",
+    marginBottom: 6,
+    textAlign: "center",
+  },
+  achievementDescription: {
+    fontSize: 13,
+    color: "#666",
+    marginBottom: 12,
+    textAlign: "center",
+    lineHeight: 18,
+  },
+  cardProgressContainer: {
+    marginTop: 8,
+  },
+  cardProgressBar: {
     height: 6,
-    borderRadius: 999,
-    backgroundColor: "#E5E7EB",
+    backgroundColor: "#F0F0F0",
+    borderRadius: 3,
+    overflow: "hidden",
+    marginBottom: 6,
+  },
+  cardProgressFill: {
+    height: "100%",
+    borderRadius: 3,
+  },
+  cardProgressText: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#666",
+    textAlign: "right",
+  },
+  completedBadge: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+  },
+  modalOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  modalContent: {
+    width: "100%",
+    maxWidth: 400,
+    backgroundColor: "#fff",
+    borderRadius: 24,
+    overflow: "hidden",
+  },
+  modalHeader: {
+    padding: 40,
+    alignItems: "center",
+  },
+  modalIconContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 4,
+    borderColor: "#fff",
+  },
+  modalBody: {
+    padding: 24,
+  },
+  modalTitle: {
+    fontSize: 28,
+    fontWeight: "800",
+    color: "#333",
+    textAlign: "center",
+    marginBottom: 12,
+  },
+  modalDescription: {
+    fontSize: 16,
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 24,
+    lineHeight: 24,
+  },
+  progressSection: {
+    marginBottom: 24,
+  },
+  progressHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
+  progressText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#333",
+  },
+  progressPercentageText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#2E89FF",
+  },
+  progressBar: {
+    height: 12,
+    backgroundColor: "#F0F0F0",
+    borderRadius: 6,
     overflow: "hidden",
   },
   progressFill: {
     height: "100%",
-    borderRadius: 999,
-    backgroundColor: "#2563EB",
+    borderRadius: 6,
   },
-
-
-  overlay: {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: "rgba(0,0,0,0.4)",
-},
-
-bottomSheet: {
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  right: 0,
-  padding: 20,
-  backgroundColor: "#fff",
-  borderTopLeftRadius: 20,
-  borderTopRightRadius: 20,
-  elevation: 20,
-  shadowColor: "#000",
-  shadowOffset: { width: 0, height: -4 },
-  shadowOpacity: 0.3,
-  shadowRadius: 6,
-},
-
-sheetHandle: {
-  width: 50,
-  height: 6,
-  backgroundColor: "#ccc",
-  borderRadius: 3,
-  alignSelf: "center",
-  marginBottom: 12,
-},
-
-sheetTitle: {
-  fontSize: 22,
-  fontWeight: "bold",
-  textAlign: "center",
-  marginBottom: 4,
-},
-
-sheetSubtitle: {
-  fontSize: 16,
-  textAlign: "center",
-  marginBottom: 10,
-},
-
-sheetIcon: {
-  width: 100,
-  height: 100,
-  alignSelf: "center",
-  marginBottom: 20,
-},
-
-sheetProgressRow: {
-  marginBottom: 10,
-},
-
-sheetProgressText: {
-  fontSize: 14,
-  fontWeight: "600",
-  marginBottom: 6,
-},
-
-sheetProgressTrack: {
-  height: 8,
-  backgroundColor: "#eee",
-  borderRadius: 4,
-},
-
-sheetProgressFill: {
-  height: "100%",
-  backgroundColor: "#2C82FF",
-  borderRadius: 4,
-},
-
-sheetDescription: {
-  marginTop: 20,
-  fontSize: 14,
-  textAlign: "center",
-  color: "#444",
-},
-
+  rewardContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    marginBottom: 20,
+    backgroundColor: "#FFF9E6",
+    padding: 16,
+    borderRadius: 12,
+  },
+  rewardText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#F39C12",
+  },
+  statusBadge: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  statusBadgeText: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: "#fff",
+    letterSpacing: 1,
+  },
+  closeButton: {
+    backgroundColor: "#2E89FF",
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  closeButtonText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#fff",
+  },
 });

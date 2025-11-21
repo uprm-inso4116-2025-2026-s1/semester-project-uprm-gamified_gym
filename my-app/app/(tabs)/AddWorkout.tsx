@@ -97,6 +97,7 @@ const AddWorkoutScreen: React.FC = () => {
         sets,
         reps,
         duration,
+        category: "Chest", // Default category for exercises added from this screen
       });
     }
     setEditingIndex(null);

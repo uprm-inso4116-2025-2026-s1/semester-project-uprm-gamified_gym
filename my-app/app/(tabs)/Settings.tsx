@@ -23,6 +23,8 @@ type RootStackParamList = {
   Profile: undefined;
   Settings: undefined;
   Login: undefined;
+  ExerciseLog: undefined;
+  ExerciseLibrary: undefined;
 };
 
 /**
@@ -256,6 +258,9 @@ export default function Settings() {
       <View style={styles.bottomTabs}>
         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
           <Image source={require("../../assets/images/home.png")} style={styles.navIcon} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("ExerciseLibrary")}>
+          <Image source={require("../../assets/images/push-up.png")} style={styles.navIcon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Image source={require("../../assets/images/user.png")} style={styles.navIcon} />

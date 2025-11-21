@@ -28,10 +28,10 @@ export default function index() {
           source={require('../../assets/images/indexbackground.jpg')} 
           style={styles.background}
           resizeMode="cover">
-          <View style={styles.container}> 
-            <div style={styles.logo}>
+          <View style={styles.container}>
+            <View style={styles.logo}>
               <Text style={styles.logotext}> LOGO HERE </Text>
-            </div>       
+            </View>
             <Text style={styles.title}>Welcome to our</Text>
             <Text style={styles.title}>mobile Gamified app</Text>
             <Text style={styles.subtitle1}>If you do not have an account with us, please register here</Text>

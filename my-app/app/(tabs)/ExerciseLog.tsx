@@ -21,6 +21,7 @@ type RootStackParamList = {
   Profile: undefined;
   Settings: undefined;
   ExerciseLog: undefined;
+  ExerciseLibrary: undefined;
 };
 
 type ExerciseLogScreenNavigationProp = NativeStackNavigationProp<
@@ -115,6 +116,13 @@ export default function ExerciseLog() {
         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
           <Image
             source={require("../../assets/images/home.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate("ExerciseLibrary")}>
+          <Image
+            source={require("../../assets/images/push-up.png")}
             style={styles.navIcon}
           />
         </TouchableOpacity>

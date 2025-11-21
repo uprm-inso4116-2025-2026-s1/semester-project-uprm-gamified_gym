@@ -3,7 +3,15 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { supabase } from "../../lib/supabaseClient";
-import { RootStackParamList } from "./index";
+
+type RootStackParamList = {
+  Home: undefined;
+  Profile: undefined;
+  Settings: undefined;
+  ExerciseLog: undefined;
+  ExerciseLibrary: undefined;
+  Login: undefined;
+};
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
@@ -132,6 +140,13 @@ export default function Home() {
         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
           <Image
             source={require("../../assets/images/home.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate("ExerciseLibrary")}>
+          <Image
+            source={require("../../assets/images/push-up.png")}
             style={styles.navIcon}
           />
         </TouchableOpacity>

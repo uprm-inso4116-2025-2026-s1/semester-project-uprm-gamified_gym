@@ -19,6 +19,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AddWorkout from "./AddWorkout";
 import Profile from "./Profile";                   // ⭐ Use your REAL Profile page
 import Achievements from "./Achievements";         // ⭐ Add your Achievements page
+import Settings from "./Settings";                 // ⭐ Add Settings page
 
 /** ---- Navigation types ---- */
 type BottomTabParamList = {
@@ -147,7 +148,7 @@ function Tabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Add" component={AddWorkout} />
       <Tab.Screen name="Profile" component={Profile} />  {/* ⭐ REAL Profile */}
-      <Tab.Screen name="Settings" component={Placeholder} />
+      <Tab.Screen name="Settings" component={Settings} />
     </Tab.Navigator>
   );
 }

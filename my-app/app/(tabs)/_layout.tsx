@@ -1,21 +1,45 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const insets = useSafeAreaInsets();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: '#2E89FF',
+        tabBarInactiveTintColor: '#999',
         headerShown: false,
         tabBarButton: HapticTab,
+        tabBarStyle: {
+          position: 'absolute',
+          backgroundColor: '#ffffff',
+          borderTopWidth: 1,
+          borderTopColor: '#f0f0f0',
+          height: 60 + insets.bottom,
+          paddingBottom: insets.bottom,
+          paddingTop: 8,
+          paddingHorizontal: 8,
+          elevation: 8,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 8,
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
+          fontWeight: '600',
+          marginBottom: 2,
+        },
+        tabBarIconStyle: {
+          marginTop: 4,
+        },
       }}>
+      {/* Main Tab: Home */}
       <Tabs.Screen
         name="index"
         options={{
@@ -23,18 +47,111 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
+
+      {/* Main Tab: Exercises */}
+      <Tabs.Screen
+        name="ExerciseLibrary"
+        options={{
+          title: 'Exercises',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="figure.strengthtraining.traditional" color={color} />,
+        }}
+      />
+
+      {/* Main Tab: Profile */}
+      <Tabs.Screen
+        name="Profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.fill" color={color} />,
+        }}
+      />
+
+      {/* Main Tab: Achievements */}
+      <Tabs.Screen
+        name="Achievements"
+        options={{
+          title: 'Achievements',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="trophy.fill" color={color} />,
+        }}
+      />
+
+      {/* Hidden Screen: Home (old) */}
+      <Tabs.Screen
+        name="Home"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden Screen: Settings */}
+      <Tabs.Screen
+        name="Settings"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden Screen: Create Exercise */}
+      <Tabs.Screen
+        name="CreateExercise"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden Screen: Exercise Detail */}
+      <Tabs.Screen
+        name="ExerciseDetail"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden Screen: Exercise Management (old) */}
+      <Tabs.Screen
+        name="ExerciseManagement"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden Screen: Exercise Log */}
+      <Tabs.Screen
+        name="ExerciseLog"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden Screen: Add Workout */}
+      <Tabs.Screen
+        name="AddWorkout"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden Screen: Explore (optional) */}
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          href: null,
         }}
       />
+
+      {/* Hidden Screen: Password */}
       <Tabs.Screen
         name="Password"
         options={{
-          title: 'Password',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="key.fill" color={color} />,
+          href: null,
+        }}
+      />
+
+      {/* Hidden: Exercise Store Provider */}
+      <Tabs.Screen
+        name="exerciseStore"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

@@ -20,10 +20,13 @@ import PartialFillCard from "../../components/progress";
 
 
 type RootStackParamList = {
+  index: undefined;
   Home: undefined;
   Profile: undefined;
   Settings: undefined;
-  Achievements: { from?: string };
+  Achievements: undefined;
+  ExerciseLog: undefined;
+  ExerciseLibrary: undefined;
 };
 
 
@@ -272,24 +275,12 @@ export default function Profile() {
 
         <TouchableOpacity
           style={styles.achievementsButton}
-          onPress={() => navigation.navigate("Achievements", { from: "Profile" })}
+          onPress={() => navigation.navigate("Achievements")}
         >
           <Text style={styles.achievementsButtonText}>Go to Achievements</Text>
         </TouchableOpacity>
         
       </ScrollView>
-        {/* Bottom Navigation */}
-      <View style={styles.bottomTabs}>
-        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-          <Image source={require("../../assets/images/home.png")} style={styles.navIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Image source={require("../../assets/images/user.png")} style={styles.navIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          <Image source={require("../../assets/images/settings.png")} style={styles.navIcon} />
-        </TouchableOpacity>
-      </View>
 
     </SafeAreaView>
   );

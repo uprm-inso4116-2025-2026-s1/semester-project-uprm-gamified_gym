@@ -11,11 +11,22 @@ import React, {
   const KEY = "saved_exercises_v1";
   
   /** Types */
+  export type ExerciseCategory =
+    | "Chest"
+    | "Back"
+    | "Legs"
+    | "Biceps"
+    | "Triceps"
+    | "Shoulders"
+    | "Core"
+    | "Cardio";
+
   export type ExercisePayload = {
     name: string;
     sets: number;
     reps: number;
     duration?: string;
+    category: ExerciseCategory;
   };
   
   export type ExerciseItem = ExercisePayload & {
