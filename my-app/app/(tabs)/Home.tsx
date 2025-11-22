@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, use } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { supabase } from "../../lib/supabaseClient";
 import { RootStackParamList } from "./index";
@@ -30,11 +30,9 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "H
 export default function Home() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const [userName, setUserName] = useState<string | null>(null);
+  const [userAvatar, setUserAvatar] = useState<string | null>(null);
 
-  useEffect(() => {
-    assert(supabase != null, "Supabase client must be initialized before use");
-    
-    async function fetchUser() {
+  async function fetchUser() {
       const session = supabase.auth.getSession().then(res => res.data.session);
       const user = (await session)?.user;
 
@@ -42,17 +40,29 @@ export default function Home() {
         // Fetch user profile
         const { data: profile, error } = await supabase
           .from("user_profiles_test")
-          .select("username")
+          .select("username, profile_picture_url")
           .eq("id", user.id)
           .single();
 
         if (!error && profile) {
           setUserName(profile.username);
+          setUserAvatar(profile.profile_picture_url);
         }
       } else {
         setUserName(null);
+        setUserAvatar(null);
       }
     }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchUser();
+    }, [])
+  );
+
+  useEffect(() => {
+    assert(supabase != null, "Supabase client must be initialized before use");
+    
 
     fetchUser();
 
@@ -100,7 +110,7 @@ export default function Home() {
             onPress={() => navigation.navigate("Profile")}
           >
             <Image
-              source={require("../../assets/images/user.png")}
+              source={userAvatar ? { uri: userAvatar } : require("../../assets/images/user.png")}
               style={styles.avatar}
               accessibilityLabel="User profile"
             />
