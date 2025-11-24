@@ -1,1 +1,30 @@
-Testing, Testing
+==== 2.2.3 Domain Requirements
+===== Principles
+* Fitness as a Journey of Personal Progress
+ ** Improvement in strength, endurance, and consistency is a core driver of motivation. The system shall provide a mechanism with clear,
+ quantifiable metrics and visual representations of a user's progress over time.
+ ** A balanced approach targeting all major muscle groups is essential for preventing injury and achieving a well-rounded physique. 
+ The system shall provide a mechanism that facilitate and encourage awareness of training distribution across the body.
+
+* Engagement with Fitness Training
+ ** Long-term consistency requires more than initial novelty. The system shall implement a layered reward structure (e.g., XP, achievements, ranks) that provides continuous feedback and celebrates milestones of varying difficulty.
+ ** Fitness journeys can be reinforced through community. The system shall provide a mechanism for positive social comparison and mutual support that focuses on shared effort and consistency.
+
+===== Functional Requirements
+* Workout Logging
+ **The system shall provide an interface for the user to log an exercise by specifying the exercise name, weight lifted, number of sets, and number of repetitions per set.
+
+* Progress Tracking
+ ** The system shall calculate and display a historical graph of the total training volume (weight × sets × reps) 
+    for each muscle group over a user-selectable time period.
+** The system shall provide a mechanism that tracks and highlights new Personal Records (PRs) when a user logs a set with a higher weight for a given exercise than any previous set.
+** The system shall provide a mechanism that suggest alternative exercises during the logging process if the user's current selection disproportionately targets an already dominant muscle group based on the "Muscle Balance Score".
+** The system shall provide a mechanism for the users to input goals based on specific timeframes and automatically generate a structured, periodized workout plan toward that goal.
+** The system shall provide a mechanism for users to publicly share "milestone posts" when achieving significant achievements to facilitate positive social reinforcement.
+** The system shall provide a mechanism that detects a performance plateau, the system shall provide automated suggestion to changes in repetition ranges.
+
+
+* Gamification System
+** The system shall provide a mechanism that assigns a user a rank (Bronze, Silver, Gold, etc.) for each muscle group, calculated based on the total historical training volume and PRs for that muscle group.
+** The system shall provide a mechanism that awards users experience points (XP) for completing workouts and achieving milestones.
+
