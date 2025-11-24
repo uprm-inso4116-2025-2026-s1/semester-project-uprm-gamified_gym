@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,9 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useFocusEffect } from "@react-navigation/native";
 import { useAchievementsSupabase as useAchievements } from "./achievementStoreSupabase";
+import { useWorkoutsSupabase } from "./workoutStoreSupabase";
 import type { Achievement, AchievementCategory } from "./achievementStoreSupabase";
 
 const { width } = Dimensions.get("window");
@@ -30,9 +32,18 @@ const CATEGORY_COLORS: Record<string, [string, string]> = {
 export default function Achievements() {
   const insets = useSafeAreaInsets();
   const { achievements, stats } = useAchievements();
+  const { refreshWorkouts } = useWorkoutsSupabase();
   const [selectedCategory, setSelectedCategory] = useState<AchievementCategory | "All">("All");
   const [selectedAchievement, setSelectedAchievement] =
     useState<Achievement | null>(null);
+
+  // Refresh workout data when screen is focused to update achievements
+  useFocusEffect(
+    useCallback(() => {
+      console.log("Achievements page focused - refreshing workout data...");
+      refreshWorkouts();
+    }, [refreshWorkouts])
+  );
 
   const filteredAchievements =
     selectedCategory === "All"

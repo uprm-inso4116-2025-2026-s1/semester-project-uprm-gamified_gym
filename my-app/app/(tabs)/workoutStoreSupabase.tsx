@@ -38,7 +38,7 @@ type WorkoutContextType = {
     currentStreak: number;
     lastWorkoutDate: string | null;
   };
-  refreshWorkouts: () => Promise<void>;
+  refreshWorkouts: (forceRefresh?: boolean) => Promise<void>;
 };
 
 const WorkoutContext = createContext<WorkoutContextType | undefined>(undefined);
@@ -48,6 +48,7 @@ export function WorkoutProviderSupabase({ children }: { children: ReactNode }) {
   const [currentWorkout, setCurrentWorkout] = useState<WorkoutSession | null>(null);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
+  const [lastRefreshTime, setLastRefreshTime] = useState<number>(0);
 
   // Get current user
   useEffect(() => {
@@ -92,6 +93,7 @@ export function WorkoutProviderSupabase({ children }: { children: ReactNode }) {
           date_completed: workout.date_completed,
         }));
         setWorkoutHistory(workouts);
+        setLastRefreshTime(Date.now());
       }
     } catch (error) {
       console.error('Failed to load workout history:', error);
@@ -158,6 +160,8 @@ export function WorkoutProviderSupabase({ children }: { children: ReactNode }) {
         };
 
         setWorkoutHistory((prev) => [completedWorkout, ...prev]);
+        // Reset cache timestamp so next refresh gets fresh data
+        setLastRefreshTime(0);
       }
 
       setCurrentWorkout(null);
@@ -277,8 +281,18 @@ export function WorkoutProviderSupabase({ children }: { children: ReactNode }) {
     };
   };
 
-  const refreshWorkouts = async () => {
-    await loadWorkoutHistory();
+  const refreshWorkouts = async (forceRefresh = false) => {
+    const now = Date.now();
+    const timeSinceLastRefresh = now - lastRefreshTime;
+    const CACHE_DURATION = 30000; // 30 seconds
+
+    // Only refresh if cache is stale or force refresh is requested
+    if (forceRefresh || timeSinceLastRefresh > CACHE_DURATION) {
+      console.log('Refreshing workout data from database...');
+      await loadWorkoutHistory();
+    } else {
+      console.log(`Skipping refresh - data is fresh (${Math.round(timeSinceLastRefresh / 1000)}s old)`);
+    }
   };
 
   return (

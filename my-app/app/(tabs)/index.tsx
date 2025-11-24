@@ -50,7 +50,7 @@ export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const insets = useSafeAreaInsets();
   const { user, isAuthenticated } = useAuth();
-  const { workoutHistory, getWorkoutStats } = useWorkoutsSupabase();
+  const { workoutHistory, getWorkoutStats, refreshWorkouts } = useWorkoutsSupabase();
   const { achievements, stats: achievementStats } = useAchievementsSupabase();
   const workoutStats = getWorkoutStats();
 
@@ -121,11 +121,12 @@ export default function HomeScreen() {
     }
   }, []);
 
-  // Refresh profile picture when screen is focused
+  // Refresh profile picture and workout data (which updates achievements) when screen is focused
   useFocusEffect(
     useCallback(() => {
       fetchProfilePicture();
-    }, [fetchProfilePicture])
+      refreshWorkouts();
+    }, [fetchProfilePicture, refreshWorkouts])
   );
 
   // Get today's workouts
