@@ -11,114 +11,13 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAchievementsSupabase as useAchievements } from "./achievementStoreSupabase";
+import type { Achievement, AchievementCategory } from "./achievementStoreSupabase";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = (width - 48) / 2; // 2 columns with padding
 
-type Achievement = {
-  id: string;
-  title: string;
-  description: string;
-  category: "Strength" | "Consistency" | "Progress" | "Milestones";
-  progress: number;
-  target: number;
-  locked: boolean;
-  icon: string;
-  reward: string;
-};
-
-const ACHIEVEMENTS: Achievement[] = [
-  {
-    id: "1",
-    title: "First Steps",
-    description: "Complete your first workout",
-    category: "Milestones",
-    progress: 1,
-    target: 1,
-    locked: false,
-    icon: "footsteps",
-    reward: "50 XP",
-  },
-  {
-    id: "2",
-    title: "Week Warrior",
-    description: "Work out 7 days in a row",
-    category: "Consistency",
-    progress: 3,
-    target: 7,
-    locked: false,
-    icon: "flame",
-    reward: "100 XP",
-  },
-  {
-    id: "3",
-    title: "Iron Lifter",
-    description: "Lift 1000 lbs total",
-    category: "Strength",
-    progress: 450,
-    target: 1000,
-    locked: false,
-    icon: "barbell",
-    reward: "200 XP",
-  },
-  {
-    id: "4",
-    title: "Century Club",
-    description: "Complete 100 total workouts",
-    category: "Milestones",
-    progress: 23,
-    target: 100,
-    locked: false,
-    icon: "trophy",
-    reward: "500 XP",
-  },
-  {
-    id: "5",
-    title: "Early Bird",
-    description: "Work out before 7 AM",
-    category: "Milestones",
-    progress: 0,
-    target: 1,
-    locked: true,
-    icon: "sunny",
-    reward: "75 XP",
-  },
-  {
-    id: "6",
-    title: "PR Breaker",
-    description: "Set a new personal record",
-    category: "Progress",
-    progress: 0,
-    target: 1,
-    locked: true,
-    icon: "ribbon",
-    reward: "150 XP",
-  },
-  {
-    id: "7",
-    title: "Streak Master",
-    description: "30-day workout streak",
-    category: "Consistency",
-    progress: 3,
-    target: 30,
-    locked: false,
-    icon: "calendar",
-    reward: "300 XP",
-  },
-  {
-    id: "8",
-    title: "Beast Mode",
-    description: "Complete 10 intense workouts",
-    category: "Strength",
-    progress: 0,
-    target: 10,
-    locked: true,
-    icon: "flash",
-    reward: "250 XP",
-  },
-];
-
-const CATEGORIES = ["All", "Strength", "Consistency", "Progress", "Milestones"];
+const CATEGORIES: (AchievementCategory | "All")[] = ["All", "Strength", "Consistency", "Progress", "Milestones"];
 
 const CATEGORY_COLORS: Record<string, [string, string]> = {
   Strength: ["#FF6B6B", "#FF8E53"],
@@ -130,23 +29,15 @@ const CATEGORY_COLORS: Record<string, [string, string]> = {
 
 export default function Achievements() {
   const insets = useSafeAreaInsets();
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const { achievements, stats } = useAchievements();
+  const [selectedCategory, setSelectedCategory] = useState<AchievementCategory | "All">("All");
   const [selectedAchievement, setSelectedAchievement] =
     useState<Achievement | null>(null);
 
   const filteredAchievements =
     selectedCategory === "All"
-      ? ACHIEVEMENTS
-      : ACHIEVEMENTS.filter((a) => a.category === selectedCategory);
-
-  const stats = {
-    total: ACHIEVEMENTS.length,
-    completed: ACHIEVEMENTS.filter((a) => a.progress >= a.target).length,
-    inProgress: ACHIEVEMENTS.filter(
-      (a) => a.progress > 0 && a.progress < a.target
-    ).length,
-    locked: ACHIEVEMENTS.filter((a) => a.locked).length,
-  };
+      ? achievements
+      : achievements.filter((a) => a.category === selectedCategory);
 
   const completionPercentage = Math.round((stats.completed / stats.total) * 100);
 

@@ -4,9 +4,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { useAuth } from './authContext';
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
+  const { isAuthenticated } = useAuth();
 
   return (
     <Tabs
@@ -15,7 +17,7 @@ export default function TabLayout() {
         tabBarInactiveTintColor: '#999',
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarStyle: {
+        tabBarStyle: isAuthenticated ? {
           position: 'absolute',
           backgroundColor: '#ffffff',
           borderTopWidth: 1,
@@ -29,6 +31,8 @@ export default function TabLayout() {
           shadowOffset: { width: 0, height: -2 },
           shadowOpacity: 0.1,
           shadowRadius: 8,
+        } : {
+          display: 'none', // Hide tab bar when not authenticated
         },
         tabBarLabelStyle: {
           fontSize: 11,
@@ -72,6 +76,15 @@ export default function TabLayout() {
         options={{
           title: 'Achievements',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="trophy.fill" color={color} />,
+        }}
+      />
+
+      {/* Main Tab: Workout History */}
+      <Tabs.Screen
+        name="WorkoutHistory"
+        options={{
+          title: 'History',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="clock.fill" color={color} />,
         }}
       />
 
@@ -147,9 +160,89 @@ export default function TabLayout() {
         }}
       />
 
+      {/* Hidden Screen: Login */}
+      <Tabs.Screen
+        name="Login"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden Screen: Sign Up */}
+      <Tabs.Screen
+        name="SignUp"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden Screen: Reset Password */}
+      <Tabs.Screen
+        name="resetPassword"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden: Auth Context */}
+      <Tabs.Screen
+        name="authContext"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden: Auth Navigator */}
+      <Tabs.Screen
+        name="AuthNavigator"
+        options={{
+          href: null,
+        }}
+      />
+
       {/* Hidden: Exercise Store Provider */}
       <Tabs.Screen
         name="exerciseStore"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden: Workout Store Supabase */}
+      <Tabs.Screen
+        name="workoutStore"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden: Workout Store Supabase */}
+      <Tabs.Screen
+        name="workoutStoreSupabase"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden: Achievement Store */}
+      <Tabs.Screen
+        name="achievementStore"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden: Achievement Store Supabase */}
+      <Tabs.Screen
+        name="achievementStoreSupabase"
+        options={{
+          href: null,
+        }}
+      />
+
+      {/* Hidden: App */}
+      <Tabs.Screen
+        name="App"
         options={{
           href: null,
         }}

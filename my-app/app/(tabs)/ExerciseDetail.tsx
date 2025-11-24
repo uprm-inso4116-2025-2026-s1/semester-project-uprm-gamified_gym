@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
+  Modal,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -22,6 +23,7 @@ import {
   ExerciseItem,
   ExercisePayload,
 } from "./exerciseStore";
+import { useWorkoutsSupabase as useWorkouts } from "./workoutStoreSupabase";
 
 type RootStackParamList = {
   Home: undefined;
@@ -71,6 +73,7 @@ export default function ExerciseDetail() {
   const navigation = useNavigation<NavProp>();
   const route = useRoute();
   const { updateExerciseAt, deleteExerciseAt } = useExercises();
+  const { startWorkout, addExerciseToWorkout, endWorkout, currentWorkout } = useWorkouts();
   const insets = useSafeAreaInsets();
 
   const { exercise, index } = route.params as {
@@ -86,6 +89,22 @@ export default function ExerciseDetail() {
   const [sets, setSets] = useState(String(exercise.sets));
   const [reps, setReps] = useState(String(exercise.reps));
   const [duration, setDuration] = useState(exercise.duration || "");
+
+  // Update state when route params change
+  useEffect(() => {
+    setExerciseName(exercise.name);
+    setSelectedCategory(exercise.category);
+    setSets(String(exercise.sets));
+    setReps(String(exercise.reps));
+    setDuration(exercise.duration || "");
+    setIsEditing(false);
+  }, [exercise.id, exercise.name, exercise.category, exercise.sets, exercise.reps, exercise.duration]);
+
+  // Timer state for cardio exercises
+  const [showTimer, setShowTimer] = useState(false);
+  const [timerSeconds, setTimerSeconds] = useState(0);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSave = () => {
     if (!exerciseName.trim()) {
@@ -137,6 +156,116 @@ export default function ExerciseDetail() {
     );
   };
 
+  // Timer effects
+  useEffect(() => {
+    if (isTimerRunning) {
+      timerIntervalRef.current = setInterval(() => {
+        setTimerSeconds((prev) => prev + 1);
+      }, 1000);
+    } else {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+        timerIntervalRef.current = null;
+      }
+    }
+
+    return () => {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+      }
+    };
+  }, [isTimerRunning]);
+
+  const formatTime = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+
+    if (hours > 0) {
+      return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    }
+    return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const startTimer = () => {
+    setIsTimerRunning(true);
+  };
+
+  const pauseTimer = () => {
+    setIsTimerRunning(false);
+  };
+
+  const resetTimer = () => {
+    setIsTimerRunning(false);
+    setTimerSeconds(0);
+  };
+
+  const handleStartCardioTimer = () => {
+    setTimerSeconds(0);
+    setIsTimerRunning(false);
+    setShowTimer(true);
+  };
+
+  const handleFinishCardio = () => {
+    setIsTimerRunning(false);
+    const duration = formatTime(timerSeconds);
+
+    Alert.alert(
+      "Log Cardio Exercise",
+      `Log "${exercise.name}" with duration ${duration}?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Log",
+          onPress: async () => {
+            try {
+              // Start a new workout, add exercise, and end it immediately
+              startWorkout();
+
+              await new Promise((resolve) => {
+                setTimeout(() => {
+                  addExerciseToWorkout(exercise);
+                  resolve(null);
+                }, 100);
+              });
+
+              await new Promise((resolve) => {
+                setTimeout(async () => {
+                  try {
+                    await endWorkout(`Logged ${exercise.name} - ${duration}`);
+                    resolve(null);
+                  } catch (error: any) {
+                    Alert.alert(
+                      "Error",
+                      error.message || "Failed to save workout. Please make sure you're logged in.",
+                      [{ text: "OK" }]
+                    );
+                    resolve(null);
+                  }
+                }, 100);
+              });
+
+              setShowTimer(false);
+              resetTimer();
+
+              Alert.alert(
+                "Success!",
+                `${exercise.name} (${duration}) has been logged! Check your achievements to see your progress.`,
+                [{ text: "OK" }]
+              );
+            } catch (error: any) {
+              Alert.alert(
+                "Error",
+                error.message || "Failed to log workout",
+                [{ text: "OK" }]
+              );
+            }
+          },
+        },
+      ]
+    );
+  };
+
   const handleCancel = () => {
     setExerciseName(exercise.name);
     setSelectedCategory(exercise.category);
@@ -144,6 +273,61 @@ export default function ExerciseDetail() {
     setReps(String(exercise.reps));
     setDuration(exercise.duration || "");
     setIsEditing(false);
+  };
+
+  const handleLogWorkout = () => {
+    Alert.alert(
+      "Log Exercise",
+      `Log "${exercise.name}" as completed?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Log",
+          onPress: async () => {
+            try {
+              // Start a new workout, add exercise, and end it immediately
+              startWorkout();
+
+              // Use setTimeout to ensure state updates propagate
+              await new Promise((resolve) => {
+                setTimeout(() => {
+                  addExerciseToWorkout(exercise);
+                  resolve(null);
+                }, 100);
+              });
+
+              await new Promise((resolve) => {
+                setTimeout(async () => {
+                  try {
+                    await endWorkout(`Logged ${exercise.name}`);
+                    resolve(null);
+                  } catch (error: any) {
+                    Alert.alert(
+                      "Error",
+                      error.message || "Failed to save workout. Please make sure you're logged in.",
+                      [{ text: "OK" }]
+                    );
+                    resolve(null);
+                  }
+                }, 100);
+              });
+
+              Alert.alert(
+                "Success!",
+                `${exercise.name} has been logged! Check your achievements to see your progress.`,
+                [{ text: "OK" }]
+              );
+            } catch (error: any) {
+              Alert.alert(
+                "Error",
+                error.message || "Failed to log workout",
+                [{ text: "OK" }]
+              );
+            }
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -426,16 +610,134 @@ export default function ExerciseDetail() {
             </TouchableOpacity>
           </View>
         ) : (
-          <TouchableOpacity
-            style={styles.deleteButton}
-            onPress={handleDelete}
-            activeOpacity={0.8}
-          >
-            <Ionicons name="trash" size={24} color="#fff" />
-            <Text style={styles.deleteButtonText}>Delete Exercise</Text>
-          </TouchableOpacity>
+          <View style={styles.editActions}>
+            {selectedCategory === "Cardio" ? (
+              <TouchableOpacity
+                style={styles.timerButton}
+                onPress={handleStartCardioTimer}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="timer" size={24} color="#fff" />
+                <Text style={styles.timerButtonText}>Start Timer</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.logButton}
+                onPress={handleLogWorkout}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="checkmark-circle" size={24} color="#fff" />
+                <Text style={styles.logButtonText}>Log Workout</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={handleDelete}
+              activeOpacity={0.8}
+            >
+              <Ionicons name="trash" size={24} color="#fff" />
+              <Text style={styles.deleteButtonText}>Delete</Text>
+            </TouchableOpacity>
+          </View>
         )}
       </View>
+
+      {/* Cardio Timer Modal */}
+      <Modal
+        visible={showTimer}
+        animationType="slide"
+        transparent={false}
+        onRequestClose={() => {
+          if (!isTimerRunning) {
+            setShowTimer(false);
+            resetTimer();
+          }
+        }}
+      >
+        <SafeAreaView style={styles.timerModalContainer}>
+          <LinearGradient
+            colors={CATEGORY_COLORS[selectedCategory]}
+            style={styles.timerModalGradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          >
+            {/* Header */}
+            <View style={styles.timerModalHeader}>
+              <TouchableOpacity
+                style={styles.timerCloseButton}
+                onPress={() => {
+                  if (!isTimerRunning) {
+                    setShowTimer(false);
+                    resetTimer();
+                  } else {
+                    Alert.alert(
+                      "Timer Running",
+                      "Please pause the timer before closing",
+                      [{ text: "OK" }]
+                    );
+                  }
+                }}
+              >
+                <Ionicons name="close" size={28} color="#fff" />
+              </TouchableOpacity>
+              <Text style={styles.timerModalTitle}>{exerciseName}</Text>
+              <View style={{ width: 40 }} />
+            </View>
+
+            {/* Timer Display */}
+            <View style={styles.timerDisplayContainer}>
+              <Ionicons name="timer" size={60} color="rgba(255,255,255,0.9)" />
+              <Text style={styles.timerDisplay}>{formatTime(timerSeconds)}</Text>
+              <Text style={styles.timerSubtext}>
+                {isTimerRunning ? "Running..." : "Paused"}
+              </Text>
+            </View>
+
+            {/* Timer Controls */}
+            <View style={styles.timerControls}>
+              {!isTimerRunning ? (
+                <TouchableOpacity
+                  style={styles.timerControlButton}
+                  onPress={startTimer}
+                  activeOpacity={0.8}
+                >
+                  <Ionicons name="play" size={40} color="#fff" />
+                  <Text style={styles.timerControlText}>Start</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={styles.timerControlButton}
+                  onPress={pauseTimer}
+                  activeOpacity={0.8}
+                >
+                  <Ionicons name="pause" size={40} color="#fff" />
+                  <Text style={styles.timerControlText}>Pause</Text>
+                </TouchableOpacity>
+              )}
+
+              <TouchableOpacity
+                style={styles.timerControlButton}
+                onPress={resetTimer}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="refresh" size={40} color="#fff" />
+                <Text style={styles.timerControlText}>Reset</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Finish Button */}
+            <TouchableOpacity
+              style={styles.finishCardioButton}
+              onPress={handleFinishCardio}
+              activeOpacity={0.8}
+              disabled={timerSeconds === 0}
+            >
+              <Ionicons name="checkmark-circle" size={28} color="#fff" />
+              <Text style={styles.finishCardioButtonText}>Finish & Log</Text>
+            </TouchableOpacity>
+          </LinearGradient>
+        </SafeAreaView>
+      </Modal>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -720,13 +1022,14 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   deleteButton: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#FF6B6B",
     paddingVertical: 18,
     borderRadius: 16,
-    gap: 12,
+    gap: 8,
     shadowColor: "#FF6B6B",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
@@ -737,5 +1040,134 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "700",
     color: "#fff",
+  },
+  logButton: {
+    flex: 2,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#4CAF50",
+    paddingVertical: 18,
+    borderRadius: 16,
+    gap: 8,
+    shadowColor: "#4CAF50",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  logButtonText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#fff",
+  },
+  timerButton: {
+    flex: 2,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FF9800",
+    paddingVertical: 18,
+    borderRadius: 16,
+    gap: 8,
+    shadowColor: "#FF9800",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  timerButtonText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#fff",
+  },
+  timerModalContainer: {
+    flex: 1,
+    backgroundColor: "#54A0FF",
+  },
+  timerModalGradient: {
+    flex: 1,
+    padding: 20,
+  },
+  timerModalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 60,
+  },
+  timerCloseButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  timerModalTitle: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: "#fff",
+    textAlign: "center",
+  },
+  timerDisplayContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 40,
+  },
+  timerDisplay: {
+    fontSize: 72,
+    fontWeight: "800",
+    color: "#fff",
+    marginTop: 20,
+    letterSpacing: 4,
+  },
+  timerSubtext: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "rgba(255,255,255,0.8)",
+    marginTop: 10,
+  },
+  timerControls: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 40,
+    marginBottom: 40,
+  },
+  timerControlButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    borderWidth: 3,
+    borderColor: "#fff",
+  },
+  timerControlText: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#fff",
+    marginTop: 8,
+  },
+  finishCardioButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0.95)",
+    paddingVertical: 20,
+    borderRadius: 16,
+    gap: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+    marginBottom: 20,
+  },
+  finishCardioButtonText: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: "#54A0FF",
   },
 });

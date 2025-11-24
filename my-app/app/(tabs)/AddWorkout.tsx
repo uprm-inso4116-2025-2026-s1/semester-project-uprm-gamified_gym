@@ -38,6 +38,23 @@ const EXERCISES = [
   "Overhead Press",
   "Bicep Curl",
   "Triceps Pushdown",
+  // Cardio Exercises
+  "Running",
+  "Treadmill",
+  "Cycling",
+  "Stationary Bike",
+  "Elliptical",
+  "Rowing Machine",
+  "Jump Rope",
+  "Stair Climber",
+  "Swimming",
+  "Walking",
+  "Jogging",
+  "HIIT Training",
+  "Burpees",
+  "Mountain Climbers",
+  "Jumping Jacks",
+  "Box Jumps",
 ] as const;
 
 const AddWorkoutScreen: React.FC = () => {

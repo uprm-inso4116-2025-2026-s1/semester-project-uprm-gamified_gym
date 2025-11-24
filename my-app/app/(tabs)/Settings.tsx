@@ -15,6 +15,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { supabase } from "../../lib/supabaseClient";
+import { useAuth } from "./authContext";
 
 type SettingsScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Settings">;
 
@@ -39,6 +40,7 @@ type RootStackParamList = {
  */
 export default function Settings() {
   const navigation = useNavigation<SettingsScreenNavigationProp>();
+  const { signOut } = useAuth();
 
   const [userProfile, setUserProfile] = useState({
     first_name: "",
@@ -231,15 +233,12 @@ export default function Settings() {
             <TouchableOpacity
               style={[styles.Buttons, { marginTop: 30, backgroundColor: "#FF9395" }]}
               onPress={async () => {
-                const { error } = await supabase.auth.signOut();
-                if (error) {
-                  Alert.alert("Error", error.message);
-                } else {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: "Login" }],
-                  });
-                  Alert.alert("Logged out");
+                try {
+                  await signOut();
+                  Alert.alert("Success", "Logged out successfully");
+                  // AuthNavigator will handle redirect to Login
+                } catch (error: any) {
+                  Alert.alert("Error", error.message || "Failed to log out");
                 }
               }}
             >

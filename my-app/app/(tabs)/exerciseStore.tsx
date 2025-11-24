@@ -46,9 +46,23 @@ import React, {
     children: ReactNode;
   };
   
-  export function ExerciseProvider({ children }: ProviderProps) {
+  const DEFAULT_CARDIO_EXERCISES: ExercisePayload[] = [
+  { name: "Running", sets: 1, reps: 1, duration: "30 min", category: "Cardio" },
+  { name: "Treadmill", sets: 1, reps: 1, duration: "20 min", category: "Cardio" },
+  { name: "Cycling", sets: 1, reps: 1, duration: "30 min", category: "Cardio" },
+  { name: "Elliptical", sets: 1, reps: 1, duration: "25 min", category: "Cardio" },
+  { name: "Jump Rope", sets: 3, reps: 100, duration: "5 min", category: "Cardio" },
+  { name: "Rowing Machine", sets: 1, reps: 1, duration: "20 min", category: "Cardio" },
+  { name: "Stair Climber", sets: 1, reps: 1, duration: "15 min", category: "Cardio" },
+  { name: "Swimming", sets: 1, reps: 1, duration: "30 min", category: "Cardio" },
+  { name: "HIIT Training", sets: 4, reps: 10, duration: "20 min", category: "Cardio" },
+  { name: "Burpees", sets: 3, reps: 15, duration: "10 min", category: "Cardio" },
+];
+
+export function ExerciseProvider({ children }: ProviderProps) {
     const [savedExercises, setSavedExercises] = useState<ExerciseItem[]>([]);
-  
+    const [hasInitialized, setHasInitialized] = useState(false);
+
     useEffect(() => {
       (async () => {
         try {
@@ -56,9 +70,19 @@ import React, {
           if (raw) {
             const parsed = JSON.parse(raw) as ExerciseItem[];
             setSavedExercises(parsed);
+          } else {
+            // First time load - add default cardio exercises
+            const defaultExercises = DEFAULT_CARDIO_EXERCISES.map((ex, idx) => ({
+              ...ex,
+              id: `default-cardio-${idx}-${Date.now()}`,
+            }));
+            setSavedExercises(defaultExercises);
+            await AsyncStorage.setItem(KEY, JSON.stringify(defaultExercises));
           }
+          setHasInitialized(true);
         } catch (e) {
           console.warn("Load saved exercises failed", e);
+          setHasInitialized(true);
         }
       })();
     }, []);

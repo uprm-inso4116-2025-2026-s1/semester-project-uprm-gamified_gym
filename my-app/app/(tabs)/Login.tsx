@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import {
   SafeAreaView,
   View,
@@ -9,27 +9,18 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  ActivityIndicator, // Loading
+  ActivityIndicator,
 } from "react-native";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { supabase } from "../../lib/supabaseClient";
-
-type RootStackParamList = {
-  Login: undefined;
-  Password: undefined;
-  SignUp: undefined;
-  Home: undefined; // Go to after login
-};
-type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
+import { useAuth } from "./authContext";
 
 export default function Login() {
-  // Hook
-  const navigation = useNavigation<LoginScreenNavigationProp>(); 
-  
+  const router = useRouter();
+  const { signIn } = useAuth();
+
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
-  
-  const [loading, setLoading] = useState(false); 
+
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const onLogin = async () => {
@@ -42,18 +33,14 @@ export default function Login() {
     setError("");
 
     try {
-      // Authenticate w/Supabase
-      const { data: { user }, error: authError } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password: pwd,
-      });
+      const { error: authError } = await signIn(email.trim(), pwd);
 
       if (authError) {
         setError(authError.message);
-        console.error('Supabase Auth Error:', authError.message);
-      } else if (user) {
-        console.log("Login Successful! User:", user.id);
-        navigation.navigate("Home"); 
+        console.error('Auth Error:', authError.message);
+      } else {
+        console.log("Login Successful!");
+        // AuthNavigator will handle redirect to ExerciseLibrary
       }
     } catch (e) {
       console.error("Login attempt failed:", e);
@@ -108,7 +95,7 @@ export default function Login() {
 
             {/* Forgot Password (derecha) */}
             <View style={styles.inlineRight}>
-              <Pressable onPress={() => navigation.navigate("Password")}>
+              <Pressable onPress={() => router.push('/(tabs)/Password')}>
                 <Text style={styles.linkInline}>Forgot Password?</Text>
               </Pressable>
             </View>
@@ -133,10 +120,10 @@ export default function Login() {
             {/* Link a Sign Up */}
             <View style={{ marginTop: 12 }}>
               <Text style={styles.footerText}>
-                Don’t have an account?{" "}
+                Don't have an account?{" "}
                 <Text
                   style={styles.linkUnderline}
-                  onPress={() => navigation.navigate("SignUp")}
+                  onPress={() => router.push('/(tabs)/SignUp')}
                 >
                   Sign Up
                 </Text>
