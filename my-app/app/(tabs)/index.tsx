@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -7,15 +7,17 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "./authContext";
 import { useWorkoutsSupabase } from "./workoutStoreSupabase";
 import { useAchievementsSupabase } from "./achievementStoreSupabase";
+import { supabase } from "../../lib/supabaseClient";
 
 const { width } = Dimensions.get("window");
 
@@ -54,6 +56,7 @@ export default function HomeScreen() {
 
   const [greeting, setGreeting] = useState("");
   const [quote, setQuote] = useState("");
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(null);
 
   useEffect(() => {
     // Set greeting based on time of day
@@ -70,6 +73,60 @@ export default function HomeScreen() {
     const randomQuote = MOTIVATIONAL_QUOTES[Math.floor(Math.random() * MOTIVATIONAL_QUOTES.length)];
     setQuote(randomQuote);
   }, []);
+
+  const fetchProfilePicture = useCallback(async () => {
+    try {
+      console.log("Fetching profile picture...");
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+      if (userError) {
+        console.error("Error getting user:", userError);
+        return;
+      }
+
+      if (!user) {
+        console.log("No user found");
+        return;
+      }
+
+      console.log("User ID:", user.id);
+
+      const { data: profileData, error: profileError } = await supabase
+        .from("user_profiles_test")
+        .select("profile_picture_url")
+        .eq("id", user.id)
+        .single();
+
+      if (profileError) {
+        console.error("Error fetching profile data:", profileError);
+        return;
+      }
+
+      console.log("Profile data:", profileData);
+      console.log("Profile picture URL:", profileData?.profile_picture_url);
+
+      if (profileData?.profile_picture_url) {
+        // Remove any existing timestamp from the URL
+        const baseUrl = profileData.profile_picture_url.split('?')[0];
+        // Add a new timestamp to bust cache
+        const urlWithTimestamp = `${baseUrl}?t=${Date.now()}`;
+        console.log("Setting profile picture URL:", urlWithTimestamp);
+        setProfilePictureUrl(urlWithTimestamp);
+      } else {
+        console.log("No profile picture URL found");
+        setProfilePictureUrl(null);
+      }
+    } catch (error) {
+      console.error("Error fetching profile picture:", error);
+    }
+  }, []);
+
+  // Refresh profile picture when screen is focused
+  useFocusEffect(
+    useCallback(() => {
+      fetchProfilePicture();
+    }, [fetchProfilePicture])
+  );
 
   // Get today's workouts
   const today = new Date();
@@ -151,7 +208,14 @@ export default function HomeScreen() {
               style={styles.profileButton}
               onPress={() => navigation.navigate("Profile")}
             >
-              <Ionicons name="person-circle" size={48} color="#fff" />
+              {profilePictureUrl ? (
+                <Image
+                  source={{ uri: profilePictureUrl }}
+                  style={styles.profileImage}
+                />
+              ) : (
+                <Ionicons name="person-circle" size={48} color="#fff" />
+              )}
             </TouchableOpacity>
           </View>
 
@@ -478,6 +542,13 @@ const styles = StyleSheet.create({
   profileButton: {
     width: 48,
     height: 48,
+  },
+  profileImage: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 2,
+    borderColor: "#fff",
   },
   quote: {
     fontSize: 16,

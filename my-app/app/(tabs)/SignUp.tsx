@@ -4,18 +4,21 @@ import {
   View,
   Text,
   TextInput,
-  Pressable,
+  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
   Alert,
+  ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { supabase } from "../../lib/supabaseClient";
 import { checkUsernameAvailable } from "../../utils/checkUsername";
 
-// --- Password validation helper ---
+// Password validation helper
 function validatePassword(pwd: string) {
   const hasMinLength = pwd.length >= 8;
   const hasUpper = /[A-Z]/.test(pwd);
@@ -23,8 +26,7 @@ function validatePassword(pwd: string) {
   const hasNumber = /\d/.test(pwd);
   const hasSpecial = /[^A-Za-z0-9]/.test(pwd);
 
-  const isValid =
-    hasMinLength && hasUpper && hasLower && hasNumber && hasSpecial;
+  const isValid = hasMinLength && hasUpper && hasLower && hasNumber && hasSpecial;
 
   return {
     isValid,
@@ -47,11 +49,14 @@ export default function SignUp() {
     available: false,
     message: "",
   });
+  const [checkingUsername, setCheckingUsername] = useState(false);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
@@ -65,12 +70,15 @@ export default function SignUp() {
   useEffect(() => {
     if (!username) {
       setUsernameStatus({ available: false, message: "" });
+      setCheckingUsername(false);
       return;
     }
 
+    setCheckingUsername(true);
     const timer = setTimeout(async () => {
       const status = await checkUsernameAvailable(username.trim());
       setUsernameStatus(status);
+      setCheckingUsername(false);
     }, 500);
 
     return () => clearTimeout(timer);
@@ -81,7 +89,7 @@ export default function SignUp() {
     const cleanedUsername = username.trim();
     const passwordCheck = validatePassword(pwd);
 
-    // --- VALIDATIONS ---
+    // Validations
     if (!cleanedUsername) {
       Alert.alert("Error", "Please enter a username");
       setLoading(false);
@@ -89,10 +97,7 @@ export default function SignUp() {
     }
 
     if (!usernameStatus.available) {
-      Alert.alert(
-        "Error",
-        usernameStatus.message || "Username is not available"
-      );
+      Alert.alert("Error", usernameStatus.message || "Username is not available");
       setLoading(false);
       return;
     }
@@ -112,7 +117,7 @@ export default function SignUp() {
     if (!passwordCheck.isValid) {
       Alert.alert(
         "Weak password",
-        "Password must be at least 8 characters and include an uppercase letter, lowercase letter, number, and special character."
+        "Password must be at least 8 characters and include uppercase, lowercase, number, and special character."
       );
       setLoading(false);
       return;
@@ -129,7 +134,7 @@ export default function SignUp() {
       const [firstName, ...lastNameParts] = name.trim().split(" ");
       const lastName = lastNameParts.join(" ") || null;
 
-      // Create Supabase auth user
+      // Create auth user
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: email.trim().toLowerCase(),
         password: pwd,
@@ -150,14 +155,12 @@ export default function SignUp() {
       const userId = authData.user.id;
 
       // Insert profile
-      const { error: profileError } = await supabase
-        .from("user_profiles_test")
-        .insert({
-          id: userId,
-          username: cleanedUsername,
-          first_name: firstName,
-          last_name: lastName,
-        });
+      const { error: profileError } = await supabase.from("user_profiles_test").insert({
+        id: userId,
+        username: cleanedUsername,
+        first_name: firstName,
+        last_name: lastName,
+      });
 
       if (profileError) {
         const msg = profileError.message || "";
@@ -172,7 +175,7 @@ export default function SignUp() {
         } else {
           Alert.alert(
             "Profile Error",
-            "Your account was created, but there was an issue setting up your profile. Please try again."
+            "Your account was created, but there was an issue setting up your profile."
           );
         }
       } else {
@@ -193,338 +196,488 @@ export default function SignUp() {
   const passwordState = validatePassword(pwd);
 
   return (
-    <SafeAreaView style={styles.screen}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+    <SafeAreaView style={styles.safeArea}>
+      <LinearGradient
+        colors={["#2E89FF", "#1E5FCC"]}
+        style={styles.gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
       >
-        <View style={styles.container}>
-          <View style={styles.card}>
-            <View style={styles.logoBox}>
-              <Text style={styles.logoText}>LOGO{"\n"}HERE</Text>
+        <KeyboardAvoidingView
+          style={styles.keyboardView}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+          >
+            {/* Logo Section */}
+            <View style={styles.logoContainer}>
+              <View style={styles.logoCircle}>
+                <Ionicons name="barbell" size={48} color="#fff" />
+              </View>
+              <Text style={styles.appName}>Gamified Gym</Text>
+              <Text style={styles.tagline}>Start your fitness journey</Text>
             </View>
 
-            <Text style={styles.title}>Sign up!</Text>
-            <Text style={styles.subtitle}>Create an account</Text>
+            {/* Card */}
+            <View style={styles.card}>
+              <Text style={styles.title}>Create Account</Text>
+              <Text style={styles.subtitle}>Sign up to get started</Text>
 
-            {/* Username */}
-            <Text style={styles.label}>Username</Text>
-            <TextInput
-              value={username}
-              onChangeText={setUsername}
-              autoCapitalize="none"
-              placeholder="Choose a username"
-              placeholderTextColor="rgba(255,255,255,0.9)"
-              style={[
-                styles.input,
-                usernameStatus.available === false &&
-                  username &&
-                  usernameStatus.message
-                  ? { borderColor: ERROR_RED, borderWidth: 1 }
-                  : {},
-              ]}
-            />
-            {username ? (
-              <Text
-                style={{
-                  color: usernameStatus.available
-                    ? SUCCESS_GREEN
-                    : ERROR_RED,
-                  marginBottom: 6,
-                  alignSelf: "flex-start",
-                }}
-              >
-                {usernameStatus.message}
-              </Text>
-            ) : null}
-
-            {/* Full Name */}
-            <Text style={styles.label}>Full Name</Text>
-            <TextInput
-              value={name}
-              onChangeText={setName}
-              autoCapitalize="words"
-              placeholder="Your Name"
-              placeholderTextColor="rgba(255,255,255,0.9)"
-              style={styles.input}
-            />
-
-            {/* Email */}
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              placeholder="you@example.com"
-              placeholderTextColor="rgba(255,255,255,0.9)"
-              style={styles.input}
-            />
-
-            {/* Password */}
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              value={pwd}
-              onChangeText={setPwd}
-              secureTextEntry
-              placeholder="••••••••"
-              placeholderTextColor="rgba(255,255,255,0.9)"
-              style={styles.input}
-            />
-
-            {/* Password Requirements (always visible) */}
-            <View style={styles.passwordHelper}>
-              <Text
+              {/* Username Input */}
+              <View
                 style={[
-                  styles.requirementText,
-                  passwordState.hasMinLength && styles.requirementMet,
+                  styles.inputContainer,
+                  username && !usernameStatus.available && usernameStatus.message
+                    ? styles.inputError
+                    : username && usernameStatus.available
+                    ? styles.inputSuccess
+                    : {},
                 ]}
               >
-                {passwordState.hasMinLength ? "•" : "○"} At least 8 characters
-              </Text>
-              <Text
-                style={[
-                  styles.requirementText,
-                  passwordState.hasUpper && styles.requirementMet,
-                ]}
-              >
-                {passwordState.hasUpper ? "•" : "○"} One uppercase letter
-              </Text>
-              <Text
-                style={[
-                  styles.requirementText,
-                  passwordState.hasLower && styles.requirementMet,
-                ]}
-              >
-                {passwordState.hasLower ? "•" : "○"} One lowercase letter
-              </Text>
-              <Text
-                style={[
-                  styles.requirementText,
-                  passwordState.hasNumber && styles.requirementMet,
-                ]}
-              >
-                {passwordState.hasNumber ? "•" : "○"} One number
-              </Text>
-              <Text
-                style={[
-                  styles.requirementText,
-                  passwordState.hasSpecial && styles.requirementMet,
-                ]}
-              >
-                {passwordState.hasSpecial ? "•" : "○"} One special character
-              </Text>
-            </View>
-
-            {/* Confirm Password */}
-            <Text style={styles.label}>Confirm Password</Text>
-            <TextInput
-              value={confirmPwd}
-              onChangeText={setConfirmPwd}
-              secureTextEntry
-              placeholder="••••••••"
-              placeholderTextColor="rgba(255,255,255,0.9)"
-              style={styles.input}
-            />
-
-            <Pressable
-              onPress={onSignup}
-              disabled={loading}
-              style={({ pressed }) => [
-                styles.primaryBtn,
-                (pressed || loading) && { opacity: 0.9 },
-                loading && { backgroundColor: "#aaa" },
-              ]}
-            >
-              <Text style={styles.primaryBtnText}>
-                {loading ? "Creating Account..." : "Sign Up"}
-              </Text>
-            </Pressable>
-
-            <View style={{ marginTop: 12 }}>
-              <Text style={styles.footerText}>
-                Already have an account?{" "}
+                <Ionicons name="person-outline" size={20} color="#666" style={styles.inputIcon} />
+                <TextInput
+                  value={username}
+                  onChangeText={setUsername}
+                  autoCapitalize="none"
+                  placeholder="Username"
+                  placeholderTextColor="#999"
+                  style={styles.input}
+                />
+                {checkingUsername ? (
+                  <ActivityIndicator size="small" color="#666" style={styles.statusIcon} />
+                ) : username && usernameStatus.available ? (
+                  <Ionicons name="checkmark-circle" size={20} color="#4CAF50" style={styles.statusIcon} />
+                ) : username && usernameStatus.message ? (
+                  <Ionicons name="close-circle" size={20} color="#FF6B6B" style={styles.statusIcon} />
+                ) : null}
+              </View>
+              {username && usernameStatus.message ? (
                 <Text
-                  style={styles.linkUnderline}
-                  onPress={() => router.push("/(tabs)/Login")}
+                  style={[
+                    styles.statusText,
+                    { color: usernameStatus.available ? "#4CAF50" : "#FF6B6B" },
+                  ]}
                 >
-                  Log in
+                  {usernameStatus.message}
                 </Text>
-              </Text>
+              ) : null}
+
+              {/* Full Name Input */}
+              <View style={styles.inputContainer}>
+                <Ionicons name="person-outline" size={20} color="#666" style={styles.inputIcon} />
+                <TextInput
+                  value={name}
+                  onChangeText={setName}
+                  autoCapitalize="words"
+                  placeholder="Full Name"
+                  placeholderTextColor="#999"
+                  style={styles.input}
+                />
+              </View>
+
+              {/* Email Input */}
+              <View style={styles.inputContainer}>
+                <Ionicons name="mail-outline" size={20} color="#666" style={styles.inputIcon} />
+                <TextInput
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  placeholder="Email address"
+                  placeholderTextColor="#999"
+                  style={styles.input}
+                />
+              </View>
+
+              {/* Password Input */}
+              <View style={styles.inputContainer}>
+                <Ionicons name="lock-closed-outline" size={20} color="#666" style={styles.inputIcon} />
+                <TextInput
+                  value={pwd}
+                  onChangeText={setPwd}
+                  secureTextEntry={!showPassword}
+                  placeholder="Password"
+                  placeholderTextColor="#999"
+                  style={styles.input}
+                />
+                <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
+                  style={styles.eyeIcon}
+                >
+                  <Ionicons
+                    name={showPassword ? "eye-outline" : "eye-off-outline"}
+                    size={20}
+                    color="#666"
+                  />
+                </TouchableOpacity>
+              </View>
+
+              {/* Password Requirements */}
+              {pwd.length > 0 && (
+                <View style={styles.passwordHelper}>
+                  <View style={styles.requirementRow}>
+                    <Ionicons
+                      name={passwordState.hasMinLength ? "checkmark-circle" : "close-circle"}
+                      size={16}
+                      color={passwordState.hasMinLength ? "#4CAF50" : "#E0E0E0"}
+                    />
+                    <Text
+                      style={[
+                        styles.requirementText,
+                        passwordState.hasMinLength && styles.requirementMet,
+                      ]}
+                    >
+                      8+ characters
+                    </Text>
+                  </View>
+                  <View style={styles.requirementRow}>
+                    <Ionicons
+                      name={passwordState.hasUpper ? "checkmark-circle" : "close-circle"}
+                      size={16}
+                      color={passwordState.hasUpper ? "#4CAF50" : "#E0E0E0"}
+                    />
+                    <Text
+                      style={[styles.requirementText, passwordState.hasUpper && styles.requirementMet]}
+                    >
+                      Uppercase letter
+                    </Text>
+                  </View>
+                  <View style={styles.requirementRow}>
+                    <Ionicons
+                      name={passwordState.hasLower ? "checkmark-circle" : "close-circle"}
+                      size={16}
+                      color={passwordState.hasLower ? "#4CAF50" : "#E0E0E0"}
+                    />
+                    <Text
+                      style={[styles.requirementText, passwordState.hasLower && styles.requirementMet]}
+                    >
+                      Lowercase letter
+                    </Text>
+                  </View>
+                  <View style={styles.requirementRow}>
+                    <Ionicons
+                      name={passwordState.hasNumber ? "checkmark-circle" : "close-circle"}
+                      size={16}
+                      color={passwordState.hasNumber ? "#4CAF50" : "#E0E0E0"}
+                    />
+                    <Text
+                      style={[
+                        styles.requirementText,
+                        passwordState.hasNumber && styles.requirementMet,
+                      ]}
+                    >
+                      Number
+                    </Text>
+                  </View>
+                  <View style={styles.requirementRow}>
+                    <Ionicons
+                      name={passwordState.hasSpecial ? "checkmark-circle" : "close-circle"}
+                      size={16}
+                      color={passwordState.hasSpecial ? "#4CAF50" : "#E0E0E0"}
+                    />
+                    <Text
+                      style={[
+                        styles.requirementText,
+                        passwordState.hasSpecial && styles.requirementMet,
+                      ]}
+                    >
+                      Special character
+                    </Text>
+                  </View>
+                </View>
+              )}
+
+              {/* Confirm Password Input */}
+              <View style={styles.inputContainer}>
+                <Ionicons name="lock-closed-outline" size={20} color="#666" style={styles.inputIcon} />
+                <TextInput
+                  value={confirmPwd}
+                  onChangeText={setConfirmPwd}
+                  secureTextEntry={!showConfirmPassword}
+                  placeholder="Confirm password"
+                  placeholderTextColor="#999"
+                  style={styles.input}
+                />
+                <TouchableOpacity
+                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                  style={styles.eyeIcon}
+                >
+                  <Ionicons
+                    name={showConfirmPassword ? "eye-outline" : "eye-off-outline"}
+                    size={20}
+                    color="#666"
+                  />
+                </TouchableOpacity>
+              </View>
+
+              {/* Sign Up Button */}
+              <TouchableOpacity
+                onPress={onSignup}
+                disabled={loading}
+                style={[styles.signupButton, loading && styles.signupButtonDisabled]}
+                activeOpacity={0.8}
+              >
+                <LinearGradient
+                  colors={loading ? ["#999", "#777"] : ["#2E89FF", "#1E5FCC"]}
+                  style={styles.buttonGradient}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                >
+                  {loading ? (
+                    <ActivityIndicator color="#fff" size="small" />
+                  ) : (
+                    <Text style={styles.signupButtonText}>Create Account</Text>
+                  )}
+                </LinearGradient>
+              </TouchableOpacity>
+
+              {/* Divider */}
+              <View style={styles.divider}>
+                <View style={styles.dividerLine} />
+                <Text style={styles.dividerText}>OR</Text>
+                <View style={styles.dividerLine} />
+              </View>
+
+              {/* Login Link */}
+              <View style={styles.loginContainer}>
+                <Text style={styles.loginText}>Already have an account? </Text>
+                <TouchableOpacity onPress={() => router.push("/(tabs)/Login")}>
+                  <Text style={styles.loginLink}>Log In</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
 
         {/* Success Popup */}
         {showSuccessPopup && (
           <View style={styles.popupOverlay}>
             <View style={styles.popupCard}>
-              <Ionicons
-                name="checkmark-circle"
-                size={40}
-                color={BLUE}
-                style={styles.popupIcon}
-              />
-              <Text style={styles.popupTitle}>Account Created</Text>
+              <View style={styles.successIconContainer}>
+                <Ionicons name="checkmark-circle" size={64} color="#4CAF50" />
+              </View>
+              <Text style={styles.popupTitle}>Account Created!</Text>
               <Text style={styles.popupMessage}>
-                You’re all set! Redirecting you to login...
+                Welcome aboard! Redirecting you to login...
               </Text>
             </View>
           </View>
         )}
-      </KeyboardAvoidingView>
+      </LinearGradient>
     </SafeAreaView>
   );
 }
 
-// --- Styles ---
-const BLUE = "#2F80FF";
-const ERROR_RED = "#FF4D4F";
-const SUCCESS_GREEN = "#27AE60";
-
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: BLUE },
-  container: {
+  safeArea: {
     flex: 1,
-    paddingHorizontal: 20,
-    justifyContent: "center",
-    alignItems: "center",
   },
-  card: {
-    width: "92%",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 23,
-    paddingVertical: 28,
-    paddingHorizontal: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.15,
-    shadowOffset: { width: 0, height: 6 },
-    shadowRadius: 12,
-    elevation: 8,
-    alignItems: "center",
+  gradient: {
+    flex: 1,
   },
-  logoBox: {
-    width: 140,
-    height: 90,
-    borderRadius: 18,
-    backgroundColor: BLUE,
+  keyboardView: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 40,
+  },
+  logoContainer: {
+    alignItems: "center",
+    marginBottom: 32,
+  },
+  logoCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "rgba(255,255,255,0.2)",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 16,
+    borderWidth: 3,
+    borderColor: "rgba(255,255,255,0.4)",
   },
-  logoText: {
+  appName: {
+    fontSize: 32,
+    fontWeight: "800",
     color: "#fff",
-    fontWeight: "700",
-    textAlign: "center",
-    letterSpacing: 1,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: "900",
-    color: BLUE,
-    textAlign: "center",
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: BLUE,
-    opacity: 0.9,
-    textAlign: "center",
-    marginBottom: 10,
-  },
-  label: {
-    alignSelf: "flex-start",
-    width: "100%",
-    maxWidth: 440,
-    color: BLUE,
-    fontWeight: "700",
-    marginBottom: 6,
-  },
-  input: {
-    width: "100%",
-    maxWidth: 440,
-    height: 44,
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    backgroundColor: "rgba(114,167,255,0.85)",
-    color: "#fff",
-    fontWeight: "600",
     marginBottom: 8,
   },
-  primaryBtn: {
-    width: "100%",
-    maxWidth: 440,
-    height: 50,
-    borderRadius: 16,
-    backgroundColor: BLUE,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 6,
+  tagline: {
+    fontSize: 16,
+    color: "rgba(255,255,255,0.9)",
   },
-  primaryBtnText: {
-    color: "#fff",
-    fontWeight: "900",
-    fontSize: 18,
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 24,
+    padding: 28,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
+    elevation: 8,
+    marginBottom: 20,
   },
-  footerText: { color: BLUE, fontWeight: "700", textAlign: "center" },
-  linkUnderline: {
-    color: BLUE,
+  title: {
+    fontSize: 28,
     fontWeight: "800",
-    textDecorationLine: "underline",
+    color: "#333",
+    marginBottom: 8,
   },
-
-  // Password helper
+  subtitle: {
+    fontSize: 15,
+    color: "#666",
+    marginBottom: 24,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F5F7FA",
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+  },
+  inputError: {
+    borderColor: "#FF6B6B",
+    borderWidth: 2,
+  },
+  inputSuccess: {
+    borderColor: "#4CAF50",
+    borderWidth: 2,
+  },
+  inputIcon: {
+    marginRight: 12,
+  },
+  input: {
+    flex: 1,
+    height: 52,
+    fontSize: 16,
+    color: "#333",
+  },
+  eyeIcon: {
+    padding: 8,
+  },
+  statusIcon: {
+    marginLeft: 8,
+  },
+  statusText: {
+    fontSize: 12,
+    fontWeight: "600",
+    marginBottom: 12,
+    marginLeft: 4,
+  },
   passwordHelper: {
-    width: "100%",
-    maxWidth: 440,
-    marginTop: 4,
-    marginBottom: 10,
+    backgroundColor: "#F9F9F9",
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 12,
+    gap: 8,
+  },
+  requirementRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
   requirementText: {
-    fontSize: 11,
-    color: ERROR_RED,
+    fontSize: 13,
+    color: "#999",
   },
   requirementMet: {
-    color: SUCCESS_GREEN,
+    color: "#4CAF50",
+    fontWeight: "600",
+  },
+  signupButton: {
+    borderRadius: 12,
+    overflow: "hidden",
+    marginTop: 8,
+    marginBottom: 24,
+  },
+  signupButtonDisabled: {
+    opacity: 0.7,
+  },
+  buttonGradient: {
+    paddingVertical: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 52,
+  },
+  signupButtonText: {
+    color: "#fff",
+    fontSize: 18,
     fontWeight: "700",
   },
-
-  // Success popup
+  divider: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 24,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#E0E0E0",
+  },
+  dividerText: {
+    marginHorizontal: 16,
+    fontSize: 14,
+    color: "#999",
+    fontWeight: "600",
+  },
+  loginContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loginText: {
+    fontSize: 15,
+    color: "#666",
+  },
+  loginLink: {
+    fontSize: 15,
+    color: "#2E89FF",
+    fontWeight: "700",
+  },
   popupOverlay: {
     position: "absolute",
     top: 0,
     bottom: 0,
-    right: 0,
     left: 0,
+    right: 0,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.25)",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   popupCard: {
-    width: "78%",
-    backgroundColor: "#FFFFFF",
-    paddingVertical: 20,
-    paddingHorizontal: 18,
-    borderRadius: 20,
+    width: "85%",
+    maxWidth: 400,
+    backgroundColor: "#fff",
+    borderRadius: 24,
+    padding: 32,
     alignItems: "center",
     shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 8 },
-    shadowRadius: 18,
-    elevation: 10,
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.3,
+    shadowRadius: 24,
+    elevation: 12,
   },
-  popupIcon: {
-    marginBottom: 6,
+  successIconContainer: {
+    marginBottom: 20,
   },
   popupTitle: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "800",
-    color: BLUE,
-    marginBottom: 4,
+    color: "#333",
+    marginBottom: 12,
   },
   popupMessage: {
-    fontSize: 13,
-    color: "#4F4F4F",
+    fontSize: 15,
+    color: "#666",
     textAlign: "center",
+    lineHeight: 22,
   },
 });
