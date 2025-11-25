@@ -9,6 +9,7 @@ import {
   Platform,
   StyleSheet,
   Alert,
+  Image
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -67,8 +68,11 @@ export default function Password() {
       >
         <View style={styles.container}>
           <View style={styles.card}>
-            <View style={styles.logoBox}>
+            {/* <View style={styles.logoBox}>
               <Text style={styles.logoText}>LOGO{"\n"}HERE</Text>
+            </View> */}
+            <View style={styles.logo}>
+              <Image source={require('../../assets/images/logo.png')} style={{ width: 140, height: 140, borderRadius: 30 }}/>
             </View>
 
             <Text style={styles.title}>Forgot Password</Text>
@@ -134,21 +138,29 @@ const styles = StyleSheet.create({
     elevation: 8,
     alignItems: "center",
   },
-  logoBox: {
-    width: 140,
-    height: 90,
-    borderRadius: 18,
-    backgroundColor: BLUE,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 18,
+  logo: {
+    // position: 'absolute',
+    // top: 15,
+    // width: 140,
+    // height: 140,
+    // borderRadius: 20,
+    // backgroundColor: BLUE,
   },
-  logoText: {
-    color: "#fff",
-    fontWeight: "700",
-    textAlign: "center",
-    letterSpacing: 1,
-  },
+  // logoBox: {
+  //   width: 140,
+  //   height: 90,
+  //   borderRadius: 18,
+  //   backgroundColor: BLUE,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   marginBottom: 18,
+  // },
+  // logoText: {
+  //   color: "#fff",
+  //   fontWeight: "700",
+  //   textAlign: "center",
+  //   letterSpacing: 1,
+  // },
   title: {
     fontSize: 28,
     fontWeight: "800",

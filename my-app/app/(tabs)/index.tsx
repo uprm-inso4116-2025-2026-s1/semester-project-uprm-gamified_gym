@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { View, Text, Button, StyleSheet, ImageBackground, TouchableOpacity, LogBox  } from "react-native";
+import { View, Text, Button, StyleSheet, ImageBackground, TouchableOpacity, LogBox, Image  } from "react-native";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -30,9 +30,12 @@ export default function index() {
           style={styles.background}
           resizeMode="cover">
           <View style={styles.container}> 
-            <div style={styles.logo}>
+            {/* <div style={styles.logo}>
               <Text style={styles.logotext}> LOGO HERE </Text>
-            </div>       
+            </div>        */}
+            <View style={styles.logo}>
+              <Image source={require('../../assets/images/logo.png')} style={{ width: 140, height: 140, borderRadius: 30 }}/>
+            </View>
             <Text style={styles.title}>Welcome to our</Text>
             <Text style={styles.title}>mobile Gamified app</Text>
             <Text style={styles.subtitle1}>If you do not have an account with us, please register here</Text>
@@ -129,13 +132,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: BLUE,
   },
-  logotext: {
-    position: 'absolute',
-    top: 55,
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
+  // logotext: {
+  //   position: 'absolute',
+  //   top: 55,
+  //   color: 'white',
+  //   fontSize: 20,
+  //   fontWeight: 'bold',
+  // },
   container: {
     flex: 1,
     width: '100%',
@@ -150,14 +153,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
     marginBottom: 10,
-    top: -20,
+    top: 10,
     width: '100%',
     textAlign: 'center',
   },
   subtitle1: {
     width: '80%',
     textAlign: 'center',
-    top: 0,
+    top: 20,
     fontSize: 20,
     fontWeight: "bold",
     color: "white",
@@ -165,17 +168,18 @@ const styles = StyleSheet.create({
   subtitle2: {
     width: '80%',
     textAlign: 'center',
-    top: 50,
+    top: 70,
     fontSize: 20,
     fontWeight: "bold",
     color: "white",
   },
   signupbutton: {
-    top: 10,
+    top: 30,
     width: 140,
     height: 40,
   },
   loginbutton: {
+    top: 20,
     marginTop: 60,
     width: 140,
     height: 40,
