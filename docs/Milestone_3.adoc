@@ -9,7 +9,7 @@
 -AthleteEndsWorkoutSession
 
 === Domain Functions
-function createExercise(name: Name, reps: Reps, sets: Sets, intensity: Intensity): Exercise
+createExercise(name: Name, reps: Reps, sets: Sets, intensity: Intensity): Exercise
 createWorkoutRoutine(exercises: ExerciseList, goal: TrainingGoal): WorkoutRoutine
 createSet(reps: Reps, weight: Weight, intensity: Intensity): Set
 startWorkoutSession(athlete: Athlete): WorkoutSession
