@@ -20,6 +20,18 @@
 - updateProgress
 - endWorkoutSession
 
+==== 2.1.5 Function Signatures
+- createExercise(name: Name, reps: Reps, sets: Sets, intensity: Intensity): Exercise
+- createWorkoutRoutine(exercises: ExerciseList, goal: TrainingGoal): WorkoutRoutine
+- createSet(reps: Reps, weight: Weight, intensity: Intensity): Set
+- startWorkoutSession(athlete: Athlete): WorkoutSession
+- selectExercise(session: WorkoutSession, exercise: Exercise): UpdatedSession
+- applyIntensity(exercise: Exercise, intensity: Intensity): Exercise
+- completeSet(exercise: Exercise, reps: Reps, weight: Weight): CompletedSet
+- recordRest(session: WorkoutSession, duration: Duration): RestPeriod
+- updateProgress(athlete: Athlete, metrics: ProgressData): ProgressLog
+- endWorkoutSession(session: WorkoutSession): Summary
+
 ==== 2.2.2 Personas
 * Alex, the Beginner:
   ** Background and daily habits:
