@@ -1,3 +1,89 @@
+==== 2.2.2 Personas
+* Alex, the Beginner:
+  ** Background and daily habits:
+    Alex is a 28-year-old office worker from Miami, Florida. He works long hours at a marketing firm and often ends the day feeling
+    drained. Outside of working hours, he enjoys cooking simple meals, listens to podcasts about technology and entrepreneurship, and occasionally
+    playing casual mobile games to relax. Alex is new to fitness and often feels overwhelmed and feels out of place in a public gym, unsure of where to
+    start or whether he is making any progress. His primary goal is to build a consistent workout habit to improve his health, energy levels,
+    and overall well-being, as he feels sluggish from sitting all day at the office. His colleagues discussing fitness apps during lunch influences his desire for a polished, engaging user experience, which he might feel confident enough to share once he sees progress. Alex is motivated by music and likes to listen to high-energy playlists on Spotify during workouts to stay focused. He is curious, eager to learn, and wants clear guidance to help him feel confident and prevent unnecessary injuries as he begins his fitness journey.
+
+  ** Motivations and goals:
+   Alex isn't just trying to "build a habit." He wants to improve his energy levels to be more effective at his marketing job and eventually perhaps start his own business. 
+
+
+  ** Pain points and needs:
+The team will realize the app isn't just a fitness tool, but a stepping stone to entrepreneurial success and better time management, making features like progress visualization extremely important for tracking overall life progression, not just reps.
+Gym Anxiety, this suggests he would benefit from a "solo mode" or privacy settings initially.
+Alex’s interest in cooking simple meals suggests he might appreciate a section in the app with quick, easy-to-follow healthy recipes that fit into his busy evenings.
+Alex interest in listening to music during workouts present expectation of seamless integration with existing tools like Spotify or other tools.
+    Current fitness apps only log data but fail to provide engaging feedback or build motivation. Alex struggles to understand fitness
+    terminology and is unsure if his training is balanced, leading to a fear of developing imbalances or injuring himself by overdoing
+    certain exercises. Additionally, he prefers features that fit into busy, irregular schedules and offer clear visual rewards. 
+    He needs an intuitive, encouraging, and gamified guide to help him build a foundation.
+
+* Diego, the Competitive Gamer:
+  ** Background and daily habits:
+    Diego is a 22-year-old computer science student from San Juan, Puerto Rico. He spends much of his free time gaming, streaming, or
+    coding with friends online. He loves competitive environments and progression systems, whether it’s climbing ranked ladders in his
+    favorite games or improving his game stats. Outside of gaming Diego enjoys testing with his friends who have more strength, endurance,
+    or who can make the best dish, but he feels weaker than them in physical challenges. 
+His feeling of being physically weaker than friends isn't just about gym stats; it's about social confidence and status within his friend group. Looking information online he stumbled across how improving physical strength might also be linked to improving focus for long coding sessions and started to consider going to the gym. 
+Although he joined a gym last semester, he quickly
+    lost motivation because he doesn’t get the feeling of achieving, often translating to a feeling of wasted time.
+  ** Motivations and goals:
+    Diego wants a fitness app that makes working out feel like leveling up in a video game. He is motivated by points, rankings, and visual
+    progress bars that show him getting stronger in real time. His main goal is to stay consistent by turning workouts into daily “missions”
+    that reward effort and let him compete with friends. He also wants to improve his physical strength so he can win physical challenges against his friends.
+  ** Pain points and needs:
+The app’s competitive elements need to be robust enough to help him earn bragging rights, not just personal points.
+Competition against his friends is a major motivator. The app needs highly developed social challenge features, perhaps customizable duels or guild-like team goals, not just a simple leader board.
+    Current gym apps feel lifeless to him; they only track sets and reps without giving a sense of reward or excitement. He struggles with
+    accountability when training alone and needs an app that transforms progress into a fun, measurable system that keeps him hooked like a
+    game. He also wants an app that provides clear, visual indicators of his improvements as if he is improving stats in a game.
+His computer science background suggests he is comfortable with technology and likely expects a sophisticated, bug-free, and well-designed interface, not a basic app. 
+
+* Sarah, the Consistent:
+  ** Background and daily habits:
+    Sarah is a 32 year old teacher from Austin, Texas, who has maintained a regular gym routine for the past two years. She teaches high school
+    health and wellness classes, and her curiosity about nutrition, fitness, and exercise science allows her to apply what she learns both in school
+    and in her personal life. She is knowledgeable about basic exercises and tracks her sets and reps diligently in a notes app. She enjoys the discipline
+    of training and typically works out early in the morning before school to maintain consistency. Outside the gym and school, Sarah enjoys reading about
+    nutrition and wellness, trying out new healthy recipes, and occasionally attending local fitness classes to expand her knowledge. As a busy teacher, time is precious and likes to plan ahead during the week. She secretly allows
+    herself a cheat day every two weeks, indulging in foods like Burger King or fully loaded pizzas. As a health teacher, hitting a plateau has been slightly embarrassing or frustrating for Sarah because she feels she "should" know better. She suspects she may be neglecting certain muscle groups but lacks the data to confirm it.
+  ** Motivations and goals:
+Her goal isn't just about lifting heavier weights; it's about a continuous quest for knowledge and mastery of health and wellness.
+    Sarah wants to optimize her training to overcome her current progress plateau. She is motivated by measurable results and personal challenges,
+    using data to track improvements and hold herself accountable. Her main goal is to ensure balanced development across all muscle groups while adding a new layer of challenge and enjoyment to her well-established fitness routine, beyond simply lifting heavier weights.
+ ** Pain points and needs:
+    Sarah has hit a progress plateau and feels her workouts have become repetitive. She suspects she may be neglecting certain muscle groups
+    but lacks the data to confirm it. Her current tracking method is fragmented and offers no actionable insights. She finds most fitness apps
+    too simplistic and not designed for someone with her experience and discipline. She needs a tool that provides detailed, data driven analytics
+    on her performance and muscle development.
+Her structured schedule suggests the need for features that allow for advanced planning, such as a robust weekly or monthly workout scheduler that can send calendar reminders to her work schedule.
+
+* Marcos, the Motivator:
+  ** Background and daily habits:
+    Marcos is a 24-year-old graduate student from Chicago, Illinois, who treats fitness as a social activity. He works out with a close-knit
+    group of friends, relying on their presence for accountability and friendly competition. Marcos and his friends constantly challenge
+    each other to show up and push harder. He often shares workout milestones on social media like, Instagram but wishes there were a more
+    integrated way to track his progress and stay connected with his friends’ achievements. Outside the gym, Marcos balances his studies, 
+    part-time tutoring, and social life. He enjoys attending local fitness events, trying new workout classes, and exploring healthy restaurants
+    with friends. He is curious about sports science and occasionally reads articles on training techniques and recovery methods. Although
+    disciplined, he sometimes struggles to stay consistent when friends are unavailable or during particularly busy weeks, which makes him
+    value social accountability even more. Marcos also enjoys mentoring others in fitness and often motivates classmates or peers to adopt
+    healthier habits. He sees exercise not just as a personal goal but as a way to connect with others, challenge himself, and maintain
+    a sense of structure in his life.
+
+  ** Motivations and goals:
+    Marcos primary motivation is community, accountability, and shared achievement. He wants an app that strengthens his workout group’s
+    connection by making it easy to share progress, celebrate each other’s accomplishments, and maintain streaks together. He thrives in
+    a positive, friendly competitive environment that emphasizes consistency and effort rather than solely focusing on raw strength.
+    Beyond personal improvement, Marcos also wants to inspire and motivate others, helping peers adopt healthier habits while enjoying
+    a sense of community and shared challenge.
+  ** Pain points and needs:
+    Marcos already uses Instagram for sharing. The app needs highly polished, shareable visual summaries of achievements that are optimized for social platforms, leveraging his habit to attract new users and enhance existing engagement. There is no seamless way to create a private leaderboard with just his friends to track consistency, celebrate milestones, and encourage each other. He struggles to stay motivated when his workout group is unavailable and wants a platform that fosters a small, supportive community centred around collective growth. The pain of friends being unavailable isn't just about missing a workout; it’s about feeling isolated. Mentoring others in fitness gives Marcos a sense of purpose. The app could integrate a "mentor mode" or a public "coach profile" where he can track the progress of those he mentors, reinforcing his role as a leader and motivator. His focus on positive competition and motivation suggests that gamification should prioritize "praise" and "high-fives" alongside raw ranking data. Features might include a robust set of positive reaction emojis or automated encouragement messages.
+
+
 ==== 2.2.3 Domain Requirements
 ===== Principles
 * Fitness as a Journey of Personal Progress
