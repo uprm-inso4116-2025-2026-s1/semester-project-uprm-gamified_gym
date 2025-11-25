@@ -1,12 +1,12 @@
 ==== 2.1.4 Events / Behaviors / Functions
 === Events and Behaviors
 - AthleteBeginsWorkoutSession
--AthleteChoosesExercise
--AthleteAdjustsForm
--ExerciseIntensitySelected
--AthleteCompletesSet
--AthleteTakesRestPeriod
--AthleteEndsWorkoutSession
+- AthleteChoosesExercise
+- AthleteAdjustsForm
+- ExerciseIntensitySelected
+- AthleteCompletesSet
+- AthleteTakesRestPeriod
+- AthleteEndsWorkoutSession
 
 === Domain Functions
 createExercise(name: Name, reps: Reps, sets: Sets, intensity: Intensity): Exercise
