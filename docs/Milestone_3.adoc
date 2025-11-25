@@ -1,6 +1,6 @@
 ==== 2.1.1 Domain Rough Sketch (Raw Stories)
 temperature=0.1
-kljkljkljlkjlk
+
 ==== 2.1.4 Events / Behaviors / Functions
 === Events and Behaviors
 - AthleteBeginsWorkoutSession
