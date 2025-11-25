@@ -1,5 +1,5 @@
 ==== 2.1.4 Events / Behaviors / Functions
-===Events and Behaviors
+=== Events and Behaviors
 - AthleteBeginsWorkoutSession
 -AthleteChoosesExercise
 -AthleteAdjustsForm
