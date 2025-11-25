@@ -11,6 +11,7 @@ export type RootStackParamList = {
   Settings: undefined;
   Password: undefined;
   ExerciseLog: undefined; 
+  MealLog: undefined; 
   Achievements: { from?: string };
 };
 
