@@ -1,63 +1,62 @@
 ==== 2.1.1 Domain Rough Sketch (Raw Stories)
-=== Raw Story: First Week Attempting Cardio
+=== Raw Story: Losing Track During Supersets
+
+Gym-Goer recounts:
+"I started a superset of dumbbell curls at 25 pounds and tricep pushdowns at 40 pounds. I wanted to complete three sets of each, but halfway through the first set of curls, I realized I hadn’t kept track of the warm-up reps.
+
+The first few reps felt fine, but by the fourth rep, my forearms burned, and I paused to try to remember which set I was on. My grip felt shaky, and my breathing grew uneven.
+
+On the next pushdown set, I tried to focus on the motion, but my mind kept going back to the previous curls. I paused briefly, then started again, but the tension in my arms made the movement slower and less controlled.
+
+I attempted another curl set, but my grip slipped slightly, and the movement became uneven. I lowered the dumbbells and stepped away, frustrated that I had lost track halfway through the session.
+
+I moved on to a lighter machine row just to finish the workout, feeling mentally drained from the disorganization."
+
+=== Raw Story: Overreaching on Deadlift Day
 
 Athlete recounts:
-"I started with treadmill jogging at 5.0 mph. This was only my fourth day trying to work out consistently, so I paid attention to how my steps landed as the belt started moving. My arms felt stiff, and my breathing picked up quickly even though the pace wasn’t fast.
+"I started my deadlift session at 185 pounds, hoping to push a little harder than last week. My legs and back were already sore, but I felt determined to lift more.
 
-The first few strides felt heavy. I wasn’t used to running, and I could feel the impact on my shins. My steps sounded louder than I expected, and it took effort to keep a steady rhythm. Sweat formed early on my forehead.
+The first two reps felt manageable, but by the third, I noticed my lower back tightening. My grip started slipping slightly on the bar, and my breathing became uneven.
 
-On minute three, I noticed a side stitch forming and my calves tightening. The stitch showed up suddenly and made it hard to breathe smoothly. My calves felt tight every time my foot hit the belt. My breathing grew louder and more irregular.
+On rep four, I paused to reset my stance. My shoulders felt stiff, and the bar path wasn’t straight. I debated whether to continue, but I tried one more lift.
 
-I paused briefly to decide whether to continue. I held the side rails, slowed to a walk, and tried to bring my breathing down. I watched the timer to see if the stitch would fade.
+The next rep felt unstable, and I almost lost balance. I stopped immediately, feeling a sharp tension in my lower back. I stepped away from the bar, frustrated that pushing too hard had caused a setback.
 
-I tried jogging again, but my breathing spiked almost immediately and my legs felt unsteady. My feet landed flat, and each step felt heavier than the last. It was clear I couldn’t hold the pace.
+I decided to finish with lighter accessory exercises, feeling both sore and mentally exhausted."
 
-I stopped early because the tightness in my calves and the side stitch weren’t going away. I stepped off the treadmill and walked slowly for a bit before moving on to stretching."
-
-=== Raw Story: Returning to Squats After Injury
-
-Lifter recounts:
-"I started with barbell squats at 95 pounds. I hadn’t squatted in almost two months, so I took extra time setting my stance and getting under the bar. The first descent felt unfamiliar, and I focused on keeping the bar stable on my back.
-
-The first few reps felt tight around my hips and lower back. My brace didn’t feel as solid as it used to, and I felt the bar shift slightly to the right on the way up. My core didn’t feel fully engaged.
-
-On rep four, I noticed my torso leaning forward more than usual and tension in my lower back. The movement slowed, and the rep felt uneven. My heels pressed into the floor at different intensities, and the bar path drifted.
-
-I paused briefly to decide whether to continue. I stood still with the bar on my back and took slow breaths while I checked my stance in the mirror. My legs felt fine, but the tightness in my back hadn’t gone away.
-
-I tried one more rep but my brace loosened as I went down. The bar shifted again and the ascent felt unstable. The rep slowed a lot halfway up, and I had to adjust my posture to finish it.
-
-I stopped early because the lower-back tension increased and my form wasn’t consistent. I racked the bar and moved on to light mobility work instead of continuing the exercise."
-
-=== Raw Story: Fatigue on Push Day
+=== Raw Story: Forgetting Previous Weights
 
 Gym-Goer recounts:
-"I started with incline dumbbell press at 70 pounds. When I lifted the dumbbells onto my legs, they felt slightly heavier than usual. I set my shoulders back and began the first set, paying attention to how the weights moved.
+"I started bench press at 95 pounds. I hadn’t tracked my previous workouts well, so I wasn’t sure if this was my last working set or the one before.
 
-The first few reps felt slower than normal. The press off the bottom didn’t feel as strong as it usually does, and my left shoulder felt tighter. The tension built quicker than I expected, and the movement pattern felt slightly uneven.
+The first few reps felt heavier than expected. I paused mid-set, trying to recall the previous weights. My breathing grew shallow as I focused more on remembering than on lifting.
 
-On rep six, I noticed my left arm drifting outward and the dumbbell wobbling. The push upward felt unsteady, and the rep slowed down compared to the earlier ones. My right arm handled the weight more easily than my left.
+On rep five, my elbows flared slightly, and my chest felt unusually fatigued. I paused again to think about whether I should continue with the same weight or adjust.
 
-I paused briefly to decide whether to continue. I held the dumbbells at the bottom position and focused on my grip and breathing before attempting another rep.
+I tried one more rep, but the bar path wobbled slightly, and I felt my strength fading. I stopped early and moved to dumbbell flyes at a lighter weight, feeling frustrated that forgetting previous numbers had broken my rhythm."
 
-I tried one more rep but the left dumbbell moved off its normal path again, and my shoulder shifted forward slightly. The rep didn’t feel controlled, and the weights became harder to steady.
+=== Raw Story: Cardio With Side Stitches
 
-I stopped early because the movement stayed unstable, and I didn’t want to continue with uneven reps. I lowered the weight and moved on to a machine chest press to finish the rest of my push session."
+Athlete recounts:
+"I started on the treadmill at 5.5 mph. The first few minutes felt okay, but by minute three, I noticed a side stitch forming and my calves tightening. My breathing became shallow and irregular.
 
-=== Raw Story: Trying to Hit Everything at Once
+I tried to continue, but each step made the stitch worse, and my legs felt heavier with every stride. I slowed to a walk and held the rails for a few seconds, hoping the stitch would ease.
+
+I resumed jogging after a brief pause, but the pain returned almost immediately. My steps felt flat, and my feet struck the belt harder than usual.
+
+I stopped early, feeling frustrated that I couldn’t maintain a steady pace. I walked slowly for a few minutes to recover, realizing that fatigue and tightness were limiting my session."
+
+=== Raw Story: Confused by Complex Routine
 
 Gym-Goer recounts:
-"I started with bench press at 95 pounds. I only lift once a week, so the movement felt rusty from the start. When I unracked the bar, it felt heavier than usual, and I had to adjust my grip before lowering the first rep.
+"I started with incline dumbbell press at 65 pounds. My routine alternates between different rep schemes each week, and I wasn’t sure which one I was on.
 
-The first few reps felt shaky. My right side pressed more smoothly than my left, and the bar wobbled slightly on the way up. My breathing grew louder as the reps continued, and I noticed my shoulders working harder than my chest.
+The first few reps felt awkward, and I paused between reps trying to remember the plan. My shoulders burned quicker than expected, and my grip felt unstable.
 
-On rep five, I noticed the bar drifting to the left and my elbows flaring. The rep slowed halfway up and felt uneven between my arms. My chest burned, and the lockout felt less stable.
+On rep five, my right arm shook slightly, and I realized I might be repeating the wrong number of reps. I paused again, trying to recall the proper sequence.
 
-I paused briefly to decide whether to continue. I held the bar at the top for a moment and focused on steadying my grip and checking if I could keep good form for another rep.
-
-I tried one more rep but my arms shook and the bar path drifted again. The rep slowed significantly, and I needed more effort than usual to complete it.
-
-I stopped early because the reps became unstable. Instead of continuing bench, I moved on to lat pulldowns to finish the rest of my workout."
+I tried one more rep, but the weight felt heavier than expected, and my arms trembled. I stopped early and moved to lateral raises, feeling mentally fatigued from the confusion and inconsistent routine."
 
 ==== 2.1.4 Events / Behaviors / Functions
 === Events and Behaviors
