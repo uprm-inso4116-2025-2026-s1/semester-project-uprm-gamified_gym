@@ -213,44 +213,122 @@ Her structured schedule suggests the need for features that allow for advanced p
 ** The system shall provide a mechanism that assigns a user a rank (Bronze, Silver, Gold, etc.) for each muscle group, calculated based on the total historical training volume and PRs for that muscle group.
 ** The system shall provide a mechanism that awards users experience points (XP) for completing workouts and achieving milestones.
 
-=== 2.3 Software Architecture
+==== 2.3 Architecture Overview
 
-=== 2.3.1 Subsystem Boundaries and Diagram
+The architecture of Gamified Gym is organized around a small set of conceptual subsystems that mirror the domain model. 
+Each subsystem owns specific aggregates and repositories and is responsible for a distinct part of the athlete’s journey.
 
-Gamified Gym is organized into a small set of core subsystems. Each subsystem owns
-a cohesive part of the product and exposes its capabilities through application
-services. Subsystems do not reach into each other’s databases; they communicate
-via public interfaces and, where needed, domain events.
+Subsystem boundaries are defined by:
 
-The main subsystems are:
+* which **aggregates** and **domain concepts** they own,
+* which **invariants** they protect,
+* and which **information they expose** to other subsystems.
 
-* *Workout Tracking* – Manages workout sessions: starting a workout, logging
-  exercises/sets, and completing a session. It owns concepts like
-  `WorkoutSession`, `ExerciseEntry`, and `SetEntry`.
+The main conceptual subsystems are:
 
-* *Gamification* – Converts training behavior into motivation using XP, levels,
-  achievements, and badges. It owns `UserProgress`, `XP`, `Level`, and
-  `Achievement`, and reacts to events from Workout Tracking.
+* Training & Sessions
+* Progress & Gamification
+* Social Motivation
+* Athlete Registry
 
-* *Social* – Provides social comparison and accountability through leaderboards
-  and friend-related activity. It owns `LeaderboardEntry`, friend relationships,
-  and activity feeds, and reads progress/workout data exposed by the other
-  subsystems.
+==== 2.3.1 Core Subsystems and Responsibilities
 
-* *Identity & Auth* – Provides user registration, login, and authentication.
-  It owns `UserAccount` and authentication tokens and is the source of truth
-  for user identity (`UserId`) used by all other subsystems.
+*Training & Sessions Subsystem*
 
-Subsystem boundaries follow two rules:
+- **Owned aggregates (examples):**
+  - `WorkoutSession` (root), with entities like `ExerciseEntry` and `SetEntry`.
+- **Responsibility:**
+  - Represent the structure and lifecycle of a single training session:
+  - Starting, updating, and completing workouts.
+  - Enforce invariants related to sets, reps, and exercises.
+- **Primary domain functions used/implemented here:**
+  - createExercise(name, reps, sets, intensity) → Exercise
+  - createSet(reps, weight, intensity) → Set
+  - createWorkoutRoutine(exercises, goal) → WorkoutRoutine
+  - startWorkoutSession(athlete) → WorkoutSession
+  - selectExercise(session, exercise) → UpdatedSession
+  - applyIntensity(exercise, intensity) → Exercise
+  - completeSet(exercise, reps, weight) → CompletedSet
+  - recordRest(session, duration) → RestPeriod
+  - endWorkoutSession(session) → Summary
+- **Exposed information:**
+  - Summary of completed sessions (volume, duration, date).
+  - Domain events such as `WorkoutCompleted`, `CompletedSet`, and `NewPersonalRecord` emitted when completeSet or endWorkoutSession runs.
 
-* **High cohesion inside each subsystem:** domain concepts, use cases, and
-  repositories that belong together live in the same subsystem.
-* **Communication only through interfaces or events:** one subsystem cannot
-  bypass another’s API or directly manipulate its data store.
+*Progress & Gamification Subsystem*
 
-At a high level, the Presentation layer can talk to multiple subsystems in a
-single request (for example, workout logging + gamification), while subsystems
-themselves interact through clear, directed dependencies as shown below.
+- **Owned aggregates (examples):**
+  - `AthleteProgress` (root), containing `XP`, `Level`, and collections of `Achievement`.
+- **Responsibility:**
+  - Track the long-term evolution of the athlete: accumulated XP, level, streaks, and achievements.
+  - Apply progression rules when new training evidence arrives.
+- **Primary domain functions used/implemented here:**
+  - updateProgress(athlete, metrics) → ProgressLog
+  - awardMilestone(athlete, achievement) → UpdatedProgress
+  - updateMuscleBalance(athlete, metrics) → MuscleBalanceScore
+  - detectPlateau(athlete, history) → PlateauStatus
+  - planworkoutSession(athlete, goal) → WorkoutSession 
+- **Dependencies:**
+  - Depends on Training & Sessions for events (CompletedSet, WorkoutCompleted) and input to updateProgress.
+- **Exposed information:**
+  - Current XP, level, streak status.
+  
+*Social Motivation Subsystem*
+
+- **Owned aggregates (examples):**
+  - `SocialBoard` or `Leaderboard`, with entities like `LeaderboardEntry` linked to `AthleteId`.
+- **Responsibility:**
+  - Provide social comparison and accountability: leaderboards, rankings, and activity views that relate athletes.
+- **Primary domain functions used/implemented here:**
+  - awardMilestone(athlete, achievement) → UpdatedProgress 
+  - updateProgress() → outputs consumed to compute rankings and XP-based ordering
+  - (Consumes Progress & Gamification outputs to build social views)
+- **Dependencies:**
+  - Depends on Progress & Gamification for metrics such as XP, level, achievement counts.
+  - May also depend on Training & Sessions for recent activity summaries used in social feeds.
+- **Exposed information:**
+  - Ordered rankings of athletes according to defined criteria (XP, streaks).
+  - Aggregated social views like “friends recent workouts” and shareable milestone posts.
+
+*Athlete Registry Subsystem*
+
+- **Owned aggregates (examples):**
+  - `Athlete` as the root entity representing a person who trains.
+- **Responsibility:**
+  - Represent stable information about each athlete that is needed by other subsystems (identifier, basic profile, configuration relevant to training).
+  - Provide the canonical `AthleteId` used across the model.
+- **Primary domain functions used/implemented here:**
+  - startWorkoutSession(athlete) → WorkoutSession (entry point uses AthleteId)
+  - planworkoutSession(athlete, goal) → WorkoutSession (when generating plans tied to athlete profile)
+- **Dependencies:**
+  - Conceptually independent of the other subsystems; it does not depend on Training, Progress, or Social.
+- **Exposed information:**
+  - Identity of athletes (their `AthleteId` and basic attributes) used to associate workouts, progress, and social entries with the correct person.
+
+==== 2.3.2 Boundaries and Information Flows
+
+Subsystem boundaries follow three principles:
+
+1. **Each subsystem owns its aggregates and repositories.**  
+   For example, only Training & Sessions modifies `WorkoutSession`, and only
+   Progress & Gamification modifies `AthleteProgress`. The functions that create and mutate session data (startWorkoutSession, selectExercise, completeSet, recordRest, endWorkoutSession) are implemented inside Training & Sessions; consumers call updateProgress or awardMilestone but do not directly mutate WorkoutSession.
+
+2. **Information flows from more “concrete evidence” to more “derived views”.**  
+   - Training & Sessions provides factual evidence via functions/events:
+     - completeSet() and endWorkoutSession() yield CompletedSet, WorkoutSummary, and may generate NewPersonalRecord events.
+   - Progress & Gamification derives long-term state by calling updateProgress(athlete, metrics) when it consumes training events. It applies detectPlateau(athlete, history) and updateMuscleBalance(athlete, metrics) to compute suggestions and awards, and uses awardMilestone(...) to persist achievements.
+   - Social Motivation builds group-level views (rankings, social boards) by consuming outputs from updateProgress and awardMilestone to produce leaderboards and milestone posts.
+
+3. **Dependencies are directional and explicit.**  
+   - *Progress & Gamification depends on Training & Sessions*: Progress & Gamification consumes CompletedSet and WorkoutCompleted events produced by startWorkoutSession / completeSet / endWorkoutSession and then runs updateProgress(athlete, metrics). It does not modify WorkoutSession directly.
+   - *Social Motivation depends on Progress & Gamification (and sometimes Training)*: Social Motivation reads XP, levels, and achievement counts produced by updateProgress and awardMilestone to compute rankings and social feeds.
+   - *All subsystems reference Athlete Registry*: Training & Sessions, Progress & Gamification, and Social Motivation associate their aggregates with `AthleteId` from Athlete Registry, but the Athlete Registry itself does not depend on any of them.
+
+This keeps subsystems aligned with the domain model: each one is responsible for a specific part of the athlete’s journey and owns the aggregates that implement that responsibility.
+
+==== 2.3.3 Conceptual Architecture Diagram
+
+The diagram below illustrates the conceptual boundaries and dependency directions between subsystems. Arrows indicate which subsystem **depends on** another and what kind of information it consumes.
 
 image::img/Software_Architecture.png[Architecture overview of core subsystems,align="center"]
 
