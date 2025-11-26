@@ -5,7 +5,7 @@ Athlete recounts:
 
 "I started with treadmill jogging at 5.0 mph. This was only my fourth day ever trying to work out consistently. My heart was already beating fast before I even hit ‘Start.’ As soon as the treadmill sped up, I felt awkward, like my stride wasn’t natural. My arms swung too stiffly, and my breathing felt shallow.
 
-The first few reps—really the first few strides—felt heavy and uncoordinated. My legs weren’t used to the movement, and I could feel the impact in my shins. I tried to settle into a rhythm, but the belt felt too fast even at a moderate pace. Sweat started forming on my forehead way earlier than I expected.
+The first few reps (really the first few strides) felt heavy and uncoordinated. My legs weren’t used to the movement, and I could feel the impact in my shins. I tried to settle into a rhythm, but the belt felt too fast even at a moderate pace. Sweat started forming on my forehead way earlier than I expected.
 
 On minute 3, I noticed a side stitch forming and my calves tightening sharply. The stitch felt like a sudden jab under my ribcage, and it made me panic a little. My calves burned with every step, and my breathing became louder and more erratic. I kept looking around hoping nobody noticed I was struggling.
 
@@ -13,7 +13,7 @@ I paused briefly to decide whether to continue. I brought my hands to the side r
 
 I tried jogging one more interval but my breathing spiked and my legs felt wobbly. Within seconds of speeding up again, my chest burned, and I felt lightheaded. My feet were slapping the treadmill instead of landing smoothly. I knew I wasn’t moving efficiently at all.
 
-I stopped early because I didn’t want to push myself into a full cramp or panic attack. My body clearly wasn’t ready for more, and I stepped off the treadmill feeling overwhelmed but proud that I even showed up."**
+I stopped early because I didn’t want to push myself into a full cramp or panic attack. My body clearly wasn’t ready for more, and I stepped off the treadmill feeling overwhelmed but proud that I even showed up."
 
 ==== 2.1.4 Events / Behaviors / Functions
 === Events and Behaviors
