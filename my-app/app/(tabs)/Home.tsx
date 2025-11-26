@@ -1,14 +1,10 @@
-import React, { useEffect, useState, useCallback, use } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useState, useCallback } from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { supabase } from "../../lib/supabaseClient";
 import { RootStackParamList } from "./index";
-import { Alert } from "react-native";
 
-/**
- * Simple assertion utility to make preconditions/postconditions explicit.
- */
 function assert(condition: boolean, message: string): asserts condition {
   if (!condition) {
     console.error("Assertion failed:", message);
@@ -16,11 +12,6 @@ function assert(condition: boolean, message: string): asserts condition {
   }
 }
 
-/**
- * Navigation invariants:
- * - User must be logged in to access Profile or ExerciseLog.
- * - Home page should always have a valid navigation object.
- */
 function checkNavigationInvariants(navigation: any) {
   assert(navigation != null, "Navigation object must exist before using it");
 }
@@ -33,26 +24,26 @@ export default function Home() {
   const [userAvatar, setUserAvatar] = useState<string | null>(null);
 
   async function fetchUser() {
-      const session = supabase.auth.getSession().then(res => res.data.session);
-      const user = (await session)?.user;
+    const session = supabase.auth.getSession().then(res => res.data.session);
+    const user = (await session)?.user;
 
-      if (user) {
-        // Fetch user profile
-        const { data: profile, error } = await supabase
-          .from("user_profiles_test")
-          .select("username, profile_picture_url")
-          .eq("id", user.id)
-          .single();
+    if (user) {
+      // Fetch user profile
+      const { data: profile, error } = await supabase
+        .from("user_profiles_test")
+        .select("username, profile_picture_url")
+        .eq("id", user.id)
+        .single();
 
-        if (!error && profile) {
-          setUserName(profile.username);
-          setUserAvatar(profile.profile_picture_url);
-        }
-      } else {
-        setUserName(null);
-        setUserAvatar(null);
+      if (!error && profile) {
+        setUserName(profile.username);
+        setUserAvatar(profile.profile_picture_url);
       }
+    } else {
+      setUserName(null);
+      setUserAvatar(null);
     }
+  }
 
   useFocusEffect(
     useCallback(() => {
@@ -62,7 +53,6 @@ export default function Home() {
 
   useEffect(() => {
     assert(supabase != null, "Supabase client must be initialized before use");
-    
 
     fetchUser();
 
@@ -152,7 +142,17 @@ export default function Home() {
             <Text style={styles.actionText}>Start Workout</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => {
+              checkNavigationInvariants(navigation);
+              if (!userName) {
+                Alert.alert("Access Denied", "You must be logged in to log a meal.");
+                return;
+              }
+              navigation.navigate("MealLog"); 
+            }}
+          >
             <Text style={styles.actionText}>Log Meal</Text>
           </TouchableOpacity>
         </View>
@@ -175,14 +175,16 @@ export default function Home() {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => {
-              checkNavigationInvariants(navigation);
-              if (!userName) {
-                Alert.alert("Access Denied", "You must be logged in to access profile.");
-                return;
-              }
-              navigation.navigate("Profile");
-            }}>
+        <TouchableOpacity
+          onPress={() => {
+            checkNavigationInvariants(navigation);
+            if (!userName) {
+              Alert.alert("Access Denied", "You must be logged in to access profile.");
+              return;
+            }
+            navigation.navigate("Profile");
+          }}
+        >
           <Image
             source={require("../../assets/images/user.png")}
             style={styles.navIcon}
@@ -199,7 +201,6 @@ export default function Home() {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   linkUnderline: {
@@ -226,8 +227,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-
-  /* New header with right-side avatar */
   headerRow: {
     width: "100%",
     flexDirection: "row",
@@ -251,7 +250,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#2E89FF",
   },
-
   title: {
     fontSize: 28,
     fontWeight: "bold",
@@ -266,7 +264,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginBottom: 0,
   },
-
   statsRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -303,7 +300,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     resizeMode: "contain",
   },
-
   quickTitle: {
     fontSize: 16,
     fontWeight: "bold",

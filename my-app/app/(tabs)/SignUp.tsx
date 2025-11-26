@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Alert,
   ScrollView,
+  Image
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -238,10 +239,12 @@ export default function SignUp() {
         >
           
           <View style={styles.card}>
-            <View style={styles.logoBox}>
+            {/* <View style={styles.logoBox}>
               <Text style={styles.logoText}>LOGO{"\n"}HERE</Text>
+            </View> */}
+            <View style={styles.logo}>
+              <Image source={require('../../assets/images/logo.png')} style={{ width: 140, height: 140, borderRadius: 30 }}/>
             </View>
-
             <Text style={styles.title}>Sign up!</Text>
             <Text style={styles.subtitle}>Create an account</Text>
 
@@ -485,21 +488,29 @@ const styles = StyleSheet.create({
     elevation: 8,
     alignItems: "center",
   },
-  logoBox: {
-    width: 140,
-    height: 90,
-    borderRadius: 18,
-    backgroundColor: BLUE,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 16,
+  logo: {
+    // position: 'absolute',
+    // top: 15,
+    // width: 140,
+    // height: 140,
+    // borderRadius: 20,
+    // backgroundColor: BLUE,
   },
-  logoText: {
-    color: "#fff",
-    fontWeight: "700",
-    textAlign: "center",
-    letterSpacing: 1,
-  },
+  // logoBox: {
+  //   width: 140,
+  //   height: 90,
+  //   borderRadius: 18,
+  //   backgroundColor: BLUE,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   marginBottom: 16,
+  // },
+  // logoText: {
+  //   color: "#fff",
+  //   fontWeight: "700",
+  //   textAlign: "center",
+  //   letterSpacing: 1,
+  // },
   title: {
     fontSize: 30,
     fontWeight: "900",
