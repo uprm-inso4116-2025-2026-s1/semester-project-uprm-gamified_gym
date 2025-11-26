@@ -30,6 +30,9 @@ export default function index() {
           style={styles.background}
           resizeMode="cover">
           <View style={styles.container}> 
+            <View style={styles.logo}>
+              <Text style={styles.logotext}> LOGO HERE </Text>
+            </View>       
             {/* <div style={styles.logo}>
               <Text style={styles.logotext}> LOGO HERE </Text>
             </div>        */}

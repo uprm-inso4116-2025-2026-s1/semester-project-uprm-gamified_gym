@@ -9,6 +9,7 @@ import {
   Platform,
   StyleSheet,
   Alert,
+  ScrollView,
   Image
 } from "react-native";
 import { useRouter } from "expo-router";
@@ -51,6 +52,11 @@ export default function SignUp() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [gender, setGender] = useState("");
+
   const [pwd, setPwd] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
   const [loading, setLoading] = useState(false);
@@ -104,6 +110,30 @@ export default function SignUp() {
       return;
     }
 
+    if (!height.trim()) {
+      Alert.alert("Error", "Please enter your height");
+      setLoading(false);
+      return;
+    }
+
+    if (!weight.trim()) {
+      Alert.alert("Error", "Please enter your weight");
+      setLoading(false);
+      return;
+    }
+
+    if (!dateOfBirth.trim()) {
+      Alert.alert("Error", "Please enter your date of birth");
+      setLoading(false);
+      return;
+    }
+
+    if (!gender.trim()) {
+      Alert.alert("Error", "Please enter your gender");
+      setLoading(false);
+      return;
+    }
+
     if (!email.includes("@")) {
       Alert.alert("Error", "Please enter a valid email address");
       setLoading(false);
@@ -150,7 +180,6 @@ export default function SignUp() {
 
       const userId = authData.user.id;
 
-      // Insert profile
       const { error: profileError } = await supabase
         .from("user_profiles_test")
         .insert({
@@ -158,6 +187,10 @@ export default function SignUp() {
           username: cleanedUsername,
           first_name: firstName,
           last_name: lastName,
+          height: height,
+          weight: weight,
+          date_of_birth: dateOfBirth,
+          gender: gender,
         });
 
       if (profileError) {
@@ -199,7 +232,12 @@ export default function SignUp() {
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <View style={styles.container}>
+        <ScrollView
+        style = {{flex: 1, width: '100%'}}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          
           <View style={styles.card}>
             {/* <View style={styles.logoBox}>
               <Text style={styles.logoText}>LOGO{"\n"}HERE</Text>
@@ -221,8 +259,8 @@ export default function SignUp() {
               style={[
                 styles.input,
                 usernameStatus.available === false &&
-                  username &&
-                  usernameStatus.message
+                username &&
+                usernameStatus.message
                   ? { borderColor: ERROR_RED, borderWidth: 1 }
                   : {},
               ]}
@@ -248,6 +286,48 @@ export default function SignUp() {
               onChangeText={setName}
               autoCapitalize="words"
               placeholder="Your Name"
+              placeholderTextColor="rgba(255,255,255,0.9)"
+              style={styles.input}
+            />
+
+            {/* Height */}
+            <Text style={styles.label}>Height (m)</Text>
+            <TextInput
+              value={height}
+              onChangeText={setHeight}
+              keyboardType="numeric"
+              placeholder="e.g. 1.75"
+              placeholderTextColor="rgba(255,255,255,0.9)"
+              style={styles.input}
+            />
+
+            {/* Weight */}
+            <Text style={styles.label}>Weight (lb)</Text>
+            <TextInput
+              value={weight}
+              onChangeText={setWeight}
+              keyboardType="numeric"
+              placeholder="e.g. 70"
+              placeholderTextColor="rgba(255,255,255,0.9)"
+              style={styles.input}
+            />
+
+            {/* Date of Birth */}
+            <Text style={styles.label}>Date of Birth</Text>
+            <TextInput
+              value={dateOfBirth}
+              onChangeText={setDateOfBirth}
+              placeholder="YYYY-MM-DD"
+              placeholderTextColor="rgba(255,255,255,0.9)"
+              style={styles.input}
+            />
+
+            {/* Gender */}
+            <Text style={styles.label}>Gender</Text>
+            <TextInput
+              value={gender}
+              onChangeText={setGender}
+              placeholder="e.g. Male, Female, Other"
               placeholderTextColor="rgba(255,255,255,0.9)"
               style={styles.input}
             />
@@ -356,7 +436,7 @@ export default function SignUp() {
               </Text>
             </View>
           </View>
-        </View>
+        </ScrollView>
 
         {/* Success Popup */}
         {showSuccessPopup && (
@@ -387,14 +467,16 @@ const SUCCESS_GREEN = "#27AE60";
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: BLUE },
-  container: {
-    flex: 1,
+  scrollContent: {
+    paddingVertical: 40,
     paddingHorizontal: 20,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
+    flexGrow: 1,
   },
   card: {
-    width: "92%",
+    width: "100%",
+    maxWidth: 480,
     backgroundColor: "#FFFFFF",
     borderRadius: 23,
     paddingVertical: 28,
@@ -446,14 +528,12 @@ const styles = StyleSheet.create({
   label: {
     alignSelf: "flex-start",
     width: "100%",
-    maxWidth: 440,
     color: BLUE,
     fontWeight: "700",
     marginBottom: 6,
   },
   input: {
     width: "100%",
-    maxWidth: 440,
     height: 44,
     borderRadius: 12,
     paddingHorizontal: 14,
@@ -464,7 +544,6 @@ const styles = StyleSheet.create({
   },
   primaryBtn: {
     width: "100%",
-    maxWidth: 440,
     height: 50,
     borderRadius: 16,
     backgroundColor: BLUE,
@@ -487,7 +566,6 @@ const styles = StyleSheet.create({
   // Password helper
   passwordHelper: {
     width: "100%",
-    maxWidth: 440,
     marginTop: 4,
     marginBottom: 10,
   },
