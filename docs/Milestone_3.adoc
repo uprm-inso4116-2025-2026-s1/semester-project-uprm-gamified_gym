@@ -213,3 +213,76 @@ Her structured schedule suggests the need for features that allow for advanced p
 ** The system shall provide a mechanism that assigns a user a rank (Bronze, Silver, Gold, etc.) for each muscle group, calculated based on the total historical training volume and PRs for that muscle group.
 ** The system shall provide a mechanism that awards users experience points (XP) for completing workouts and achieving milestones.
 
+=== 2.3 Software Architecture
+
+=== 2.3.1 Subsystem Boundaries and Diagram
+
+Gamified Gym is organized into a small set of core subsystems. Each subsystem owns
+a cohesive part of the product and exposes its capabilities through application
+services. Subsystems do not reach into each other’s databases; they communicate
+via public interfaces and, where needed, domain events.
+
+The main subsystems are:
+
+* *Workout Tracking* – Manages workout sessions: starting a workout, logging
+  exercises/sets, and completing a session. It owns concepts like
+  `WorkoutSession`, `ExerciseEntry`, and `SetEntry`.
+
+* *Gamification* – Converts training behavior into motivation using XP, levels,
+  achievements, and badges. It owns `UserProgress`, `XP`, `Level`, and
+  `Achievement`, and reacts to events from Workout Tracking.
+
+* *Social* – Provides social comparison and accountability through leaderboards
+  and friend-related activity. It owns `LeaderboardEntry`, friend relationships,
+  and activity feeds, and reads progress/workout data exposed by the other
+  subsystems.
+
+* *Identity & Auth* – Provides user registration, login, and authentication.
+  It owns `UserAccount` and authentication tokens and is the source of truth
+  for user identity (`UserId`) used by all other subsystems.
+
+Subsystem boundaries follow two rules:
+
+* **High cohesion inside each subsystem:** domain concepts, use cases, and
+  repositories that belong together live in the same subsystem.
+* **Communication only through interfaces or events:** one subsystem cannot
+  bypass another’s API or directly manipulate its data store.
+
+At a high level, the Presentation layer can talk to multiple subsystems in a
+single request (for example, workout logging + gamification), while subsystems
+themselves interact through clear, directed dependencies as shown below.
+
+@startuml
+skinparam style strictuml
+
+package "Gamified Gym" {
+
+  component "Presentation" as UI
+
+  package "Core Subsystems" {
+    component "Workout Tracking" as Workout
+    component "Gamification" as Game
+    component "Social" as Social
+    component "Identity & Auth" as Auth
+  }
+}
+
+UI --> Workout
+UI --> Game
+UI --> Social
+UI --> Auth
+
+' Workout events consumed by other subsystems
+Workout -right-> Game : workout events
+Workout -down-> Social : activity events
+
+' Gamification data used by Social
+Game -down-> Social : read models\n(XP, level,\nachievements)
+
+' Identity/Auth provides user identity
+Auth -down-> Workout : UserId
+Auth -down-> Game : UserId
+Auth -down-> Social : UserId
+
+@enduml
+
