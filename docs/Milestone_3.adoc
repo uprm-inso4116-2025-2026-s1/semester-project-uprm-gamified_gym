@@ -60,25 +60,30 @@ I tried one more rep, but the weight felt heavier than expected, and my arms tre
 
 ==== 2.1.4 Events / Behaviors / Functions
 === Events and Behaviors
-- AthleteBeginsWorkoutSession
-- AthleteChoosesExercise
-- AthleteAdjustsForm
-- ExerciseIntensitySelected
+- ﻿﻿AthleteBeginsworkoutSession
+- ﻿﻿AthleteChoosesExercise
+- ﻿﻿AthleteAdjustsForm
+- ﻿﻿ExerciseIntensityChosen
 - AthleteCompletesSet
 - AthleteTakesRestPeriod
 - AthleteEndsWorkoutSession
+- PersonalRecordAchieved
+- MuscleBalanceShiftDetected
+- PLateauDetected
+- ConsistencyStreakMaintained
 
-=== Domain Functions
-- createExercise
-- createWorkoutRoutine
-- createSet
-- startWorkoutSession
-- selectExercise
-- applyIntensity
-- completeSet
-- recordRest
-- updateProgress
-- endWorkoutSession
+
+
+=== Domain Function
+planworkoutSession(athlete: Athlete, goal: TrainingGoal) → WorkoutSession
+selectExercise(session: WorkoutSession, exercise: Exercise) → UpdatedSession
+applyIntensity(exercise: Exercise, intensity: Intensity) → Exercise
+completeSet (exercise: Exercise, reps: Reps, weight: Weight) → Comp letedSet
+recordRest(session: WorkoutSession, duration: Duration) - RestPeriod
+updateMuscleBalance(athlete: Athlete, metrics: TrainingVolume) → MuscleBalanceScore
+detectPlateau(athlete: Athlete, history: ProgressHistory) → PlateauStatus
+awardMilestone(athlete: Athlete, achievement: Achievement) → UpdatedProgress
+endworkoutSession(session: WorkoutSession) → WorkoutSummary
 
 ==== 2.1.5 Function Signatures
 - createExercise(name: Name, reps: Reps, sets: Sets, intensity: Intensity): Exercise
