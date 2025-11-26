@@ -252,37 +252,5 @@ At a high level, the Presentation layer can talk to multiple subsystems in a
 single request (for example, workout logging + gamification), while subsystems
 themselves interact through clear, directed dependencies as shown below.
 
-@startuml
-skinparam style strictuml
-
-package "Gamified Gym" {
-
-  component "Presentation" as UI
-
-  package "Core Subsystems" {
-    component "Workout Tracking" as Workout
-    component "Gamification" as Game
-    component "Social" as Social
-    component "Identity & Auth" as Auth
-  }
-}
-
-UI --> Workout
-UI --> Game
-UI --> Social
-UI --> Auth
-
-' Workout events consumed by other subsystems
-Workout -right-> Game : workout events
-Workout -down-> Social : activity events
-
-' Gamification data used by Social
-Game -down-> Social : read models\n(XP, level,\nachievements)
-
-' Identity/Auth provides user identity
-Auth -down-> Workout : UserId
-Auth -down-> Game : UserId
-Auth -down-> Social : UserId
-
-@enduml
+image::img/Software_Architecture.png[Architecture overview of core subsystems,align="center"]
 
