@@ -15,6 +15,54 @@ I tried jogging one more interval but my breathing spiked and my legs felt wobbl
 
 I stopped early because I didn’t want to push myself into a full cramp or panic attack. My body clearly wasn’t ready for more, and I stepped off the treadmill feeling overwhelmed but proud that I even showed up."
 
+=== Raw Story: Returning to Squats After Injury
+
+Lifter recounts:
+
+"I started with barbell squats at 95 pounds. I hadn’t touched squats in almost two months because of a lower-back injury, so even loading the bar felt like a mental battle. I took longer than usual setting my feet and gripping the bar because I was second-guessing my stance. Lowering into the first rep felt foreign, like my body had forgotten the movement pattern. The gym was noisy around me, but all I could focus on was whether my back would suddenly tighten again.
+
+The first few reps felt tight and slightly unstable through my hips. I could tell immediately that my bracing wasn’t as strong as before the injury. My core felt soft, and the bar drifted slightly to the right on the ascent. I wasn’t in pain yet, but I felt an uncomfortable tension on the right side of my lower back. Each rep made me more aware of small weaknesses I hadn't noticed before, and it made me nervous.
+
+On rep 4, I noticed my torso pitching forward and my lower back tensing unexpectedly. It wasn’t a sharp pain, but a sudden shift in sensation that made me panic a little. My chest dropped too fast, and my heels felt like they were pushing unevenly into the floor. I immediately thought, ‘If I keep going, this could go wrong fast.’ My confidence dropped in an instant.
+
+I paused briefly to decide whether to continue. I stood there with the bar on my back, breathing slowly, trying to interpret the sensation. Was it actual danger or just fear? My heart was beating faster than the weight deserved. I stared at myself in the mirror, trying to read my form and decide if pushing another rep was worth the risk. My legs felt okay, but my back felt unsure.
+
+I tried one more rep but my brace collapsed and the movement felt unsafe. As soon as I descended, I felt my core loosen. The bar shifted slightly, and I could feel the load compress my back in a way that didn’t feel controlled. The rep slowed dramatically halfway up, and I had to grind it out with bad leverage. Everything about it felt wrong.
+
+I stopped early because I was terrified of re-injuring myself. I racked the bar faster than usual and stepped away, feeling frustrated and embarrassed. But I knew if I ignored the warning signs, I could end up sidelined again. I ended the exercise right there, choosing caution over ego."
+
+=== Raw Story: Fatigue on Push Day
+
+Gym-Goer recounts:
+
+"I started with incline dumbbell press at 70 pounds. I’ve been training almost daily, so I walked in expecting my pressing strength to feel normal. But the weights felt heavier than usual right from the unrack. I took a deep breath, squeezed my shoulder blades back, and began my first set. The gym lighting was bright, and I could see my reflection clearly struggling to stabilize the dumbbells.
+
+The first few reps felt smooth but noticeably slower and less explosive. Normally the weight moves cleanly off my chest, but today I felt a slight lag. My left shoulder felt tight, like the joint wasn’t tracking correctly. The tension built faster than I expected, and I felt the pump coming way too early into the set. It felt off.
+
+On rep 6, I noticed my left arm drifting outward and my chest fatiguing faster than normal. The dumbbell wobbled, and I had to fight to control the path. The burn intensified suddenly, and the imbalance made me nervous. It felt like my left side wasn’t doing its share of the work, and my right arm was compensating.
+
+I paused briefly to decide whether to continue. I held the weights at the bottom for a moment, breathing hard, debating if I should force the next reps or bail early. Sweat started forming on my forehead, and I could hear my breathing echo in my ears. I knew another rep might fall apart, but part of me wanted to push through anyway.
+
+I tried one more rep but the dumbbell slipped out of its groove and my form collapsed. My shoulder rolled forward slightly, and the dumbbell shifted toward my midline in a way that felt dangerous. My tricep started shaking, and I knew the rep wasn’t going to be clean—or safe. I barely stabilized it enough to place the dumbbells back onto my thighs.
+
+I stopped early because my shoulder felt unstable and I didn’t want to strain anything. I walked away annoyed because this was supposed to be a strong day, but the signs were clear: my body wasn’t ready for heavy sets today."
+
+=== Raw Story: Trying to Hit Everything at Once
+
+Gym-Goer recounts:
+
+"I started with bench press at 95 pounds. Since I only lift once a week, I always feel rusty starting out. The bar felt heavier than I remembered when I unracked it. My setup felt rushed, like I wasn’t fully aligned under the bar. I tried to focus on keeping my elbows tucked, but it already felt unstable.
+
+The first few reps felt shaky and uneven between my arms. My right arm pushed harder than my left, and I could feel the bar wobble slightly. The reps didn’t feel smooth—each one felt like my body was relearning how to press. My breathing got loud, and I could tell I wasn’t bracing properly.
+
+On rep 5, I noticed the bar drifting sideways and my elbows flaring outward. My chest started burning, and the bar slowed dramatically halfway up. Sweat rolled down my face as I fought to lock out the rep. I felt my shoulder tilt inward, which made me worry I was about to lose control.
+
+I paused briefly to decide whether to continue. Holding the bar at the top, I tried to steady my breathing. I questioned whether my arms had another clean rep in them. My heart was pounding, and mentally I felt unsure. I didn’t want to risk failing without a spotter.
+
+I tried one more rep but my arms shook uncontrollably and the bar nearly stalled. The rep moved in slow motion, and I felt all the tension shift to my shoulders instead of my chest. I pushed through, but it felt unsafe the whole time.
+
+I stopped early because I didn’t want to risk failing the rep alone and injuring myself. I re-racked the bar carefully and sat up, feeling defeated but also relieved I didn’t push too far."
+
 ==== 2.1.4 Events / Behaviors / Functions
 === Events and Behaviors
 - AthleteBeginsWorkoutSession
