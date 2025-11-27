@@ -262,6 +262,29 @@ Observed in raw stories:
 
 “My right arm shook slightly…”
 
+==== 2.1.4 Narrative
+This domain revolves around the athlete stepping into the gym and performing workout routines designed to 
+strengthen their body and improve their endurance. Each session unfolds as a sequence of sets and repetitions, 
+targeting specific muscle groups such as chest, back, legs, arms, shoulders, etc. The athlete measures 
+progress not only by the number of weights lifted or repetitions completed, but also by changes in physical 
+in their appearance and overall stamina.
+
+As the workouts continues, the athlete faces the familiar challenge of consistency. Some days the motivation 
+is high, fueled by personal goals; other days, fatigue or lazyness makes them lack motivation. Without 
+proper training, certain muscle groups may be trained more than others, leading to overtraining. 
+The athlete attempts to track routines through notebooks, mental notes, or apps, yet these records often 
+lack meaningful feedback, leaving gaps in awareness of progress and balance.
+
+Within the rhythm of gym culture, motivation is sustained through competition, social comparison, and 
+goals. The athlete celebrates victories (a heavier lift, an extra repetition, or visible physical 
+change) and finds encouragement in comparing progress with peers. Achievements are marked by badges, 
+challenges, and symbols of recognition, whether a weightlifting belt, a gym award, or acknowledgment 
+within a community.
+
+The flow of this domain is not limited to the physical act of exercising. It encompasses the athlete’s 
+drive for self‑improvement, the ongoing effort to track performance, the need to maintain balance across 
+training, and the search for motivation through challenges and recognition.
+
 ==== 2.1.5 Events / Behaviors / Functions
 
 === Pattern: Losing Control During Movement
