@@ -1,3 +1,6 @@
+# inso-course-project-template
+This repository template will create a repository with the metrics collection set up  automatically. 
+
 # Gamified Gym Project Guide
 Mobile app that tracks, and has gaming aspect to help engage in gym activities 
 
