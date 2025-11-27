@@ -58,6 +58,186 @@ On rep five, my right arm shook slightly, I wasn't sure if I was doing the right
 
 I tried one more rep, but the weight felt heavier than expected, and my arms trembled. I stopped early and moved to lateral raises, feeling mentally tired from the confusion."
 
+==== 2.1.2 Terminology (Concepts Derived From Raw Stories)
+
+=== Concept: Rep
+
+Definition:
+A single, complete motion of an exercise, such as lifting and lowering a weight.
+
+Observed in raw stories:
+
+“The first few reps felt fine…”
+
+“On rep five, my elbows flared slightly…”
+
+“The first two reps felt manageable…”
+
+=== Concept: Set
+
+Definition:
+A group of consecutive reps performed without significant rest.
+
+Observed in raw stories:
+
+“I wanted to complete three sets of each…”
+
+“I attempted another curl set…”
+
+“I started my deadlift session… the first two reps…”
+
+=== Concept: Grip
+
+Definition:
+The way the hands hold a weight or equipment during an exercise.
+
+Observed in raw stories:
+
+“My grip felt shaky…”
+
+“My grip slipped slightly on the bar…”
+
+“My grip started slipping.”
+
+=== Concept: Bar Path
+
+Definition:
+The trajectory the barbell follows during a lift.
+
+Observed in raw stories:
+
+“The bar path wasn’t straight.”
+
+“The bar path wobbled slightly…”
+
+=== Concept: Tightness
+
+Definition:
+A physical sensation of tension in muscles during an exercise.
+
+Observed in raw stories:
+
+“My calves tightening…”
+
+“I noticed my lower back tightening…”
+
+“My arms tightened…”
+
+=== Concept: Fatigue
+
+Definition:
+A decrease in muscle ability to continue producing force during an exercise.
+
+Observed in raw stories:
+
+“My chest felt unusually fatigued.”
+
+“By the fourth rep, my forearms burned…”
+
+“My legs felt heavier with every stride.”
+
+=== Concept: Form
+
+Definition:
+The physical technique used to perform an exercise, including posture and movement quality.
+
+Observed in raw stories:
+
+“The movement became uneven…”
+
+“My elbows flared slightly…”
+
+“My right arm shook slightly…”
+
+=== Concept: Pause
+
+Definition:
+A temporary stop in movement or exercise to regain control or reassess.
+
+Observed in raw stories:
+
+“I paused because I couldn’t tell which set I was on.”
+
+“I paused to reset my stance.”
+
+“I paused between reps…”
+
+=== Concept: Side Stitch
+
+Definition:
+A sharp abdominal or rib-area pain that occurs during running or cardio.
+
+Observed in raw stories:
+
+“I noticed a side stitch forming…”
+
+“The stitch returned almost immediately…”
+
+=== Concept: Balance
+
+Definition:
+The ability to maintain control and stability during a movement.
+
+Observed in raw stories:
+
+“I almost lost balance.”
+
+“My steps felt flat…”
+
+“The movement felt unstable…”
+
+=== Concept: Weight Load
+
+Definition:
+The amount of resistance used in an exercise, typically measured in pounds.
+
+Observed in raw stories:
+
+“I started bench press at 95 pounds.”
+
+“I started my deadlift session at 185 pounds.”
+
+“I started incline dumbbell press at 65 pounds.”
+
+=== Concept: Breathing Pattern
+
+Definition:
+The rhythm and control of breathing during exercise.
+
+Observed in raw stories:
+
+“My breathing became shallow and irregular.”
+
+“My breathing grew uneven…”
+
+“My breathing became uneven.”
+
+=== Concept: Equipment Transition
+
+Definition:
+Switching from one exercise or machine to another.
+
+Observed in raw stories:
+
+“I moved on to a lighter machine row…”
+
+“I moved to dumbbell flyes…”
+
+“I switched to lighter lateral raises.”
+
+=== Concept: Foot Strike
+
+Definition:
+How the foot lands during running or treadmill exercise.
+
+Observed in raw stories:
+
+“My steps felt flat…”
+
+“My feet struck the belt harder than usual…”
+
+“Each step made the stitch worse…”
+
 ==== 2.1.4 Events / Behaviors / Functions
 === Events and Behaviors
 - ﻿﻿AthleteBeginsworkoutSession
