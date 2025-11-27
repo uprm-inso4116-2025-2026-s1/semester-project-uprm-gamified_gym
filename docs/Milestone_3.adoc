@@ -225,6 +225,43 @@ Observed in raw stories:
 
 “Each step made the stitch worse…”
 
+=== Concept: Loss of Focus
+
+Definition:
+A moment during training when attention drifts away from the exercise, leading to interruptions, pauses, or inconsistent movement.
+
+Observed in raw stories:
+
+“I kept losing focus and thinking about the earlier curls.”
+
+“I paused mid-set, I couldn’t remember the previous weight I used.”
+
+“My focus drifted away from the lift.”
+
+=== Concept: Decision to Stop Early
+
+Definition:
+A point during an exercise where the athlete ends the set or movement before completion due to physical cues such as tightness, instability, or increasing difficulty.
+
+Observed in raw stories:
+
+“I stopped early and moved to dumbbell flyes…”
+
+“I stopped immediately when the tension in my lower back increased.”
+
+=== Concept: Form Instability
+
+Definition:
+Irregular, uneven, or uncontrolled movement patterns during an exercise that indicate loss of technique quality.
+
+Observed in raw stories:
+
+“The movement became slower and less controlled.”
+
+“The bar path wobbled slightly…”
+
+“My right arm shook slightly…”
+
 ==== 2.1.4 Events / Behaviors / Functions
 === Events and Behaviors
 - ﻿﻿AthleteBeginsworkoutSession
