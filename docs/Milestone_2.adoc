@@ -784,7 +784,6 @@ Feature 3: Supabase Data Integration
 * The system shall process and store a standard 3-set exercise log within 2 seconds of submission.
 * Machine requirements shall be updated as the project progresses. The previously presented numbers are estimates that are in line with good practice but can only be verified through testing not yet performed. Additional requirements are currently under development, and specific criteria for system stability, acceptable degradation of services, and detailed circumstances for heavily loaded conditions will be researched and defined in subsequent project phases. 
 
-
 == 3. Analytic Part
 
 === 3.1 Concept Analysis
