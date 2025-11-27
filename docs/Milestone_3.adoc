@@ -186,7 +186,7 @@ Observed in raw stories:
 
 “the movement became uneven…”
 
-=== Concept: Weight Load
+=== Concept: Load
 
 Definition:
 The amount of resistance used in an exercise, typically measured in pounds.
