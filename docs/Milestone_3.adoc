@@ -171,7 +171,7 @@ Observed in raw stories:
 
 “I noticed a side stitch forming…”
 
-“The stitch returned almost immediately…”
+“but each step made the stitch worse...”
 
 === Concept: Balance
 
@@ -184,7 +184,7 @@ Observed in raw stories:
 
 “My steps felt flat…”
 
-“The movement felt unstable…”
+“the movement became uneven…”
 
 === Concept: Weight Load
 
@@ -222,8 +222,6 @@ Observed in raw stories:
 “I moved on to a lighter machine row…”
 
 “I moved to dumbbell flyes…”
-
-“I switched to lighter lateral raises.”
 
 === Concept: Foot Strike
 
