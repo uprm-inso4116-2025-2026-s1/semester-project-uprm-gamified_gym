@@ -264,9 +264,7 @@ Observed in raw stories:
 
 ==== 2.1.4 Events / Behaviors / Functions
 
-**=== Pattern: Losing Control During Movement
-
-(Observed in multiple stories)**
+=== Pattern: Losing Control During Movement
 
 Events & Behaviors (with raw-story quotes)
 
@@ -302,9 +300,7 @@ Justified by: athlete reduces pace when movement becomes unstable.
 resetMovementPath() → PathStatus
 Justified by: athlete pauses and resets stance when bar drifts.
 
-**=== Pattern: Fatigue and Tightening
-
-(Repeated in multiple stories)**
+=== Pattern: Fatigue and Tightening
 
 Events & Behaviors (with quotes)
 
@@ -345,9 +341,7 @@ Justified by:
 
 “I stopped immediately when the tension increased”
 
-**=== Pattern: Losing Track or Forgetting
-
-(Seen in multiple stories)**
+=== Pattern: Losing Track or Forgetting
 
 Events & Behaviors (with quotes)
 
@@ -388,9 +382,7 @@ Justified by:
 
 “I paused briefly, then started again”
 
-**=== Pattern: Stopping or Slowing Mid-Session
-
-(Repeated in 4 out of 5 stories)**
+=== Pattern: Stopping or Slowing Mid-Session
 
 Events & Behaviors (with quotes)
 
@@ -422,9 +414,7 @@ stopSetEarly() → SetOutcome
 
 switchToLighterMovement() → ExerciseChoice
 
-**=== Pattern: Changing Exercise Mid-Session
-
-(from 4 out of 5 stories)**
+=== Pattern: Changing Exercise Mid-Session
 
 Events & Behaviors
 
