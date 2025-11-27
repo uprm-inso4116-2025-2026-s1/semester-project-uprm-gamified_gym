@@ -1,0 +1,91 @@
+= Analysis Pattern for Tracking Sessions
+:doctype: article
+:author: Andrea Seda
+
+*Source: Lecture presentation - "Applying Analysis Patterns" slide 4*
+
+== Objetive
+Apply the “transactions and entries” analysis pattern to design the documentation framework for tracking workout sessions historically and consistently.
+
+== Description
+This document explains how Gamified Gym will adopt the transactions and entries analysis pattern to maintain a complete, reliable,
+and reconstructable history of workout activity. Instead of merely storing a user’s most recent progress or aggregated totals, 
+the system captures every workout action as an individual WorkoutEntry. This provides a historical audit trail that supports weekly summaries,
+streak calculations, challenge participation, and badge unlock criteria.
+
+By treating each entry as an immutable and additive record, the system preserves the integrity of historical data. Any adjustments or corrections 
+made by users do not modify or remove past entries; instead, compensating entries are created. In this way, the history behaves similarly to accounting 
+ledgers, allowing the system to rebuild any state from the complete set of transactions.
+
+== WorkoutEntry as a Transactional Concept
+A WorkoutEntry represents a discrete and meaningful event in the user’s fitness activity. This event captures what the user did, when they did it,
+and the measurable outcomes of that action. It typically includes the timestamp of the session, the associated workout routine, and fitness metrics 
+such as duration, calories burned, and total repetitions performed.
+
+WorkoutEntry is intentionally designed to be an atomic and complete record. Each entry stands on its own, representing a full session or a clearly 
+defined workout component. Its purpose is not to summarize progress but to record the facts from which progress can later be computed.
+
+Key attributes commonly stored in a WorkoutEntry include:
+
+* The user who performed the workout.
+* The workout routine or category of session.
+* The exact time or duration of the activity.
+* Quantitative metrics such as calories, sets, reps, or intensity.
+
+These attributes allow the system to understand, analyze, and validate user activity across time.
+
+== Immutability and Additive History
+WorkoutEntries follow a strict immutability rule: once created, they are never altered or removed. If a user accidentally logs incorrect information
+or wishes to update an entry, the system does not edit the original record. Instead, it adds a compensating entry that corrects or offsets the previous values. 
+This approach prevents inconsistencies, ensures the history always reflects the user’s journey accurately, and enables the system to maintain a faithful 
+representation of actions over time.
+
+The additive nature of the history enables all meaningful metrics (total workouts, streaks, calories burned, active days, 
+and challenge progress) to be calculated through aggregation. Because the data is not overwritten, features such as progress summaries or badge unlocks can always 
+be traced back to their foundational entries. This results in a transparent, verifiable system where users and developers can reliably understand how every achievement was computed.
+
+== Conceptual Model: How Entries Relate to Users, Workouts, and Badges
+
+|===
+| Domain Concept | Relationship to WorkoutEntry | Purpose of the Relationship
+
+| User 
+| Each WorkoutEntry belongs to exactly one User.
+| Identifies who performed the activity and establishes the historical fitness log for that individual.
+
+| WorkoutRoutine
+| A WorkoutEntry may optionally reference a WorkoutRoutine completed or partially completed by the user.
+| Connects the recorded activity to a structured routine template (e.g., “Leg Day”, “HIIT 20 min”).
+
+| Exercise / Set Data
+| WorkoutEntry may contain summarized metrics derived from the exercises performed (e.g., reps, sets, or intensity).
+| Allows tracking of meaningful workout components without making the entry dependent on full exercise definitions.
+
+| TrackingSession / History
+| WorkoutEntry is the atomic unit that composes the user's full historical log.
+| Enables reconstruction of progress, analytics, streaks, and time-based summaries.
+
+| Challenge
+| A Challenge queries a set of WorkoutEntries for specific conditions (e.g., “train 4 days this week”).
+| Evaluates progress toward challenge completion using immutable historical data.
+
+| Badge / Achievement
+| Badge unlock conditions are satisfied when certain patterns or counts in WorkoutEntries are detected.
+| Ensures achievements are earned based on verifiable history (e.g., total workouts, streak consistency, endurance duration).
+
+| UserProgress / XP
+| XP, streaks, and progress levels are computed as projections over all WorkoutEntries.
+| Prevents direct manipulation of progress and guarantees that all stats stem from real activity.
+|===
+
+
+== Justification for Using Immutable Historical Entries
+Using immutable entries offers several advantages essential to both fitness tracking and gamification. First, it enhances auditability, allowing any piece of progress (including 
+streaks, badge unlocks, or challenge completions) to be traced back to the exact entries that produced it. This supports trust and transparency within the app.
+Second, immutable history ensures recomputability. As the app evolves, new analytics, features, and reward mechanisms can be built on top of the existing entries without requiring
+changes to historical records. The system can recalculate progress or apply new rules retroactively because the foundational data remains intact.
+Third, this approach protects fairness in the gamification layer. Since achievements depend on raw historical data rather than manual edits or mutable counters, users cannot
+manipulate metrics by deleting workouts or rewriting history. All progress reflects true activity. Finally, immutable entries strengthen both debugging and data analysis. 
+Developers and analysts can examine detailed histories to identify issues, understand user behavior, 
+or optimize reward structures. This supports long-term scalability and the continuous refinement of the Gamified Gym experience.
+
