@@ -1,0 +1,33 @@
+= Lecture Topic Task – Migrating PDF-Based Analyses Into a Dedicated Lecture Tasks Folder
+:doctype: article
+
+== Objective
+Strengthen the cohesiveness, discoverability, and long-term maintainability of the project’s analytical work by migrating all previously submitted PDF-based Lecture Topic Tasks into the repository as AsciiDoc files. These documents will be placed in a new, dedicated folder within the existing `/docs` directory. This approach ensures that all analysis tasks—past and future—become first-class, version-controlled artifacts that contribute directly to the project's evolving understanding of the domain.
+
+== Task Description
+Over the course of this project, several Lecture Topic Tasks (LTTs) were created and submitted as PDF files. These files were typically attached to GitHub issues, stored in discussions, or shared externally. Although the project already includes an organized documentation structure under `/docs`, these analytical PDFs sit outside the natural documentation flow. As a result, important insights, reasoning steps, and conceptual interpretations become scattered and difficult to locate when revisiting or expanding the domain model.
+
+Slides 13–17 of the “Maintaining Model Integrity” lecture emphasize that all artifacts belonging to a specific model or conceptual space should remain within the same bounded context. Documentation that lives outside the repository disrupts this principle by creating pockets of domain knowledge detached from the evolution of the codebase. Even if the documentation framework in `/docs` is well established, the analyses produced via PDFs introduce fragmentation because they are absent from the shared structure where all other project knowledge lives.
+
+To address this, this task proposes the following improvements:
+
+- **Create a dedicated folder inside `/docs`** (for example, `/docs/lecture-tasks/`) intended exclusively for Lecture Topic Tasks.  
+  This folder will serve as a centralized location where all analytical tasks can live independently from general documentation, while still maintaining consistency within the same documentation context.
+
+- **Convert all previously submitted PDF-based Lecture Topic Tasks into AsciiDoc (`.adoc`) files.**  
+  The AsciiDoc format integrates naturally with Git and GitHub, enabling clear version tracking, diffing, reviewing, and incremental improvements. This ensures that each analysis remains readable and maintainable over time.
+
+- **Place each converted `.adoc` file into the new `/docs/lecture_topic_tasks/` folder.**  
+  The LTTs become part of the project’s internal knowledge system, organized alongside code and documentation, but clearly separated from reference documentation via their own directory.
+
+- **Ensure that all future Lecture Topic Tasks follow this AsciiDoc format and storage location.**  
+  This standardizes the workflow for analysis-based tasks and prevents future scattering of information.
+
+By migrating the PDF LTTs into the existing documentation boundary, the project gains several benefits:
+- Analytical content becomes significantly easier to find, reducing confusion and dependency on external links.
+- The evolution of domain understanding becomes visible through Git history.
+- New contributors can trace design decisions directly in the repository instead of searching through issues or discussions.
+- The project’s documentation structure becomes more predictable and coherent.
+- All artifacts relevant to the domain model remain unified within the same bounded context, reinforcing the project’s overall conceptual integrity.
+
+This migration ensures that Lecture Topic Tasks contribute meaningfully to the long-term clarity and usability of the project, while maintaining a clean separation between general documentation and analysis tasks through their dedicated folder within `/docs`.
