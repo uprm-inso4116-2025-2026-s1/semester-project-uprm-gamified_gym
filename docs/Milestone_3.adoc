@@ -263,24 +263,24 @@ Observed in raw stories:
 “My right arm shook slightly…”
 
 ==== 2.1.4 Narrative
-This domain revolves around the athlete entering a workout and beginning sets with uncertainty about the exact weight, 
-rep count, or scheme. Early repetitions often feel manageable, but instability quickly emerges: grip slips, bar paths 
-wobble, and motions become uneven. As the set progresses, muscles tighten suddenly in the forearms, back, chest, or 
-shoulders, and breathing grows shallow or irregular, disrupting rhythm.
+Athletes begin a set with a chosen weight and rep plan, often feeling stable at first. Early repetitions may feel 
+manageable, but instability quickly emerges: grip slips, bar paths wobble, and motions become uneven. As the set 
+progresses, muscles tighten suddenly in the forearms, back, chest, or shoulders, and breathing grows shallow or 
+irregular, disrupting rhythm.
 
-Mid‑set pauses are common, as athletes stop to reassess form, stance, or rep count. Confusion about previous loads or 
-rep schemes interrupts the flow, leaving the athlete unsure whether to continue or adjust. Fatigue rises quickly, 
-producing sensations of heaviness, burning, or trembling in specific muscles. Movements slow down, and instability or 
-discomfort increases.
+Mid‑set pauses are common, as athletes stop to reassess form, stance, or rep count. Confusion about previous 
+loads or rep schemes interrupts the flow, leaving the athlete unsure whether to continue or adjust. Fatigue 
+rises quickly, producing sensations of heaviness, burning, or trembling in specific muscles. Movements slow 
+down, and instability or discomfort increases.
 
-When strain escalates into sharp tightness, pain, or overwhelming fatigue, athletes often terminate sets early. They 
-step away from the exercise, frustrated by the loss of control or disorganization. To finish the session, they 
-frequently switch to lighter weights, accessory machines, or slower pacing, seeking a manageable way to continue after 
-instability or exhaustion.
+Athletes often attempt another rep after pausing, trying to regain control before stopping. But when strain 
+escalates into sharp tightness, pain, or overwhelming fatigue, they frequently terminate sets early. They 
+step away from the exercise, frustrated by the loss of control or disorganization. To finish the session, 
+they switch to lighter weights, accessory machines, or slower pacing, seeking a manageable way to continue
+ after instability or exhaustion.
 
-Thus, the flow of this domain is marked by a recurring pattern: beginning with uncertainty, encountering instability and 
-tightening mid‑set, pausing to reassess, losing track of reps or weights, and ultimately adjusting or stopping early when 
-fatigue or discomfort overwhelms the exercise.
+This domain flow reflects how athletes operate under uncertainty, react to emerging sensations, and adjust 
+mid-set. Training is rarely linear — it is shaped by interruptions, resets, and constant recalibration.
 
 ==== 2.1.5 Events / Behaviors / Functions
 
