@@ -1,0 +1,73 @@
+= Lecture Topic Task – Explicit Constraints on Workouts
+:doctype: article
+:author: Andrea Seda
+
+Source: Lecture Presentation – “Making Implicit Concepts Explicit”, Slide 17
+
+== Objective
+Identify and document domain-level constraints that ensure the system’s data and fitness logic remain valid.
+
+== Description
+
+This document formalizes the implicit rules that govern workout behavior in Gamified Gym, making them explicit, traceable, and enforceable. 
+Inspired by the lecture “Making Implicit Concepts Explicit,” these constraints serve as domain-level boundaries that protect user safety, maintain realistic workout expectations, preserve fairness in gamified features, and ensure consistent system behavior.
+
+The constraints address areas such as daily time limits, repetition ranges, rest intervals, calorie thresholds, badge eligibility rules, 
+challenge participation, and naming or structural rules for routines. Each constraint includes its purpose and the reasoning behind it (safety, fairness, system balance, or user experience). 
+The document also clarifies how these constraints interact with aggregates such as User, WorkoutRoutine, Exercise, and Badge.
+
+== Explicit Domain Constraints
+
+=== Safety Constraints
+These rules exist to protect the user from unrealistic or unsafe workout behaviors and to ensure the system only processes physically plausible information.
+
+* *Max workout duration of 3 hours per day*: Prevents overtraining and discourages attempts to log unrealistic sessions. *Affects*: WorkoutRoutine, UserProgress.
+* *A routine may contain a maximum of 15 exercises*: Ensures manageable workout volume and avoids harmful excess. *Affects*: WorkoutRoutine.
+* *Minimum rest interval between sets is 15 seconds*: Reflects natural physiological limitations and avoids unrealistic pacing. *Affects*: Exercise, PerformanceRecord.
+* *Daily calorie burn cannot exceed 4000 kcal*: Prevents impossible or manipulated logging values. *Affects*: UserProgress, TrackingSession.
+
+=== Gamification Logic Constraints
+These rules protect the fairness and meaning of achievements, streaks, and level progression within the gamified environment.
+
+* *To earn a “Consistency Badge,” the user must meet a minimum of 5 workout days per week.* Ensures the badge reflects sustained activity rather than sporadic sessions.
+* *Streak-related badges reset if the user exceeds 3 days of inactivity.* Prevents exploitation and creates meaningful engagement patterns.
+* *The “Endurance Badge” requires users to average at least 90 minutes per workout session.* Ensures that badges reflect genuine endurance-based effort.
+* *Users may only level up once per day.* Prevents XP farming and protects balance across the leveling system.
+
+=== User Experience Constraints
+These constraints improve clarity, prevent confusion, and ensure users interact with meaningful and organized workout content.
+
+* *Workout routine names must be unique per user.* Avoids ambiguity and makes it easier to retrieve and manage routines.
+* *Minimum routine duration must be at least 10 minutes.* Ensures routines represent legitimate workout sessions rather than trivial or empty data.
+* *Users may join a maximum of 3 active challenges at a time.* Prevents overload and encourages meaningful participation.
+* *Repetitions per set must be between 1 and 100.* Ensures input remains within realistic and physically plausible limits.
+
+== Interactions Between Constraints and Aggregates
+These constraints shape how aggregates behave and ensure the system remains internally consistent.
+
+* *WorkoutRoutine → Exercise:* Rules such as exercise limits and set repetition constraints apply directly to all 
+exercises within a routine. Deleting a routine removes its exercises, ensuring no invalid exercise data persists.
+* *User → Badge:* Badge pathways depend on constraint validation. For example, the user cannot earn the “Consistency Badge” unless weekly activity meets the explicit requirement.
+* *User → TrackingSession:* Session constraints (duration, calories) must be satisfied before the session contributes to streaks, XP, or challenge progress.
+* *Challenge → User:* The limit on active challenges ensures the challenge system remains focused and avoids overwhelming the user.
+
+== Constraint Grouping and Prioritization
+* *High Priority – Safety Constraints:*
+These directly protect the user’s health and ensure physiologically realistic behavior.
+* *Medium Priority – Gamification Constraints:*
+These maintain fairness, prevent cheating, and keep the reward system meaningful.
+* *Low Priority – User Experience Constraints:*
+These enhance clarity, usability, and overall product quality.
+
+== Conclusion
+Establishing explicit constraints on workouts provides a solid and reliable foundation for the design of Gamified Gym’s domain model. 
+By surfacing and formalizing rules that were previously implicit, the system becomes safer, more predictable, and more aligned with real-world fitness expectations. 
+These constraints protect users from unrealistic or harmful behaviors, preserve the integrity of the gamification layer, and ensure that all tracked workouts represent meaningful activity.
+Furthermore, defining how each constraint interacts with aggregates such as User, WorkoutRoutine, Exercise, Badge, and Challenge allows the system to maintain coherence as features evolve. 
+Clear boundaries prevent edge-case failures, reduce ambiguity during implementation, and support future scalability by keeping the model structurally sound. 
+Ultimately, this effort transforms vague assumptions into deliberate domain knowledge. 
+It strengthens the ubiquitous language across the team, improves communication, and ensures that both design and development work with a shared understanding of what a “valid workout” truly means inside the platform. 
+These explicit constraints will continue guiding new features, balancing user motivation with responsible design, and upholding the core principles of consistency, safety, and meaningful engagement.
+
+
+
