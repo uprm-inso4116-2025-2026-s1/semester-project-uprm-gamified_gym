@@ -493,14 +493,14 @@ Justification:
 This epic represents the system’s core functionality—empowering users to document workouts, measure performance, and visualize progress. It connects front-end enhancements with back-end logic to deliver a unified, data-driven workout experience.
 
 User Story 1: Workout Entry and Progress Tracking
-	•	Story: As a strength athlete, I want to record my exercises with timing and set details so that I can accurately follow my progress.
-	•	Implemented Features: Redesigned workout interface, polished exercise catalog, and persistent workout saving function.
-	•	UI Update: The workout page now includes session timers, improved exercise cards, and a refined exercise list view. The Save Workout function is linked to the database, ensuring sessions are securely stored.
+    •	Story: As a strength athlete, I want to record my exercises with timing and set details so that I can accurately follow my progress.
+    •	Implemented Features: Redesigned workout interface, polished exercise catalog, and persistent workout saving function.
+    •	UI Update: The workout page now includes session timers, improved exercise cards, and a refined exercise list view. The Save Workout function is linked to the database, ensuring sessions are securely stored.
 
 User Story 2: Workout Overview and Analytics
-	•	Story: As an active user, I want to view an overview of my completed sessions so that I can easily assess my performance.
-	•	Implemented Features: Workout Summary Card and session history integration.
-	•	UI Update: Developed a summary module displaying key metrics—duration, sets, and XP gained—providing immediate post-workout feedback while reinforcing the XP system.
+    •	Story: As an active user, I want to view an overview of my completed sessions so that I can easily assess my performance.
+    •	Implemented Features: Workout Summary Card and session history integration.
+    •	UI Update: Developed a summary module displaying key metrics—duration, sets, and XP gained—providing immediate post-workout feedback while reinforcing the XP system.
 
 Epic 2: Performance Rewards and Gamification
 
@@ -511,14 +511,14 @@ Justification:
 This epic enhances user engagement by transforming regular workouts into a rewarding, game-like experience that promotes consistency and personal growth.
 
 User Story 1: Experience Point Progression
-	•	Story: As a motivated participant, I want to earn XP from completed workouts so I can track my progress and stay engaged.
-	•	Implemented Features: Dynamic XP tracker, database logic for XP updates, and animated XP progress bar.
-	•	UI Update: Added a responsive XP progress bar integrated into the summary view. The backend automatically updates XP in real time, ensuring accurate progression tracking.
+    •	Story: As a motivated participant, I want to earn XP from completed workouts so I can track my progress and stay engaged.
+    •	Implemented Features: Dynamic XP tracker, database logic for XP updates, and animated XP progress bar.
+    •	UI Update: Added a responsive XP progress bar integrated into the summary view. The backend automatically updates XP in real time, ensuring accurate progression tracking.
 
 User Story 2: Achievements and Badge Rewards
-	•	Story: As a goal-oriented member, I want to unlock achievements and earn badges to celebrate my milestones.
-	•	Implemented Features: Achievement tracking system and categorized badge modules.
-	•	UI Update: Designed an Achievements page displaying earned badges, grouped by category and synchronized with XP milestones for a cohesive gamified experience.
+    •	Story: As a goal-oriented member, I want to unlock achievements and earn badges to celebrate my milestones.
+    •	Implemented Features: Achievement tracking system and categorized badge modules.
+    •	UI Update: Designed an Achievements page displaying earned badges, grouped by category and synchronized with XP milestones for a cohesive gamified experience.
 
 Epic 3: Interface Consistency and Data Connectivity
 
@@ -526,17 +526,17 @@ Goal:
 Ensure a unified, data-driven experience by linking all major UI components to a central database schema.
 
 Justification:
-This epic solidifies the system’s backend integration. By establishing consistent data flow across components, users experience seamless updates and accurate synchronization throughout the app.
+This epic solidifies the system's backend integration. By establishing consistent data flow across components, users experience seamless updates and accurate synchronization throughout the app.
 
 User Story 1: Login and Navigation Optimization
-	•	Story: As a returning user, I want a smoother login process and quicker access to my personalized data.
-	•	Implemented Features: Updated authentication workflow and improved navigation logic tied to user profiles.
-	•	UI Update: The Workout Login UI is now connected to the central schema, supporting persistent sessions and faster data retrieval.
+    •	Story: As a returning user, I want a smoother login process and quicker access to my personalized data.
+    •	Implemented Features: Updated authentication workflow and improved navigation logic tied to user profiles.
+    •	UI Update: The Workout Login UI is now connected to the central schema, supporting persistent sessions and faster data retrieval.
 
 User Story 2: Database Schema Integration
-	•	Story: As a developer or administrator, I want key pages connected to the central schema so updates reflect in real time.
-	•	Implemented Features: Unified database schema for workouts, XP, and achievements.
-	•	UI Update: The Workout, Summary, and Achievements pages now retrieve and display live data through consistent schema integration.
+    •	Story: As a developer or administrator, I want key pages connected to the central schema so updates reflect in real time.
+    •	Implemented Features: Unified database schema for workouts, XP, and achievements.
+    •	UI Update: The Workout, Summary, and Achievements pages now retrieve and display live data through consistent schema integration.
 
 Epic 4: Community Features and Future Growth
 
@@ -547,9 +547,9 @@ Justification:
 Expanding social engagement features supports long-term user retention and builds a connected fitness community within the platform.
 
 User Story 1: Planned Social Integration
-	•	Story: As a socially active user, I want to connect with others, view their progress, and share achievements for a more interactive experience.
-	•	Planned Features: Community feed, leaderboards, and user profile enhancements.
-	•	Milestone Note: Preliminary layouts and backend architecture for these features have been drafted to support implementation in future milestones.
+    •	Story: As a socially active user, I want to connect with others, view their progress, and share achievements for a more interactive experience.
+    •	Planned Features: Community feed, leaderboards, and user profile enhancements.
+    •	Milestone Note: Preliminary layouts and backend architecture for these features have been drafted to support implementation in future milestones.
 
 === Completed Features (End-to-End with Passing Tests)
 
@@ -584,8 +584,8 @@ Feature 3: Supabase Data Integration
   ** Pain points and needs:
     Current fitness apps only log data but fail to provide engaging feedback or build motivation. Alex struggles to understand fitness
     terminology and is unsure if his training is balanced, leading to a fear of developing imbalances or injuring himself by overdoing
-    certain exercises. Additionally, he prefers features that fit into busy, irregular schedules and offer clear visual rewards. 
-    He needs an intuitive, encouraging, and gamified guide to help him build a foundation.
+    certain exercises. Additionally, he prefers features that fit into busy, irregular schedules and offer clear visual rewards. He
+    needs an intuitive, encouraging, and gamified guide to help him build a foundation.
 
 * Diego, the Competitive Gamer:
   ** Background and daily habits:
@@ -616,7 +616,7 @@ Feature 3: Supabase Data Integration
     Sarah wants to optimize her training to overcome her current progress plateau. She is motivated by measurable results and personal challenges,
     using data to track improvements and hold herself accountable. Her main goal is to ensure balanced development across all muscle groups while
     adding a new layer of challenge and enjoyment to her well-established fitness routine, beyond simply lifting heavier weights.
- ** Pain points and needs:
+  ** Pain points and needs:
     Sarah has hit a progress plateau and feels her workouts have become repetitive. She suspects she may be neglecting certain muscle groups
     but lacks the data to confirm it. Her current tracking method is fragmented and offers no actionable insights. She finds most fitness apps
     too simplistic and not designed for someone with her experience and discipline. She needs a tool that provides detailed, data driven analytics
@@ -635,7 +635,6 @@ Feature 3: Supabase Data Integration
     value social accountability even more. Marcos also enjoys mentoring others in fitness and often motivates classmates or peers to adopt
     healthier habits. He sees exercise not just as a personal goal but as a way to connect with others, challenge himself, and maintain
     a sense of structure in his life.
-
   ** Motivations and goals:
     Marcos primary motivation is community, accountability, and shared achievement. He wants an app that strengthens his workout group’s
     connection by making it easy to share progress, celebrate each other’s accomplishments, and maintain streaks together. He thrives in
@@ -648,8 +647,6 @@ Feature 3: Supabase Data Integration
     and encourage each other. He struggles to stay motivated when his workout group is unavailable and wants a platform that fosters a
     small, supportive community centered around collective growth. Additionally, he needs features that make challenges engaging,
     provide meaningful progress tracking, and help structure friendly competitions so both he and his friends stay accountable and inspired.
-
-
 
 ==== 2.2.3 Domain Requirements
 ===== Principles
@@ -843,6 +840,100 @@ Feature 3: Supabase Data Integration
 ** New entities like Badges, Community Events, or Friend interactions can be added by linking them with User or Challenge.
 ** Many-to-many relationships allow social and competitive features without altering the core model.
 ** Composition (Workout Session → Exercise) ensures exercises are always tied to a session, maintaining data integrity.
+
+==== 2.2.7 Acceptance Criteria, Tests, and Done Definition
+
+* Done definition (feature-level)
+** Workout Logging: User can start a session, add exercises and sets, tap "Done", see a confirmation (toast/alert), and observe the persisted session in the Saved Workouts history.
+** Saved Workouts Management: Saved workouts appear in history, can be opened, edited (title/details), and deleted; edits persist and UI updates immediately.
+** XP & Achievements: Completing a saved workout results in XP being calculated and stored; unlocking achievements triggers a visible UI notification.
+** Data Integrity: All created/edited/deleted workouts are persisted in Supabase and survive app restart.
+
+* Automated tests
+** Unit tests
+*** XPCalculationStrategy: verify outputs for RepsBased, WeightBased, DurationBased strategies for a variety of inputs.
+*** WorkoutSession invariants: tests for non-negative duration and positive reps/weights.
+*** Small pure helpers (e.g., volume calculation) are side-effect free and fully unit-tested.
+** Integration tests
+*** WorkoutRepository <> Supabase: create/read/update/delete roundtrip tests (mock Supabase in CI).
+*** UI component integration: ExerciseCard + ExerciseLog interaction test, verifying onDone callback triggers toast/alert (use jest + react-native-testing-library).
+** End-to-end tests
+*** E2E scenario: start workout → add push-up set → tap Done → assert "Workout Saved Successfully." toast/alert shown → open Saved Workouts → workout present. (use Detox or Appium)
+
+* Example acceptance test cases (concise)
+1. Log a push-up and tap Done:
+   - Given the user is on the workout screen
+   - When the user completes the exercise and taps Done
+   - Then a confirmation "Workout Saved Successfully." is shown and the workout appears in Saved Workouts
+2. Edit a saved workout title:
+   - Open history entry, edit title, save
+   - Title updates in list and persists after app restart
+3. Delete a saved workout:
+   - Delete confirmation shown; upon confirmation the item is removed and backend record deleted
+4. XP calculation correctness:
+   - Given a predefined set of sets/reps/weight, the selected XP strategy returns expected XP value
+
+==== 2.2.8 Traceability to Evaluation Guidelines & Applied Patterns
+
+* Specification pattern
+** Usage: Filters and search (e.g., select saved workouts by date range, muscle group, or min-volume) implemented as Specification objects under src/domain/specifications.
+** Test evidence: unit tests for each specification; integration tests for composition of specs.
+
+* Strategy pattern
+** Usage: XP calculation is pluggable via XPCalculationStrategy implementations (RepsBased, WeightBased, DurationBased) located under src/domain/xp/strategies.
+** Test evidence: unit tests for each strategy and a factory/injector that selects the strategy per workout type.
+
+* Intention-revealing interfaces
+** Approach: Public APIs expose high-level intent (e.g., WorkoutRepository.saveWorkout, XPCalculationStrategy.calculateXP) rather than transport/storage details.
+** Refactor notes: interfaces were renamed to clarify intent where originally names were ambiguous.
+
+* Side-effect free functions & command-query separation
+** Examples: Volume calculation and XP pure helpers are side-effect free and fully unit-tested.
+** Command-query separation: methods that mutate state are separated (e.g., saveWorkout) from pure query methods (e.g., getWorkoutSummary).
+
+* Assertions
+** Examples: Precondition checks in domain commands (e.g., assert sets.length > 0 before completing workout) documented and unit-tested.
+
+* Stand-alone classes & closure under operations
+** Examples: WorkoutRepository is designed to be replaceable and testable without UI dependencies; XP strategies are closed under operations required for XP computation.
+
+* Other patterns (composite, repository, factory)
+** Composite: Exercise entries composed into WorkoutSession aggregate.
+** Repository: WorkoutRepository abstracts persistence (src/repositories/WorkoutRepository.ts).
+** Factory: AchievementFactory and XPCalculationStrategy factory for creating instances with complex initialization.
+
+==== 2.2.9 Acceptance Test Matrix (summary)
+
+* Feature → Key test → Automation level
+** Workout Logging → "Done" creates persisted workout + toast → E2E + Integration
+** Saved Workouts CRUD → edit/delete persist and reflect in UI → Integration + Unit
+** XP Calculation → correct XP per strategy → Unit
+** Achievements → unlocked when criteria met → Integration/E2E
+** Supabase persistence → CRUD roundtrip → Integration (mocked CI) / manual verification in staging
+
+==== 2.2.10 Implementation Notes & File Locations (where to look)
+
+* UI
+** app/(tabs)/ExerciseLog.tsx — Saved Workouts list, modal for view/edit/delete
+** components/exercise-card.tsx — exercise entry UI and "Done" action (should call onDone callback)
+* Domain
+** src/domain/xp/strategies — XP calculation strategies
+** src/domain/specifications — specification pattern implementations for filtering/selection
+* Persistence
+** src/repositories/WorkoutRepository.ts — create/read/update/delete workout persistence to Supabase
+* Tests
+** __tests__/unit — unit tests for strategies and pure functions
+** __tests__/integration — repository and Supabase integration tests (mocked)
+** e2e/ — Detox scenarios for key end-to-end flows
+
+[NOTE]
+====
+- CHANGED: Added Saved Workouts history UI (view / edit / delete) and onDone toast confirmation (app/(tabs)/ExerciseLog.tsx, components/exercise-card.tsx).
+- CHANGED: Expanded XP strategy descriptions and acceptance criteria for XP/achievements.
+- CHANGED: Added Acceptance Test Matrix and Implementation Notes pointing to repository and test locations.
+- CHANGED: Defined modeling entities and acceptance criteria in 2.2.6–2.2.10.
+- How to find edits: each paragraph or bullet that was modified in this submission begins with the token "CHANGED:" for quick review.
+====
 
 == 3. Analytic Part
 
