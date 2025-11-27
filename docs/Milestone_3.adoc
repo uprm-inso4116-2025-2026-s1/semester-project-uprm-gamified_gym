@@ -264,112 +264,193 @@ Observed in raw stories:
 
 ==== 2.1.4 Events / Behaviors / Functions
 
-=== Form Instability Patterns
+**=== Pattern: Losing Control During Movement
+
+(Observed in multiple stories)**
+
+Events & Behaviors (with raw-story quotes)
+
+GripSlips
+
+“my grip slipped slightly”
+
+BarDoesNotMoveStraight
+
+“the bar path wasn’t straight”
+“the bar path wobbled slightly”
+
+MovementSlowsUnexpectedly
+
+“the movement became slower”
+
+ArmShakesDuringLift
+
+“my right arm shook slightly”
+
+FootStrikeBecomesFlat
+
+“my feet struck the belt harder than usual”
+
+Domain Functions (based on actual athlete reactions)
+
+steadyGrip() → GripResult
+Justified by: multiple attempts to regain hold after grip becomes shaky.
+
+slowDownMovement() → MovementStatus
+Justified by: athlete reduces pace when movement becomes unstable.
+
+resetMovementPath() → PathStatus
+Justified by: athlete pauses and resets stance when bar drifts.
+
+**=== Pattern: Fatigue and Tightening
+
+(Repeated in multiple stories)**
+
+Events & Behaviors (with quotes)
+
+ForearmsBurn
+
+“my forearms burned”
+
+LowerBackTightens
+
+“my lower back tightening”
+
+CalvesTighten
+
+“my calves tightening”
+
+BreathingBecomesShallow
+
+“my breathing became shallow and irregular”
+
+SideStitchAppears
+
+“a side stitch forming”
+
+Domain Functions (matching actions taken)
+
+pauseBecauseOfTightness() → RecoveryState
+Justified by:
+
+“I slowed to a walk and held the rails…”
+
+adjustEffortDueToFatigue() → EffortLevel
+Justified by:
+
+“the movement became slower and less controlled”
+
+stopWhenPainIncreases() → StopOutcome
+Justified by:
+
+“I stopped immediately when the tension increased”
+
+**=== Pattern: Losing Track or Forgetting
+
+(Seen in multiple stories)**
+
+Events & Behaviors (with quotes)
+
+RepCountLost
+
+“I couldn’t tell which set I was on”
+
+WorkingWeightUncertain
+
+“I wasn’t sure if this was my last working set”
+
+RepPlanUnclear
+
+“unsure which rep scheme I was supposed to follow”
+
+AttentionShiftsAway
+
+“my focus drifted away from the lift”
+
+PauseToRecollect
+
+“I paused again to think”
+
+Domain Functions (as actually done by athlete)
+
+pauseToRecollectPlan() → PlanStatus
+Justified by:
+
+“paused between reps trying to remember”
+
+checkWeightAgain() → WeightStatus
+Justified by:
+
+“I paused mid-set and checked the plates again”
+
+restartSetAfterConfusion() → SetStatus
+Justified by:
+
+“I paused briefly, then started again”
+
+**=== Pattern: Stopping or Slowing Mid-Session
+
+(Repeated in 4 out of 5 stories)**
+
+Events & Behaviors (with quotes)
+
+AthleteSlowsDown
+
+“I slowed to a walk”
+
+AthletePausesSet
+
+“I paused mid-set”
+
+SetEndsBecauseOfInstability
+
+“I stopped early”
+
+DecisionToStopAfterPain
+
+“I stopped immediately when the tension increased”
+
+SwitchToLighterMovement
+
+“I moved to dumbbell flyes at a lighter weight”
+
+Domain Functions (matching next-step actions)
+
+slowDownPace() → PaceLevel
+
+stopSetEarly() → SetOutcome
+
+switchToLighterMovement() → ExerciseChoice
+
+**=== Pattern: Changing Exercise Mid-Session
+
+(from 4 out of 5 stories)**
+
 Events & Behaviors
 
-- GripBecomesShaky
+SwitchToAccessoryExercise
 
-- BarPathDrifts
+“I decided to finish with lighter accessory exercises”
 
-- MovementBecomesUneven
+TransitionToMachine
 
-- ArmShakesDuringRep
+“I moved on to a lighter machine row”
 
-- FootStrikeFlattens
+ChangeExerciseAfterConfusion
+
+“I stopped early and moved to lateral raises”
+
+ChangeExerciseAfterInstability
+
+“I moved to dumbbell flyes”
 
 Domain Functions
 
-- stabilizeForm(form: FormState): FormState
+changeExercise() → Exercise
 
-- correctBarPath(path: BarPath): BarPath
+chooseEasierExercise() → Exercise
 
-- adjustGrip(grip: GripState): GripState
-
-=== Fatigue & Sensation Response Patterns
-Events & Behaviors
-
-- ForearmBurnDevelops
-
-- LowerBackTightens
-
-- CalvesTighten
-
-- SideStitchForms
-
-- BreathingPatternDisrupts
-
-Domain Functions
-
-- respondToTightness(area: MuscleGroup): Adjustment
-
-- manageSideStitch(stitch: Sensation): Pace
-
-- regulateBreathing(breath: BreathingPattern): BreathingPattern
-
-=== Loss of Focus & Cognitive Breaks
-Events & Behaviors
-
-- RepCountLost
-
-- WorkingWeightForgotten
-
-- RepSchemeUnclear
-
-- AttentionDriftsFromExercise
-
-- AthletePausesMidRepetition
-
-Domain Functions
-
-- recoverRepCount(state: SetState): SetState
-
-- recallPreviousLoad(log: LoadRecord): WeightLoad
-
-- reorientRepScheme(routine: RoutinePattern): RoutinePattern
-
-=== Pacing & Stopping Decisions
-Events & Behaviors
-
-- AthleteSlowsPace
-
-- AthletePausesSet
-
-- DecisionToStopEarly
-
-- SetEndsDueToInstability
-
-- AthleteResetsStance
-
-Domain Functions
-
-- pauseSet(set: Set): Set
-
-- endSetEarly(set: Set): SetOutcome
-
-- resetStance(stance: Stance): Stance
-
-- adjustPace(pace: Pace): Pace
-
-=== Load & Exercise Adjustment Patterns
-Events & Behaviors
-
-- AthleteSwitchesToLighterExercise
-
-- AthleteTransitionsToMachine
-
-- WeightFeelsHeavierThanExpected
-
-- AthleteBeginsAccessoryMovement
-
-- ExerciseFlowChangesMidSession
-
-Domain Functions
-
-- reduceLoad(load: WeightLoad): WeightLoad
-
-- switchExercise(current: Exercise): Exercise
-
-- transitionToAccessory(exercise: Exercise): Exercise
+transitionToMachineWork() → Exercise
 
 ==== 2.1.5 Function Signatures
 
