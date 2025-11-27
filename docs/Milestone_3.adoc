@@ -372,16 +372,32 @@ Domain Functions
 - transitionToAccessory(exercise: Exercise): Exercise
 
 ==== 2.1.5 Function Signatures
-- createExercise(name: Name, reps: Reps, sets: Sets, intensity: Intensity): Exercise
-- createWorkoutRoutine(exercises: ExerciseList, goal: TrainingGoal): WorkoutRoutine
-- createSet(reps: Reps, weight: Weight, intensity: Intensity): Set
-- startWorkoutSession(athlete: Athlete): WorkoutSession
-- selectExercise(session: WorkoutSession, exercise: Exercise): UpdatedSession
-- applyIntensity(exercise: Exercise, intensity: Intensity): Exercise
-- completeSet(exercise: Exercise, reps: Reps, weight: Weight): CompletedSet
-- recordRest(session: WorkoutSession, duration: Duration): RestPeriod
-- updateProgress(athlete: Athlete, metrics: ProgressData): ProgressLog
-- endWorkoutSession(session: WorkoutSession): Summary
+
+=== Form Instability Patterns
+function stabilizeForm(form: FormState): FormState
+function correctBarPath(path: BarPath): BarPath
+function adjustGrip(grip: GripState): GripState
+
+=== Fatigue & Sensation Response Patterns
+function respondToTightness(area: MuscleGroup): Adjustment
+function manageSideStitch(stitch: Sensation): Pace
+function regulateBreathing(breath: BreathingPattern): BreathingPattern
+
+=== Loss of Focus & Cognitive Breaks
+function recoverRepCount(state: SetState): SetState
+function recallPreviousLoad(log: LoadRecord): WeightLoad
+function reorientRepScheme(routine: RoutinePattern): RoutinePattern
+
+=== Pacing & Stopping Decisions
+function pauseSet(set: Set): Set
+function endSetEarly(set: Set): SetOutcome
+function resetStance(stance: Stance): Stance
+function adjustPace(pace: Pace): Pace
+
+=== Load & Exercise Adjustment Patterns
+function reduceLoad(load: WeightLoad): WeightLoad
+function switchExercise(current: Exercise): Exercise
+function transitionToAccessory(exercise: Exercise): Exercise
 
 ==== 2.2.2 Personas
 * Alex, the Beginner:
