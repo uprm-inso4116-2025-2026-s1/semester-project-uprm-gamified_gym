@@ -1,0 +1,96 @@
+= Lecture Topic Task – Evaluating the Use of Strategy & Composite Patterns in the Finished Gamified Gym Project
+:doctype: article
+:author: Luis Sorrentini
+
+Lecture Topic Task - Evaluating the use of Strategy & Composite Patterns in Gamified Gym 330
+
+== Introduction
+
+This document analyzes the nearly completed Gamified Gym project using the Strategy and Composite design patterns presented in the lecture *Relating Design Patterns to the Model*.  
+The goal is not to propose refactors or redesigns, but to evaluate where the existing system already shows structural similarities to these patterns and how the patterns deepen the understanding of the project’s domain model.
+
+The analysis references:
+
+*Slides 4–9* — Strategy Pattern  
+*Slides 10–16* — Composite Pattern  
+(From the PDF *Relating Design Patterns to the Model*)
+
+== Strategy Pattern in the Finished Gamified Gym Project
+
+The Strategy Pattern, as introduced in slides 4–9, encapsulates varying behaviors or policies behind a common interface.  
+Although Gamified Gym does not explicitly implement Strategy objects, several parts of the finished system exhibit behavior that aligns with the pattern’s intent.
+
+=== Variation in XP and Milestone Logic
+
+The logic for XP progression, milestone rewards, and exercise-based achievements varies depending on:
+
+* number of sets  
+* number of repetitions  
+* milestone thresholds  
+* types of exercises
+
+These variations appear in files such as `function_exercise_milestone.js`, where the rules that determine milestone progression are separated from other workout structures.  
+This separation resembles the reasoning behind Strategy: the project isolates a rule that may change or may have alternate formulations.
+
+Even without formal Strategy interfaces, the existence of discrete policy-like functions reflects a Strategy-aligned mindset:  
+a rule (milestone calculation) is treated as replaceable, isolated behavior rather than embedded conditionally across multiple components.
+
+=== Streak Update as Conditional Policy
+
+`function_updateStreak.js` contains logic for interpreting login dates, counting recess days, and determining whether a streak continues or resets.  
+This behavior could easily support alternate “policies” for streak interpretation (e.g., lenient streaks, hardcore streaks, weekly streaks).  
+The current implementation already lives in a standalone module separate from UI and profile data, making it a natural conceptual policy.
+
+Although the project does not implement a Strategy class, the streak rules are structured in a way that matches the lecture’s notion of separating a rule from the behavior it governs.
+
+== Composite Pattern in the Finished Gamified Gym Project
+
+The Composite Pattern (slides 10–16) unifies hierarchical or nested structures so that clients can treat whole and part uniformly.  
+Gamified Gym’s domain naturally includes hierarchies that reflect a composite-like structure.
+
+=== Workouts Composed of Exercises
+
+In the workout data model, a Workout is composed of multiple Exercises—each exercise containing its own properties, and sometimes its own substructure (sets, reps, intensity).  
+This mirrors the Composite Pattern’s classic “root with children” structure:
+
+Workout → Exercise → Set/Repetition Structure
+
+While the project does not implement Composite components with shared interfaces, the conceptual hierarchy directly aligns with the pattern’s intent of viewing “a whole made of smaller wholes or leaves.”
+
+The way components like `exerciseStore.tsx` retrieve, update, or remove exercises treats them as interchangeable entries, requiring no differentiation between simple and complex exercises.  
+This uniformity matches the benefits emphasized in the Composite Pattern: treating child structures uniformly simplifies logic.
+
+=== Uniform Processing of Nested Data
+
+In UI components such as `exercise-card.tsx` or workout logs, the system often iterates through exercises or renders them using the same structure regardless of type.  
+This behavior reflects Composite’s goal of eliminating branching (“if this is a leaf … else if composite …”) by relying on consistent structure.
+
+Even without explicit Composite objects, the nested model already behaves as though it follows a composite hierarchy.
+
+== How the Patterns Deepen Understanding of the Existing Model
+
+Analyzing the system through these patterns clarifies several aspects of the finished project:
+
+* **Encapsulated variation** — XP, milestone, and streak logic behave like Strategy policies, helping isolate change and preserve model clarity.  
+* **Consistent hierarchical structures** — Workouts composed of exercises reflect Composite-like behavior, revealing why the project handles nested data predictably.  
+* **Explaining current design choices** — The separation of rule logic into small standalone modules unintentionally follows the Strategy philosophy; similarly, the hierarchical representation of workouts unintentionally follows Composite.
+
+These insights do not imply that the project must adopt formal patterns but instead show that the architecture already aligns with the lecture’s conceptual principles.
+
+== Reflection
+
+Observing the nearly complete Gamified Gym project through the lens of the Strategy and Composite patterns shows that:
+
+* Several behaviors naturally align with Strategy by isolating variable rules in small modules.  
+* The hierarchical nature of workouts fits the Composite reasoning, contributing to a clean and intuitive domain structure.  
+* The project’s design choices—likely motivated by practical constraints—still reflect deeper modeling principles that enhance maintainability and domain clarity.
+
+This analysis reinforces that even without directly implementing formal design patterns, a system can still embody their conceptual benefits.  
+The lecture’s patterns serve as analytical tools that reveal structural meaning within the finished project.
+
+
+== Lecture PDF Used
+
+*Relating Design Patterns to the Model*  
+Slides 4–9 (Strategy Pattern)  
+Slides 10–16 (Composite Pattern)
