@@ -444,31 +444,41 @@ transitionToMachineWork() → Exercise
 
 ==== 2.1.5 Function Signatures
 
-=== Form Instability Patterns
-function stabilizeForm(form: FormState): FormState
+function fixGrip(grip: Grip): Grip
+
+function steadyMovement(movement: Movement): Movement
+
 function correctBarPath(path: BarPath): BarPath
-function adjustGrip(grip: GripState): GripState
 
-=== Fatigue & Sensation Response Patterns
-function respondToTightness(area: MuscleGroup): Adjustment
-function manageSideStitch(stitch: Sensation): Pace
-function regulateBreathing(breath: BreathingPattern): BreathingPattern
+function adjustFootStrike(strike: FootStrike): FootStrike
 
-=== Loss of Focus & Cognitive Breaks
-function recoverRepCount(state: SetState): SetState
-function recallPreviousLoad(log: LoadRecord): WeightLoad
-function reorientRepScheme(routine: RoutinePattern): RoutinePattern
+function slowDownBecauseOfTightness(area: MuscleArea): Pace
 
-=== Pacing & Stopping Decisions
+function pauseBecauseOfStitch(stitch: SideStitch): Pace
+
+function adjustBreathing(breathing: BreathingPattern): BreathingPattern
+
+function recoverRepCount(set: Set): Set
+
+function recallPreviousWeight(exercise: Exercise): WeightLoad
+
+function recoverRepScheme(scheme: RepScheme): RepScheme
+
+function refocusOnExercise(exercise: Exercise): Exercise
+
 function pauseSet(set: Set): Set
-function endSetEarly(set: Set): SetOutcome
+
+function endSetEarly(set: Set): Set
+
 function resetStance(stance: Stance): Stance
+
 function adjustPace(pace: Pace): Pace
 
-=== Load & Exercise Adjustment Patterns
 function reduceLoad(load: WeightLoad): WeightLoad
-function switchExercise(current: Exercise): Exercise
-function transitionToAccessory(exercise: Exercise): Exercise
+
+function switchToLighterExercise(exercise: Exercise): Exercise
+
+function transitionToAccessoryExercise(exercise: Exercise): Exercise
 
 ==== 2.2.2 Personas
 * Alex, the Beginner:
