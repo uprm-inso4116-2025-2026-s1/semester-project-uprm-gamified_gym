@@ -462,6 +462,33 @@ chooseEasierExercise() → Exercise
 
 transitionToMachineWork() → Exercise
 
+===2.1.6 Function Signatures
+
+=== Pattern: Losing Control During Movement
+steadyGrip(grip: Grip): Grip
+slowDownMovement(movement: Movement): Movement
+resetMovementPath(path: MovementPath): MovementPath
+
+=== Pattern: Fatigue and Tightening
+pauseBecauseOfTightness(tightness: Tightness): RecoveryState
+adjustEffortDueToFatigue(fatigue: Fatigue): EffortLevel
+stopDueToDiscomfort(discomfort: Tightness): StopOutcome
+
+=== Pattern: Losing Track or Forgetting
+pauseToRecollectPlan(plan: RepPlan): PlanStatus
+checkPreviousWeight(load: Load): WeightRecollection
+restartSetAfterConfusion(set: Set): SetStatus
+
+=== Pattern: Stopping or Slowing Mid-Session
+slowDownPace(pace: Pace): Pace
+stopSetEarly(set: Set): SetOutcome
+switchToLighterMovement(exercise: Exercise): Exercise
+
+=== Pattern: Changing Exercise Mid-Session
+changeExercise(current: Exercise): Exercise
+chooseEasierExercise(exercise: Exercise): Exercise
+transitionToMachineWork(exercise: Exercise): Exercise
+
 ==== 2.2.2 Personas
 * Alex, the Beginner:
   ** Background and daily habits:
