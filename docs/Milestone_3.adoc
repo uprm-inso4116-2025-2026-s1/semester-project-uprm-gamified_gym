@@ -262,6 +262,16 @@ Observed in raw stories:
 
 “My right arm shook slightly…”
 
+==== Domain Terminology in Relation to Domain Rough Sketch
+
+The domain terminology was not taken directly from the raw stories. Instead, the raw stories in Section 2.1.1 were analyzed to extract recurring actions, sensations, and patterns observed during training sessions. These raw stories are unprocessed accounts, while the terminology in Section 2.1.2 represents refined concepts that emerged from examining those accounts.
+
+For example, repeated mentions of “my grip slipped,” “my grip felt shaky,” and “my grip started slipping” were processed into the term Grip, with a precise definition that captures what the athlete is physically doing. Similarly, descriptions such as “the bar path wasn’t straight” and “the bar path wobbled slightly” led to the defined concept Bar Path.
+
+Other terms — such as Tightness, Fatigue, Form, Loss of Focus, and Decision to Stop Early — were developed by grouping together multiple similar observations found across different raw stories. These definitions are not rough; they are the result of interpreting and refining what athletes repeatedly experienced.
+
+Thus, Section 2.1.2 contains processed and clarified domain concepts, while Section 2.1.1 contains the unedited lived experiences that those concepts were derived from.
+
 ==== 2.1.4 Narrative
 Athletes begin a set with a chosen weight and rep plan, often feeling stable at first. Early repetitions may feel 
 manageable, but instability quickly emerges: grip slips, bar paths wobble, and motions become uneven. As the set 
