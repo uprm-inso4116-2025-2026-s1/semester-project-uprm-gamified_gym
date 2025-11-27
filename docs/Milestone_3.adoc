@@ -263,27 +263,24 @@ Observed in raw stories:
 “My right arm shook slightly…”
 
 ==== 2.1.4 Narrative
-This domain revolves around the athlete stepping into the gym and performing workout routines designed to 
-strengthen their body and improve their endurance. Each session unfolds as a sequence of sets and repetitions, 
-targeting specific muscle groups such as chest, back, legs, arms, shoulders, etc. The athlete measures 
-progress not only by the number of weights lifted or repetitions completed, but also by changes in physical 
-in their appearance and overall stamina.
+This domain revolves around the athlete entering a workout and beginning sets with uncertainty about the exact weight, 
+rep count, or scheme. Early repetitions often feel manageable, but instability quickly emerges: grip slips, bar paths 
+wobble, and motions become uneven. As the set progresses, muscles tighten suddenly in the forearms, back, chest, or 
+shoulders, and breathing grows shallow or irregular, disrupting rhythm.
 
-As the workouts continues, the athlete faces the familiar challenge of consistency. Some days the motivation 
-is high, fueled by personal goals; other days, fatigue or lazyness makes them lack motivation. Without 
-proper training, certain muscle groups may be trained more than others, leading to overtraining. 
-The athlete attempts to track routines through notebooks, mental notes, or apps, yet these records often 
-lack meaningful feedback, leaving gaps in awareness of progress and balance.
+Mid‑set pauses are common, as athletes stop to reassess form, stance, or rep count. Confusion about previous loads or 
+rep schemes interrupts the flow, leaving the athlete unsure whether to continue or adjust. Fatigue rises quickly, 
+producing sensations of heaviness, burning, or trembling in specific muscles. Movements slow down, and instability or 
+discomfort increases.
 
-Within the rhythm of gym culture, motivation is sustained through competition, social comparison, and 
-goals. The athlete celebrates victories (a heavier lift, an extra repetition, or visible physical 
-change) and finds encouragement in comparing progress with peers. Achievements are marked by badges, 
-challenges, and symbols of recognition, whether a weightlifting belt, a gym award, or acknowledgment 
-within a community.
+When strain escalates into sharp tightness, pain, or overwhelming fatigue, athletes often terminate sets early. They 
+step away from the exercise, frustrated by the loss of control or disorganization. To finish the session, they 
+frequently switch to lighter weights, accessory machines, or slower pacing, seeking a manageable way to continue after 
+instability or exhaustion.
 
-The flow of this domain is not limited to the physical act of exercising. It encompasses the athlete’s 
-drive for self‑improvement, the ongoing effort to track performance, the need to maintain balance across 
-training, and the search for motivation through challenges and recognition.
+Thus, the flow of this domain is marked by a recurring pattern: beginning with uncertainty, encountering instability and 
+tightening mid‑set, pausing to reassess, losing track of reps or weights, and ultimately adjusting or stopping early when 
+fatigue or discomfort overwhelms the exercise.
 
 ==== 2.1.5 Events / Behaviors / Functions
 
