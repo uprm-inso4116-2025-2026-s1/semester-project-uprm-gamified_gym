@@ -311,13 +311,13 @@ FootStrikeBecomesFlat
 
 Domain Functions (based on actual athlete reactions)
 
-steadyGrip() → GripResult
+steadyGrip() → ImprovedGrip
 Justified by: multiple attempts to regain hold after grip becomes shaky.
 
-slowDownMovement() → MovementStatus
+slowDownMovement() → CorrectedPath
 Justified by: athlete reduces pace when movement becomes unstable.
 
-resetMovementPath() → PathStatus
+resetMovementPath() → SlowerPace
 Justified by: athlete pauses and resets stance when bar drifts.
 
 === Pattern: Fatigue and Tightening
@@ -356,7 +356,7 @@ Justified by:
 
 “the movement became slower and less controlled”
 
-stopWhenPainIncreases() → StopOutcome
+stopDueToDiscomfort() → StopOutcome
 Justified by:
 
 “I stopped immediately when the tension increased”
@@ -392,10 +392,10 @@ Justified by:
 
 “paused between reps trying to remember”
 
-checkWeightAgain() → WeightStatus
+checkPreviousWeight() → WeightRecollection
 Justified by:
 
-“I paused mid-set and checked the plates again”
+“I paused mid-set, I couldn't remember the previous weight I used.”
 
 restartSetAfterConfusion() → SetStatus
 Justified by:
@@ -461,44 +461,6 @@ changeExercise() → Exercise
 chooseEasierExercise() → Exercise
 
 transitionToMachineWork() → Exercise
-
-==== 2.1.5 Function Signatures
-
-function fixGrip(grip: Grip): Grip
-
-function steadyMovement(movement: Movement): Movement
-
-function correctBarPath(path: BarPath): BarPath
-
-function adjustFootStrike(strike: FootStrike): FootStrike
-
-function slowDownBecauseOfTightness(area: MuscleArea): Pace
-
-function pauseBecauseOfStitch(stitch: SideStitch): Pace
-
-function adjustBreathing(breathing: BreathingPattern): BreathingPattern
-
-function recoverRepCount(set: Set): Set
-
-function recallPreviousWeight(exercise: Exercise): WeightLoad
-
-function recoverRepScheme(scheme: RepScheme): RepScheme
-
-function refocusOnExercise(exercise: Exercise): Exercise
-
-function pauseSet(set: Set): Set
-
-function endSetEarly(set: Set): Set
-
-function resetStance(stance: Stance): Stance
-
-function adjustPace(pace: Pace): Pace
-
-function reduceLoad(load: WeightLoad): WeightLoad
-
-function switchToLighterExercise(exercise: Exercise): Exercise
-
-function transitionToAccessoryExercise(exercise: Exercise): Exercise
 
 ==== 2.2.2 Personas
 * Alex, the Beginner:
