@@ -267,36 +267,36 @@ Observed in raw stories:
 === Form Instability Patterns
 Events & Behaviors
 
-GripBecomesShaky
+- GripBecomesShaky
 
-BarPathDrifts
+- BarPathDrifts
 
-MovementBecomesUneven
+- MovementBecomesUneven
 
-ArmShakesDuringRep
+- ArmShakesDuringRep
 
-FootStrikeFlattens
+- FootStrikeFlattens
 
 Domain Functions
 
-stabilizeForm(form: FormState): FormState
+- stabilizeForm(form: FormState): FormState
 
-correctBarPath(path: BarPath): BarPath
+- correctBarPath(path: BarPath): BarPath
 
-adjustGrip(grip: GripState): GripState
+- adjustGrip(grip: GripState): GripState
 
 === Fatigue & Sensation Response Patterns
 Events & Behaviors
 
-ForearmBurnDevelops
+- ForearmBurnDevelops
 
-LowerBackTightens
+- LowerBackTightens
 
-CalvesTighten
+- CalvesTighten
 
-SideStitchForms
+- SideStitchForms
 
-BreathingPatternDisrupts
+- BreathingPatternDisrupts
 
 Domain Functions
 
@@ -309,67 +309,68 @@ Domain Functions
 === Loss of Focus & Cognitive Breaks
 Events & Behaviors
 
-RepCountLost
+- RepCountLost
 
-WorkingWeightForgotten
+- WorkingWeightForgotten
 
-RepSchemeUnclear
+- RepSchemeUnclear
 
-AttentionDriftsFromExercise
+- AttentionDriftsFromExercise
 
-AthletePausesMidRepetition
+- AthletePausesMidRepetition
 
 Domain Functions
 
-recoverRepCount(state: SetState): SetState
+- recoverRepCount(state: SetState): SetState
 
-recallPreviousLoad(log: LoadRecord): WeightLoad
+- recallPreviousLoad(log: LoadRecord): WeightLoad
 
-reorientRepScheme(routine: RoutinePattern): RoutinePattern
+- reorientRepScheme(routine: RoutinePattern): RoutinePattern
 
 === Pacing & Stopping Decisions
 Events & Behaviors
 
-AthleteSlowsPace
+- AthleteSlowsPace
 
-AthletePausesSet
+- AthletePausesSet
 
-DecisionToStopEarly
+- DecisionToStopEarly
 
-SetEndsDueToInstability
+- SetEndsDueToInstability
 
-AthleteResetsStance
+- AthleteResetsStance
 
 Domain Functions
 
-pauseSet(set: Set): Set
+- pauseSet(set: Set): Set
 
-endSetEarly(set: Set): SetOutcome
+- endSetEarly(set: Set): SetOutcome
 
-resetStance(stance: Stance): Stance
+- resetStance(stance: Stance): Stance
 
-adjustPace(pace: Pace): Pace
+- adjustPace(pace: Pace): Pace
 
 === Load & Exercise Adjustment Patterns
 Events & Behaviors
 
-AthleteSwitchesToLighterExercise
+- AthleteSwitchesToLighterExercise
 
-AthleteTransitionsToMachine
+- AthleteTransitionsToMachine
 
-WeightFeelsHeavierThanExpected
+- WeightFeelsHeavierThanExpected
 
-AthleteBeginsAccessoryMovement
+- AthleteBeginsAccessoryMovement
 
-ExerciseFlowChangesMidSession
+- ExerciseFlowChangesMidSession
 
 Domain Functions
 
-reduceLoad(load: WeightLoad): WeightLoad
+- reduceLoad(load: WeightLoad): WeightLoad
 
-switchExercise(current: Exercise): Exercise
+- switchExercise(current: Exercise): Exercise
 
-transitionToAccessory(exercise: Exercise): Exercise
+- transitionToAccessory(exercise: Exercise): Exercise
+
 ==== 2.1.5 Function Signatures
 - createExercise(name: Name, reps: Reps, sets: Sets, intensity: Intensity): Exercise
 - createWorkoutRoutine(exercises: ExerciseList, goal: TrainingGoal): WorkoutRoutine
