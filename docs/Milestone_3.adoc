@@ -212,17 +212,6 @@ Observed in raw stories:
 
 “My breathing became uneven.”
 
-=== Concept: Equipment Transition
-
-Definition:
-Switching from one exercise or machine to another.
-
-Observed in raw stories:
-
-“I moved on to a lighter machine row…”
-
-“I moved to dumbbell flyes…”
-
 === Concept: Foot Strike
 
 Definition:
