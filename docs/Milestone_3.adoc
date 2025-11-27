@@ -314,10 +314,10 @@ Domain Functions (based on actual athlete reactions)
 steadyGrip() → ImprovedGrip
 Justified by: multiple attempts to regain hold after grip becomes shaky.
 
-slowDownMovement() → CorrectedPath
+slowDownMovement() → MovementState
 Justified by: athlete reduces pace when movement becomes unstable.
 
-resetMovementPath() → SlowerPace
+resetMovementPath() → PathStatus
 Justified by: athlete pauses and resets stance when bar drifts.
 
 === Pattern: Fatigue and Tightening
@@ -356,7 +356,7 @@ Justified by:
 
 “the movement became slower and less controlled”
 
-stopDueToDiscomfort() → StopOutcome
+stopDueToTension() → StopOutcome
 Justified by:
 
 “I stopped immediately when the tension increased”
