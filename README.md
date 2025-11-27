@@ -1,5 +1,5 @@
 # Gamified Gym Project Guide
-Mobile app that track, and has gaming aspect to help engage in gym activities 
+Mobile app that tracks, and has gaming aspect to help engage in gym activities 
 
 ## Lecture Topics Guide
 Format: LTT_#issue_(Name of file) 
