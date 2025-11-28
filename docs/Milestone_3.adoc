@@ -632,126 +632,221 @@ The primary requirements defined for this project include:
 * **Notifications** – Low
 
 ==== 2.2.2 Personas
-* Alex, the Beginner:
-  ** Background and daily habits:
-    Alex is a 28-year-old office worker from Miami, Florida. He works long hours at a marketing firm and often ends the day feeling
-    drained. Outside of working hours, he enjoys cooking simple meals, listens to podcasts about technology and entrepreneurship, and occasionally
-    playing casual mobile games to relax. Alex is new to fitness and often feels overwhelmed and feels out of place in a public gym, unsure of where to
-    start or whether he is making any progress. His primary goal is to build a consistent workout habit to improve his health, energy levels,
-    and overall well-being, as he feels sluggish from sitting all day at the office. His colleagues discussing fitness apps during lunch influences his desire for a polished, engaging user experience, which he might feel confident enough to share once he sees progress. Alex is motivated by music and likes to listen to high-energy playlists on Spotify during workouts to stay focused. He is curious, eager to learn, and wants clear guidance to help him feel confident and prevent unnecessary injuries as he begins his fitness journey.
+* Alex, the Beginner
+ ** Background
+Alex is a 28-year-old office worker with long hours at a marketing firm in Miami, Florida. He 
+experiences daily fatigue from sitting at a desk and has minimal experience with structured fitness 
+training. He trains irregularly, attempting workouts after work when energy levels are low.
 
-  ** Motivations and goals:
-   Alex isn't just trying to "build a habit." He wants to improve his energy levels to be more effective at his marketing job and eventually perhaps start his own business. 
+ ** Fitness Behavior
+Alex is new to the gym and trains inconsistently, often skipping workouts after a few weeks. He does not
+follow a structured program and is unsure which exercises target which muscle groups. He attempts to track
+workouts informally but lacks understanding of whether his training is balanced. He struggles to identify
+whether he is making progress and does not know how to adjust weight, sets, or reps appropriately. Alex 
+feels uncertain about proper form and intensity, leading to cautious, conservative training that may 
+limit progress.
 
+ ** Motivations & Goals
+Alex wants to build a consistent workout habit to improve energy levels and overall health. He seeks to 
+feel more confident in his physical capabilities and reduce sluggishness from sedentary work. Small, 
+visible wins motivate him to continue, as he wants proof that his effort is producing results. He is 
+motivated by clear guidance that removes uncertainty about what to do next.
 
-  ** Pain points and needs:
-The team will realize the app isn't just a fitness tool, but a stepping stone to entrepreneurial success and better time management, making features like progress visualization extremely important for tracking overall life progression, not just reps.
-Gym Anxiety, this suggests he would benefit from a "solo mode" or privacy settings initially.
-Alex’s interest in cooking simple meals suggests he might appreciate a section in the app with quick, easy-to-follow healthy recipes that fit into his busy evenings.
-Alex interest in listening to music during workouts present expectation of seamless integration with existing tools like Spotify or other tools.
-    Current fitness apps only log data but fail to provide engaging feedback or build motivation. Alex struggles to understand fitness
-    terminology and is unsure if his training is balanced, leading to a fear of developing imbalances or injuring himself by overdoing
-    certain exercises. Additionally, he prefers features that fit into busy, irregular schedules and offer clear visual rewards. 
-    He needs an intuitive, encouraging, and gamified guide to help him build a foundation.
+ ** Pain Points
+Alex feels overwhelmed by fitness terminology and unsure where to start. He fears developing muscle 
+imbalances or injuring himself by doing exercises incorrectly or overdoing certain movements. He struggles
+to maintain motivation when he cannot see or measure his progress. Current tracking methods feel tedious 
+and provide no meaningful feedback. Alex feels anxious when other people can see his activity or 
+progress, particularly early in his fitness journey when results are minimal. He experiences difficulty 
+fitting workouts into busy, irregular schedules.
 
-* Diego, the Competitive Gamer:
-  ** Background and daily habits:
-    Diego is a 22-year-old computer science student from San Juan, Puerto Rico. He spends much of his free time gaming, streaming, or
-    coding with friends online. He loves competitive environments and progression systems, whether it’s climbing ranked ladders in his
-    favorite games or improving his game stats. Outside of gaming Diego enjoys testing with his friends who have more strength, endurance,
-    or who can make the best dish, but he feels weaker than them in physical challenges. 
-His feeling of being physically weaker than friends isn't just about gym stats; it's about social confidence and status within his friend group. Looking information online he stumbled across how improving physical strength might also be linked to improving focus for long coding sessions and started to consider going to the gym. 
-Although he joined a gym last semester, he quickly
-    lost motivation because he doesn’t get the feeling of achieving, often translating to a feeling of wasted time.
-  ** Motivations and goals:
-    Diego wants a fitness app that makes working out feel like leveling up in a video game. He is motivated by points, rankings, and visual
-    progress bars that show him getting stronger in real time. His main goal is to stay consistent by turning workouts into daily “missions”
-    that reward effort and let him compete with friends. He also wants to improve his physical strength so he can win physical challenges against his friends.
-  ** Pain points and needs:
-The app’s competitive elements need to be robust enough to help him earn bragging rights, not just personal points.
-Competition against his friends is a major motivator. The app needs highly developed social challenge features, perhaps customizable duels or guild-like team goals, not just a simple leader board.
-    Current gym apps feel lifeless to him; they only track sets and reps without giving a sense of reward or excitement. He struggles with
-    accountability when training alone and needs an app that transforms progress into a fun, measurable system that keeps him hooked like a
-    game. He also wants an app that provides clear, visual indicators of his improvements as if he is improving stats in a game.
-His computer science background suggests he is comfortable with technology and likely expects a sophisticated, bug-free, and well-designed interface, not a basic app. 
+ ** How This Persona Interacts With the Domain
+Alex represents beginners who need clarity on training fundamentals: which muscle groups are being 
+trained, whether volume is balanced, and whether progress is occurring. He requires visibility into basic
+metrics like training volume and frequency to build confidence. His anxiety about imbalances and injury 
+reflects the domain principle that balanced training across muscle groups is essential for long-term 
+development.
 
-* Sarah, the Consistent:
-  ** Background and daily habits:
-    Sarah is a 32 year old teacher from Austin, Texas, who has maintained a regular gym routine for the past two years. She teaches high school
-    health and wellness classes, and her curiosity about nutrition, fitness, and exercise science allows her to apply what she learns both in school
-    and in her personal life. She is knowledgeable about basic exercises and tracks her sets and reps diligently in a notes app. She enjoys the discipline
-    of training and typically works out early in the morning before school to maintain consistency. Outside the gym and school, Sarah enjoys reading about
-    nutrition and wellness, trying out new healthy recipes, and occasionally attending local fitness classes to expand her knowledge. As a busy teacher, time is precious and likes to plan ahead during the week. She secretly allows
-    herself a cheat day every two weeks, indulging in foods like Burger King or fully loaded pizzas. As a health teacher, hitting a plateau has been slightly embarrassing or frustrating for Sarah because she feels she "should" know better. She suspects she may be neglecting certain muscle groups but lacks the data to confirm it.
-  ** Motivations and goals:
-Her goal isn't just about lifting heavier weights; it's about a continuous quest for knowledge and mastery of health and wellness.
-    Sarah wants to optimize her training to overcome her current progress plateau. She is motivated by measurable results and personal challenges,
-    using data to track improvements and hold herself accountable. Her main goal is to ensure balanced development across all muscle groups while adding a new layer of challenge and enjoyment to her well-established fitness routine, beyond simply lifting heavier weights.
- ** Pain points and needs:
-    Sarah has hit a progress plateau and feels her workouts have become repetitive. She suspects she may be neglecting certain muscle groups
-    but lacks the data to confirm it. Her current tracking method is fragmented and offers no actionable insights. She finds most fitness apps
-    too simplistic and not designed for someone with her experience and discipline. She needs a tool that provides detailed, data driven analytics
-    on her performance and muscle development.
-Her structured schedule suggests the need for features that allow for advanced planning, such as a robust weekly or monthly workout scheduler that can send calendar reminders to her work schedule.
+* Diego, the Competitive Gamer
+ ** Background
+Diego is a 22-year-old computer science student from San Juan, Puerto Rico. He has irregular training 
+availability due to coursework and gaming schedules, and he trains in the afternoons or evenings when time
+permits. He is a relative beginner with limited gym experience but is familiar with progression systems 
+from gaming.
 
-* Marcos, the Motivator:
-  ** Background and daily habits:
-    Marcos is a 24-year-old graduate student from Chicago, Illinois, who treats fitness as a social activity. He works out with a close-knit
-    group of friends, relying on their presence for accountability and friendly competition. Marcos and his friends constantly challenge
-    each other to show up and push harder. He often shares workout milestones on social media like, Instagram but wishes there were a more
-    integrated way to track his progress and stay connected with his friends’ achievements. Outside the gym, Marcos balances his studies, 
-    part-time tutoring, and social life. He enjoys attending local fitness events, trying new workout classes, and exploring healthy restaurants
-    with friends. He is curious about sports science and occasionally reads articles on training techniques and recovery methods. Although
-    disciplined, he sometimes struggles to stay consistent when friends are unavailable or during particularly busy weeks, which makes him
-    value social accountability even more. Marcos also enjoys mentoring others in fitness and often motivates classmates or peers to adopt
-    healthier habits. He sees exercise not just as a personal goal but as a way to connect with others, challenge himself, and maintain
-    a sense of structure in his life.
+ ** Fitness Behavior
+Diego trains inconsistently, often stopping after a few weeks when motivation fades. He performs 
+exercises without tracking detailed metrics and lacks structure in his routine. He does not have a clear 
+understanding of how to progress in strength or volume over time. Diego is drawn to visible indicators of 
+improvement but current methods do not provide this feedback. He trains alone and struggles with 
+accountability, often skipping sessions when external motivation is absent. He is motivated by comparisons
+with friends and wants to demonstrate physical improvements in social settings.
 
-  ** Motivations and goals:
-    Marcos primary motivation is community, accountability, and shared achievement. He wants an app that strengthens his workout group’s
-    connection by making it easy to share progress, celebrate each other’s accomplishments, and maintain streaks together. He thrives in
-    a positive, friendly competitive environment that emphasizes consistency and effort rather than solely focusing on raw strength.
-    Beyond personal improvement, Marcos also wants to inspire and motivate others, helping peers adopt healthier habits while enjoying
-    a sense of community and shared challenge.
-  ** Pain points and needs:
-    Marcos already uses Instagram for sharing. The app needs highly polished, shareable visual summaries of achievements that are optimized for social platforms, leveraging his habit to attract new users and enhance existing engagement. There is no seamless way to create a private leaderboard with just his friends to track consistency, celebrate milestones, and encourage each other. He struggles to stay motivated when his workout group is unavailable and wants a platform that fosters a small, supportive community centred around collective growth. The pain of friends being unavailable isn't just about missing a workout; it’s about feeling isolated. Mentoring others in fitness gives Marcos a sense of purpose. The app could integrate a "mentor mode" or a public "coach profile" where he can track the progress of those he mentors, reinforcing his role as a leader and motivator. His focus on positive competition and motivation suggests that gamification should prioritize "praise" and "high-fives" alongside raw ranking data. Features might include a robust set of positive reaction emojis or automated encouragement messages.
+ ** Motivations & Goals
+Diego wants to improve his physical strength to feel more capable in physical challenges with friends. He 
+is motivated by measurable progress that feels similar to leveling up or earning achievements in games. He
+seeks consistency by transforming workouts into rewarding, quantifiable experiences. Diego values 
+competition and wants to compare his progress with peers to stay motivated.
+
+ ** Pain Points
+Diego finds gym training repetitive and unrewarding, lacking the sense of achievement he experiences in 
+gaming. He struggles with accountability when training alone and needs external motivation to maintain 
+consistency. Current tracking methods feel lifeless and provide no feedback on whether effort is 
+translating into progress. He does not know whether his training is balanced or effective. Diego feels 
+physically weaker than his friends and wants proof of improvement to build confidence in social 
+situations.
+
+ ** How This Persona Interacts With the Domain
+Diego represents users who require visible, quantifiable progress metrics to sustain motivation. He needs 
+clear indicators of strength improvement, training volume accumulation, and consistency over time. His 
+competitive nature aligns with the domain principle that social comparison and shared effort can 
+reinforce fitness journeys. His struggles with accountability highlight the importance of tracking 
+consistency metrics like streaks and completion rates. 
+
+* Sarah, the Consistent Trainer
+ ** Background
+Sarah is a 32-year-old high school teacher from Austin, Texas, who has maintained a regular gym routine 
+for two years. She trains early in the morning before school and follows a structured schedule. She is 
+knowledgeable about basic exercises and nutrition and is experienced with fundamental training principles.
+
+ ** Fitness Behavior
+Sarah trains consistently four to five times per week, following a self-designed routine. She tracks 
+sets, reps, and weights informally in a notes app but has limited visibility into trends or patterns. 
+She has recently experienced a performance plateau where strength and endurance are no longer improving 
+despite continued effort. Sarah suspects she may be neglecting certain muscle groups but lacks data to
+confirm this. She understands basic progression principles but is uncertain how to adjust her training to 
+overcome the plateau. She values discipline and data-driven insights but finds her current tracking 
+method fragmented and non-actionable.
+
+ ** Motivations & Goals
+Sarah wants to optimize her training to overcome her current plateau and ensure balanced development 
+across all muscle groups. She is motivated by measurable results and continuous improvement. She seeks to 
+deepen her understanding of training principles and apply data-driven insights to her routine. Sarah 
+wants to add a new layer of challenge and engagement to her well-established fitness routine beyond 
+simply increasing weight.
+
+ ** Pain Points
+Sarah has hit a performance plateau and suspects unbalanced training is contributing to stagnation. Her 
+current tracking method provides no actionable insights into volume distribution, progress trends, or 
+muscle group balance. She finds most fitness apps too simplistic and not designed for experienced, 
+disciplined users. Sarah feels frustrated that her routine has become repetitive and lacks fresh 
+challenges. She needs detailed, data-driven analytics to identify weaknesses and adjust her training 
+effectively.
+
+ ** How This Persona Interacts With the Domain
+Sarah represents experienced users who understand training fundamentals but require deeper insights into 
+performance trends and muscle balance. Her plateau reflects the domain principle that athletes experience 
+periods where progress stagnates despite continued effort. She needs visibility into training volume 
+distribution across muscle groups and historical trends to identify imbalances and adjust training 
+strategies. Her need for data-driven insights highlights the importance of tracking and visualizing 
+progress over time.
+
+* Marcos, the Social Trainer
+ ** Background
+Marcos is a 24-year-old graduate student from Chicago, Illinois, who treats fitness as a social activity.
+He trains with a close-knit group of friends three to four times per week, typically in the evenings. He 
+is moderately experienced with basic exercises and follows a loosely structured routine.
+
+ ** Fitness Behavior
+Marcos trains consistently when his workout group is available but struggles to maintain motivation when 
+training alone. His training depends heavily on social accountability and the presence of his friends. He 
+tracks workouts informally and shares milestones with his group. He thrives on friendly competition and 
+mutual encouragement, using social pressure to maintain consistency. Marcos values consistency streaks 
+and collective progress more than raw strength gains. He occasionally mentors less experienced friends in
+the gym, providing guidance and encouragement.
+
+ ** Motivations & Goals
+Marcos is primarily motivated by community, accountability, and shared achievement. He wants to maintain 
+strong connections with his workout group by tracking progress together and celebrating milestones. He 
+thrives in positive, friendly competitive environments that emphasize consistency and effort. Beyond 
+personal improvement, Marcos wants to inspire and motivate others to adopt healthier habits and build 
+supportive fitness communities.
+
+ ** Pain Points
+Marcos struggles to stay motivated when his workout group is unavailable, leading to inconsistent training
+during busy weeks or when schedules do not align. He finds it difficult to track shared progress and 
+celebrate group milestones without manual coordination. Current methods for comparing consistency and 
+effort among friends are fragmented and require external platforms. Marcos feels isolated when training 
+alone and lacks the accountability that his social group provides. He wants a way to foster a small, 
+supportive community centered around collective growth and mutual encouragement.
+
+ ** How This Persona Interacts With the Domain
+Marcos represents users for whom social dynamics are central to training consistency. His reliance on 
+group accountability reflects the domain principle that community support and shared accountability 
+contribute to long-term consistency. His focus on collective progress and consistency streaks highlights 
+the importance of tracking shared metrics like workout frequency and completion rates. His struggles when 
+training alone underscore the motivational role of social comparison and mutual support in maintaining 
+fitness engagement.
 
 
 ==== 2.2.3 Domain Requirements
-===== Principles
-* Fitness as a Journey of Personal Progress
- ** Improvement in strength, endurance, and consistency is a core driver of motivation. The system shall provide a mechanism with clear,
- quantifiable metrics and visual representations of a user's progress over time.
- ** A balanced approach targeting all major muscle groups is essential for preventing injury and achieving a well-rounded physique. 
- The system shall provide a mechanism that facilitate and encourage awareness of training distribution across the body.
+* Training Fundamentals
+ ** Training volume is calculated as weight × sets × repetitions. Exercises target one or more muscle 
+groups (e.g., Chest, Back, Legs, Shoulders, Arms, Core). A personal record (PR) represents the highest 
+weight successfully lifted for a given exercise. Muscle groups must be trained with balanced volume to 
+avoid long-term imbalances and reduce injury risk.
 
-* Engagement with Fitness Training
- ** Long-term consistency requires more than initial novelty. The system shall implement a layered reward structure (e.g., XP, achievements, ranks) that provides continuous feedback and celebrates milestones of varying difficulty.
- ** Fitness journeys can be reinforced through community. The system shall provide a mechanism for positive social comparison and mutual support that focuses on shared effort and consistency.
+* Progress and Performance
+ ** Strength and endurance improvements occur over extended periods of consistent training. Athletes 
+experience periods where strength or endurance does not increase despite continued training (performance 
+plateaus). Athletes stay motivated when progress is visible and measurable over time. Varying repetition 
+ranges can help overcome performance plateaus.
 
-===== Functional Requirements
-* Workout Logging
- **The system shall provide an interface for the user to log an exercise by specifying the exercise name, weight lifted, number of sets, and number of repetitions per set.
+* Training Behavior
+ ** Athletes track exercises by recording the exercise name, weight, sets, and repetitions. Long-term 
+consistency in training requires sustained motivation beyond initial enthusiasm. Training distribution 
+across muscle groups affects overall physique development and injury prevention.
+
+* Social Dynamics
+ ** Athletes are motivated by comparing their progress with peers who share similar fitness goals. 
+Achieving significant milestones provides opportunities for recognition and social reinforcement. 
+Community support and shared accountability contribute to training consistency.
+
+ 
+==== 2.2.4 Interface Requirements
+* Workout Logging Interface
+ ** The system shall provide an interface for users to log an exercise by specifying the exercise name,
+weight lifted, number of sets, and number of repetitions per set. The system shall require that every 
+logged exercise be associated with at least one primary muscle group. The interface shall enable a user to
+input and submit a standard 3-set exercise in under 30 seconds.
 
 * Progress Tracking
- ** The system shall calculate and display a historical graph of the total training volume (weight × sets × reps) 
-    for each muscle group over a user-selectable time period.
-** The system shall provide a mechanism that tracks and highlights new Personal Records (PRs) when a user logs a set with a higher weight for a given exercise than any previous set.
-** The system shall provide a mechanism that suggest alternative exercises during the logging process if the user's current selection disproportionately targets an already dominant muscle group based on the "Muscle Balance Score".
-** The system shall provide a mechanism for the users to input goals based on specific timeframes and automatically generate a structured, periodized workout plan toward that goal.
-** The system shall provide a mechanism for users to publicly share "milestone posts" when achieving significant achievements to facilitate positive social reinforcement.
-** The system shall provide a mechanism that detects a performance plateau, the system shall provide automated suggestion to changes in repetition ranges.
+ ** The system shall calculate and display a historical graph of total training volume for each muscle 
+group over a user-selectable time period. The system shall track and highlight new Personal Records (PRs) 
+when a user logs a set with higher weight than any previous set for that exercise. All charts and graphs 
+depicting muscle balance shall be understandable at a glance without requiring manual interpretation of 
+data tables.
 
+* Training Guidance
+ ** The system shall suggest alternative exercises during the logging process if the user's current 
+selection disproportionately targets an already dominant muscle group based on muscle balance metrics. 
+When the system detects a performance plateau, it shall provide automated suggestions for changes in 
+repetition ranges. The system shall allow users to input goals based on specific timeframes and 
+automatically generate a structured, periodized workout plan toward that goal.
 
-* Gamification System
-** The system shall provide a mechanism that assigns a user a rank (Bronze, Silver, Gold, etc.) for each muscle group, calculated based on the total historical training volume and PRs for that muscle group.
-** The system shall provide a mechanism that awards users experience points (XP) for completing workouts and achieving milestones.
+* Gamification Interface
+ ** The system shall assign users a rank (Bronze, Silver, Gold, etc.) for each muscle group, calculated 
+based on total historical training volume and PRs for that muscle group. The system shall award users
+experience points (XP) for completing workouts and achieving milestones.
+
 
 ==== 2.2.5 Machine Requirements
-* The system shall maintain an average response time of no more than 2 seconds for user interactions, such as updating activity data under normal operating conditions. In the event of a search query, the system shall return data retrieval operations within 4 seconds, even during peak usage.
-* The system shall run under normal conditions, when  concurrently running 300 user interactions that all randomly start within a 5 minute interval. Beyond this threshold, the system shall gracefully degrade its performance, prioritizing essential functionalities such as the viewing workout history and submitting of exercise logs. 
-* The system shall gracefully handle an increase when concurrently running 100 user interactions at any given time by dynamically allocating resources. Beyond this threshold, new user connections shall be queued, and the system shall restrict additional connections until resources become available. 
-* The system shall process and store a standard 3-set exercise log within 2 seconds of submission.
+* Data Integrity
+ ** The system shall maintain an average response time of no more than 2 seconds for user interactions, 
+such as updating activity data under normal operating conditions. In the event of a search query, the 
+system shall return data retrieval operations within 4 seconds, even during peak usage.
+
+* System Stability
+ ** The system shall run under normal conditions, when  concurrently running 300 user interactions that all
+randomly start within a 5 minute interval. Beyond this threshold, the system shall gracefully degrade its 
+performance, prioritizing essential functionalities such as the viewing workout history and submitting of 
+exercise logs.
+
+* System Efficiency
+ ** The system shall gracefully handle an increase when concurrently running 100 user interactions at any 
+given time by dynamically allocating resources. Beyond this threshold, new user connections shall be 
+queued, and the system shall restrict additional connections until resources become available. The system
+shall process and store a standard 3-set exercise log within 2 seconds of submission.
 
 ==== 2.3 Architecture Overview
 
