@@ -1214,6 +1214,15 @@ image::img/Software_Architecture.png[Architecture overview of core subsystems,al
 ** *Training Consistency:* Quantitative measures of regular participation and training.
 ** *Performance Plateau:* A stagnation in measurable or perceived progress that often leads to reduced motivation and disengagement.
 
+* Potential Ambiguities:
+The domain reveals several concepts that require clarification before modeling. For example, *progress* may refer to
+strength increase, visible physique changes, endurance, or consistency streaks, depending on the user's perspective.
+*Motivation* may arise from internal factors (confidence, mastery) or external factors (achievements, comparison), affecting
+how it should be represented in the model. *Training balance* can mean balanced weekly volume, balanced intensity, or long-term
+development, suggesting multiple interpretations. *Plateau* may indicate physiological stagnation, lack of training variation, or
+psychological fatigue. These ambiguities must be resolved when refining the domain model to ensure consistent
+terminology and logic.
+
 
 === 3.2 Validation and Verification
 
