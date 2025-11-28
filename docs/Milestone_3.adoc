@@ -215,8 +215,8 @@ Her structured schedule suggests the need for features that allow for advanced p
 
 ==== 2.3 Architecture Overview
 
-The architecture of Gamified Gym is organized around a small set of conceptual subsystems that mirror the domain model. 
-Each subsystem owns specific aggregates and repositories and is responsible for a distinct part of the athlete’s journey.
+The conceptual architecture is organized into four subsystems, each aligned with a specific group of aggregates and domain responsibilities.
+Each subsystem protects its own invariants and emits domain events that other subsystems may consume.
 
 Subsystem boundaries are defined by:
 
@@ -233,98 +233,248 @@ The main conceptual subsystems are:
 
 ==== 2.3.1 Core Subsystems and Responsibilities
 
+The conceptual architecture is organized into four subsystems, each aligned with a specific group of aggregates and domain responsibilities.
+Each subsystem protects its own invariants and emits domain events that other subsystems may consume.
+Subsystem boundaries are defined not only by ownership of aggregates, but also by the invariants each subsystem enforces and by what is not allowed to cross the boundary.
+
 *Training & Sessions Subsystem*
 
-- **Owned aggregates (examples):**
-  - `WorkoutSession` (root), with entities like `ExerciseEntry` and `SetEntry`.
-- **Responsibility:**
-  - Represent the structure and lifecycle of a single training session:
-  - Starting, updating, and completing workouts.
-  - Enforce invariants related to sets, reps, and exercises.
-- **Primary domain functions used/implemented here:**
-  - createExercise(name, reps, sets, intensity) → Exercise
-  - createSet(reps, weight, intensity) → Set
-  - createWorkoutRoutine(exercises, goal) → WorkoutRoutine
-  - startWorkoutSession(athlete) → WorkoutSession
-  - selectExercise(session, exercise) → UpdatedSession
-  - applyIntensity(exercise, intensity) → Exercise
-  - completeSet(exercise, reps, weight) → CompletedSet
-  - recordRest(session, duration) → RestPeriod
-  - endWorkoutSession(session) → Summary
-- **Exposed information:**
-  - Summary of completed sessions (volume, duration, date).
-  - Domain events such as `WorkoutCompleted`, `CompletedSet`, and `NewPersonalRecord` emitted when completeSet or endWorkoutSession runs.
+*Owned aggregates (examples):*
+- `WorkoutSession` (root), containing `ExerciseEntry`, `SetEntry`, rest periods, and session-level metadata.
+- Conceptual structures used to represent planned sessions or routines, where applicable.
+
+*Responsibility:*
+- Define and manage the structure of workouts and training sessions.
+- Plan and organize training sessions toward given goals (structuring a session or routine based on a training goal).
+- Manage the lifecycle of a workout session:
+  - Beginning a session.
+  - Choosing exercises.
+  - Recording sets, rest, and completion.
+
+*Key invariants enforced:*
+- A workout session has a valid chronological sequence of actions (no negative time, no “end” before “begin”).
+- Every recorded set belongs to a chosen exercise within that session.
+- Reps, weight, and intensity values obey domain constraints (non-negative quantities, valid intensity ranges).
+
+*Domain events emitted:*
+- *Exercise Completion Event*: triggered when an athlete completes a set or repetition.
+- *Workout Completion Event*: triggered when all planned exercises in a workout session are finished.
+- *Personal Best Event*: emitted when session performance surpasses previous records.
+
+*Exposed information:*
+- Structured training evidence (sets, exercises, volumes, muscle-group involvement).
+- Session-level summaries and events describing what actually happened during training.
+
+*Boundary constraints (what cannot cross this boundary):*
+- External subsystems cannot directly mutate `WorkoutSession` or its internal entities.
+- Training-specific structures (raw `ExerciseEntry` and `SetEntry`) are not exposed for modification outside the subsystem; external consumers only see read-only evidence or summaries.
+- Progress or social metrics (XP, ranks, relative standings) must not be defined inside Training & Sessions.
 
 *Progress & Gamification Subsystem*
 
-- **Owned aggregates (examples):**
-  - `AthleteProgress` (root), containing `XP`, `Level`, and collections of `Achievement`.
-- **Responsibility:**
-  - Track the long-term evolution of the athlete: accumulated XP, level, streaks, and achievements.
-  - Apply progression rules when new training evidence arrives.
-- **Primary domain functions used/implemented here:**
-  - updateProgress(athlete, metrics) → ProgressLog
-  - awardMilestone(athlete, achievement) → UpdatedProgress
-  - updateMuscleBalance(athlete, metrics) → MuscleBalanceScore
-  - detectPlateau(athlete, history) → PlateauStatus
-  - planworkoutSession(athlete, goal) → WorkoutSession 
-- **Dependencies:**
-  - Depends on Training & Sessions for events (CompletedSet, WorkoutCompleted) and input to updateProgress.
-- **Exposed information:**
-  - Current XP, level, streak status.
-  
+*Owned aggregates (examples):*
+- `AthleteProgress` (root), including:
+  - XP totals.
+  - Level.
+  - Streak state.
+  - Collections of `Achievement` or `Milestone`.
+
+*Responsibility:*
+- Interpret training evidence produced by Training & Sessions and maintain long-term progress representations.
+- Apply progression rules and enforce invariants, such as:
+  - XP accumulation and scaling rules.
+  - Achievement unlock conditions.
+  - Streak continuity and reset conditions.
+- Analyze historical training data to detect domain-relevant patterns:
+  - Shifts in muscle balance.
+  - Performance plateaus.
+  - Consistency trends.
+- Produce domain-level progress facts needed by other subsystems.
+
+*Key invariants enforced:*
+- XP totals cannot decrease arbitrarily; changes follow defined progression rules.
+- Achievements and milestones cannot be unlocked unless their domain criteria are satisfied.
+- Streaks are calculated according to consistent time windows and cannot be “patched” manually.
+- Muscle balance and plateau detection follow stable, documented rules.
+
+*Domain events emitted:*
+- *Achievement Unlocked Event*: emitted when accumulated progress meets the criteria for a milestone.
+- *Overtraining Warning Event*: emitted when long-term patterns indicate unhealthy imbalance or excessive fatigue.
+- *Personal Best Event*: may also be re-emitted or interpreted to update long-term progress (if applicable to the domain logic).
+
+*Exposed information:*
+- Abstract progress metrics (XP, level, streak length, achievement states).
+- Muscle balance indicators and other derived insights as domain facts.
+
+*Boundary constraints (what cannot cross this boundary):*
+- Raw training structures (`WorkoutSession`, `ExerciseEntry`, `SetEntry`) are not stored or mutated here; they are only interpreted as evidence.
+- UI-specific notions (screens, feeds, visualizations) are not modeled in this subsystem.
+- Social comparison structures (leaderboards, relative positions) are not owned here; they belong to Social Motivation.
+
+*Dependencies:*
+- Consumes training evidence and events from the Training & Sessions subsystem.
+- Does not plan or structure workouts (those responsibilities remain in Training & Sessions).
+
 *Social Motivation Subsystem*
 
-- **Owned aggregates (examples):**
-  - `SocialBoard` or `Leaderboard`, with entities like `LeaderboardEntry` linked to `AthleteId`.
-- **Responsibility:**
-  - Provide social comparison and accountability: leaderboards, rankings, and activity views that relate athletes.
-- **Primary domain functions used/implemented here:**
-  - awardMilestone(athlete, achievement) → UpdatedProgress 
-  - updateProgress() → outputs consumed to compute rankings and XP-based ordering
-  - (Consumes Progress & Gamification outputs to build social views)
-- **Dependencies:**
-  - Depends on Progress & Gamification for metrics such as XP, level, achievement counts.
-  - May also depend on Training & Sessions for recent activity summaries used in social feeds.
-- **Exposed information:**
-  - Ordered rankings of athletes according to defined criteria (XP, streaks).
-  - Aggregated social views like “friends recent workouts” and shareable milestone posts.
+*Owned aggregates (examples):*
+- `Leaderboard` (conceptual aggregate representing comparative performance data).
+- Social comparison structures such as `AthleteComparisonSet` or other domain constructs capturing which athletes are being compared and by what criteria.
+
+*Responsibility:*
+- Maintain domain-level structures that support social comparison and accountability.
+- Track comparison-relevant groupings and relations among athletes (sets of athletes being compared under a specific rule).
+- Produce rank-relevant domain facts, such as:
+  - Relative positions within a comparison set according to defined metrics.
+  - Changes in relative ordering when progress or consistency changes.
+- Enforce comparison invariants:
+  - Comparison metrics must be based on well-defined progress data.
+  - Ties and ranking rules are consistently applied.
+
+*Key invariants enforced:*
+- Each leaderboard or comparison structure is built on a clearly defined metric (XP, streak length) and time window.
+- Relative ordering is consistent with that metric (no contradictions such as two different athletes occupying the same rank without a tie rule).
+- Only athletes belonging to a given comparison set are included in its ranking.
+
+*Domain events emitted:*
+- *Achievement Unlocked Event*: reused contextually when an unlocked achievement is relevant to comparison structures.
+- *Personal Best Event*: reused when relevant for group-level performance comparison.
+
+*(Note: the Social subsystem does not introduce new domain events; it reinterprets existing ones in a comparative context.)*
+
+*Exposed information:*
+- Abstract comparative metrics, such as:
+  - Athlete ordering within a defined comparison set.
+  - Rank positions and changes in rank.
+  - Comparison-relevant state (“this athlete is above/below another according to metric X”).
+
+*Boundary constraints (what cannot cross this boundary):*
+- Social Motivation does not store or mutate `AthleteProgress` or `WorkoutSession` aggregates.
+- UI concepts such as posts, feeds, or visual layouts are not modeled here.
+- Identity details beyond the `AthleteId` and comparison-relevant facts are not managed here; those remain in Athlete Registry and other subsystems.
+
+*Dependencies:*
+- Consumes progress-related facts (XP, levels, achievements, streaks, muscle balance indicators) from Progress & Gamification.
+- May consume high-level training summaries from Training & Sessions when relevant for comparison logic.
 
 *Athlete Registry Subsystem*
 
-- **Owned aggregates (examples):**
-  - `Athlete` as the root entity representing a person who trains.
-- **Responsibility:**
-  - Represent stable information about each athlete that is needed by other subsystems (identifier, basic profile, configuration relevant to training).
-  - Provide the canonical `AthleteId` used across the model.
-- **Primary domain functions used/implemented here:**
-  - startWorkoutSession(athlete) → WorkoutSession (entry point uses AthleteId)
-  - planworkoutSession(athlete, goal) → WorkoutSession (when generating plans tied to athlete profile)
-- **Dependencies:**
-  - Conceptually independent of the other subsystems; it does not depend on Training, Progress, or Social.
-- **Exposed information:**
-  - Identity of athletes (their `AthleteId` and basic attributes) used to associate workouts, progress, and social entries with the correct person.
+*Owned aggregates (examples):*
+- `Athlete` as the root entity representing a person who trains, with stable identity and profile attributes.
+
+*Responsibility:*
+- Act as the canonical source of athlete identity in the domain.
+- Maintain invariants such as:
+  - Every athlete has a unique `AthleteId`.
+  - Profile and configuration attributes respect domain constraints.
+- Provide identity and static attributes used by other subsystems to associate training, progress, and social structures to specific athletes.
+
+*Key invariants enforced:*
+- No duplicate identities (unique `AthleteId` per athlete).
+- Identity is stable over time; other subsystems cannot reassign events from one athlete to another arbitrarily.
+- Only valid, domain-accepted attribute values are stored in the athlete profile.
+
+*Domain events emitted:*
+- *(None of the five defined events originate from Athlete Registry.)*
+
+*(Registry may reference events but does not emit them, consistent with its identity-only role.)*
+
+*Exposed information:*
+- `AthleteId` and stable profile attributes required for other subsystems to bind their aggregates and events to the correct athlete.
+
+*Boundary constraints (what cannot cross this boundary):*
+- Other subsystems cannot change `Athlete` identity or profile data directly; they can only reference athletes via `AthleteId`.
+- Training, progress, or social-specific state is not stored in Athlete Registry.
+
+*Dependencies:*
+- Conceptually independent of Training & Sessions, Progress & Gamification, and Social Motivation.
+- Serves as a foundational subsystem referenced by all others.
 
 ==== 2.3.2 Boundaries and Information Flows
 
-Subsystem boundaries follow three principles:
+Subsystem interactions follow strict, directional boundaries.
+The goal is to prevent cyclic dependencies while allowing higher-level abstractions to build on lower-level evidence.
+In addition to directional dependencies, each boundary defines what must not cross it and where translation/anti-corruption occurs.
 
-1. **Each subsystem owns its aggregates and repositories.**  
-   For example, only Training & Sessions modifies `WorkoutSession`, and only
-   Progress & Gamification modifies `AthleteProgress`. The functions that create and mutate session data (startWorkoutSession, selectExercise, completeSet, recordRest, endWorkoutSession) are implemented inside Training & Sessions; consumers call updateProgress or awardMilestone but do not directly mutate WorkoutSession.
+1. *Ownership, Invariants, and Isolation*
 
-2. **Information flows from more “concrete evidence” to more “derived views”.**  
-   - Training & Sessions provides factual evidence via functions/events:
-     - completeSet() and endWorkoutSession() yield CompletedSet, WorkoutSummary, and may generate NewPersonalRecord events.
-   - Progress & Gamification derives long-term state by calling updateProgress(athlete, metrics) when it consumes training events. It applies detectPlateau(athlete, history) and updateMuscleBalance(athlete, metrics) to compute suggestions and awards, and uses awardMilestone(...) to persist achievements.
-   - Social Motivation builds group-level views (rankings, social boards) by consuming outputs from updateProgress and awardMilestone to produce leaderboards and milestone posts.
+Each subsystem owns its aggregates and enforces its invariants:
 
-3. **Dependencies are directional and explicit.**  
-   - *Progress & Gamification depends on Training & Sessions*: Progress & Gamification consumes CompletedSet and WorkoutCompleted events produced by startWorkoutSession / completeSet / endWorkoutSession and then runs updateProgress(athlete, metrics). It does not modify WorkoutSession directly.
-   - *Social Motivation depends on Progress & Gamification (and sometimes Training)*: Social Motivation reads XP, levels, and achievement counts produced by updateProgress and awardMilestone to compute rankings and social feeds.
-   - *All subsystems reference Athlete Registry*: Training & Sessions, Progress & Gamification, and Social Motivation associate their aggregates with `AthleteId` from Athlete Registry, but the Athlete Registry itself does not depend on any of them.
+- Only *Training & Sessions* may alter `WorkoutSession` and training structures.
+- Only *Progress & Gamification* may alter `AthleteProgress` and its embedded progress state.
+- Only *Social Motivation* may alter `Leaderboard` and other social comparison aggregates.
+- Only *Athlete Registry* may alter `Athlete`.
 
-This keeps subsystems aligned with the domain model: each one is responsible for a specific part of the athlete’s journey and owns the aggregates that implement that responsibility.
+Other subsystems may read high-level domain facts or summaries, but they cannot directly mutate aggregates owned by another subsystem.
+This enforces a clear *anti-corruption boundary*: no subsystem is allowed to “reach inside” another subsystem’s aggregates and bypass its invariants.
+
+2. *Flow of Information: From Concrete Evidence → Derived Insights → Social Comparison*
+
+*Training & Sessions → Progress & Gamification*
+
+- Training & Sessions produces concrete training evidence in the form of:
+  - Completed sets and exercises.
+  - Session summaries (training volume, muscle group participation).
+  - Events such as `AthleteCompletesSet`, `AthleteEndsWorkoutSession`, `PersonalRecordAchieved`.
+- Progress & Gamification consumes this evidence to:
+  - Adjust XP and level.
+  - Update streaks.
+  - Unlock achievements.
+  - Detect shifts in muscle balance or plateaus.
+
+*Anti-corruption / translation at this boundary:*
+- Raw training structures (`WorkoutSession`, `ExerciseEntry`, `SetEntry`) are translated into neutral *evidence objects* or event payloads before entering Progress & Gamification.
+- Progress & Gamification does not manipulate `WorkoutSession` directly; it operates on a translated representation that is stable for its own invariants.
+
+*Progress & Gamification → Social Motivation*
+
+- Progress & Gamification produces progress facts such as:
+  - Current XP and level.
+  - Achievement and milestone states.
+  - Streak lengths.
+  - Balance or plateau indicators.
+
+- Social Motivation consumes these progress facts to:
+  - Construct and maintain comparison sets and rankings.
+  - Determine when relative positions change and emit events like `RelativeRankChanged`.
+
+*Anti-corruption / translation at this boundary:*
+- `AthleteProgress` is not exposed as a mutable aggregate to Social Motivation.
+- Instead, Social Motivation receives derived metrics (XP values, streak lengths, achievement counts, etc.) in a form adapted to its comparison rules.
+- Social Motivation’s comparison structures (`Leaderboard`) are built from these metrics, not from direct references to `AthleteProgress`.
+
+*Training & Sessions → Social Motivation*
+
+- When necessary for comparison, Social Motivation may also consume high-level training summaries such as:
+  - Number of recent sessions in a time window.
+  - Presence of recent personal records.
+
+*Anti-corruption / translation at this boundary:*
+- Social Motivation does not work with raw training aggregates; it uses translated summaries or events that encode only the information needed for comparison.
+
+3. *Role and Boundaries of Athlete Registry*
+
+- Every subsystem uses `AthleteId` from Athlete Registry to associate its aggregates and events with a specific athlete.
+- Athlete Registry does not depend on other subsystems; it is a foundational reference point rather than a consumer of training, progress, or social state.
+
+*Anti-corruption aspects:*
+- No subsystem may invent or reinterpret athlete identity; they must use the `AthleteId` and attributes exposed by Athlete Registry.
+- Mapping from external identifiers (user accounts in the outer world) to `AthleteId` happens through translation layers outside the domain subsystems; inside the domain, `AthleteId` is the stable reference.
+
+*Conceptual Summary*
+
+Overall, the subsystems form a conceptual pipeline:
+
+- *Training & Sessions* provides *concrete evidence* about what the athlete actually did.
+- *Progress & Gamification* converts that evidence into *interpreted, long-term insights* about the athlete’s journey.
+- *Social Motivation* uses those insights (and, when needed, high-level training summaries) to derive *social comparison structures* that describe how athletes relate to each other.
+- *Athlete Registry* underpins all of this with stable identity, ensuring that every event, aggregate, and comparison is consistently tied to the correct athlete.
+
+Subsystem boundaries are enforced through:
+
+- Strict ownership of aggregates and invariants.
+- Directional dependencies.
+- Translation and anti-corruption layers between subsystems so that no aggregate is modified outside its owning subsystem and no boundary is crossed with raw, uncontrolled structures.
 
 ==== 2.3.3 Conceptual Architecture Diagram
 
