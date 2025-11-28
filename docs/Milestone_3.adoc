@@ -633,12 +633,12 @@ The primary requirements defined for this project include:
 
 ==== 2.2.2 Personas
 * Alex, the Beginner
- ** Background
+ ** Background:
 Alex is a 28-year-old office worker with long hours at a marketing firm in Miami, Florida. He 
 experiences daily fatigue from sitting at a desk and has minimal experience with structured fitness 
 training. He trains irregularly, attempting workouts after work when energy levels are low.
 
- ** Fitness Behavior
+ ** Fitness Behavior:
 Alex is new to the gym and trains inconsistently, often skipping workouts after a few weeks. He does not
 follow a structured program and is unsure which exercises target which muscle groups. He attempts to track
 workouts informally but lacks understanding of whether his training is balanced. He struggles to identify
@@ -646,13 +646,13 @@ whether he is making progress and does not know how to adjust weight, sets, or r
 feels uncertain about proper form and intensity, leading to cautious, conservative training that may 
 limit progress.
 
- ** Motivations & Goals
+ ** Motivations & Goals:
 Alex wants to build a consistent workout habit to improve energy levels and overall health. He seeks to 
 feel more confident in his physical capabilities and reduce sluggishness from sedentary work. Small, 
 visible wins motivate him to continue, as he wants proof that his effort is producing results. He is 
 motivated by clear guidance that removes uncertainty about what to do next.
 
- ** Pain Points
+ ** Pain Points:
 Alex feels overwhelmed by fitness terminology and unsure where to start. He fears developing muscle 
 imbalances or injuring himself by doing exercises incorrectly or overdoing certain movements. He struggles
 to maintain motivation when he cannot see or measure his progress. Current tracking methods feel tedious 
@@ -660,7 +660,7 @@ and provide no meaningful feedback. Alex feels anxious when other people can see
 progress, particularly early in his fitness journey when results are minimal. He experiences difficulty 
 fitting workouts into busy, irregular schedules.
 
- ** How This Persona Interacts With the Domain
+ ** How This Persona Interacts With the Domain:
 Alex represents beginners who need clarity on training fundamentals: which muscle groups are being 
 trained, whether volume is balanced, and whether progress is occurring. He requires visibility into basic
 metrics like training volume and frequency to build confidence. His anxiety about imbalances and injury 
@@ -668,13 +668,13 @@ reflects the domain principle that balanced training across muscle groups is ess
 development.
 
 * Diego, the Competitive Gamer
- ** Background
+ ** Background:
 Diego is a 22-year-old computer science student from San Juan, Puerto Rico. He has irregular training 
 availability due to coursework and gaming schedules, and he trains in the afternoons or evenings when time
 permits. He is a relative beginner with limited gym experience but is familiar with progression systems 
 from gaming.
 
- ** Fitness Behavior
+ ** Fitness Behavior:
 Diego trains inconsistently, often stopping after a few weeks when motivation fades. He performs 
 exercises without tracking detailed metrics and lacks structure in his routine. He does not have a clear 
 understanding of how to progress in strength or volume over time. Diego is drawn to visible indicators of 
@@ -682,13 +682,13 @@ improvement but current methods do not provide this feedback. He trains alone an
 accountability, often skipping sessions when external motivation is absent. He is motivated by comparisons
 with friends and wants to demonstrate physical improvements in social settings.
 
- ** Motivations & Goals
+ ** Motivations & Goals:
 Diego wants to improve his physical strength to feel more capable in physical challenges with friends. He 
 is motivated by measurable progress that feels similar to leveling up or earning achievements in games. He
 seeks consistency by transforming workouts into rewarding, quantifiable experiences. Diego values 
 competition and wants to compare his progress with peers to stay motivated.
 
- ** Pain Points
+ ** Pain Points:
 Diego finds gym training repetitive and unrewarding, lacking the sense of achievement he experiences in 
 gaming. He struggles with accountability when training alone and needs external motivation to maintain 
 consistency. Current tracking methods feel lifeless and provide no feedback on whether effort is 
@@ -696,7 +696,7 @@ translating into progress. He does not know whether his training is balanced or 
 physically weaker than his friends and wants proof of improvement to build confidence in social 
 situations.
 
- ** How This Persona Interacts With the Domain
+ ** How This Persona Interacts With the Domain:
 Diego represents users who require visible, quantifiable progress metrics to sustain motivation. He needs 
 clear indicators of strength improvement, training volume accumulation, and consistency over time. His 
 competitive nature aligns with the domain principle that social comparison and shared effort can 
@@ -704,12 +704,12 @@ reinforce fitness journeys. His struggles with accountability highlight the impo
 consistency metrics like streaks and completion rates. 
 
 * Sarah, the Consistent Trainer
- ** Background
+ ** Background:
 Sarah is a 32-year-old high school teacher from Austin, Texas, who has maintained a regular gym routine 
 for two years. She trains early in the morning before school and follows a structured schedule. She is 
 knowledgeable about basic exercises and nutrition and is experienced with fundamental training principles.
 
- ** Fitness Behavior
+ ** Fitness Behavior:
 Sarah trains consistently four to five times per week, following a self-designed routine. She tracks 
 sets, reps, and weights informally in a notes app but has limited visibility into trends or patterns. 
 She has recently experienced a performance plateau where strength and endurance are no longer improving 
@@ -718,14 +718,14 @@ confirm this. She understands basic progression principles but is uncertain how 
 overcome the plateau. She values discipline and data-driven insights but finds her current tracking 
 method fragmented and non-actionable.
 
- ** Motivations & Goals
+ ** Motivations & Goals:
 Sarah wants to optimize her training to overcome her current plateau and ensure balanced development 
 across all muscle groups. She is motivated by measurable results and continuous improvement. She seeks to 
 deepen her understanding of training principles and apply data-driven insights to her routine. Sarah 
 wants to add a new layer of challenge and engagement to her well-established fitness routine beyond 
 simply increasing weight.
 
- ** Pain Points
+ ** Pain Points:
 Sarah has hit a performance plateau and suspects unbalanced training is contributing to stagnation. Her 
 current tracking method provides no actionable insights into volume distribution, progress trends, or 
 muscle group balance. She finds most fitness apps too simplistic and not designed for experienced, 
@@ -733,7 +733,7 @@ disciplined users. Sarah feels frustrated that her routine has become repetitive
 challenges. She needs detailed, data-driven analytics to identify weaknesses and adjust her training 
 effectively.
 
- ** How This Persona Interacts With the Domain
+ ** How This Persona Interacts With the Domain:
 Sarah represents experienced users who understand training fundamentals but require deeper insights into 
 performance trends and muscle balance. Her plateau reflects the domain principle that athletes experience 
 periods where progress stagnates despite continued effort. She needs visibility into training volume 
@@ -742,12 +742,12 @@ strategies. Her need for data-driven insights highlights the importance of track
 progress over time.
 
 * Marcos, the Social Trainer
- ** Background
+ ** Background:
 Marcos is a 24-year-old graduate student from Chicago, Illinois, who treats fitness as a social activity.
 He trains with a close-knit group of friends three to four times per week, typically in the evenings. He 
 is moderately experienced with basic exercises and follows a loosely structured routine.
 
- ** Fitness Behavior
+ ** Fitness Behavior:
 Marcos trains consistently when his workout group is available but struggles to maintain motivation when 
 training alone. His training depends heavily on social accountability and the presence of his friends. He 
 tracks workouts informally and shares milestones with his group. He thrives on friendly competition and 
@@ -755,14 +755,14 @@ mutual encouragement, using social pressure to maintain consistency. Marcos valu
 and collective progress more than raw strength gains. He occasionally mentors less experienced friends in
 the gym, providing guidance and encouragement.
 
- ** Motivations & Goals
+ ** Motivations & Goals:
 Marcos is primarily motivated by community, accountability, and shared achievement. He wants to maintain 
 strong connections with his workout group by tracking progress together and celebrating milestones. He 
 thrives in positive, friendly competitive environments that emphasize consistency and effort. Beyond 
 personal improvement, Marcos wants to inspire and motivate others to adopt healthier habits and build 
 supportive fitness communities.
 
- ** Pain Points
+ ** Pain Points:
 Marcos struggles to stay motivated when his workout group is unavailable, leading to inconsistent training
 during busy weeks or when schedules do not align. He finds it difficult to track shared progress and 
 celebrate group milestones without manual coordination. Current methods for comparing consistency and 
@@ -770,7 +770,7 @@ effort among friends are fragmented and require external platforms. Marcos feels
 alone and lacks the accountability that his social group provides. He wants a way to foster a small, 
 supportive community centered around collective growth and mutual encouragement.
 
- ** How This Persona Interacts With the Domain
+ ** How This Persona Interacts With the Domain:
 Marcos represents users for whom social dynamics are central to training consistency. His reliance on 
 group accountability reflects the domain principle that community support and shared accountability 
 contribute to long-term consistency. His focus on collective progress and consistency streaks highlights 
