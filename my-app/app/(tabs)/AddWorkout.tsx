@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,116 +10,139 @@ import {
   KeyboardAvoidingView,
   Platform,
   Modal,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import { useExercises } from "./exerciseStore"; // assumes this hook is typed
+import { useExercises, ExercisePayload } from "./exerciseStore"; 
+import { supabase } from "../../lib/supabaseClient";
 
 const BLUE = "#2C82FF";
 const RED = "#E14B4B";
 const CARD_BG = "#FFFFFF";
-const LIGHT_SHADOW = {
-  shadowColor: "#000",
-  shadowOpacity: 0.08,
-  shadowRadius: 12,
-  shadowOffset: { width: 0, height: 6 },
-  elevation: 4,
-} as const;
+const LIGHT_SHADOW = { shadowColor: "#000", shadowOpacity: 0.08, shadowRadius: 12, shadowOffset: { width: 0, height: 6 }, elevation: 4 } as const;
 
 const EXERCISES = [
-  "Bench Press",
-  "Incline Dumbbell Press",
-  "Push-ups",
-  "Lat Pulldown",
-  "Barbell Row",
-  "Squat",
-  "Leg Press",
-  "Deadlift",
-  "Overhead Press",
-  "Bicep Curl",
-  "Triceps Pushdown",
+  "Bench Press", "Incline Dumbbell Press", "Push-ups", "Lat Pulldown", 
+  "Barbell Row", "Squat", "Leg Press", "Deadlift", "Overhead Press", 
+  "Bicep Curl", "Triceps Pushdown",
 ] as const;
 
 const AddWorkoutScreen: React.FC = () => {
   const [title, setTitle] = useState<string>("");
-
-  const { savedExercises, addExercise, updateExerciseAt, deleteExerciseAt } = useExercises();
+  const { savedExercises, addExercise, updateExerciseAt, deleteExerciseAt, setExercises } = useExercises();
 
   const exCount = savedExercises.length;
-  const setCount = useMemo(
-    () => savedExercises.reduce((sum, e) => sum + (Number(e.sets) || 0), 0),
-    [savedExercises]
-  );
+  const setCount = useMemo(() => savedExercises.reduce((sum, e) => sum + (e.target_sets || 0), 0), [savedExercises]);
 
   const [showTile, setShowTile] = useState<boolean>(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [selectedExercise, setSelectedExercise] = useState<string | null>(null);
   const [sets, setSets] = useState<number>(3);
   const [reps, setReps] = useState<number>(12);
-  const [duration, setDuration] = useState<string>("");
+  const [rest, setRest] = useState<number>(60);
+
+  // Load the first routine from Supabase if exists
+  useEffect(() => {
+    const fetchRoutines = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from("routines")
+        .select("*")
+        .eq("user_id", user.id);
+
+      if (error) {
+        console.error(error);
+        Alert.alert("Error fetching routines");
+      } else if (data && data.length > 0) {
+        const firstRoutine = data[0];
+        setTitle(firstRoutine.title);
+        setExercises(firstRoutine.exercises || []);
+      }
+    };
+
+    fetchRoutines();
+  }, []);
 
   const openCreate = () => {
     setEditingIndex(null);
     setSelectedExercise(null);
     setSets(3);
     setReps(12);
-    setDuration("");
+    setRest(60);
     setShowTile(true);
   };
 
   const openEdit = (index: number) => {
     const ex = savedExercises[index];
     setEditingIndex(index);
-    setSelectedExercise(ex.name);
-    setSets(ex.sets);
-    setReps(ex.reps);
-    setDuration(ex.duration || "");
+    setSelectedExercise(ex.exercise_name);
+    setSets(ex.target_sets);
+    setReps(ex.target_reps);
+    setRest(ex.rest_seconds || 60);
     setShowTile(true);
   };
 
   const closeModal = () => setShowTile(false);
 
   const onSaveExercise = () => {
-    if (!selectedExercise) {
-      alert("Please select an exercise");
-      return;
-    }
+    if (!selectedExercise) return Alert.alert("Please select an exercise");
+
+    const payload: ExercisePayload = {
+      exercise_name: selectedExercise,
+      target_sets: sets,
+      target_reps: reps,
+      rest_seconds: rest,
+    };
+
     if (editingIndex !== null) {
-      updateExerciseAt(editingIndex, {
-        name: selectedExercise,
-        sets,
-        reps,
-        duration,
-      });
+      updateExerciseAt(editingIndex, payload);
     } else {
-      addExercise({
-        name: selectedExercise,
-        sets,
-        reps,
-        duration,
-      });
+      addExercise(payload);
     }
-    setEditingIndex(null);
-    setSelectedExercise(null);
-    setSets(3);
-    setReps(12);
-    setDuration("");
-    setShowTile(false);
+    closeModal();
+  };
+
+  const onSaveWorkout = async () => {
+    if (!title) return Alert.alert("Please add a title");
+    if (savedExercises.length === 0) return Alert.alert("Add at least one exercise");
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    // Map exercises to include order_index
+    const formattedExercises = savedExercises.map((ex, idx) => ({
+      ...ex,
+      order_index: idx + 1,
+    }));
+
+    const { data, error } = await supabase.from("routines").insert([
+      {
+        user_id: user.id,
+        title,
+        notes: "",
+        exercises: formattedExercises,
+      },
+    ]);
+
+    if (error) {
+      console.error(error);
+      Alert.alert("Error saving workout");
+    } else {
+      Alert.alert("Workout saved!");
+      setTitle("");
+      setExercises([]);
+    }
   };
 
   return (
     <SafeAreaView style={styles.safe}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-          {/* Main card */}
           <View style={styles.card}>
-            <View style={styles.headerBar}>
-              <Text style={styles.headerText}>Add Workout</Text>
-            </View>
-
+            <View style={styles.headerBar}><Text style={styles.headerText}>Add Workout</Text></View>
             <TextInput
               value={title}
               onChangeText={setTitle}
@@ -127,53 +150,30 @@ const AddWorkoutScreen: React.FC = () => {
               placeholderTextColor="#6B6B6B"
               style={styles.input}
             />
-
-            <Text style={styles.counts}>
-              {exCount} exercises, {setCount} sets
-            </Text>
-
+            <Text style={styles.counts}>{exCount} exercises, {setCount} sets</Text>
             <Text style={styles.subTitle}>Add exercises</Text>
-
             <TouchableOpacity style={styles.addPill} activeOpacity={0.75} onPress={openCreate}>
-              <View style={styles.plusIcon}>
-                <Ionicons name="add" size={18} />
-              </View>
+              <View style={styles.plusIcon}><Ionicons name="add" size={18} /></View>
               <Text style={styles.addPillText}>Add exercises</Text>
             </TouchableOpacity>
           </View>
 
-          {/* Saved Exercises Section */}
           <View style={[styles.card, { marginTop: 16 }]}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Saved Exercises</Text>
               <Text style={styles.sectionSub}>Tap to edit · {savedExercises.length} total</Text>
             </View>
-
             {savedExercises.length === 0 ? (
-              <Text style={{ color: "#666", marginHorizontal: 16, marginBottom: 14 }}>
-                No saved exercises yet. Add your first one!
-              </Text>
+              <Text style={{ color: "#666", marginHorizontal: 16, marginBottom: 14 }}>No saved exercises yet. Add your first one!</Text>
             ) : (
               <View style={{ paddingHorizontal: 12, paddingBottom: 8 }}>
                 {savedExercises.map((ex, idx) => (
-                  <View key={ex.id || `${ex.name}-${idx}`} style={styles.savedItem}>
-                    <TouchableOpacity
-                      style={{ flex: 1 }}
-                      activeOpacity={0.85}
-                      onPress={() => openEdit(idx)}
-                    >
-                      <Text style={styles.savedName}>{ex.name}</Text>
-                      <Text style={styles.savedMeta}>
-                        {ex.sets} sets · {ex.reps} reps
-                        {ex.duration ? ` · ${ex.duration}` : ""}
-                      </Text>
+                  <View key={ex.id} style={styles.savedItem}>
+                    <TouchableOpacity style={{ flex: 1 }} activeOpacity={0.85} onPress={() => openEdit(idx)}>
+                      <Text style={styles.savedName}>{ex.exercise_name}</Text>
+                      <Text style={styles.savedMeta}>{ex.target_sets} sets · {ex.target_reps} reps · {ex.rest_seconds}s rest</Text>
                     </TouchableOpacity>
-
-                    <TouchableOpacity
-                      onPress={() => deleteExerciseAt(idx)}
-                      style={styles.trashBtn}
-                      activeOpacity={0.8}
-                    >
+                    <TouchableOpacity onPress={() => deleteExerciseAt(idx)} style={styles.trashBtn} activeOpacity={0.8}>
                       <Ionicons name="trash" size={18} color="#A33" />
                     </TouchableOpacity>
                   </View>
@@ -181,100 +181,59 @@ const AddWorkoutScreen: React.FC = () => {
               </View>
             )}
           </View>
-
           <View style={{ height: 120 }} />
         </ScrollView>
 
         <View style={styles.saveWrap}>
-          <TouchableOpacity style={styles.saveBtn} activeOpacity={0.85} onPress={() => {}}>
+          <TouchableOpacity style={styles.saveBtn} activeOpacity={0.85} onPress={onSaveWorkout}>
             <Text style={styles.saveText}>Save Workout</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
 
-      {/* Create/Edit Exercise Modal */}
+      {/* Exercise Modal */}
       <Modal visible={showTile} animationType="fade" transparent onRequestClose={closeModal}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          style={styles.modalRoot}
-        >
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.modalRoot}>
           <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={closeModal} />
           <View style={styles.tileCard}>
-            <TouchableOpacity style={styles.closeBtn} onPress={closeModal}>
-              <Ionicons name="close" size={20} color="#333" />
-            </TouchableOpacity>
-
+            <TouchableOpacity style={styles.closeBtn} onPress={closeModal}><Ionicons name="close" size={20} color="#333" /></TouchableOpacity>
             <Text style={styles.tileLabel}>Exercise</Text>
             <View style={styles.pickerWrap}>
-              <Picker<string | null>
-                selectedValue={selectedExercise}
-                onValueChange={(val) => setSelectedExercise(val)}
-                dropdownIconColor="#333"
-              >
+              <Picker<string | null> selectedValue={selectedExercise} onValueChange={setSelectedExercise} dropdownIconColor="#333">
                 <Picker.Item label="Select an exercise..." value={null} />
-                {EXERCISES.map((ex) => (
-                  <Picker.Item key={ex} label={ex} value={ex} />
-                ))}
+                {EXERCISES.map((ex) => <Picker.Item key={ex} label={ex} value={ex} />)}
               </Picker>
             </View>
 
-            {/* Sets & Reps */}
             <View style={styles.row}>
               <View style={styles.counterCard}>
-                <TouchableOpacity
-                  onPress={() => setSets((v) => Math.max(0, v - 1))}
-                  style={styles.counterBtn}
-                >
-                  <Ionicons name="remove" size={18} />
-                </TouchableOpacity>
-                <View style={styles.counterBubble}>
-                  <Text style={styles.counterNumber}>{sets}</Text>
-                  <Text style={styles.counterSub}>Sets</Text>
-                </View>
-                <TouchableOpacity onPress={() => setSets((v) => v + 1)} style={styles.counterBtn}>
-                  <Ionicons name="add" size={18} />
-                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setSets((v) => Math.max(0, v - 1))} style={styles.counterBtn}><Ionicons name="remove" size={18} /></TouchableOpacity>
+                <View style={styles.counterBubble}><Text style={styles.counterNumber}>{sets}</Text><Text style={styles.counterSub}>Sets</Text></View>
+                <TouchableOpacity onPress={() => setSets((v) => v + 1)} style={styles.counterBtn}><Ionicons name="add" size={18} /></TouchableOpacity>
               </View>
 
               <View style={styles.counterCard}>
-                <TouchableOpacity
-                  onPress={() => setReps((v) => Math.max(0, v - 1))}
-                  style={styles.counterBtn}
-                >
-                  <Ionicons name="remove" size={18} />
-                </TouchableOpacity>
-                <View style={styles.counterBubble}>
-                  <Text style={styles.counterNumber}>{reps}</Text>
-                  <Text style={styles.counterSub}>Reps</Text>
-                </View>
-                <TouchableOpacity onPress={() => setReps((v) => v + 1)} style={styles.counterBtn}>
-                  <Ionicons name="add" size={18} />
-                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setReps((v) => Math.max(0, v - 1))} style={styles.counterBtn}><Ionicons name="remove" size={18} /></TouchableOpacity>
+                <View style={styles.counterBubble}><Text style={styles.counterNumber}>{reps}</Text><Text style={styles.counterSub}>Reps</Text></View>
+                <TouchableOpacity onPress={() => setReps((v) => v + 1)} style={styles.counterBtn}><Ionicons name="add" size={18} /></TouchableOpacity>
+              </View>
+
+              <View style={styles.counterCard}>
+                <TouchableOpacity onPress={() => setRest((v) => Math.max(0, v - 5))} style={styles.counterBtn}><Ionicons name="remove" size={18} /></TouchableOpacity>
+                <View style={styles.counterBubble}><Text style={styles.counterNumber}>{rest}</Text><Text style={styles.counterSub}>Rest s</Text></View>
+                <TouchableOpacity onPress={() => setRest((v) => v + 5)} style={styles.counterBtn}><Ionicons name="add" size={18} /></TouchableOpacity>
               </View>
             </View>
-
-            <Text style={[styles.tileLabel, { marginTop: 14 }]}>Duration:</Text>
-            <TextInput
-              value={duration}
-              onChangeText={setDuration}
-              placeholder="optional (e.g., 45s)"
-              placeholderTextColor="#6B6B6B"
-              style={styles.tileInput}
-            />
 
             <View style={styles.actionsRow}>
               <TouchableOpacity style={[styles.actionBtn, { backgroundColor: BLUE }]} onPress={onSaveExercise}>
                 <Text style={styles.actionTextLight}>{editingIndex !== null ? "Update" : "Save"}</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.actionBtn, { backgroundColor: RED }]}
-                onPress={() => {
-                  if (editingIndex !== null) deleteExerciseAt(editingIndex);
-                  closeModal();
-                }}
-              >
-                <Text style={styles.actionTextLight}>Delete</Text>
-              </TouchableOpacity>
+              {editingIndex !== null && (
+                <TouchableOpacity style={[styles.actionBtn, { backgroundColor: RED }]} onPress={() => { deleteExerciseAt(editingIndex); closeModal(); }}>
+                  <Text style={styles.actionTextLight}>Delete</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </KeyboardAvoidingView>

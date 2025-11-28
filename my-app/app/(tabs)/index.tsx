@@ -13,6 +13,7 @@ export type RootStackParamList = {
   ExerciseLog: undefined; 
   MealLog: undefined; 
   Achievements: { from?: string };
+  Challenges: undefined;
 };
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
@@ -63,6 +64,8 @@ export default function index() {
             >
             <Text style={styles.buttonText}>Log In</Text>
             </TouchableOpacity>
+            
+
             {/* <Button
               title="Go to Home"
               onPress={() => navigation.navigate("Home")}
