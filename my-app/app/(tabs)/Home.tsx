@@ -130,17 +130,12 @@ export default function Home() {
         <View style={styles.actionsRow}>
           <TouchableOpacity
             style={styles.actionButton}
-            onPress={() => {
-              checkNavigationInvariants(navigation);
-              if (!userName) {
-                Alert.alert("Access Denied", "You must be logged in to start a workout.");
-                return;
-              }
-              navigation.navigate("ExerciseLog");
-            }}
+            onPress={() => navigation.navigate("workoutSelection")}
           >
             <Text style={styles.actionText}>Start Workout</Text>
           </TouchableOpacity>
+
+
 
           <TouchableOpacity style={styles.actionButton}>
             <Text style={styles.actionText}>Log Meal</Text>
@@ -182,6 +177,13 @@ export default function Home() {
         <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
           <Image
             source={require("../../assets/images/settings.png")}
+            style={styles.navIcon}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate("Challenges")}>
+          <Image
+            source={require("../../assets/images/trophy.png")}
             style={styles.navIcon}
           />
         </TouchableOpacity>
