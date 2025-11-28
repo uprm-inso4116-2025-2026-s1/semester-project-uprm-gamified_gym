@@ -1,5 +1,5 @@
 import { Animated, Pressable } from "react-native";
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
+import { supabase } from "../../lib/supabaseClient";
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
@@ -22,8 +23,6 @@ type RootStackParamList = {
 };
 
 type AchievementsRouteProp = RouteProp<RootStackParamList, "Achievements">;
-
-
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
 type AchievementCardProps = {
@@ -35,7 +34,132 @@ type AchievementCardProps = {
   onPress?: () => void;
 };
 
+type AchievementConfig = {
+  code: string; // matches achievements.code in Supabase
+  title: string;
+  subtitle: string;
+  icon?: any;
+  color?: string;
+  description: string;
+};
+
+type AchievementItem = AchievementConfig & {
+  progress: number; // 0–100
+  earnedAt?: string | null;
+};
+
 const BLUE = "#2C82FF";
+
+/** Local achievement definitions (front-end only metadata) */
+const BASE_ACHIEVEMENTS: AchievementItem[] = [
+  {
+    code: "first_workout_logged",
+    title: "First Workout \n Logged",
+    subtitle: "Star",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    color: "#2C82FF",
+    description: "Log your first workout in Gamified Gym.",
+  },
+
+  // You can give these real codes/descriptions later
+  {
+    code: "streak_3_days",
+    title: "Streaks",
+    subtitle: "Freshman",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    description: "Complete workouts 3 days in a row.",
+  },
+  {
+    code: "strength_1",
+    title: "Strength",
+    subtitle: "Sophomore",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    description: "Finish your first strength-focused workout.",
+  },
+  {
+    code: "holiday_workout",
+    title: "Holidays",
+    subtitle: "Sophomore",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    description: "Do a workout on a holiday.",
+  },
+  {
+    code: "flexibility_1",
+    title: "Flexibility",
+    subtitle: "Bronze",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    description: "Complete a stretching or flexibility routine.",
+  },
+  {
+    code: "cardio_1",
+    title: "Cardio",
+    subtitle: "Rookie",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    description: "Finish your first pure cardio workout.",
+  },
+  {
+    code: "endurance_1",
+    title: "Endurance",
+    subtitle: "Silver",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    description: "Stay active for a long session without giving up.",
+  },
+  {
+    code: "consistency_1",
+    title: "Consistency",
+    subtitle: "Gold",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    description: "Work out several times in one week.",
+  },
+  {
+    code: "hydration_1",
+    title: "Hydration",
+    subtitle: "Hydrated",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    description: "Track your water intake while working out.",
+  },
+  {
+    code: "calories_burned_1",
+    title: "Calories Burned",
+    subtitle: "Burner",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    description: "Burn a significant number of calories in a session.",
+  },
+  {
+    code: "workouts_logged_5",
+    title: "Workouts Logged",
+    subtitle: "Tracker",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    description: "Log multiple workouts in Gamified Gym.",
+  },
+  {
+    code: "daily_checkins_1",
+    title: "Daily Check-ins",
+    subtitle: "Visitor",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    description: "Open the app and check in for the day.",
+  },
+  {
+    code: "gym_time_1",
+    title: "Gym Time",
+    subtitle: "Grinder",
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    description: "Spend serious time finishing a full workout.",
+  },
+];
 
 const AchievementCard: React.FC<AchievementCardProps> = ({
   title,
@@ -72,18 +196,11 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
       onPressOut={animateOut}
     >
       <AnimatedLinearGradient
-        colors={[
-        "#f9fcfdff",  // light gloss
-        "#f9fcfdff",  // mid tone
-        "#f9fcfdff",  // deep blue
-        "#f9fcfdff"   // shadow
-      ]}
+        colors={["#f9fcfdff", "#f9fcfdff", "#f9fcfdff", "#f9fcfdff"]}
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 1 }}
         style={[styles.card, { transform: [{ scale }] }]}
       >
-
-        
         <Text style={styles.cardTitle}>{title}</Text>
 
         <View style={styles.cardIconWrapper}>
@@ -100,46 +217,24 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
             <View style={[styles.progressFill, { width: `${progress}%` }]} />
           </View>
         </View>
-
       </AnimatedLinearGradient>
     </Pressable>
   );
 };
 
-const achievementsList = [
-  { 
-    title: "First Workout \n Logged", 
-    subtitle: "Star", 
-    progress: 0,
-    icon: require("../../assets/images/achieve1.png"),
-    color: "#2C82FF",
-    description: "Reach a new ranking tier by completing fitness challenges."
-  },
-  { title: "Streaks", subtitle: "Freshman", progress: 0 },
-  { title: "Strength", subtitle: "Sophomore", progress: 0 },
-  { title: "Holidays", subtitle: "Sophomore", progress: 0 },
-
-  // ⭐ Add 9 more
-  { title: "Flexibility", subtitle: "Bronze", progress: 0 },
-  { title: "Cardio", subtitle: "Rookie", progress: 0 },
-  { title: "Endurance", subtitle: "Silver", progress: 0 },
-  { title: "Consistency", subtitle: "Gold", progress: 0 },
-  { title: "Hydration", subtitle: "Hydrated", progress: 0 },
-  { title: "Calories Burned", subtitle: "Burner", progress: 0 },
-  { title: "Workouts Logged", subtitle: "Tracker", progress: 0 },
-  { title: "Daily Check-ins", subtitle: "Visitor", progress: 0 },
-  { title: "Gym Time", subtitle: "Grinder", progress: 0 },
-];
-
-
 const Achievements: React.FC = () => {
   const navigation = useNavigation<NavProp>();
   const route = useRoute<AchievementsRouteProp>();
   const from = route.params?.from;
-  const [selected, setSelected] = React.useState<any>(null);
-  const slideAnim = useRef(new Animated.Value(0)).current; // 1 = off-screen
 
-  const openPanel = (item: any) => {
+  const [achievements, setAchievements] =
+    React.useState<AchievementItem[]>(BASE_ACHIEVEMENTS);
+  const [loading, setLoading] = React.useState(false);
+
+  const [selected, setSelected] = React.useState<AchievementItem | null>(null);
+  const slideAnim = useRef(new Animated.Value(1)).current; // 1 = off-screen
+
+  const openPanel = (item: AchievementItem) => {
     setSelected(item);
     Animated.timing(slideAnim, {
       toValue: 0,
@@ -156,7 +251,74 @@ const Achievements: React.FC = () => {
     }).start(() => setSelected(null));
   };
 
+  // ---------- Load user achievements from Supabase ----------
+  useEffect(() => {
+    let isMounted = true;
 
+    const load = async () => {
+      setLoading(true);
+      try {
+        const { data: userData, error: userError } =
+          await supabase.auth.getUser();
+
+        if (userError || !userData?.user) {
+          console.log("No logged-in user for achievements:", userError);
+          // Just show all as locked
+          if (isMounted) setAchievements(BASE_ACHIEVEMENTS);
+          return;
+        }
+
+        const user = userData.user;
+
+        // user_achievements with joined achievements (for .code)
+        const { data, error } = await supabase
+          .from("user_achievements")
+          .select("achievement_id, earned_at, achievements ( code )")
+          .eq("user_id", user.id);
+
+        if (error) {
+          console.log("Error loading user_achievements:", error);
+          if (isMounted) setAchievements(BASE_ACHIEVEMENTS);
+          return;
+        }
+
+        const earned = (data ?? []) as any[];
+
+        const earnedCodes = new Set<string>(
+          earned
+            .map((row) => row.achievements?.code as string | undefined)
+            .filter((c): c is string => !!c)
+        );
+
+        const mapped: AchievementItem[] = BASE_ACHIEVEMENTS.map((base) => {
+          const match = earned.find(
+            (row) => row.achievements?.code === base.code
+          );
+          const hasIt = !!match;
+
+          return {
+            ...base,
+            progress: hasIt ? 100 : 0,
+            earnedAt: match?.earned_at ?? null,
+          };
+        });
+
+        if (isMounted) {
+          setAchievements(mapped);
+        }
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    load();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const earnedCount = achievements.filter((a) => a.progress >= 100).length;
+  const totalCount = achievements.length;
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -171,7 +333,7 @@ const Achievements: React.FC = () => {
               <TouchableOpacity
                 style={styles.backButton}
                 onPress={() =>
-                    from ? navigation.navigate(from as never) : navigation.goBack()
+                  from ? navigation.navigate(from as never) : navigation.goBack()
                 }
               >
                 <Ionicons name="chevron-back" size={24} color="#ffffff" />
@@ -189,81 +351,101 @@ const Achievements: React.FC = () => {
 
             <View style={styles.awardPill}>
               <View style={styles.awardDot} />
-              <Text style={styles.awardText}>Award 1/10</Text>
+              <Text style={styles.awardText}>
+                Award {earnedCount}/{totalCount}
+              </Text>
             </View>
           </View>
 
-{/* Cards Grid */}
-<View style={styles.cardsGrid}>
-  {achievementsList.map((item, index) => (
-    <AchievementCard
-      key={index}
-      title={item.title}
-      subtitle={item.subtitle}
-      progress={item.progress}
-      iconSource={item.icon}
-      color={item.color}
-      onPress={() => openPanel(item)}   // ⭐ NOW WORKS ⭐
-    />
-  ))}
-</View>
+          {/* Cards Grid */}
+          <View style={styles.cardsGrid}>
+            {achievements.map((item, index) => (
+              <AchievementCard
+                key={item.code ?? index}
+                title={item.title}
+                subtitle={item.subtitle}
+                progress={item.progress}
+                iconSource={
+                  item.icon ?? require("../../assets/images/achieve1.png")
+                }
+                color={item.color}
+                onPress={() => openPanel(item)}
+              />
+            ))}
+          </View>
+
+          {loading && (
+            <Text
+              style={{
+                textAlign: "center",
+                marginTop: 12,
+                color: "#4B5563",
+              }}
+            >
+              Loading achievements…
+            </Text>
+          )}
         </ScrollView>
-        {/* ⭐ Bottom Sheet Overlay + Panel ⭐ */}
-{selected && (
-  <>
-    <Pressable style={styles.overlay} onPress={closePanel} />
 
-      <Animated.View
-        style={[
-          styles.bottomSheet,  // keep the correct sheet style
-          {
-            backgroundColor: selected?.color ?? "#ffffff",
-            transform: [
-              {
-                translateY: slideAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 400],
-                }),
-              },
-            ],
-          },
-        ]}
-      >
-      <View style={styles.sheetHandle} />
+        {/* Bottom Sheet Overlay + Panel */}
+        {selected && (
+          <>
+            <Pressable style={styles.overlay} onPress={closePanel} />
 
-      <Text style={styles.sheetTitle}>{selected.title}</Text>
-      <Text style={styles.sheetSubtitle}>{selected.subtitle}</Text>
+            <Animated.View
+              style={[
+                styles.bottomSheet,
+                {
+                  backgroundColor: selected?.color ?? "#ffffff",
+                  transform: [
+                    {
+                      translateY: slideAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [0, 400],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+            >
+              <View style={styles.sheetHandle} />
 
-      <Image
-        source={selected.icon}
-        style={styles.sheetIcon}
-      />
+              <Text style={styles.sheetTitle}>{selected.title}</Text>
+              <Text style={styles.sheetSubtitle}>{selected.subtitle}</Text>
 
-      <View style={styles.sheetProgressRow}>
-        <Text style={styles.sheetProgressText}>{selected.progress}%</Text>
-        <View style={styles.sheetProgressTrack}>
-          <View
-            style={[
-              styles.sheetProgressFill,
-              { width: `${selected.progress}%` },
-            ]}
-          />
-        </View>
-      </View>
+              <Image
+                source={
+                  selected.icon ?? require("../../assets/images/achieve1.png")
+                }
+                style={styles.sheetIcon}
+              />
 
-      <Text style={styles.sheetDescription}>
-        {selected.description}
-      </Text>
-    </Animated.View>
-  </>
-)}
+              <View style={styles.sheetProgressRow}>
+                <Text style={styles.sheetProgressText}>
+                  {selected.progress}%
+                </Text>
+                <View style={styles.sheetProgressTrack}>
+                  <View
+                    style={[
+                      styles.sheetProgressFill,
+                      { width: `${selected.progress}%` },
+                    ]}
+                  />
+                </View>
+              </View>
+
+              <Text style={styles.sheetDescription}>
+                {selected.description}
+              </Text>
+            </Animated.View>
+          </>
+        )}
       </View>
     </SafeAreaView>
   );
 };
 
 export default Achievements;
-
 
 /* ------------ STYLES ------------ */
 
@@ -356,17 +538,11 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 10,
     marginBottom: 14,
-    
-    // 💙 keeps your gradient visible
     overflow: "hidden",
-    
-    // 🌟 Strong glossy shadow (iOS)
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.25,
     shadowRadius: 10,
-    
-    // 🌟 Shadow for Android
     elevation: 10,
   },
   cardTitle: {
@@ -421,89 +597,86 @@ const styles = StyleSheet.create({
     backgroundColor: "#2563EB",
   },
 
-
   overlay: {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: "rgba(0,0,0,0.4)",
-},
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.4)",
+  },
 
-bottomSheet: {
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  right: 0,
-  padding: 20,
-  backgroundColor: "#fff",
-  borderTopLeftRadius: 20,
-  borderTopRightRadius: 20,
-  elevation: 20,
-  shadowColor: "#000",
-  shadowOffset: { width: 0, height: -4 },
-  shadowOpacity: 0.3,
-  shadowRadius: 6,
-},
+  bottomSheet: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 20,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    elevation: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+  },
 
-sheetHandle: {
-  width: 50,
-  height: 6,
-  backgroundColor: "#ccc",
-  borderRadius: 3,
-  alignSelf: "center",
-  marginBottom: 12,
-},
+  sheetHandle: {
+    width: 50,
+    height: 6,
+    backgroundColor: "#ccc",
+    borderRadius: 3,
+    alignSelf: "center",
+    marginBottom: 12,
+  },
 
-sheetTitle: {
-  fontSize: 22,
-  fontWeight: "bold",
-  textAlign: "center",
-  marginBottom: 4,
-},
+  sheetTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 4,
+  },
 
-sheetSubtitle: {
-  fontSize: 16,
-  textAlign: "center",
-  marginBottom: 10,
-},
+  sheetSubtitle: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 10,
+  },
 
-sheetIcon: {
-  width: 100,
-  height: 100,
-  alignSelf: "center",
-  marginBottom: 20,
-},
+  sheetIcon: {
+    width: 100,
+    height: 100,
+    alignSelf: "center",
+    marginBottom: 20,
+  },
 
-sheetProgressRow: {
-  marginBottom: 10,
-},
+  sheetProgressRow: {
+    marginBottom: 10,
+  },
 
-sheetProgressText: {
-  fontSize: 14,
-  fontWeight: "600",
-  marginBottom: 6,
-},
+  sheetProgressText: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 6,
+  },
 
-sheetProgressTrack: {
-  height: 8,
-  backgroundColor: "#eee",
-  borderRadius: 4,
-},
+  sheetProgressTrack: {
+    height: 8,
+    backgroundColor: "#eee",
+    borderRadius: 4,
+  },
 
-sheetProgressFill: {
-  height: "100%",
-  backgroundColor: "#2C82FF",
-  borderRadius: 4,
-},
+  sheetProgressFill: {
+    height: "100%",
+    backgroundColor: "#2C82FF",
+    borderRadius: 4,
+  },
 
-sheetDescription: {
-  marginTop: 20,
-  fontSize: 14,
-  textAlign: "center",
-  color: "#ffffffff",
-},
-
-
+  sheetDescription: {
+    marginTop: 20,
+    fontSize: 14,
+    textAlign: "center",
+    color: "#ffffffff",
+  },
 });
