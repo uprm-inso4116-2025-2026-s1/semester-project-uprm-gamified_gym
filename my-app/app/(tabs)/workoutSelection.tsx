@@ -39,14 +39,12 @@ export default function WorkoutSelectionScreen() {
     loadSession();
   }, []);
 
-  // Fetch workouts after session loads
+  // Fetch workouts
   useEffect(() => {
     const fetchWorkouts = async () => {
       setLoading(true);
       try {
-        const { data, error } = await supabase
-          .from("routines")
-          .select("*");
+        const { data, error } = await supabase.from("routines").select("*");
 
         if (error) throw error;
 
@@ -70,10 +68,11 @@ export default function WorkoutSelectionScreen() {
     }
 
     router.push({
-      pathname: "TimerScreen",
+      // ✅ use the route path string Expo Router expects
+      pathname: "/TimerScreen",
       params: {
-        workoutId: selectedWorkout.id,   // <- required
-        type: "routine",                 // <- or "preset" if applicable
+        workoutId: selectedWorkout.id, // required
+        type: "routine", // or "preset" if applicable
         repTime: repTime.toString(),
       },
     });
@@ -113,7 +112,8 @@ export default function WorkoutSelectionScreen() {
 
         <TouchableOpacity
           style={styles.createButton}
-          onPress={() => router.push("ExerciseLog")}
+          // ✅ use the route path string for ExerciseLog as well
+          onPress={() => router.push("/ExerciseLog")}
         >
           <Text style={styles.createButtonText}>+ Create New Workout</Text>
         </TouchableOpacity>
@@ -157,19 +157,62 @@ const styles = StyleSheet.create({
   background: { flex: 1, backgroundColor: "#2E89FF", paddingTop: 50 },
   container: { alignItems: "center", paddingBottom: 50 },
   header: { color: "white", fontSize: 28, fontWeight: "bold", marginBottom: 20 },
-  sectionTitle: { color: "white", fontSize: 20, fontWeight: "700", marginTop: 10, marginBottom: 10 },
+  sectionTitle: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "700",
+    marginTop: 10,
+    marginBottom: 10,
+  },
   emptyText: { color: "white", opacity: 0.8 },
-  workoutCard: { width: "90%", backgroundColor: "white", padding: 15, borderRadius: 15, marginBottom: 10 },
+  workoutCard: {
+    width: "90%",
+    backgroundColor: "white",
+    padding: 15,
+    borderRadius: 15,
+    marginBottom: 10,
+  },
   workoutName: { fontSize: 18, fontWeight: "bold" },
   workoutInfo: { fontSize: 14, opacity: 0.7 },
-  createButton: { backgroundColor: "#FFFFFF", padding: 15, width: "90%", marginTop: 10, borderRadius: 15, alignItems: "center" },
+  createButton: {
+    backgroundColor: "#FFFFFF",
+    padding: 15,
+    width: "90%",
+    marginTop: 10,
+    borderRadius: 15,
+    alignItems: "center",
+  },
   createButtonText: { color: "#2E89FF", fontSize: 16, fontWeight: "700" },
-  settingRow: { width: "90%", backgroundColor: "white", borderRadius: 15, padding: 15, marginVertical: 10 },
+  settingRow: {
+    width: "90%",
+    backgroundColor: "white",
+    borderRadius: 15,
+    padding: 15,
+    marginVertical: 10,
+  },
   settingLabel: { fontSize: 16, fontWeight: "600", marginBottom: 10 },
-  counterRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  counterBtn: { width: 45, height: 45, borderRadius: 10, backgroundColor: "#2E89FF", alignItems: "center", justifyContent: "center" },
+  counterRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  counterBtn: {
+    width: 45,
+    height: 45,
+    borderRadius: 10,
+    backgroundColor: "#2E89FF",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   counterText: { color: "white", fontSize: 22, fontWeight: "bold" },
   counterValue: { fontSize: 20, fontWeight: "700" },
-  startButton: { backgroundColor: "#FFD700", padding: 18, width: "90%", borderRadius: 15, alignItems: "center", marginTop: 20 },
+  startButton: {
+    backgroundColor: "#FFD700",
+    padding: 18,
+    width: "90%",
+    borderRadius: 15,
+    alignItems: "center",
+    marginTop: 20,
+  },
   startButtonText: { color: "#000", fontSize: 20, fontWeight: "800" },
 });
