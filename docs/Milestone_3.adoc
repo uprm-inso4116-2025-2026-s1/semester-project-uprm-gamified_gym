@@ -672,8 +672,8 @@ Her structured schedule suggests the need for features that allow for advanced p
 ** The system shall provide a mechanism that awards users experience points (XP) for completing workouts and achieving milestones.
 
 ==== 2.2.5 Machine Requirements
-* The system shall maintain an average response time of no more than 2 seconds for user interactions, such as updating activity data under normal operating conditions. In the event of a search query, the system shall return data retreival operations within 4 seconds, even during peak usage.
-* The system shall run under normal conditions, when  concurrently running 300 user interactions that all randomly start within a 5 minute interval. Beyond this threshold, the system shall gracefully degrade its performance, prioritizing essential functionalities such as the viewing workout history and submission of exercise logs. 
+* The system shall maintain an average response time of no more than 2 seconds for user interactions, such as updating activity data under normal operating conditions. In the event of a search query, the system shall return data retrieval operations within 4 seconds, even during peak usage.
+* The system shall run under normal conditions, when  concurrently running 300 user interactions that all randomly start within a 5 minute interval. Beyond this threshold, the system shall gracefully degrade its performance, prioritizing essential functionalities such as the viewing workout history and submitting of exercise logs. 
 * The system shall gracefully handle an increase when concurrently running 100 user interactions at any given time by dynamically allocating resources. Beyond this threshold, new user connections shall be queued, and the system shall restrict additional connections until resources become available. 
 * The system shall process and store a standard 3-set exercise log within 2 seconds of submission.
 
