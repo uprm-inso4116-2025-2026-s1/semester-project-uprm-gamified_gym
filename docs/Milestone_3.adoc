@@ -1220,7 +1220,8 @@ strength increase, visible physique changes, endurance, or consistency streaks, 
 *Motivation* may arise from internal factors (confidence, mastery) or external factors (achievements, comparison), affecting
 how it should be represented in the model. *Training balance* can mean balanced weekly volume, balanced intensity, or long-term
 development, suggesting multiple interpretations. *Plateau* may indicate physiological stagnation, lack of training variation, or
-psychological fatigue. These ambiguities must be resolved when refining the domain model to ensure consistent
+psychological fatigue. *Consistency* may refer to frequency of sessions, adherence to a plan, or sustained progression, and must be 
+clarified to define its domain meaning. These ambiguities must be resolved when refining the domain model to ensure consistent
 terminology and logic.
 
 
@@ -1231,16 +1232,18 @@ terminology and logic.
 Validation is the process of ensuring that the {pname} application meets the needs and expectations of its target users. 
 
 The validation process for GamifiedGym will be conducted through structured scenario walkthroughs, terminology checks, and targeted stakeholder sessions. 
-For example, one scenario we generated was: “Alex has logged all workouts for two weeks. After recording a new bench-press PR, the system highlights the updated PersonalRecordAchieved event and updates his Chest muscle-group training volume. He checks his MuscleGroupBalance indicator and notices his Back volume is significantly lower. Based on this imbalance, the system suggests three alternative exercises targeting undertrained muscle groups.”
+For example, one scenario we generated was: “Alex has logged all workouts for two weeks. After recording a new bench-press PR, the system highlights the updated PersonalRecordAchieved event and updates his Chest muscle-group training volume. He checks his MuscleGroupBalance indicator and notices his Back volume is significantly lower. The system highlights this imbalance as a domain fact, allowing him to make informed 
+adjustments to his routine.”
 When this scenario was evaluated with prospective users, they indicated that achievement systems and partner-based accountability felt motivating, but emphasized that achievements must be both frequent and progressive (short-term and long-term milestones).
 
 *Domain-Focused Validation Approach*
 
-Validation activities check whether users correctly interpret core domain concepts such as TrainingBalance, Fatigue/Tightness events, consistency streaks, XP progression, and plateau detection. 
+Validation activities check whether users correctly interpret core domain concepts such as TrainingBalance, PersonalRecordAchieved, consistency streaks, XP progression, and plateau detection. 
 Scenario walkthroughs test whether the domain behaviors match user expectations—for example, whether users understand why the system flags a muscle-group imbalance or identifies a plateau in performance.
 
 Low-fidelity prototypes are used only to verify that domain feedback (e.g., PR recognition, muscle-volume distribution, or streak continuity) is understandable. 
-These prototypes validate conceptual clarity—not detailed UI layout or interaction mechanics.
+These prototypes validate conceptual clarity—not detailed UI layout or interaction mechanics. Prototype validation focuses exclusively on whether domain information is interpretable, not
+on UI appearance or design details.
 
 *Additional Validation Activities:*
 
