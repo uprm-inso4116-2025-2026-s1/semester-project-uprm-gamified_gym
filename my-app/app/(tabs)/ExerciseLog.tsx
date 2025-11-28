@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import ExerciseCard from "../../components/exercise-card";
 import RecentWorkoutCard from "../../components/recent-workout-card";
 import { useNavigation } from "@react-navigation/native";
@@ -113,32 +114,20 @@ export default function ExerciseLog() {
       </ScrollView>
 
       <View style={styles.bottomTabs}>
-        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-          <Image
-            source={require("../../assets/images/home.png")}
-            style={styles.navIcon}
-          />
+        <TouchableOpacity onPress={() => navigation.navigate("Home")} activeOpacity={0.7}>
+          <Ionicons name="home" size={28} color="#000000" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("ExerciseLibrary")}>
-          <Image
-            source={require("../../assets/images/push-up.png")}
-            style={styles.navIcon}
-          />
+        <TouchableOpacity onPress={() => navigation.navigate("ExerciseLibrary")} activeOpacity={0.7}>
+          <Ionicons name="barbell" size={28} color="#000000" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Image
-            source={require("../../assets/images/user.png")}
-            style={styles.navIcon}
-          />
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")} activeOpacity={0.7}>
+          <Ionicons name="person" size={28} color="#000000" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          <Image
-            source={require("../../assets/images/settings.png")}
-            style={styles.navIcon}
-          />
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")} activeOpacity={0.7}>
+          <Ionicons name="settings" size={28} color="#000000" />
         </TouchableOpacity>
       </View>
     </View>
@@ -218,11 +207,5 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 6,
     paddingHorizontal: 30,
-  },
-  navIcon: {
-    width: 28,
-    height: 28,
-    resizeMode: "contain",
-    tintColor: "#000000",
   },
 });

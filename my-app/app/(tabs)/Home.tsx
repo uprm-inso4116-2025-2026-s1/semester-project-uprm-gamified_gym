@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { supabase } from "../../lib/supabaseClient";
+import {
+  scaleWidth,
+  scaleHeight,
+  scaleFontSize,
+  moderateScale,
+  widthPercentage,
+  heightPercentage,
+  platformSpacing,
+} from "../../utils/responsive";
 
 type RootStackParamList = {
   Home: undefined;
@@ -57,7 +68,8 @@ export default function Home() {
   }, []);
 
   return (
-    <View style={styles.background}>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <View style={styles.background}>
       <View style={styles.homeCard}>
         {/* Header with avatar on the right */}
         <View style={styles.headerRow}>
@@ -137,40 +149,33 @@ export default function Home() {
 
       {/* Bottom Navigation Tabs */}
       <View style={styles.bottomTabs}>
-        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-          <Image
-            source={require("../../assets/images/home.png")}
-            style={styles.navIcon}
-          />
+        <TouchableOpacity onPress={() => navigation.navigate("Home")} activeOpacity={0.7}>
+          <Ionicons name="home" size={scaleWidth(28)} color="#000000" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("ExerciseLibrary")}>
-          <Image
-            source={require("../../assets/images/push-up.png")}
-            style={styles.navIcon}
-          />
+        <TouchableOpacity onPress={() => navigation.navigate("ExerciseLibrary")} activeOpacity={0.7}>
+          <Ionicons name="barbell" size={scaleWidth(28)} color="#000000" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Image
-            source={require("../../assets/images/user.png")}
-            style={styles.navIcon}
-          />
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")} activeOpacity={0.7}>
+          <Ionicons name="person" size={scaleWidth(28)} color="#000000" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          <Image
-            source={require("../../assets/images/settings.png")}
-            style={styles.navIcon}
-          />
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")} activeOpacity={0.7}>
+          <Ionicons name="settings" size={scaleWidth(28)} color="#000000" />
         </TouchableOpacity>
       </View>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#2E89FF",
+  },
   linkUnderline: {
     color: "#2E89FF",
     fontWeight: "bold",
@@ -184,53 +189,54 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   homeCard: {
-    width: "92%",
-    height: "82%",
+    width: widthPercentage(92),
+    height: heightPercentage(82),
     backgroundColor: "#FFFFFF",
-    borderRadius: 23,
-    padding: 20,
-    marginTop: 15,
+    borderRadius: moderateScale(23),
+    padding: moderateScale(20),
+    marginTop: moderateScale(15),
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: scaleWidth(2), height: scaleHeight(2) },
     shadowOpacity: 0.35,
-    shadowRadius: 3.84,
+    shadowRadius: moderateScale(3.84),
     elevation: 5,
   },
 
-  /* New header with right-side avatar */
   headerRow: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginBottom: moderateScale(20),
   },
   headerLeft: {
     flexShrink: 1,
-    paddingRight: 12,
+    paddingRight: moderateScale(12),
   },
   avatarWrap: {
     borderRadius: 999,
-    padding: 2,
+    padding: moderateScale(2),
     backgroundColor: "#EAF2FF",
   },
   avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: scaleWidth(56),
+    height: scaleWidth(56),
+    borderRadius: scaleWidth(28),
     borderWidth: 2,
     borderColor: "#2E89FF",
   },
 
   title: {
-    fontSize: 28,
+    fontSize: scaleFontSize(28),
     fontWeight: "bold",
     color: "#2E89FF",
     textAlign: "left",
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: scaleFontSize(16),
     fontStyle: "italic",
-    marginVertical: 10,
+    marginVertical: moderateScale(10),
     color: "#2E89FF",
     textAlign: "left",
     marginBottom: 0,
@@ -240,44 +246,44 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
-    marginVertical: 10,
+    marginVertical: moderateScale(10),
     width: "95%",
   },
   statBox: {
-    width: 100,
-    height: 80,
-    borderRadius: 23,
+    width: scaleWidth(100),
+    height: scaleHeight(80),
+    borderRadius: moderateScale(23),
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 0,
     shadowColor: "#000",
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: { width: scaleWidth(2), height: scaleHeight(2) },
     shadowOpacity: 0.2,
-    shadowRadius: 1.41,
+    shadowRadius: moderateScale(1.41),
     elevation: 2,
   },
   statLabel: {
-    fontSize: 17,
+    fontSize: scaleFontSize(17),
     fontStyle: "italic",
     color: "#3b3b3bff",
   },
   statValue: {
-    fontSize: 18,
+    fontSize: scaleFontSize(18),
     fontWeight: "bold",
     color: "#000",
   },
   runningIcon: {
-    width: 55,
-    height: 55,
-    marginHorizontal: 10,
+    width: scaleWidth(55),
+    height: scaleWidth(55),
+    marginHorizontal: moderateScale(10),
     resizeMode: "contain",
   },
 
   quickTitle: {
-    fontSize: 16,
+    fontSize: scaleFontSize(16),
     fontWeight: "bold",
-    marginTop: 10,
-    marginBottom: 5,
+    marginTop: moderateScale(10),
+    marginBottom: moderateScale(5),
     color: "#2E89FF",
     textAlign: "center",
   },
@@ -285,70 +291,64 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    marginVertical: 15,
+    marginVertical: moderateScale(15),
   },
   actionButton: {
     flex: 1,
     backgroundColor: "#2E89FF",
-    paddingHorizontal: 10,
-    borderRadius: 23,
-    marginHorizontal: 15,
+    paddingHorizontal: moderateScale(10),
+    borderRadius: moderateScale(23),
+    marginHorizontal: moderateScale(15),
     alignItems: "center",
     justifyContent: "center",
-    height: 70,
+    height: scaleHeight(70),
     shadowColor: "#000",
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: { width: scaleWidth(2), height: scaleHeight(2) },
     shadowOpacity: 0.35,
-    shadowRadius: 1.41,
+    shadowRadius: moderateScale(1.41),
     elevation: 5,
   },
   actionText: {
-    fontSize: 14,
+    fontSize: scaleFontSize(14),
     color: "#000000",
     fontWeight: "bold",
   },
   calendarBox: {
-    width: "90%",
-    height: 220,
-    borderRadius: 10,
+    width: widthPercentage(90),
+    height: scaleHeight(220),
+    borderRadius: moderateScale(10),
     backgroundColor: "#2E89FF",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 20,
+    marginVertical: moderateScale(20),
     shadowColor: "#000",
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: { width: scaleWidth(2), height: scaleHeight(2) },
     shadowOpacity: 0.35,
-    shadowRadius: 1.41,
+    shadowRadius: moderateScale(1.41),
     elevation: 5,
   },
   calendarIcon: {
-    width: 50,
-    height: 50,
-    marginHorizontal: 20,
+    width: scaleWidth(50),
+    height: scaleWidth(50),
+    marginHorizontal: moderateScale(20),
     resizeMode: "contain",
   },
   bottomTabs: {
     position: "absolute",
     backgroundColor: "#ffffff",
-    bottom: 20,
+    bottom: platformSpacing(20, 16),
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    width: "90%",
-    height: 65,
-    borderRadius: 35,
+    width: widthPercentage(90),
+    height: scaleHeight(65),
+    borderRadius: moderateScale(35),
     alignSelf: "center",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: scaleHeight(4) },
     shadowOpacity: 0.25,
-    shadowRadius: 5,
+    shadowRadius: moderateScale(5),
     elevation: 6,
-    paddingHorizontal: 30,
-  },
-  navIcon: {
-    width: 28,
-    height: 28,
-    resizeMode: "contain",
-    tintColor: "#000000",
+    paddingHorizontal: moderateScale(30),
   },
 });

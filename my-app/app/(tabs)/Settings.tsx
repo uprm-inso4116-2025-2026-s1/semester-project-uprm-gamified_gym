@@ -13,10 +13,21 @@ import {
   Platform,
   ActivityIndicator,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { supabase } from "../../lib/supabaseClient";
 import { useAuth } from "./authContext";
+import {
+  scaleWidth,
+  scaleHeight,
+  scaleFontSize,
+  moderateScale,
+  widthPercentage,
+  heightPercentage,
+  platformSpacing,
+} from "../../utils/responsive";
 
 type SettingsScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Settings">;
 
@@ -191,11 +202,12 @@ export default function Settings() {
   };
 
   return (
-    <View style={styles.background}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        style={styles.keyboardView}
-      >
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <View style={styles.background}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.keyboardView}
+        >
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}
@@ -288,23 +300,28 @@ export default function Settings() {
       {/* Bottom Navigation */}
       <View style={styles.bottomTabs}>
         <TouchableOpacity onPress={() => navigation.navigate("Home")} activeOpacity={0.7}>
-          <Image source={require("../../assets/images/home.png")} style={styles.navIcon} />
+          <Ionicons name="home" size={scaleWidth(28)} color="#000000" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("ExerciseLibrary")} activeOpacity={0.7}>
-          <Image source={require("../../assets/images/push-up.png")} style={styles.navIcon} />
+          <Ionicons name="barbell" size={scaleWidth(28)} color="#000000" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")} activeOpacity={0.7}>
-          <Image source={require("../../assets/images/user.png")} style={styles.navIcon} />
+          <Ionicons name="person" size={scaleWidth(28)} color="#000000" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Settings")} activeOpacity={0.7}>
-          <Image source={require("../../assets/images/settings.png")} style={styles.navIcon} />
+          <Ionicons name="settings" size={scaleWidth(28)} color="#000000" />
         </TouchableOpacity>
       </View>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#2E89FF",
+  },
   background: {
     flex: 1,
     backgroundColor: "#2E89FF",
@@ -321,28 +338,28 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     alignItems: "center",
-    paddingBottom: 120,
+    paddingBottom: platformSpacing(120, 100),
   },
   settingCard: {
-    width: "92%",
-    marginTop: 15,
+    width: widthPercentage(92),
+    marginTop: moderateScale(15),
     backgroundColor: "#FFFFFF",
-    borderRadius: 20,
-    paddingTop: 24,
-    paddingBottom: 24,
-    paddingHorizontal: 20,
+    borderRadius: moderateScale(20),
+    paddingTop: moderateScale(24),
+    paddingBottom: moderateScale(24),
+    paddingHorizontal: moderateScale(20),
     alignItems: "center",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: scaleHeight(2) },
     shadowOpacity: 0.1,
-    shadowRadius: 8,
+    shadowRadius: moderateScale(8),
     elevation: 5,
   },
   title: {
-    fontSize: 28,
+    fontSize: scaleFontSize(28),
     fontWeight: "700",
     color: "#1F2937",
-    marginBottom: 24,
+    marginBottom: moderateScale(24),
     alignSelf: "flex-start",
   },
   loadingOverlay: {
@@ -355,15 +372,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     zIndex: 10,
-    borderRadius: 20,
+    borderRadius: moderateScale(20),
   },
   sectionHeader: {
     width: "100%",
-    marginTop: 8,
-    marginBottom: 16,
+    marginTop: moderateScale(8),
+    marginBottom: moderateScale(16),
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: scaleFontSize(16),
     fontWeight: "600",
     color: "#2E89FF",
     textTransform: "uppercase",
@@ -373,24 +390,24 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 1,
     backgroundColor: "#E5E7EB",
-    marginVertical: 20,
+    marginVertical: moderateScale(20),
   },
   fieldContainer: {
     width: "100%",
-    marginBottom: 16,
+    marginBottom: moderateScale(16),
   },
   labelText: {
-    fontSize: 14,
+    fontSize: scaleFontSize(14),
     fontWeight: "500",
     color: "#374151",
-    marginBottom: 6,
+    marginBottom: moderateScale(6),
   },
   input: {
     borderWidth: 1,
     borderColor: "#D1D5DB",
-    borderRadius: 10,
-    padding: 14,
-    fontSize: 16,
+    borderRadius: moderateScale(10),
+    padding: moderateScale(14),
+    fontSize: scaleFontSize(16),
     width: "100%",
     backgroundColor: "#FFFFFF",
     color: "#1F2937",
@@ -405,48 +422,48 @@ const styles = StyleSheet.create({
     color: "#6B7280",
   },
   helperText: {
-    fontSize: 12,
+    fontSize: scaleFontSize(12),
     color: "#6B7280",
-    marginTop: 4,
+    marginTop: moderateScale(4),
     fontStyle: "italic",
   },
   editButton: {
     backgroundColor: "#FFFFFF",
     borderWidth: 2,
     borderColor: "#2E89FF",
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    marginTop: 8,
-    marginBottom: 16,
+    paddingVertical: moderateScale(14),
+    paddingHorizontal: moderateScale(32),
+    borderRadius: moderateScale(10),
+    marginTop: moderateScale(8),
+    marginBottom: moderateScale(16),
     width: "100%",
     alignItems: "center",
   },
   editButtonText: {
     color: "#2E89FF",
-    fontSize: 16,
+    fontSize: scaleFontSize(16),
     fontWeight: "600",
   },
   actionButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    gap: 12,
-    marginTop: 8,
-    marginBottom: 16,
+    gap: moderateScale(12),
+    marginTop: moderateScale(8),
+    marginBottom: moderateScale(16),
   },
   saveButton: {
     flex: 1,
     backgroundColor: "#2E89FF",
-    paddingVertical: 14,
-    borderRadius: 10,
+    paddingVertical: moderateScale(14),
+    borderRadius: moderateScale(10),
     alignItems: "center",
     justifyContent: "center",
-    minHeight: 50,
+    minHeight: scaleHeight(50),
   },
   saveButtonText: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: scaleFontSize(16),
     fontWeight: "600",
   },
   cancelButton: {
@@ -454,15 +471,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderWidth: 2,
     borderColor: "#D1D5DB",
-    paddingVertical: 14,
-    borderRadius: 10,
+    paddingVertical: moderateScale(14),
+    borderRadius: moderateScale(10),
     alignItems: "center",
     justifyContent: "center",
-    minHeight: 50,
+    minHeight: scaleHeight(50),
   },
   cancelButtonText: {
     color: "#6B7280",
-    fontSize: 16,
+    fontSize: scaleFontSize(16),
     fontWeight: "600",
   },
   preferenceItem: {
@@ -470,62 +487,56 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    paddingVertical: 12,
-    paddingHorizontal: 4,
+    paddingVertical: moderateScale(12),
+    paddingHorizontal: moderateScale(4),
   },
   preferenceTextContainer: {
     flex: 1,
-    marginRight: 16,
+    marginRight: moderateScale(16),
   },
   preferenceTitle: {
-    fontSize: 16,
+    fontSize: scaleFontSize(16),
     fontWeight: "500",
     color: "#1F2937",
-    marginBottom: 4,
+    marginBottom: moderateScale(4),
   },
   preferenceDescription: {
-    fontSize: 13,
+    fontSize: scaleFontSize(13),
     color: "#6B7280",
-    lineHeight: 18,
+    lineHeight: scaleFontSize(18),
   },
   logoutButton: {
     backgroundColor: "#FEE2E2",
     borderWidth: 2,
     borderColor: "#FCA5A5",
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    marginTop: 8,
+    paddingVertical: moderateScale(14),
+    paddingHorizontal: moderateScale(32),
+    borderRadius: moderateScale(10),
+    marginTop: moderateScale(8),
     width: "100%",
     alignItems: "center",
   },
   logoutButtonText: {
     color: "#DC2626",
-    fontSize: 16,
+    fontSize: scaleFontSize(16),
     fontWeight: "600",
   },
   bottomTabs: {
     position: "absolute",
     backgroundColor: "#ffffff",
-    bottom: 20,
+    bottom: platformSpacing(20, 16),
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    width: "90%",
-    height: 65,
-    borderRadius: 35,
+    width: widthPercentage(90),
+    height: scaleHeight(65),
+    borderRadius: moderateScale(35),
     alignSelf: "center",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: scaleHeight(4) },
     shadowOpacity: 0.25,
-    shadowRadius: 5,
+    shadowRadius: moderateScale(5),
     elevation: 6,
-    paddingHorizontal: 30,
-  },
-  navIcon: {
-    width: 28,
-    height: 28,
-    resizeMode: "contain",
-    tintColor: "#000000",
+    paddingHorizontal: moderateScale(30),
   },
 });
