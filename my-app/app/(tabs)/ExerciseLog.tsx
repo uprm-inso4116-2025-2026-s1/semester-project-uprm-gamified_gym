@@ -115,19 +115,19 @@ export default function ExerciseLog() {
 
       <View style={styles.bottomTabs}>
         <TouchableOpacity onPress={() => navigation.navigate("Home")} activeOpacity={0.7}>
-          <Ionicons name="home" size={28} color="#000000" />
+          <Ionicons name="home-outline" size={28} color="#000000" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate("ExerciseLibrary")} activeOpacity={0.7}>
-          <Ionicons name="barbell" size={28} color="#000000" />
+          <Ionicons name="barbell-outline" size={28} color="#000000" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate("Profile")} activeOpacity={0.7}>
-          <Ionicons name="person" size={28} color="#000000" />
+          <Ionicons name="person-outline" size={28} color="#000000" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate("Settings")} activeOpacity={0.7}>
-          <Ionicons name="settings" size={28} color="#000000" />
+          <Ionicons name="settings-outline" size={28} color="#000000" />
         </TouchableOpacity>
       </View>
     </View>

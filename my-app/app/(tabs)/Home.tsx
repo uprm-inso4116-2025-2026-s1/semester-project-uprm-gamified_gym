@@ -150,19 +150,19 @@ export default function Home() {
       {/* Bottom Navigation Tabs */}
       <View style={styles.bottomTabs}>
         <TouchableOpacity onPress={() => navigation.navigate("Home")} activeOpacity={0.7}>
-          <Ionicons name="home" size={scaleWidth(28)} color="#000000" />
+          <Ionicons name="home-outline" size={scaleWidth(28)} color="#000000" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate("ExerciseLibrary")} activeOpacity={0.7}>
-          <Ionicons name="barbell" size={scaleWidth(28)} color="#000000" />
+          <Ionicons name="barbell-outline" size={scaleWidth(28)} color="#000000" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate("Profile")} activeOpacity={0.7}>
-          <Ionicons name="person" size={scaleWidth(28)} color="#000000" />
+          <Ionicons name="person-outline" size={scaleWidth(28)} color="#000000" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate("Settings")} activeOpacity={0.7}>
-          <Ionicons name="settings" size={scaleWidth(28)} color="#000000" />
+          <Ionicons name="settings-outline" size={scaleWidth(28)} color="#000000" />
         </TouchableOpacity>
       </View>
       </View>
