@@ -117,7 +117,7 @@ Community Building: Promote positive accountability and collective progress.
 
 Domain Understanding: Capture the essential structures, behaviors, and motivational elements of real fitness journeys to inform later design.
 
-==== 2.2 Requirements
+== 2. Descriptive Part
 
 ==== 2.1 Domain Description
 
