@@ -11,6 +11,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -135,18 +136,18 @@ export default function Settings() {
   }
 
   /**
- * Renders a labeled text input field for a given profile attribute.
- *
- * @param label - The descriptive label for the input (e.g., "First Name").
- * @param fieldKey - The key of the userProfile object this input controls.
- * @param keyboardType - The keyboard type (default is "default"; use "numeric" for number fields).
- *
- * Fields like email are displayed but not editable.
- */
+   * Renders a labeled text input field for a given profile attribute.
+   *
+   * @param label - The descriptive label for the input (e.g., "First Name").
+   * @param fieldKey - The key of the userProfile object this input controls.
+   * @param keyboardType - The keyboard type (default is "default"; use "numeric" for number fields).
+   *
+   * Fields like email are displayed but not editable.
+   */
   const renderField = (label: string, fieldKey: keyof typeof userProfile, keyboardType: any = "default") => {
     const isEmail = fieldKey === "email";
     return (
-      <View style={{ width: "100%", marginBottom: 10 }}>
+      <View style={styles.fieldContainer}>
         <Text style={styles.labelText}>{label}</Text>
         <TextInput
           value={userProfile[fieldKey]}
@@ -155,116 +156,147 @@ export default function Settings() {
           onChangeText={(val) => setUserProfile({ ...userProfile, [fieldKey]: val })}
           style={[
             styles.input,
-            isEmail ? { backgroundColor: "#e5e7eb", color: "#6b7280" } : {},
+            isEmail && styles.disabledInput,
+            isEditingProfile && !isEmail && styles.inputEditing,
           ]}
+          placeholderTextColor="#9CA3AF"
         />
+        {isEmail && (
+          <Text style={styles.helperText}>Email cannot be changed</Text>
+        )}
       </View>
     );
+  };
+
+  const renderSectionHeader = (title: string) => (
+    <View style={styles.sectionHeader}>
+      <Text style={styles.sectionTitle}>{title}</Text>
+    </View>
+  );
+
+  const renderDivider = () => <View style={styles.divider} />;
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      Alert.alert("Success", "Logged out successfully");
+    } catch (error: any) {
+      Alert.alert("Error", error.message || "Failed to log out");
+    }
+  };
+
+  const handleCancelEdit = () => {
+    loadUserProfile();
+    setIsEditingProfile(false);
   };
 
   return (
     <View style={styles.background}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
-        style={{ flex: 1, width: "100%", alignItems: "center" }}
+        style={styles.keyboardView}
       >
         <ScrollView
-          style={{ width: "100%" }}
-          contentContainerStyle={{ alignItems: "center", paddingBottom: 120 }}
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.settingCard}>
-            <Text style={styles.title}>Account Settings</Text>
+            <Text style={styles.title}>Settings</Text>
 
-            {renderField("First Name:", "first_name")}
-            {renderField("Last Name:", "last_name")}
-            {renderField("Email:", "email")}
-            {renderField("Weight lb:", "weight", "numeric")}
+            {isLoadingProfileData && (
+              <View style={styles.loadingOverlay}>
+                <ActivityIndicator size="large" color="#2E89FF" />
+              </View>
+            )}
+
+            {renderSectionHeader("Account Information")}
+
+            {renderField("First Name", "first_name")}
+            {renderField("Last Name", "last_name")}
+            {renderField("Email", "email")}
+            {renderField("Weight (lbs)", "weight", "numeric")}
 
             {!isEditingProfile ? (
-              <TouchableOpacity style={styles.Buttons} onPress={() => setIsEditingProfile(true)}>
-                <Text style={styles.buttonText}>Edit</Text>
+              <TouchableOpacity
+                style={styles.editButton}
+                onPress={() => setIsEditingProfile(true)}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.editButtonText}>Edit Profile</Text>
               </TouchableOpacity>
             ) : (
-              <View
-                style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }}
-              >
+              <View style={styles.actionButtonsContainer}>
                 <TouchableOpacity
-                  style={[styles.Buttons, { flex: 1, marginRight: 5 }]}
+                  style={styles.saveButton}
                   onPress={updateUserProfileDetails}
+                  disabled={isLoadingProfileData}
+                  activeOpacity={0.7}
                 >
-                  <Text style={styles.buttonText}>{isLoadingProfileData ? "Saving..." : "Save"}</Text>
+                  {isLoadingProfileData ? (
+                    <ActivityIndicator size="small" color="#FFFFFF" />
+                  ) : (
+                    <Text style={styles.saveButtonText}>Save Changes</Text>
+                  )}
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={[styles.Buttons, { flex: 1, marginLeft: 5, backgroundColor: "#ccc" }]}
-                  onPress={() => {
-                    loadUserProfile();
-                    setIsEditingProfile(false);
-                  }}
+                  style={styles.cancelButton}
+                  onPress={handleCancelEdit}
+                  disabled={isLoadingProfileData}
+                  activeOpacity={0.7}
                 >
-                  <Text style={[styles.buttonText, { color: "#000" }]}>Cancel</Text>
+                  <Text style={styles.cancelButtonText}>Cancel</Text>
                 </TouchableOpacity>
               </View>
             )}
 
-            <Text
-              style={[styles.toggleText, { alignSelf: "flex-start", marginBottom: 5, marginTop: 10 }]}
-            >
-              Preferences
-            </Text>
+            {renderDivider()}
 
-            <View style={styles.toggleRow}>
-              <Text style={[styles.toggleText, { alignSelf: "center", marginBottom: 0 }]}>
-                PUSH NOTIFICATIONS
-              </Text>
+            {renderSectionHeader("Preferences")}
+
+            <View style={styles.preferenceItem}>
+              <View style={styles.preferenceTextContainer}>
+                <Text style={styles.preferenceTitle}>Push Notifications</Text>
+                <Text style={styles.preferenceDescription}>
+                  Receive updates about your fitness goals
+                </Text>
+              </View>
               <Switch
-                trackColor={{ false: "#767577", true: "#2E89FF" }}
-                thumbColor={pushNotificationsEnabled ? "#000000" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
+                trackColor={{ false: "#D1D5DB", true: "#93C5FD" }}
+                thumbColor={pushNotificationsEnabled ? "#2E89FF" : "#F3F4F6"}
+                ios_backgroundColor="#D1D5DB"
                 onValueChange={togglePushNotifications}
                 value={pushNotificationsEnabled}
               />
             </View>
 
-            /**
-            * Logs the current user out of the session via Supabase and navigates back to the Login screen.
-            * Displays an alert upon success or failure.
-            */
+            {renderDivider()}
+
+            {renderSectionHeader("Account Actions")}
+
             <TouchableOpacity
-              style={[styles.Buttons, { marginTop: 30, backgroundColor: "#FF9395" }]}
-              onPress={async () => {
-                try {
-                  await signOut();
-                  Alert.alert("Success", "Logged out successfully");
-                  // AuthNavigator will handle redirect to Login
-                } catch (error: any) {
-                  Alert.alert("Error", error.message || "Failed to log out");
-                }
-              }}
+              style={styles.logoutButton}
+              onPress={handleLogout}
+              activeOpacity={0.7}
             >
-              <Text style={[styles.buttonText, { color: "#FE5757" }]}>Log Out</Text>
+              <Text style={styles.logoutButtonText}>Log Out</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
 
-      /**
-      * Navigation shortcuts for primary sections of the app:
-      * Home, Profile, and Settings.
-      *
-      * Each button redirects to its respective screen in the stack.
-      */
+      {/* Bottom Navigation */}
       <View style={styles.bottomTabs}>
-        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Home")} activeOpacity={0.7}>
           <Image source={require("../../assets/images/home.png")} style={styles.navIcon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("ExerciseLibrary")}>
+        <TouchableOpacity onPress={() => navigation.navigate("ExerciseLibrary")} activeOpacity={0.7}>
           <Image source={require("../../assets/images/push-up.png")} style={styles.navIcon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")} activeOpacity={0.7}>
           <Image source={require("../../assets/images/user.png")} style={styles.navIcon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")} activeOpacity={0.7}>
           <Image source={require("../../assets/images/settings.png")} style={styles.navIcon} />
         </TouchableOpacity>
       </View>
@@ -273,61 +305,204 @@ export default function Settings() {
 }
 
 const styles = StyleSheet.create({
-  labelText: {
-    fontSize: 15,
-    color: "#374151",
-    marginBottom: 4,
-  },
   background: {
     flex: 1,
     backgroundColor: "#2E89FF",
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  keyboardView: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+  },
+  scrollView: {
+    width: "100%",
+  },
+  scrollContent: {
+    alignItems: "center",
+    paddingBottom: 120,
+  },
   settingCard: {
     width: "92%",
     marginTop: 15,
     backgroundColor: "#FFFFFF",
-    borderRadius: 23,
-    paddingTop: 20,
+    borderRadius: 20,
+    paddingTop: 24,
+    paddingBottom: 24,
     paddingHorizontal: 20,
     alignItems: "center",
-    shadowOpacity: 0.35,
-    shadowRadius: 3.84,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
     elevation: 5,
   },
   title: {
-    fontSize: 30,
+    fontSize: 28,
+    fontWeight: "700",
+    color: "#1F2937",
+    marginBottom: 24,
+    alignSelf: "flex-start",
+  },
+  loadingOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+    borderRadius: 20,
+  },
+  sectionHeader: {
+    width: "100%",
+    marginTop: 8,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 16,
     fontWeight: "600",
     color: "#2E89FF",
-    marginBottom: 20,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  divider: {
+    width: "100%",
+    height: 1,
+    backgroundColor: "#E5E7EB",
+    marginVertical: 20,
+  },
+  fieldContainer: {
+    width: "100%",
+    marginBottom: 16,
+  },
+  labelText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#374151",
+    marginBottom: 6,
   },
   input: {
     borderWidth: 1,
-    borderColor: "#d1d5db",
-    borderRadius: 8,
-    padding: 12,
-    marginVertical: 5,
-    fontSize: 15,
+    borderColor: "#D1D5DB",
+    borderRadius: 10,
+    padding: 14,
+    fontSize: 16,
     width: "100%",
+    backgroundColor: "#FFFFFF",
+    color: "#1F2937",
   },
-  Buttons: {
-    backgroundColor: "#2E89FF",
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 8,
-    marginBottom: 10,
+  inputEditing: {
+    borderColor: "#2E89FF",
+    borderWidth: 2,
+    backgroundColor: "#F0F9FF",
+  },
+  disabledInput: {
+    backgroundColor: "#F3F4F6",
+    color: "#6B7280",
+  },
+  helperText: {
+    fontSize: 12,
+    color: "#6B7280",
+    marginTop: 4,
+    fontStyle: "italic",
+  },
+  editButton: {
+    backgroundColor: "#FFFFFF",
+    borderWidth: 2,
+    borderColor: "#2E89FF",
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    borderRadius: 10,
+    marginTop: 8,
+    marginBottom: 16,
     width: "100%",
     alignItems: "center",
   },
-  buttonText: { color: "#000000", fontSize: 16, fontWeight: "500" },
-  toggleText: { fontSize: 15, color: "#2E89FF", marginBottom: 10 },
-  toggleRow: {
+  editButtonText: {
+    color: "#2E89FF",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  actionButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    gap: 12,
+    marginTop: 8,
+    marginBottom: 16,
+  },
+  saveButton: {
+    flex: 1,
+    backgroundColor: "#2E89FF",
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 50,
+  },
+  saveButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  cancelButton: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    borderWidth: 2,
+    borderColor: "#D1D5DB",
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 50,
+  },
+  cancelButtonText: {
+    color: "#6B7280",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  preferenceItem: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    height: 32,
+    paddingVertical: 12,
+    paddingHorizontal: 4,
+  },
+  preferenceTextContainer: {
+    flex: 1,
+    marginRight: 16,
+  },
+  preferenceTitle: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#1F2937",
+    marginBottom: 4,
+  },
+  preferenceDescription: {
+    fontSize: 13,
+    color: "#6B7280",
+    lineHeight: 18,
+  },
+  logoutButton: {
+    backgroundColor: "#FEE2E2",
+    borderWidth: 2,
+    borderColor: "#FCA5A5",
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    borderRadius: 10,
+    marginTop: 8,
+    width: "100%",
+    alignItems: "center",
+  },
+  logoutButtonText: {
+    color: "#DC2626",
+    fontSize: 16,
+    fontWeight: "600",
   },
   bottomTabs: {
     position: "absolute",
@@ -351,6 +526,6 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     resizeMode: "contain",
-    tintColor: "#000000ff",
+    tintColor: "#000000",
   },
 });

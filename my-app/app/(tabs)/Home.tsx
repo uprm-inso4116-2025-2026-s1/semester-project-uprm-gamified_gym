@@ -349,6 +349,6 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     resizeMode: "contain",
-    tintColor: "#000000ff",
+    tintColor: "#000000",
   },
 });
