@@ -615,6 +615,13 @@ Her structured schedule suggests the need for features that allow for advanced p
 ** The system shall provide a mechanism that assigns a user a rank (Bronze, Silver, Gold, etc.) for each muscle group, calculated based on the total historical training volume and PRs for that muscle group.
 ** The system shall provide a mechanism that awards users experience points (XP) for completing workouts and achieving milestones.
 
+==== 2.2.5 Machine Requirements
+* The system shall maintain an average response time of no more than 2 seconds for user interactions, such as updating activity data under normal operating conditions. In the event of a search query, the system shall provide results within 4 seconds, even during peak usage.
+* The system shall run under normal conditions, when  concurrently running 300 normal scenarios that all randomly start within a 5 minute interval. Beyond this threshold, the system shall gracefully degrade its performance, prioritizing essential functionalities such as the viewing and submission of available products. 
+* The system shall gracefully handle an increase when  concurrently running 100 normal scenarios at any given time by dynamically allocating resources. Beyond this threshold, new user connections shall be queued, and the system shall restrict additional connections until resources become available. 
+* The system shall process and store a standard 3-set exercise log within 2 seconds of submission.
+* Machine requirements shall be updated as the project progresses. The previously presented numbers are estimates that are in line with good practice but can only be verified through testing not yet performed. Additional requirements are currently under development, and specific criteria for system stability, acceptable degradation of services, and detailed circumstances for heavily loaded conditions will be researched and defined in subsequent project phases. 
+
 ==== 2.3 Architecture Overview
 
 The architecture of Gamified Gym is organized around a small set of conceptual subsystems that mirror the domain model. 
