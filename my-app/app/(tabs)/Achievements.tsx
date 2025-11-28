@@ -10,13 +10,19 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { LinearGradient } from "expo-linear-gradient";
+
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
 type RootStackParamList = {
   Tabs: undefined;
   Achievements: { from?: string };
 };
+
+type AchievementsRouteProp = RouteProp<RootStackParamList, "Achievements">;
+
 
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -25,6 +31,7 @@ type AchievementCardProps = {
   subtitle: string;
   progress: number;
   iconSource: any;
+  color?: string;
   onPress?: () => void;
 };
 
@@ -35,6 +42,7 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
   subtitle,
   progress,
   iconSource,
+  color,
   onPress,
 }) => {
   const scale = useRef(new Animated.Value(1)).current;
@@ -63,7 +71,18 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
       onPressIn={animateIn}
       onPressOut={animateOut}
     >
-      <Animated.View style={[styles.card, { transform: [{ scale }] }]}>
+      <AnimatedLinearGradient
+        colors={[
+        "#f9fcfdff",  // light gloss
+        "#f9fcfdff",  // mid tone
+        "#f9fcfdff",  // deep blue
+        "#f9fcfdff"   // shadow
+      ]}
+        start={{ x: 0.5, y: 0 }}
+        end={{ x: 0.5, y: 1 }}
+        style={[styles.card, { transform: [{ scale }] }]}
+      >
+
         
         <Text style={styles.cardTitle}>{title}</Text>
 
@@ -82,13 +101,20 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
           </View>
         </View>
 
-      </Animated.View>
+      </AnimatedLinearGradient>
     </Pressable>
   );
 };
 
 const achievementsList = [
-  { title: "Ranked", subtitle: "Star", progress: 0 },
+  { 
+    title: "First Workout \n Logged", 
+    subtitle: "Star", 
+    progress: 0,
+    icon: require("../../assets/images/achieve1.png"),
+    color: "#2C82FF",
+    description: "Reach a new ranking tier by completing fitness challenges."
+  },
   { title: "Streaks", subtitle: "Freshman", progress: 0 },
   { title: "Strength", subtitle: "Sophomore", progress: 0 },
   { title: "Holidays", subtitle: "Sophomore", progress: 0 },
@@ -108,8 +134,8 @@ const achievementsList = [
 
 const Achievements: React.FC = () => {
   const navigation = useNavigation<NavProp>();
-  const route = useRoute();
-  const { from } = route.params as { from?: string };
+  const route = useRoute<AchievementsRouteProp>();
+  const from = route.params?.from;
   const [selected, setSelected] = React.useState<any>(null);
   const slideAnim = useRef(new Animated.Value(0)).current; // 1 = off-screen
 
@@ -175,7 +201,8 @@ const Achievements: React.FC = () => {
       title={item.title}
       subtitle={item.subtitle}
       progress={item.progress}
-      iconSource={require("../../assets/images/medal.png")}
+      iconSource={item.icon}
+      color={item.color}
       onPress={() => openPanel(item)}   // ⭐ NOW WORKS ⭐
     />
   ))}
@@ -186,28 +213,29 @@ const Achievements: React.FC = () => {
   <>
     <Pressable style={styles.overlay} onPress={closePanel} />
 
-    <Animated.View
-      style={[
-        styles.bottomSheet,
-        {
-          transform: [
-            {
-              translateY: slideAnim.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 400],  // slide from bottom
-              }),
-            },
-          ],
-        },
-      ]}
-    >
+      <Animated.View
+        style={[
+          styles.bottomSheet,  // keep the correct sheet style
+          {
+            backgroundColor: selected?.color ?? "#ffffff",
+            transform: [
+              {
+                translateY: slideAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 400],
+                }),
+              },
+            ],
+          },
+        ]}
+      >
       <View style={styles.sheetHandle} />
 
       <Text style={styles.sheetTitle}>{selected.title}</Text>
       <Text style={styles.sheetSubtitle}>{selected.subtitle}</Text>
 
       <Image
-        source={require("../../assets/images/medal.png")}
+        source={selected.icon}
         style={styles.sheetIcon}
       />
 
@@ -224,8 +252,7 @@ const Achievements: React.FC = () => {
       </View>
 
       <Text style={styles.sheetDescription}>
-        This achievement tracks your {selected.title.toLowerCase()}. Keep
-        progressing to unlock rewards!
+        {selected.description}
       </Text>
     </Animated.View>
   </>
@@ -247,7 +274,7 @@ const styles = StyleSheet.create({
   },
   safeBackground: {
     flex: 1,
-    backgroundColor: "#44474fff",
+    backgroundColor: "#bfbebeff",
   },
   scrollContent: {
     paddingBottom: 24,
@@ -325,16 +352,22 @@ const styles = StyleSheet.create({
 
   card: {
     width: 300,
-    backgroundColor: "#ffffff",
     borderRadius: 18,
     paddingVertical: 14,
     paddingHorizontal: 10,
     marginBottom: 14,
+    
+    // 💙 keeps your gradient visible
+    overflow: "hidden",
+    
+    // 🌟 Strong glossy shadow (iOS)
     shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 3,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    
+    // 🌟 Shadow for Android
+    elevation: 10,
   },
   cardTitle: {
     fontSize: 14,
@@ -469,7 +502,8 @@ sheetDescription: {
   marginTop: 20,
   fontSize: 14,
   textAlign: "center",
-  color: "#444",
+  color: "#ffffffff",
 },
+
 
 });
