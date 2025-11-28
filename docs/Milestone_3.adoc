@@ -1118,4 +1118,53 @@ The diagram below illustrates the conceptual boundaries and dependency direction
 image::img/Software_Architecture.png[Architecture overview of core subsystems,align="center"]
 
 
+== 3. Analytic Part
+
+=== 3.1 Concept Analysis
+
+* Statements:
+** *Statement A (The Fading Novice):* "I started going to the gym after Christmas last year and really got into it. I went on 4 days every week and did some yoga on the other days, but after about 6 weeks when the semester really picked up pace and there were the first exams coming up, 
+I lost drive and went less often. Then I noticed that I was lifting less than I had lifted just a week earlier and so I went even less often."
+** *Statement B (The Intimidated Beginner):* "I feel intimidated and out of place in the gym. I'm not sure if I'm doing the exercises right or if I'm making any progress. It's hard to stay motivated when it feels like a chore and you don't see immediate results."
+** *Statement C (The Plateaud Regular):* "I've been training consistently for two years, but I've hit a wall. My numbers aren't going up, and my routine feels repetitive. I suspect I might be neglecting some muscle groups, but I don't have the data to confirm it."
+
+* Observed abstractions:
+** All statements highlight the challenge of maintaining long-term engagement in fitness activities.
+** Motivation appears closely tied to visible progress, structured feedback, and external reinforcement mechanisms such as achievements or goals.
+** Training consistency emerges as a critical factor for both progress and sustained participation. 
+** Knowledge gaps, lack of guidance, and insufficient feedback contribute to uncertainty and reduced commitment.
+
+* Key Domain Concepts: 
+** *Activity Engagement:* The degree to which users participate in structured fitness activities over time, measured by frequency, duration, and intensity.
+** *Motivation Factor:* Internal and external triggers that influence a user's willingness to initiate and maintain fitness activities.
+** *Progress Tracking:* The structured measurement, interpretation, and visualization of performance metrics to help users understand improvement and sustain motivation.
+** *Training Balance:* The equitable distribution of training focus across major muscle groups to prevent imbalances and optimize development.
+** *Consistency Metric:* Quantitative measures of regular participation, such as workout streaks and completion rates.
+** *Performance Plateau:* A stagnation in measurable or perceived progress that often leads to reduced motivation and disengagement.
+
+* Potential ambiguities:
+** Terms like goal, achievement, and reward may overlap. A goal is self-set, an achievement is earned, and a reward may be externally given. Clarifying how these relate within the domain language is essential for consistent system logic later.
+** The system must define the boundary between healthy consistency and early signs of overtraining to support safe, sustainable progress.
+** The relationship between quantitative metrics (sets, reps, weights) and qualitative improvements (confidence, form mastery, perceived competence) must be explicitly modeled.
+
+* Deep Domain Model Evolution:*
+Our understanding has evolved from simple logging systems to modeling dynamic, motivational fitness journeys:
+
+**Shallow Model:** "Log exercises, earn points"
+**Deep Model:** "Users engage in personalized, progressive training journeys where consistency, balanced development, feedback loops, and social accountability shape long-term fitness behavior."
+
+* Key Aggregate Boundaries Identified:*
+- WorkoutSession as the central training unit
+- UserProgress as a longitudinal model capturing performance, motivation, and training balance over time  
+- SocialNetwork as a structured motivational ecosystem supporting accountability and engagement
+
+* Ubiquitous Language Refinement:*
+Terms like "TrainingBalance," "ProgressiveOverload," and "SocialMotivation" have been explicitly defined and integrated into our domain language.
+
+=== 3.1.1 Refactoring for deeper insight
+
+*Shallow vs. Deep Models:
+**Shallow Model: Focuses only on surface elements like reps, calories, or point. Example: "Do 10 push-ups, get 100 points" While simple, this approach quickly feels arbitrary and fails to connect with real fitness goals.
+**Deep Model: Emphasizes core motivational drivers such as mastery, progression, identity, and purpose. Example: "Do 10 push-ups to increase your Strength skill, unlocking new workout quests that reflect actual physiological progression." This creates stronger connections between in-app feedback and the user’s real-world growth.
+
 
