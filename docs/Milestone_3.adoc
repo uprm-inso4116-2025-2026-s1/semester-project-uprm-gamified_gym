@@ -119,12 +119,11 @@ Domain Understanding: Capture the essential structures, behaviors, and motivatio
 
 ==== 2.1 Domain Description
 
-The domain focuses on how individuals plan, perform, and monitor their physical training activities. In the real world, users complete workouts made up of exercises, each defined by attributes such as sets, repetitions, duration, or load. These activities produce measurable outcomes that form part of a user’s long-term fitness progression. Users also tend to follow routines, revisit previous sessions, and make adjustments based on past performance.
+The domain focuses on how individuals plan, perform, and monitor their physical training activities. In the real world, users complete workouts composed of exercises, each characterized by attributes such as sets, repetitions, duration, or load. These actions generate measurable outcomes that contribute to long-term fitness progression. Users tend to revisit previous sessions, follow structured routines, and adjust training based on past performance.
 
-Key domain concepts include workouts, exercises, user profiles, training schedules, and progress indicators. These elements exist independently of any software system and define the structure of the problem space. The domain also involves temporal aspects—such as when a workout occurs, how often it repeats, and how performance changes over time—as well as motivational factors like achievement milestones or consistency streaks.
+Key domain concepts include workouts, exercises, user profiles, training schedules, and progress indicators. These domain objects and relationships exist independently of any software system and define the stable structure of the problem world. The domain also incorporates temporal aspects such as session timing, repetition frequency, and the evolution of performance over time.
 
-Accuracy, continuity, and clarity of workout information are essential domain constraints. Users rely on the correctness of recorded data, the durability of historical logs, and the ability to reference past activity to guide future training decisions. Any system built for this domain must preserve these inherent relationships and constraints to reflect the real behavior of fitness tracking in the problem world.
-
+The domain also includes the natural difficulties athletes face during training. Instability often emerges mid-set in the form of grip slips, bar path deviations, or uneven movement. Fatigue builds progressively, producing sensations such as burning, tightening, or loss of control, which may cause athletes to pause, reassess form, or stop a set early. Users frequently lose track of repetitions, forget loads, or change exercises when discomfort or confusion interrupts a session. These behaviors shape the real-world flow of training and influence long-term progress, consistency, and motivational patterns such as streaks or achievement milestones.
 
 ==== 2.1.1 Domain Rough Sketch (Raw Stories)
 === Raw Story: Losing Track During Supersets
