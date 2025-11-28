@@ -879,29 +879,26 @@ Community support and shared accountability contribute to training consistency.
  
 ==== 2.2.4 Interface Requirements
 * Workout Logging Interface
- ** The system shall provide an interface for users to log an exercise by specifying the exercise name,
-weight lifted, number of sets, and number of repetitions per set. The system shall require that every 
-logged exercise be associated with at least one primary muscle group. The interface shall enable a user to
-input and submit a standard 3-set exercise in under 30 seconds.
+ ** The system shall enable the athlete to record an exercise with all information required by the domain model (exercise name, sets, repetitions, load, and associated muscle groups).
+ ** The system shall prevent an exercise from being recorded if essential domain-required information is missing or invalid.
+ ** The system shall provide a way for the athlete to review the information entered before it becomes part of the workout log.
+ ** When the athlete submits a completed exercise entry, the system shall incorporate the entry into the athlete’s workout history and update all domain-relevant state such as training volume and muscle-group contributions.
 
-* Progress Tracking
- ** The system shall calculate and display a historical graph of total training volume for each muscle 
-group over a user-selectable time period. The system shall track and highlight new Personal Records (PRs) 
-when a user logs a set with higher weight than any previous set for that exercise. All charts and graphs 
-depicting muscle balance shall be understandable at a glance without requiring manual interpretation of 
-data tables.
+* Progress Feedback Interface
+ ** The system shall make the athlete’s historical training volume accessible in a way that allows interpretation of changes over time without requiring manual calculations.
+ ** The system shall make information about the athlete’s performance milestones, such as highest recorded load for an exercise, accessible to the athlete in an interpretable form.
+ ** The system shall make the athlete’s MuscleGroupBalance accessible in a way consistent with the domain model that allows the athlete to understand how their training distribution relates to different muscle groups.
 
-* Training Guidance
- ** The system shall suggest alternative exercises during the logging process if the user's current 
-selection disproportionately targets an already dominant muscle group based on muscle balance metrics. 
-When the system detects a performance plateau, it shall provide automated suggestions for changes in 
-repetition ranges. The system shall allow users to input goals based on specific timeframes and 
-automatically generate a structured, periodized workout plan toward that goal.
+* Achievement and XP Interface
+ ** When an athlete logs activities that satisfy the domain conditions for earning an achievement, the system shall make the achievement available to the athlete through the interface.
+ ** The system shall make the athlete’s accumulated XP accessible in a way that allows them to understand their current progression as defined in the domain model.
+ ** If the athlete’s domain state changes in a way that affects achievements or XP, the system shall update the information made available to the athlete accordingly.
 
-* Gamification Interface
- ** The system shall assign users a rank (Bronze, Silver, Gold, etc.) for each muscle group, calculated 
-based on total historical training volume and PRs for that muscle group. The system shall award users
-experience points (XP) for completing workouts and achieving milestones.
+* Domain-State Interaction Requirements
+ ** The system shall expose only information that exists within the established domain: workout entries, training volume, muscle-group associations, achievements, XP, and MuscleGroupBalance.
+ ** Domain-derived values such as training volume totals, personal records, and MuscleGroupBalance shall be retrievable by the athlete without requiring them to recompute those quantities manually.
+ ** Any interaction through which the athlete modifies domain state, such as logging a workout, shall trigger the corresponding state transitions defined in the domain model.
+ ** Any interaction through which the athlete requests domain information shall retrieve it from the appropriate subsystem without redefining or duplicating domain logic.
 
 
 ==== 2.2.5 Machine Requirements
