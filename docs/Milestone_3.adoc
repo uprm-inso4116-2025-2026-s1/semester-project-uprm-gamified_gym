@@ -501,59 +501,16 @@ transitionToMachineWork(exercise: Exercise): Exercise
 
 
 ==== 2.2 Requirements
+We categorize all system requirements into four groups: **Domain**, **Functional**, **Interface**, and **Machine**. Each requirement is also assigned a priority level (**High**, **Medium**, or **Low**) to indicate its importance for the first release.
 
-==== 2.2.0 Classification key
-* Functional (F) — user-facing behavior.
-* Non‑functional (N) — quality attributes (performance, security, usability).
-* Constraint (C) — external/architectural limits.
-* Priority: High / Medium / Low.
-
-==== 2.2.1 Summary (short)
-This section lists prioritized requirements, business value, and concise acceptance criteria to guide implementation and testing.
-
-==== Core requirements (High)
-* Workout Logging (F)
-** Value: Enables core product usage and XP generation.
-** Acceptance: Create a workout with exercises/sets/reps/weight; saved session appears in Saved Workouts and persists after restart.
-
-* Saved Workouts CRUD + Confirmation (F)
-** Value: Editability and trust; immediate feedback improves UX.
-** Acceptance: Create/read/update/delete roundtrip to Supabase; show "Workout Saved Successfully." (toast/alert) when Done/save.
-
-* Schedule Calendar (F, Constraint: Supabase)
-** Value: Planning increases consistency and retention.
-** Acceptance: Users add/edit/delete workouts in workout_schedule scoped to user_id; calendar UI displays entries by date.
-
-* XP & Achievements (F)
-** Value: Core gamification for motivation.
-** Acceptance: XP strategies produce expected results in unit tests; achievements trigger visible UI notification.
-
-==== Non‑functional (Medium/High)
-* Authentication & Data Isolation (N/C)
-** Value: Protects user data; enables personalized features.
-** Acceptance: Only authenticated user's records visible; Supabase auth enforced.
-
-* Performance & Usability (N)
-** Value: Fast, low-friction logging during workouts.
-** Acceptance: Typical save/fetch operations complete within target (≈2s); 3-set entry ≤ 30s in usability tests.
-
-==== Acceptance test pointers (minimal)
-* Unit: XP strategies, pure helpers (volume).
-* Integration: WorkoutRepository <> Supabase CRUD (mocked), ExerciseCard → ExerciseLog interaction (onDone triggers toast).
-* E2E: Start workout → add push-up → tap Done → assert toast shown → Saved Workouts contains entry.
-
-==== Traceability
-Map requirements to Epics:
-* Epic 1 (Workout Logging) → Workout Logging, Saved Workouts.
-* Epic 2 (Gamification) → XP & Achievements.
-* Epic 3 (Data/Navigation) → Auth, Persistence.
-* Epic 4 (Growth) → Schedule Calendar (planning), future social features.
-
-==== Implementation notes (location)
-* UI: app/(tabs)/ExerciseLog.tsx, app/(tabs)/Schedule.tsx, components/exercise-card.tsx, components/CalendarView.tsx, components/ScheduleForm.tsx
-* Persistence: src/repositories/WorkoutRepository.ts, lib/scheduleService.ts (supabase)
-* Tests: __tests__/unit, __tests__/integration, e2e/
-
+The primary requirements defined for this project include:
+* **Workout Logging** – High
+* **XP System** – High
+* **Saved Workouts** – Medium
+* **User Accounts** – High
+* **Schedule / Planning** – Medium
+* **Achievements** – Medium
+* **Notifications** – Low
 
 ==== 2.2.2 Personas
 * Alex, the Beginner:
