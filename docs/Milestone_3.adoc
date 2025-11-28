@@ -117,6 +117,8 @@ Community Building: Promote positive accountability and collective progress.
 
 Domain Understanding: Capture the essential structures, behaviors, and motivational elements of real fitness journeys to inform later design.
 
+==== 2.2 Requirements
+
 ==== 2.1 Domain Description
 
 The domain focuses on how individuals plan, perform, and monitor their physical training activities. In the real world, users complete workouts composed of exercises, each characterized by attributes such as sets, repetitions, duration, or load. These actions generate measurable outcomes that contribute to long-term fitness progression. Users tend to revisit previous sessions, follow structured routines, and adjust training based on past performance.
