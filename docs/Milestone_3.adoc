@@ -5,40 +5,40 @@
 === 1.1 Team Composition
 
 Managers:
-* Gian Gonzalez 
-* Kevin Lopez
-* Ricardo Perez
+ Gian Gonzalez, 
+ Kevin Lopez,
+ Ricardo Perez
 
 Fitness Tracker Team:
-** Ernesto Soto (Team Leader)
-** Cristian Massini
-** Pedro Matos
-** Cristian Barreras
-** Nelson Caban
-** Yandiel Hernandez
-** Luis Sorrentini
-** Michael Martinez
+ Ernesto Soto (Team Leader),
+ Cristian Massini,
+ Pedro Matos,
+ Cristian Barreras,
+ Nelson Caban,
+ Yandiel Hernandez,
+ Luis Sorrentini,
+ Michael Martinez
 
 Foundations Team:
-** Reinaldo Martinez (Team Leader)
-** Estefania Roca
-** Lianette Alberto
-** Christian Rodriguez
-** Marcelo Perez
-** Christian Medina
-** Angel Ramos
-** Kevin Ibarra
-** Fernando Hidalgo
+ Reinaldo Martinez (Team Leader),
+ Estefania Roca,
+ Lianette Alberto,
+ Christian Rodriguez,
+ Marcelo Perez,
+ Christian Medina,
+ Angel Ramos,
+ Kevin Ibarra,
+ Fernando Hidalgo
 
 Game Design Team:
-** Emmanuel Guadalupe (Team Leader)
-** Aliana Santiago
-** Jorge Peralta
-** Keishlyany Sanabria
-** Diego Vazquez
-** Kiam Perez
-** Andrea Seda
-** Samael Alvarez
+ Emmanuel Guadalupe (Team Leader),
+ Aliana Santiago,
+ Jorge Peralta,
+ Keishlyany Sanabria,
+ Diego Vazquez,
+ Kiam Perez,
+ Andrea Seda,
+ Samael Alvarez
 
 === 1.2 Current Situation, Needs, and Ideas
 
