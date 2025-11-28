@@ -1197,27 +1197,22 @@ image::img/Software_Architecture.png[Architecture overview of core subsystems,al
 === 3.1 Concept Analysis
 
 * Statements:
-** *Statement A (The Fading Novice):* "I started going to the gym after Christmas last year and really got into it. I went on 4 days every week and did some yoga on the other days, but after about 6 weeks when the semester really picked up pace and there were the first exams coming up, 
-I lost drive and went less often. Then I noticed that I was lifting less than I had lifted just a week earlier and so I went even less often."
-** *Statement B (The Intimidated Beginner):* "I feel intimidated and out of place in the gym. I'm not sure if I'm doing the exercises right or if I'm making any progress. It's hard to stay motivated when it feels like a chore and you don't see immediate results."
-** *Statement C (The Plateaud Regular):* "I've been training consistently for two years, but I've hit a wall. My numbers aren't going up, and my routine feels repetitive. I suspect I might be neglecting some muscle groups, but I don't have the data to confirm it."
+** *Statement A (The Fading Novice):* "I started going to the gym after Christmas last year and really got into it. I went on 4 days every week and did yoga on the other days, but after about 6 weeks—when the semester picked up pace and exams were coming up—I lost drive and went less often. Then I noticed I was lifting less than the week before, and that discouraged me even more."
+** *Statement B (The Intimidated Beginner):* "I feel intimidated and out of place in the gym. I'm not sure if I'm doing the exercises correctly or whether I'm making progress at all. It’s hard to stay motivated when it feels like a chore and you can’t see immediate results."
+** *Statement C (The Plateaud Regular):* "I’ve been training consistently for two years, but I’ve hit a wall. My numbers aren’t improving, and my routine feels repetitive. I suspect I’m neglecting certain muscle groups, but I don’t have the insight or data to confirm it."
 
 * Observed abstractions:
 ** All statements highlight the challenge of maintaining long-term engagement in fitness activities.
-** Motivation appears closely tied to visible progress and recognition such as milestones.
+** Motivation appears closely tied to visible progress and feedback.
 ** Training consistency emerges as a critical factor for both progress and sustained participation. 
 ** Knowledge gaps, lack of guidance, and insufficient feedback contribute to uncertainty and reduced commitment.
 
 * Key Domain Concepts: 
 ** *Activity Engagement:* The degree to which users participate in structured fitness activities over time, measured by frequency, duration, and intensity.
 ** *Motivation Factor:* Internal and external triggers that influence a user's willingness to initiate and maintain fitness activities.
-** *Training Process:* The structured measurement, interpretation, and visualization of performance metrics to help users understand improvement and sustain motivation.
 ** *Training Balance:* The equitable distribution of training focus across major muscle groups to prevent imbalances and optimize development.
-** *Consistency metric as a behavior pattern:* Quantitative measures of regular participation, such as milestones or signs of improvement.
+** *Training Consistency:* Quantitative measures of regular participation and training.
 ** *Performance Plateau:* A stagnation in measurable or perceived progress that often leads to reduced motivation and disengagement.
-
-* Ubiquitous Language Refinement:*
-Terms like "TrainingBalance," "ProgressiveOverload," and "SocialMotivation" have been explicitly defined and integrated into our domain language.
 
 
 === 3.2 Validation and Verification
@@ -1227,10 +1222,18 @@ Terms like "TrainingBalance," "ProgressiveOverload," and "SocialMotivation" have
 Validation is the process of ensuring that the {pname} application meets the needs and expectations of its target users. 
 
 The validation process for GamifiedGym will be conducted through structured scenario walkthroughs, terminology checks, and targeted stakeholder sessions. 
-For example, one scenario we generated was: “Humberto has logged all his workouts for the past two weeks since using the app. After earning a badge for his deltoid progression, he explores the partner-matching feature. He selects criteria based on training age and badge tier. He then receives three potential partners, allowing him to send an invite.” 
+For example, one scenario we generated was: “Alex has logged all workouts for two weeks. After recording a new bench-press PR, the system highlights the updated PersonalRecordAchieved event and updates his Chest muscle-group training volume. He checks his MuscleGroupBalance indicator and notices his Back volume is significantly lower. Based on this imbalance, the system suggests three alternative exercises targeting undertrained muscle groups.”
 When this scenario was evaluated with prospective users, they indicated that achievement systems and partner-based accountability felt motivating, but emphasized that achievements must be both frequent and progressive (short-term and long-term milestones).
 
-Additional validation activities include:
+*Domain-Focused Validation Approach*
+
+Validation activities check whether users correctly interpret core domain concepts such as TrainingBalance, Fatigue/Tightness events, consistency streaks, XP progression, and plateau detection. 
+Scenario walkthroughs test whether the domain behaviors match user expectations—for example, whether users understand why the system flags a muscle-group imbalance or identifies a plateau in performance.
+
+Low-fidelity prototypes are used only to verify that domain feedback (e.g., PR recognition, muscle-volume distribution, or streak continuity) is understandable. 
+These prototypes validate conceptual clarity—not detailed UI layout or interaction mechanics.
+
+*Additional Validation Activities:*
 
 * *Terminology checks:* Ensuring consistency of terms such as goal, achievement, and quest across requirements and scenarios.
 * *Scenario-based requirement testing:* Using multiple contrasting scenarios (success cases, failure cases, edge cases) to reveal hidden assumptions in the requirements.
@@ -1255,6 +1258,6 @@ Verification will ensure that deliverables meet their stated requirements and pe
 
 * *Unit testing:* Testing core functions such as progression tracking, badge assignment, goal creation, and partner-matching logic in isolation.
 * *Integration testing:* Verifying end-to-end flows.
-* *Completeness checks:* Ensuring that all concepts identified in Section 3.1—such as TrainingBalance, TrainingProcess, and MotivationFactor—are fully represented in requirements, scenarios, and implementation.
+* *Completeness checks:* Ensuring that all concepts identified in Section 3.1—such as TrainingBalance and MotivationFactor—are fully represented in requirements, scenarios, and implementation.
 * *Acceptance testing:* Confirming that final functionality matches validated scenarios and stakeholder expectations.
 * *Traceability reviews:* Mapping requirements to tests, scenarios, and implemented features to ensure no domain concept has been omitted.
