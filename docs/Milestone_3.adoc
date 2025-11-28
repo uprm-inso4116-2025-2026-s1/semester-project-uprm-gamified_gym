@@ -1130,41 +1130,57 @@ I lost drive and went less often. Then I noticed that I was lifting less than I 
 
 * Observed abstractions:
 ** All statements highlight the challenge of maintaining long-term engagement in fitness activities.
-** Motivation appears closely tied to visible progress, structured feedback, and external reinforcement mechanisms such as achievements or goals.
+** Motivation appears closely tied to visible progress and recognition such as milestones.
 ** Training consistency emerges as a critical factor for both progress and sustained participation. 
 ** Knowledge gaps, lack of guidance, and insufficient feedback contribute to uncertainty and reduced commitment.
 
 * Key Domain Concepts: 
 ** *Activity Engagement:* The degree to which users participate in structured fitness activities over time, measured by frequency, duration, and intensity.
 ** *Motivation Factor:* Internal and external triggers that influence a user's willingness to initiate and maintain fitness activities.
-** *Progress Tracking:* The structured measurement, interpretation, and visualization of performance metrics to help users understand improvement and sustain motivation.
+** *Training Process:* The structured measurement, interpretation, and visualization of performance metrics to help users understand improvement and sustain motivation.
 ** *Training Balance:* The equitable distribution of training focus across major muscle groups to prevent imbalances and optimize development.
-** *Consistency Metric:* Quantitative measures of regular participation, such as workout streaks and completion rates.
+** *Consistency metric as a behavior pattern:* Quantitative measures of regular participation, such as milestones or signs of improvement.
 ** *Performance Plateau:* A stagnation in measurable or perceived progress that often leads to reduced motivation and disengagement.
-
-* Potential ambiguities:
-** Terms like goal, achievement, and reward may overlap. A goal is self-set, an achievement is earned, and a reward may be externally given. Clarifying how these relate within the domain language is essential for consistent system logic later.
-** The system must define the boundary between healthy consistency and early signs of overtraining to support safe, sustainable progress.
-** The relationship between quantitative metrics (sets, reps, weights) and qualitative improvements (confidence, form mastery, perceived competence) must be explicitly modeled.
-
-* Deep Domain Model Evolution:*
-Our understanding has evolved from simple logging systems to modeling dynamic, motivational fitness journeys:
-
-**Shallow Model:** "Log exercises, earn points"
-**Deep Model:** "Users engage in personalized, progressive training journeys where consistency, balanced development, feedback loops, and social accountability shape long-term fitness behavior."
-
-* Key Aggregate Boundaries Identified:*
-- WorkoutSession as the central training unit
-- UserProgress as a longitudinal model capturing performance, motivation, and training balance over time  
-- SocialNetwork as a structured motivational ecosystem supporting accountability and engagement
 
 * Ubiquitous Language Refinement:*
 Terms like "TrainingBalance," "ProgressiveOverload," and "SocialMotivation" have been explicitly defined and integrated into our domain language.
 
-=== 3.1.1 Refactoring for deeper insight
 
-*Shallow vs. Deep Models:
-**Shallow Model: Focuses only on surface elements like reps, calories, or point. Example: "Do 10 push-ups, get 100 points" While simple, this approach quickly feels arbitrary and fails to connect with real fitness goals.
-**Deep Model: Emphasizes core motivational drivers such as mastery, progression, identity, and purpose. Example: "Do 10 push-ups to increase your Strength skill, unlocking new workout quests that reflect actual physiological progression." This creates stronger connections between in-app feedback and the user’s real-world growth.
+=== 3.2 Validation and Verification
 
+*Validation*
 
+Validation is the process of ensuring that the {pname} application meets the needs and expectations of its target users. 
+
+The validation process for GamifiedGym will be conducted through structured scenario walkthroughs, terminology checks, and targeted stakeholder sessions. 
+For example, one scenario we generated was: “Humberto has logged all his workouts for the past two weeks since using the app. After earning a badge for his deltoid progression, he explores the partner-matching feature. He selects criteria based on training age and badge tier. He then receives three potential partners, allowing him to send an invite.” 
+When this scenario was evaluated with prospective users, they indicated that achievement systems and partner-based accountability felt motivating, but emphasized that achievements must be both frequent and progressive (short-term and long-term milestones).
+
+Additional validation activities include:
+
+* *Terminology checks:* Ensuring consistency of terms such as goal, achievement, and quest across requirements and scenarios.
+* *Scenario-based requirement testing:* Using multiple contrasting scenarios (success cases, failure cases, edge cases) to reveal hidden assumptions in the requirements.
+* *Stakeholder workshops:* Presenting narratives of motivational barriers and gamified reinforcement strategies to verify alignment with real experiences.
+* *Early prototypes:* Low-fidelity UI mockups will be used to validate whether users clearly understand progression and rewards.
+* *Cognitive walkthroughs:* Evaluating whether first-time users can understand feedback loops, training balance indicators, and progression paths without instruction.
+ 
+Validation activities will be carried out collaboratively by all project stakeholders throughout development. These stakeholders include:
+
+* *Project Supervisor (Professor):* Provides guidance and feedback on whether validation outcomes align with project goals.
+* *Development Team:* Iterates on requirement definitions, scenario construction, and prototype evaluation based on validation results.
+* *End Users (Students/Gym-goers):* Share firsthand feedback on scenarios, prototypes, and usability, serving as the most critical source of validation for motivational effectiveness.
+* *Domain Consultants (e.g., gym staff or experienced trainers):* Provide insight into feasible training progressions, realistic motivational barriers, and safety considerations.
+
+*Verification*
+
+Verification is the process of ensuring that GamifiedGym is being built correctly and that it fulfills the specified requirements. It confirms that the apps features and deliverables work as intended.
+
+*Purpose and Importance:*
+
+Verification will ensure that deliverables meet their stated requirements and perform as intended. Planned verification methods include:
+
+* *Unit testing:* Testing core functions such as progression tracking, badge assignment, goal creation, and partner-matching logic in isolation.
+* *Integration testing:* Verifying end-to-end flows.
+* *Completeness checks:* Ensuring that all concepts identified in Section 3.1—such as TrainingBalance, TrainingProcess, and MotivationFactor—are fully represented in requirements, scenarios, and implementation.
+* *Acceptance testing:* Confirming that final functionality matches validated scenarios and stakeholder expectations.
+* *Traceability reviews:* Mapping requirements to tests, scenarios, and implemented features to ensure no domain concept has been omitted.
