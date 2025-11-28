@@ -1,6 +1,13 @@
 # inso-course-project-template
 This repository template will create a repository with the metrics collection set up  automatically. 
 
+# Gamified Gym Project Guide
+Mobile app that tracks, and has gaming aspect to help engage in gym activities 
+
+## Lecture Topics Guide
+Format: LTT_#issue_(Name of file) 
+Use the issue number to trace the developer that worked on the task.
+
 ## Gamified Gym – Repository Structure
 This repository contains the source code and documentation for **Gamified Gym**, a mobile fitness application built with **React Native**. The app combines workout tracking with gamified features like achievements, badges, and challenges to motivate users.
 
@@ -39,12 +46,11 @@ gamified-gym/
 │   ├── app-tests/               # Frontend tests
 │   └── backend-tests/           # API tests
 │
-├── scripts/                     # Utility or automation scripts (build, lint, etc.)
-│
 ├── .github/                     # GitHub configuration
 │   └── workflows/               # GitHub Actions (CI/CD pipelines)
+|       └── asciidoctor-pdf.yml               # .adoc to .pdf auto-converter
+|       └── dev-metrics.yml               # computes scores for developers
 │
-├── gh_metrics_config.json                 # Project dependencies
 ├── README.md                    # Project overview (this file)
 └── LICENSE                      # License information
 ```

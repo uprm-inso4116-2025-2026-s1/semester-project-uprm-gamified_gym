@@ -4,24 +4,24 @@
 Gym-Goer recounts:
 "I started a superset of dumbbell curls at 25 pounds and tricep pushdowns at 40 pounds. I wanted to complete three sets of each, but halfway through the first set of curls, I realized I hadn’t kept track of the warm-up reps.
 
-The first few reps felt fine, but by the fourth rep, my forearms burned, and I paused to try to remember which set I was on. My grip felt shaky, and my breathing grew uneven.
+The first few reps felt fine, but by the fourth rep, my forearms burned, and I paused because I couldn't tell which set I was on. My grip felt shaky, and my breathing grew uneven.
 
-On the next pushdown set, I tried to focus on the motion, but my mind kept going back to the previous curls. I paused briefly, then started again, but the tension in my arms made the movement slower and less controlled.
+On the next pushdown set, I tried to focus on the motion, but I kept losing focus and thinking about the earlier curls. I paused briefly, then started again. My arms tightened, and the movement became slower and less controlled.
 
 I attempted another curl set, but my grip slipped slightly, and the movement became uneven. I lowered the dumbbells and stepped away, frustrated that I had lost track halfway through the session.
 
-I moved on to a lighter machine row just to finish the workout, feeling mentally drained from the disorganization."
+I moved on to a lighter machine row just to finish the workout, feeling mentally drained and unfocused."
 
 === Raw Story: Overreaching on Deadlift Day
 
 Athlete recounts:
-"I started my deadlift session at 185 pounds, hoping to push a little harder than last week. My legs and back were already sore, but I felt determined to lift more.
+"I started my deadlift session at 185 pounds, I wanted to push a little harder than last week. My legs and back were already sore, but I felt determined to lift more.
 
 The first two reps felt manageable, but by the third, I noticed my lower back tightening. My grip started slipping slightly on the bar, and my breathing became uneven.
 
-On rep four, I paused to reset my stance. My shoulders felt stiff, and the bar path wasn’t straight. I debated whether to continue, but I tried one more lift.
+On rep four, I paused to reset my stance. My shoulders felt stiff, and the bar path wasn’t straight. I paused for a moment before continuing, then I tried one more lift.
 
-The next rep felt unstable, and I almost lost balance. I stopped immediately, feeling a sharp tension in my lower back. I stepped away from the bar, frustrated that pushing too hard had caused a setback.
+The next rep felt unstable, and I almost lost balance. I stopped immediately, feeling a sharp tension in my lower back. I stepped away from the bar, frustrated after feeling the sharp tightness in my lower back.
 
 I decided to finish with lighter accessory exercises, feeling both sore and mentally exhausted."
 
@@ -30,72 +30,487 @@ I decided to finish with lighter accessory exercises, feeling both sore and ment
 Gym-Goer recounts:
 "I started bench press at 95 pounds. I hadn’t tracked my previous workouts well, so I wasn’t sure if this was my last working set or the one before.
 
-The first few reps felt heavier than expected. I paused mid-set, trying to recall the previous weights. My breathing grew shallow as I focused more on remembering than on lifting.
+The first few reps felt heavier than expected. I paused mid-set, I couldn't remember the previous weight I used. My breathing grew shallow as my focus drifted away from the lift.
 
 On rep five, my elbows flared slightly, and my chest felt unusually fatigued. I paused again to think about whether I should continue with the same weight or adjust.
 
-I tried one more rep, but the bar path wobbled slightly, and I felt my strength fading. I stopped early and moved to dumbbell flyes at a lighter weight, feeling frustrated that forgetting previous numbers had broken my rhythm."
+I tried one more rep, but the bar path wobbled slightly, and I felt my strength fading. I stopped early and moved to dumbbell flyes at a lighter weight, feeling frustrated because the session felt disorganized."
 
 === Raw Story: Cardio With Side Stitches
 
 Athlete recounts:
 "I started on the treadmill at 5.5 mph. The first few minutes felt okay, but by minute three, I noticed a side stitch forming and my calves tightening. My breathing became shallow and irregular.
 
-I tried to continue, but each step made the stitch worse, and my legs felt heavier with every stride. I slowed to a walk and held the rails for a few seconds, hoping the stitch would ease.
+I tried to continue, but each step made the stitch worse, and my legs felt heavier with every stride. I slowed to a walk and held the rails for a few seconds, waiting to see if the stitch would ease.
 
 I resumed jogging after a brief pause, but the pain returned almost immediately. My steps felt flat, and my feet struck the belt harder than usual.
 
-I stopped early, feeling frustrated that I couldn’t maintain a steady pace. I walked slowly for a few minutes to recover, realizing that fatigue and tightness were limiting my session."
+I stopped early, feeling frustrated that I couldn’t maintain a steady pace. I walked slowly for a few minutes to recover, the tightness and heaviness where limiting my session."
 
 === Raw Story: Confused by Complex Routine
 
 Gym-Goer recounts:
-"I started with incline dumbbell press at 65 pounds. My routine alternates between different rep schemes each week, and I wasn’t sure which one I was on.
+"I started with incline dumbbell press at 65 pounds. My routine alternates between different rep schemes each week, and I paused, unsure which rep scheme I was supposed to follow.
 
 The first few reps felt awkward, and I paused between reps trying to remember the plan. My shoulders burned quicker than expected, and my grip felt unstable.
 
-On rep five, my right arm shook slightly, and I realized I might be repeating the wrong number of reps. I paused again, trying to recall the proper sequence.
+On rep five, my right arm shook slightly, I wasn't sure if I was doing the right number of reps. I paused again, trying to recall the proper sequence.
 
-I tried one more rep, but the weight felt heavier than expected, and my arms trembled. I stopped early and moved to lateral raises, feeling mentally fatigued from the confusion and inconsistent routine."
+I tried one more rep, but the weight felt heavier than expected, and my arms trembled. I stopped early and moved to lateral raises, feeling mentally tired from the confusion."
 
-==== 2.1.4 Events / Behaviors / Functions
-=== Events and Behaviors
-- ﻿﻿AthleteBeginsworkoutSession
-- ﻿﻿AthleteChoosesExercise
-- ﻿﻿AthleteAdjustsForm
-- ﻿﻿ExerciseIntensityChosen
-- AthleteCompletesSet
-- AthleteTakesRestPeriod
-- AthleteEndsWorkoutSession
-- PersonalRecordAchieved
-- MuscleBalanceShiftDetected
-- PLateauDetected
-- ConsistencyStreakMaintained
+==== 2.1.2 Terminology (Concepts Derived From Raw Stories)
+
+=== Concept: Rep
+
+Definition:
+A single, complete motion of an exercise, such as lifting and lowering a weight.
+
+Observed in raw stories:
+
+“The first few reps felt fine…”
+
+“On rep five, my elbows flared slightly…”
+
+“The first two reps felt manageable…”
+
+=== Concept: Set
+
+Definition:
+A group of consecutive reps performed without significant rest.
+
+Observed in raw stories:
+
+“I wanted to complete three sets of each…”
+
+“I attempted another curl set…”
+
+“I started my deadlift session… the first two reps…”
+
+=== Concept: Grip
+
+Definition:
+The way the hands hold a weight or equipment during an exercise.
+
+Observed in raw stories:
+
+“My grip felt shaky…”
+
+“My grip slipped slightly on the bar…”
+
+“My grip started slipping.”
+
+=== Concept: Bar Path
+
+Definition:
+The trajectory the barbell follows during a lift.
+
+Observed in raw stories:
+
+“The bar path wasn’t straight.”
+
+“The bar path wobbled slightly…”
+
+=== Concept: Tightness
+
+Definition:
+A physical sensation of tension in muscles during an exercise.
+
+Observed in raw stories:
+
+“My calves tightening…”
+
+“I noticed my lower back tightening…”
+
+“My arms tightened…”
+
+=== Concept: Fatigue
+
+Definition:
+A decrease in muscle ability to continue producing force during an exercise.
+
+Observed in raw stories:
+
+“My chest felt unusually fatigued.”
+
+“By the fourth rep, my forearms burned…”
+
+“My legs felt heavier with every stride.”
+
+=== Concept: Form
+
+Definition:
+The physical technique used to perform an exercise, including posture and movement quality.
+
+Observed in raw stories:
+
+“The movement became uneven…”
+
+“My elbows flared slightly…”
+
+“My right arm shook slightly…”
+
+=== Concept: Pause
+
+Definition:
+A temporary stop in movement or exercise to regain control or reassess.
+
+Observed in raw stories:
+
+“I paused because I couldn’t tell which set I was on.”
+
+“I paused to reset my stance.”
+
+“I paused between reps…”
+
+=== Concept: Side Stitch
+
+Definition:
+A sharp abdominal or rib-area pain that occurs during running or cardio.
+
+Observed in raw stories:
+
+“I noticed a side stitch forming…”
+
+“but each step made the stitch worse...”
+
+=== Concept: Balance
+
+Definition:
+The ability to maintain control and stability during a movement.
+
+Observed in raw stories:
+
+“I almost lost balance.”
+
+“My steps felt flat…”
+
+“the movement became uneven…”
+
+=== Concept: Load
+
+Definition:
+The amount of resistance used in an exercise, typically measured in pounds.
+
+Observed in raw stories:
+
+“I started bench press at 95 pounds.”
+
+“I started my deadlift session at 185 pounds.”
+
+“I started incline dumbbell press at 65 pounds.”
+
+=== Concept: Breathing Pattern
+
+Definition:
+The rhythm and control of breathing during exercise.
+
+Observed in raw stories:
+
+“My breathing became shallow and irregular.”
+
+“My breathing grew uneven…”
+
+“My breathing became uneven.”
+
+=== Concept: Foot Strike
+
+Definition:
+How the foot lands during running or treadmill exercise.
+
+Observed in raw stories:
+
+“My steps felt flat…”
+
+“My feet struck the belt harder than usual…”
+
+“Each step made the stitch worse…”
+
+=== Concept: Loss of Focus
+
+Definition:
+A moment during training when attention drifts away from the exercise, leading to interruptions, pauses, or inconsistent movement.
+
+Observed in raw stories:
+
+“I kept losing focus and thinking about the earlier curls.”
+
+“I paused mid-set, I couldn’t remember the previous weight I used.”
+
+“My focus drifted away from the lift.”
+
+=== Concept: Decision to Stop Early
+
+Definition:
+A point during an exercise where the athlete ends the set or movement before completion due to physical cues such as tightness, instability, or increasing difficulty.
+
+Observed in raw stories:
+
+“I stopped early and moved to dumbbell flyes…”
+
+“I stopped immediately when the tension in my lower back increased.”
+
+=== Concept: Form Instability
+
+Definition:
+Irregular, uneven, or uncontrolled movement patterns during an exercise that indicate loss of technique quality.
+
+Observed in raw stories:
+
+“The movement became slower and less controlled.”
+
+“The bar path wobbled slightly…”
+
+“My right arm shook slightly…”
+
+==== Domain Terminology in Relation to Domain Rough Sketch
+
+The domain terminology was not taken directly from the raw stories. Instead, the raw stories in Section 2.1.1 were analyzed to extract recurring actions, sensations, and patterns observed during training sessions. These raw stories are unprocessed accounts, while the terminology in Section 2.1.2 represents refined concepts that emerged from examining those accounts.
+
+For example, repeated mentions of “my grip slipped,” “my grip felt shaky,” and “my grip started slipping” were processed into the term Grip, with a precise definition that captures what the athlete is physically doing. Similarly, descriptions such as “the bar path wasn’t straight” and “the bar path wobbled slightly” led to the defined concept Bar Path.
+
+Other terms — such as Tightness, Fatigue, Form, Loss of Focus, and Decision to Stop Early — were developed by grouping together multiple similar observations found across different raw stories. These definitions are not rough; they are the result of interpreting and refining what athletes repeatedly experienced.
+
+Thus, Section 2.1.2 contains processed and clarified domain concepts, while Section 2.1.1 contains the unedited lived experiences that those concepts were derived from.
+
+==== 2.1.4 Narrative
+Athletes begin a set with a chosen weight and rep plan, often feeling stable at first. Early repetitions may feel 
+manageable, but instability quickly emerges: grip slips, bar paths wobble, and motions become uneven. As the set 
+progresses, muscles tighten suddenly in the forearms, back, chest, or shoulders, and breathing grows shallow or 
+irregular, disrupting rhythm.
+
+Mid‑set pauses are common, as athletes stop to reassess form, stance, or rep count. Confusion about previous 
+loads or rep schemes interrupts the flow, leaving the athlete unsure whether to continue or adjust. Fatigue 
+rises quickly, producing sensations of heaviness, burning, or trembling in specific muscles. Movements slow 
+down, and instability or discomfort increases.
+
+Athletes often attempt another rep after pausing, trying to regain control before stopping. But when strain 
+escalates into sharp tightness, pain, or overwhelming fatigue, they frequently terminate sets early. They 
+step away from the exercise, frustrated by the loss of control or disorganization. To finish the session, 
+they switch to lighter weights, accessory machines, or slower pacing, seeking a manageable way to continue
+ after instability or exhaustion.
+
+This domain flow reflects how athletes operate under uncertainty, react to emerging sensations, and adjust 
+mid-set. Training is rarely linear — it is shaped by interruptions, resets, and constant recalibration.
+
+==== 2.1.5 Events / Behaviors / Functions
+
+=== Pattern: Losing Control During Movement
+
+Events & Behaviors (with raw-story quotes)
+
+GripSlips
+
+“my grip slipped slightly”
+
+BarDoesNotMoveStraight
+
+“the bar path wasn’t straight”
+“the bar path wobbled slightly”
+
+MovementSlowsUnexpectedly
+
+“the movement became slower”
+
+ArmShakesDuringLift
+
+“my right arm shook slightly”
+
+FootStrikeBecomesFlat
+
+“my feet struck the belt harder than usual”
+
+Domain Functions (based on actual athlete reactions)
+
+steadyGrip() → ImprovedGrip
+Justified by: multiple attempts to regain hold after grip becomes shaky.
+
+slowDownMovement() → MovementState
+Justified by: athlete reduces pace when movement becomes unstable.
+
+resetMovementPath() → PathStatus
+Justified by: athlete pauses and resets stance when bar drifts.
+
+=== Pattern: Fatigue and Tightening
+
+Events & Behaviors (with quotes)
+
+ForearmsBurn
+
+“my forearms burned”
+
+LowerBackTightens
+
+“my lower back tightening”
+
+CalvesTighten
+
+“my calves tightening”
+
+BreathingBecomesShallow
+
+“my breathing became shallow and irregular”
+
+SideStitchAppears
+
+“a side stitch forming”
+
+Domain Functions (matching actions taken)
+
+pauseBecauseOfTightness() → RecoveryState
+Justified by:
+
+“I slowed to a walk and held the rails…”
+
+adjustEffortDueToFatigue() → EffortLevel
+Justified by:
+
+“the movement became slower and less controlled”
+
+stopDueToTension() → StopOutcome
+Justified by:
+
+“I stopped immediately when the tension increased”
+
+=== Pattern: Losing Track or Forgetting
+
+Events & Behaviors (with quotes)
+
+RepCountLost
+
+“I couldn’t tell which set I was on”
+
+WorkingWeightUncertain
+
+“I wasn’t sure if this was my last working set”
+
+RepPlanUnclear
+
+“unsure which rep scheme I was supposed to follow”
+
+AttentionShiftsAway
+
+“my focus drifted away from the lift”
+
+PauseToRecollect
+
+“I paused again to think”
+
+Domain Functions (as actually done by athlete)
+
+pauseToRecollectPlan() → PlanStatus
+Justified by:
+
+“paused between reps trying to remember”
+
+checkPreviousWeight() → WeightRecollection
+Justified by:
+
+“I paused mid-set, I couldn't remember the previous weight I used.”
+
+restartSetAfterConfusion() → SetStatus
+Justified by:
+
+“I paused briefly, then started again”
+
+=== Pattern: Stopping or Slowing Mid-Session
+
+Events & Behaviors (with quotes)
+
+AthleteSlowsDown
+
+“I slowed to a walk”
+
+AthletePausesSet
+
+“I paused mid-set”
+
+SetEndsBecauseOfInstability
+
+“I stopped early”
+
+DecisionToStopAfterPain
+
+“I stopped immediately when the tension increased”
+
+SwitchToLighterMovement
+
+“I moved to dumbbell flyes at a lighter weight”
+
+Domain Functions (matching next-step actions)
+
+slowDownPace() → PaceLevel
+
+stopSetEarly() → SetOutcome
+
+switchToLighterMovement() → ExerciseChoice
+
+=== Pattern: Changing Exercise Mid-Session
+
+Events & Behaviors
+
+SwitchToAccessoryExercise
+
+“I decided to finish with lighter accessory exercises”
+
+TransitionToMachine
+
+“I moved on to a lighter machine row”
+
+ChangeExerciseAfterConfusion
+
+“I stopped early and moved to lateral raises”
+
+ChangeExerciseAfterInstability
+
+“I moved to dumbbell flyes”
+
+Domain Functions
+
+changeExercise() → Exercise
+
+chooseEasierExercise() → Exercise
+
+transitionToMachineWork() → Exercise
+
+===2.1.6 Function Signatures
+
+=== Pattern: Losing Control During Movement
+steadyGrip(grip: Grip): Grip
+slowDownMovement(movement: Movement): Movement
+resetMovementPath(path: MovementPath): MovementPath
+
+=== Pattern: Fatigue and Tightening
+pauseBecauseOfTightness(tightness: Tightness): RecoveryState
+adjustEffortDueToFatigue(fatigue: Fatigue): EffortLevel
+stopDueToDiscomfort(discomfort: Tightness): StopOutcome
+
+=== Pattern: Losing Track or Forgetting
+pauseToRecollectPlan(plan: RepPlan): PlanStatus
+checkPreviousWeight(load: Load): WeightRecollection
+restartSetAfterConfusion(set: Set): SetStatus
+
+=== Pattern: Stopping or Slowing Mid-Session
+slowDownPace(pace: Pace): Pace
+stopSetEarly(set: Set): SetOutcome
+switchToLighterMovement(exercise: Exercise): Exercise
+
+=== Pattern: Changing Exercise Mid-Session
+changeExercise(current: Exercise): Exercise
+chooseEasierExercise(exercise: Exercise): Exercise
+transitionToMachineWork(exercise: Exercise): Exercise
 
 
+==== 2.2 Requirements
+We categorize all system requirements into four groups: **Domain**, **Functional**, **Interface**, and **Machine**. Each requirement is also assigned a priority level (**High**, **Medium**, or **Low**) to indicate its importance for the first release.
 
-=== Domain Function
-planworkoutSession(athlete: Athlete, goal: TrainingGoal) → WorkoutSession
-selectExercise(session: WorkoutSession, exercise: Exercise) → UpdatedSession
-applyIntensity(exercise: Exercise, intensity: Intensity) → Exercise
-completeSet (exercise: Exercise, reps: Reps, weight: Weight) → Comp letedSet
-recordRest(session: WorkoutSession, duration: Duration) - RestPeriod
-updateMuscleBalance(athlete: Athlete, metrics: TrainingVolume) → MuscleBalanceScore
-detectPlateau(athlete: Athlete, history: ProgressHistory) → PlateauStatus
-awardMilestone(athlete: Athlete, achievement: Achievement) → UpdatedProgress
-endworkoutSession(session: WorkoutSession) → WorkoutSummary
-
-==== 2.1.5 Function Signatures
-- createExercise(name: Name, reps: Reps, sets: Sets, intensity: Intensity): Exercise
-- createWorkoutRoutine(exercises: ExerciseList, goal: TrainingGoal): WorkoutRoutine
-- createSet(reps: Reps, weight: Weight, intensity: Intensity): Set
-- startWorkoutSession(athlete: Athlete): WorkoutSession
-- selectExercise(session: WorkoutSession, exercise: Exercise): UpdatedSession
-- applyIntensity(exercise: Exercise, intensity: Intensity): Exercise
-- completeSet(exercise: Exercise, reps: Reps, weight: Weight): CompletedSet
-- recordRest(session: WorkoutSession, duration: Duration): RestPeriod
-- updateProgress(athlete: Athlete, metrics: ProgressData): ProgressLog
-- endWorkoutSession(session: WorkoutSession): Summary
+The primary requirements defined for this project include:
+* **Workout Logging** – High
+* **XP System** – High
+* **Saved Workouts** – Medium
+* **User Accounts** – High
+* **Schedule / Planning** – Medium
+* **Achievements** – Medium
+* **Notifications** – Low
 
 ==== 2.2.2 Personas
 * Alex, the Beginner:
@@ -212,6 +627,12 @@ Her structured schedule suggests the need for features that allow for advanced p
 * Gamification System
 ** The system shall provide a mechanism that assigns a user a rank (Bronze, Silver, Gold, etc.) for each muscle group, calculated based on the total historical training volume and PRs for that muscle group.
 ** The system shall provide a mechanism that awards users experience points (XP) for completing workouts and achieving milestones.
+
+==== 2.2.5 Machine Requirements
+* The system shall maintain an average response time of no more than 2 seconds for user interactions, such as updating activity data under normal operating conditions. In the event of a search query, the system shall return data retrieval operations within 4 seconds, even during peak usage.
+* The system shall run under normal conditions, when  concurrently running 300 user interactions that all randomly start within a 5 minute interval. Beyond this threshold, the system shall gracefully degrade its performance, prioritizing essential functionalities such as the viewing workout history and submitting of exercise logs. 
+* The system shall gracefully handle an increase when concurrently running 100 user interactions at any given time by dynamically allocating resources. Beyond this threshold, new user connections shall be queued, and the system shall restrict additional connections until resources become available. 
+* The system shall process and store a standard 3-set exercise log within 2 seconds of submission.
 
 ==== 2.3 Architecture Overview
 
@@ -481,4 +902,6 @@ Subsystem boundaries are enforced through:
 The diagram below illustrates the conceptual boundaries and dependency directions between subsystems. Arrows indicate which subsystem **depends on** another and what kind of information it consumes.
 
 image::img/Software_Architecture.png[Architecture overview of core subsystems,align="center"]
+
+
 
