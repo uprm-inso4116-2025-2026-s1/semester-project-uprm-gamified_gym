@@ -19,6 +19,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AddWorkout from "./AddWorkout";
 import Profile from "./Profile";                   // ⭐ Use your REAL Profile page
 import Achievements from "./Achievements";         // ⭐ Add your Achievements page
+import WorkoutSelectionScreen from "./workoutSelection";
+import TimerScreen from "./TimerScreen";
+
 
 /** ---- Navigation types ---- */
 type BottomTabParamList = {
@@ -158,15 +161,21 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
 
+        {/* Main tabs */}
         <Stack.Screen name="Tabs" component={Tabs} />
 
-        {/* ⭐ Achievements is OUTSIDE the tabs */}
+        {/* Workout flow screens */}
+        <Stack.Screen name="workoutSelection" component={WorkoutSelectionScreen} />
+        <Stack.Screen name="TimerScreen" component={TimerScreen} />
+
+        {/* Other pages */}
         <Stack.Screen name="Achievements" component={Achievements} />
 
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
 
 /** ---- Styles ---- */
 const styles = StyleSheet.create({

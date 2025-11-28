@@ -1,79 +1,70 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-/** 
-* Summary Card that shows the most recent workout completed or 
-* logged by the user
-*
-* The fields the card should show are Exercise Name,Sets,Reps and Date completed
-*
-*/
+/**
+ * RecentWorkoutSummary
+ * Displays the user's most recently completed workout summary.
+ * Clearly names props and state for intention-revealing readability.
+ */
 
-type Workout = {
+interface WorkoutSummary {
   exerciseName: string;
   sets: number;
   reps: number;
   dateCompleted: string;
-};
+}
 
-const RecentWorkoutCard = () => {
-  const [workout, setWorkout] = useState<Workout | null>(null);
+export default function RecentWorkoutSummary() {
+  const [latestWorkout, setLatestWorkout] = useState<WorkoutSummary | null>(null);
 
   useEffect(() => {
-    const loadWorkout = async () => {
+    async function fetchRecentWorkout() {
       try {
-        const stored = await AsyncStorage.getItem("mostRecentWorkout");
-        if (stored) {
-          const parsed: Workout = JSON.parse(stored);
-          setWorkout(parsed);
+        const savedWorkout = await AsyncStorage.getItem("mostRecentWorkout");
+        if (savedWorkout) {
+          setLatestWorkout(JSON.parse(savedWorkout));
         } else {
-          // fallback placeholder
-          setWorkout({
+          setLatestWorkout({
             exerciseName: "Sample Workout",
             sets: 3,
             reps: 12,
             dateCompleted: new Date().toISOString(),
           });
         }
-      } catch (e) {
-        console.warn("Failed to load mostRecentWorkout", e);
+      } catch (error) {
+        console.warn("Failed to load recent workout:", error);
       }
-    };
+    }
 
-    loadWorkout();
+    fetchRecentWorkout();
   }, []);
 
-  if (!workout) return null;
+  if (!latestWorkout) return null;
 
   return (
     <TouchableOpacity style={styles.card}>
       <Text style={styles.title}>Most Recent Workout</Text>
 
-      <View style={styles.row}>
-        <Text style={styles.label}>Exercise:</Text>
-        <Text style={styles.value}>{workout.exerciseName}</Text>
-      </View>
-
-      <View style={styles.row}>
-        <Text style={styles.label}>Sets:</Text>
-        <Text style={styles.value}>{workout.sets}</Text>
-      </View>
-
-      <View style={styles.row}>
-        <Text style={styles.label}>Reps:</Text>
-        <Text style={styles.value}>{workout.reps}</Text>
-      </View>
-
-      <View style={styles.row}>
-        <Text style={styles.label}>Date:</Text>
-        <Text style={styles.value}>
-          {new Date(workout.dateCompleted).toLocaleDateString()}
-        </Text>
-      </View>
+      <WorkoutDetail label="Exercise" value={latestWorkout.exerciseName} />
+      <WorkoutDetail label="Sets" value={String(latestWorkout.sets)} />
+      <WorkoutDetail label="Reps" value={String(latestWorkout.reps)} />
+      <WorkoutDetail
+        label="Date"
+        value={new Date(latestWorkout.dateCompleted).toLocaleDateString()}
+      />
     </TouchableOpacity>
   );
-};
+}
+
+function WorkoutDetail({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={styles.row}>
+      <Text style={styles.label}>{label}:</Text>
+      <Text style={styles.value}>{value}</Text>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   card: {
@@ -106,5 +97,3 @@ const styles = StyleSheet.create({
     color: "#222",
   },
 });
-
-export default RecentWorkoutCard;
