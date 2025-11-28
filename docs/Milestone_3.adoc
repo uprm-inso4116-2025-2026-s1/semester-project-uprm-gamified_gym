@@ -640,6 +640,72 @@ The primary requirements defined for this project include:
 * **Achievements** – Medium
 * **Notifications** – Low
 
+=== 2.2.1 User Stories, Epics, Features
+
+This section summarizes the essential requirements for the first release of Gamified Gym.  
+Requirements are grouped by type (Domain, Functional, Interface, Machine) and given a priority level  
+(High, Medium, Low) according to business value, user needs, and architectural importance.
+
+==== Core Requirements (High Priority)
+
+• Workout Logging (Functional – High)  
+  Users must be able to record exercises, sets, reps, and weight with low friction during a session.  
+  Accurate logging is the foundation for progress tracking, achievements, and social comparison.
+
+• Athlete Progress (Domain – High)  
+  Training evidence (sets, reps, weight, session summaries) contributes to long-term domain concepts  
+  such as XP, achievements, streaks, muscle balance, and plateaus.  
+  These domain truths form the core of the gamification system.
+
+• User Accounts / Identity (Functional / Constraint – High)  
+  Each athlete has a unique identity used across all aggregates  
+  (WorkoutSession, AthleteProgress, Leaderboard).  
+  Authentication and data isolation are required for multi-user operation.
+
+==== Supporting Requirements (Medium Priority)
+
+• Saved Workouts Library (Functional – Medium)  
+  Users can save, load, and modify previous sessions or routines  
+  to accelerate planning and support consistent training behavior.
+
+• Schedule / Planning (Functional – Medium)  
+  Athletes can plan workouts across a calendar or weekly structure  
+  to encourage consistency and long-term adherence.
+
+• Achievements & XP Feedback (Functional – Medium)  
+  The system provides feedback loops (XP increases, streak changes, achievement unlocks)  
+  to support motivation, especially for beginners and competitive users.
+
+• Muscle Balance & Plateau Insights (Domain – Medium)  
+  The system interprets accumulated training evidence to surface meaningful domain facts:  
+  muscle imbalance, stagnation trends, and progression anomalies.
+
+==== Optional / Enhancing Requirements (Low Priority)
+
+• Social Motivation (Functional – Low)  
+  Comparison sets, relative rankings, and friend-based accountability  
+  support users who train socially or competitively, but are not required for the core workflow.
+
+• Notifications (Interface – Low)  
+  Reminders, streak alerts, and achievement prompts improve retention  
+  but do not affect the domain model.
+
+==== Quality & Performance (Non-Functional)
+
+• Usability (Medium)  
+  Logging a typical 3-set exercise should be achievable within a reasonable time window  
+  (target usability metric ≈ 30 seconds end-to-end).
+
+• Performance (Medium)  
+  Data retrieval and saving operations should complete within target durations  
+  to support frictionless training sessions.
+
+==== Traceability Notes
+
+• Personas Beginning/Anxious users → high-priority for simplicity, clarity, feedback.  
+• Competitive users → priorities for XP, achievements, social comparison.  
+• Experienced/consistent users → priorities for muscle balance, plateau detection, planning.
+
 ==== 2.2.2 Personas
 * Alex, the Beginner
  ** Background:
