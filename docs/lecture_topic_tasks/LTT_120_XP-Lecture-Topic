@@ -1,1 +1,16 @@
-
+Lecture Topic: Extreme Programming – Concluded
+ Proposal Summary
+ This lecture topic focused on applying principles of Extreme Programming (XP) to our current team
+ workflow. The resulting proposal introduces three practical policies:
+ 1. Video Validation Requirement: Every coding task includes a short video test run to verify function
+ and reinforce XP’s “running code does not lie.”
+ 2. AsciiDoc Documentation Workflow: Each sub-team maintains one evolving AsciiDoc file
+ summarizing current drafts, decisions, and implementation progress.
+ 3. Domain Justification Section: Each sub-team explains how their component supports the project’s
+ overall domain.
+ Each of these policies includes a scoring system based on Urgency × Difficulty, where missing
+ deliverables (videos or documentation) temporarily reduce urgency.
+ The proposal has been fully documented and formatted for internal review; it’s now pending team
+ discussion and approval for future sprints.
+ This submission completes the lecture topic task for Extreme Programming, as it translates key XP
+ principles into actionable team procedures
