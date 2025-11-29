@@ -1,0 +1,245 @@
+Domain Concept Distillation and Classification
+
+[width="100%",cols="19%,11%,15%,19%,36%",options="header",]
+|===
+|Concept |Core Domain |Supporting Domain |Generic/Utility |Reason
+|Athlete a|
+____
+✓
+____
+
+| | a|
+____
+The athlete represents the primary agent of change in the system. All
+progress, performance, and gamification outcomes originate from the
+athlete’s interactions. Without an
+
+athlete, no training, measurement, or achievement has meaning. The
+domain logic must revolve around modeling the athlete’s capacity,
+performance trends, and development over time.
+____
+
+|Exercise a|
+____
+✓
+____
+
+| | |Exercises form the irreducible action units of gym activity. They
+carry biomechanical meaning (i.e., which muscles are stressed), training
+intensity, and execution technique. The accuracy and expressiveness of
+the Exercise model determine how closely the software aligns with
+realworld training semantics, which is crucial for legitimacy and
+usefulness.
+
+|Workout a|
+____
+✓
+____
+
+| | a|
+____
+A workout structures exercises into actionable training sessions, giving
+purpose and organization to physical effort. Workouts define rhythm,
+load pattern, and session level intensity. This makes Workouts the
+operational expression of
+____
+
+|===
+
+[width="100%",cols="19%,11%,15%,19%,36%",options="header",]
+|===
+| | | | a|
+____
+athletic intent, shaping the daily behavior of the user.
+____
+
+a|
+____
+Routine
+____
+
+a|
+____
+✓
+____
+
+| | a|
+____
+Routines introduce temporal progression, encoding how workouts evolve
+across days/weeks. They embed training philosophy
+
+(progressive overload, rest scheduling, periodization). This allows the
+app to model long term growth, not just isolated sessions, which is
+essential for meaningful improvement.
+____
+
+|Muscle Group a|
+____
+✓
+____
+
+| | a|
+____
+Muscle groups provide the structural map of physiological effort
+distribution. They ensure training balance, prevent injury, and support
+strength symmetry. Representing muscle groups explicitly enables the
+system to reason about overuse, load rotation, and progression
+targeting, which are key to expert-level training design.
+____
+
+|Workout session a|
+____
+✓
+____
+
+| | a|
+____
+A Workout Session captures the lived, temporal event of training. It is
+where real performance data is generated. The system uses Workout
+Sessions to derive trends, validate
+
+improvement, detect fatigue, and trigger achievements. It is the central
+data source feeding all higher-level interpretation.
+____
+
+|Progress Metric | a|
+____
+✓
+____
+
+| a|
+____
+Progress Metrics translate physical effort into
+____
+
+|===
+
+[width="100%",cols="19%,11%,15%,19%,36%",options="header",]
+|===
+| | | | a|
+____
+quantifiable signals (reps, weight, duration). Their function is
+interpretive: they do not define training, but they make training
+measurable, enabling feedback loops and progression evaluation. They
+support the Core Domain by providing evidence of change.
+____
+
+|Milestone | |✓ | a|
+____
+Milestones formalize moments of improvement into recognized progress
+markers. They turn raw performance data into psychologically meaningful
+checkpoints. This helps maintain athlete motivation, but milestones
+cannot exist without prior consistent training data hence, they support
+rather than define behavior.
+____
+
+|Achievement | |✓ | a|
+____
+Achievements introduce extrinsic motivation reinforcement, framing
+progress in terms of reward and recognition. They depend on training
+outcomes, but they influence continued participation. They are
+strategically important for engagement but secondary to the training
+domain itself.
+____
+
+|Progress Tracking | |✓ | a|
+____
+Progress Tracking is an evaluative layer, converting session data into
+trends and insights. It enhances the athlete’s understanding of their
+development, but the actual transformation occurs
+____
+
+|===
+
+[width="100%",cols="19%,11%,15%,19%,36%",options="header",]
+|===
+| | | | a|
+____
+in training, not tracking. Thus, it is supportive rather than
+foundational.
+____
+
+|Milestone Recognition | |✓ | a|
+____
+Milestone Recognition is a trigger mechanism that interprets progress
+data using predefined thresholds. It formalizes improvement into
+user-visible events. It reinforces motivation but depends entirely on
+preexisting workout and performance data, placing it in a supporting
+role.
+____
+
+a|
+Achievement
+
+Unlocked Event
+
+| |✓ | a|
+____
+This event is part of the gamification feedback loop that rewards
+consistency and improvement. It strengthens habit formation through
+psychological reinforcement, but it does not generate new athletic
+capability— therefore, it supports rather than defines the training
+domain.
+____
+
+a|
+____
+Overtraining
+____
+
+Warning Event
+
+| |✓ | a|
+____
+This event acts as a safety constraint, preventing negative training
+outcomes by evaluating frequency and muscle group stress patterns. It
+protects core training integrity but does not execute or define training
+actions, positioning it as a supporting safeguard.
+____
+
+|App User | | |✓ a|
+____
+Represents the system-level identity of an individual, independent of
+athletic meaning. It is required for authentication and
+____
+
+| | | | a|
+____
+authorization but carries no training semantics.
+____
+
+a|
+____
+Profile
+____
+
+| | a|
+____
+✓
+____
+
+a|
+____
+Stores personal and fitnessrelated metadata. It provides persistence but
+does not contribute to the decisionmaking logic of training or progress
+interpretation.
+____
+
+a|
+____
+Notification
+____
+
+| | a|
+____
+✓
+____
+
+a|
+____
+A communication mechanism used to deliver system feedback. It functions
+purely at the UI/system layer and carries no domain decision logic,
+making it a generic utility concern.
+____
+
+|===

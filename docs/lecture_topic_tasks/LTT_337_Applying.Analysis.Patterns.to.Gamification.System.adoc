@@ -1,0 +1,62 @@
+Lecture Topic Task - Applying Analysis Patterns to Gamification System
+
+[arabic]
+. Introduction
+
+The Applying Analysis Patterns lecture introduces a set of recurring
+conceptual patterns used to deepen domain modeling — especially in
+systems that rely on historical data, event recording, and rule-driven
+transformations. These patterns are ideal for the Gamified Gym project
+because the game accumulated workout data, and rules that determine when
+a user earns a reward.
+
+The goal is to propose a structured and extensible war to evaluate
+achievements, compute progress, and record the history of rewards earned
+using the lecture’s ideas such as Entries, Transactions, Derived
+Records, and Posting Rules.
+
+[arabic, start=2]
+. Applying the Patterns to the Game Design Team
+
+== Workout Logs as “Entries” 
+
+____
+- Each workout the user logs becomes an immutable Entry object with
+timestamp, exercise list, total volume and muscle groups.
+____
+
+== Achievements as “Derived Records” 
+
+____
+- Instead of storing Booleans like ‘achievementEarned = true’, we treat
+the earning of an achievement as generating a derived entry
+(EarnedAchievement)
+____
+
+== AchievementEarned as “Posting Rules” 
+
+____
+- Each achievement has a corresponding posting rule that defines input
+account (WorkoutHistory), triggering event (new WorkoutEntry), and
+output (EarnedAchievement).
+____
+
+== Firing Modes as “Achievements” 
+
+____
+- Examples include eager firing for streak achievements, deferred firing
+for periodic evaluations, and rule-based challenges
+
+{empty}3. Proposed Architecture Diagram
+____
+
+== WorkoutHistory (entries) __triggers on new entry__  AchievementRule  _creates_  EarnedAchievement (Derived Record) 
+
+____
+{empty}4. Benefits of Using Analysis Patterns
+____
+
+* Predictability and
+* Extensibility
+* Consistency across the systems
+* Strong alignment with lecture principles

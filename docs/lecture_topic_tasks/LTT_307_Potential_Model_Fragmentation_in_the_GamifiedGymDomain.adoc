@@ -1,0 +1,110 @@
+Potential Model Fragmentation in the Gamified Gym Domain
+
+[width="100%",cols="25%,25%,25%,25%",options="header",]
+|===
+|*Domain Concept* a|
+*Potential*
+
+*Fragmentation*
+
+*Issue*
+
+a|
+*Why*
+
+*Fragmentation May*
+
+*Occur*
+
+a|
+*Impact on the*
+
+*Gamified Gym*
+
+*Model*
+
+|*Athlete* |Duplicate “Athlete/User” concepts a|
+App User (technical) vs. Athlete (domain) may evolve
+
+differently (e.g., game features only attached to one).
+
+|Confusion between gameplay progression and actual fitness tracking =
+inconsistent profiles.
+
+|*Exercise* |Conflicting definitions of an exercise |One team may model
+Exercise as a single movement; another may treat it as a completed set.
+a|
+UI/logic mismatch =
+
+errors in achievements, progress calculations, or workout generation.
+
+|*Workout* |Overlapping concepts: Workout vs. Workout Session |Workout
+(template) vs. Workout Session (performed activity) may be merged
+accidentally. |Analytics and progress tracking become inaccurate;
+achievements may unlock incorrectly.
+
+|*Routine* |Separate interpretations of duration and structure |One
+model uses days; another uses weeks or cycles. |Fragmented scheduling
+logic = routines behave unpredictably across app modules.
+
+|*Muscle Group* |Multiple classification systems a|
+Different teams may define groups differently (Chest vs.
+
+Upper Body).
+
+a|
+Recommender
+
+system conflicts = users receive unbalanced or conflicting suggestions.
+
+|*Progress Metric* |Diverging metric structures |Some teams use raw
+numbers (lbs, reps), others normalized values (difficulty scores).
+|Inconsistent progress graphs; achievements unlock incorrectly; database
+may become inconsistent.
+
+|*Achievement* a|
+Conflicting achievement
+
+criteria rules
+
+|Some define achievements using exercise totals; others using workout or
+routine completion. |Users may unlock achievements prematurely or never
+unlock them, reducing app trust.
+
+|*Milestone* |Milestone vs Achievement confusion |Teams may treat
+milestones as achievements or vice versa. |Gamification loop becomes
+unclear = users experience progression inconsistencies.
+
+|*Balance* |Different definitions of “balance” a|
+Some teams
+
+interpret balance as equal muscle group training; others as fatigue/rest
+management.
+
+|Overtraining warnings become unreliable or contradict fitness
+recommendations.
+
+|*Notification* |Misaligned event triggers |Some events trigger
+notifications in domain logic; others trigger from UI logic. |Duplicate
+notifications, missing alerts, or inconsistent user experience.
+
+a|
+*Workout*
+
+*Completion Event*
+
+|Different interpretations of completion |One team considers partial
+completion “done”; another requires 100% completion. |Achievements, XP,
+or rewards may become corrupted, affecting gamified progression.
+
+|*Personal Best Event* |Conflicting PB calculation rules a|
+Some use last session
+
+comparison; others use lifetime highest value.
+
+|PB based badges or streaks become inaccurate, discouraging users.
+
+|*Overtraining Warning Event* |Multiple metrics for overtraining |One
+uses frequency; another uses muscle fatigue scoring. |Users may receive
+contradictory warnings.
+|===

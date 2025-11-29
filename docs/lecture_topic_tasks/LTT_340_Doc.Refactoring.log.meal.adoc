@@ -1,0 +1,140 @@
+Refactoring Toward Deeper Insight: Log Meals Feature
+
+Introduction
+
+Refactoring toward deeper insight focuses on improving the
+expressiveness, coherence, and domain alignment of the model. According
+to the lecture, this process involves identifying a weak spot,
+questioning missing or incorrect domain concepts, and refining the model
+so that it communicates more clearly and naturally with domain experts.
+The goal is not simply to clean code, but to uncover a deeper
+understanding of the domain and reshape the model to reflect that
+insight.
+
+The following section documents a complete refactoring cycle applied to
+the Log Meals feature of our gamified fitness application. At its core,
+this feature originally behaved like a simple CRUD utility and did not
+reflect the larger conceptual model of the application (workouts, goals,
+achievements, progress). This misalignment became an ideal candidate for
+applying the refactoring guidelines.
+
+Initial Situation (Before Refactoring)
+
+The Log Meals feature was initially implemented as a simple input flow
+that allowed users to record a meal and its calorie count. Each meal was
+stored as an isolated record, and the feature had no meaningful
+relationship with the rest of the domain model. More specifically:
+
+* Meal logs existed as standalone entries without any surrounding
+structure.
+* There was no aggregate concept such as a “Daily Nutrition Log” to
+organize meals by date or track nutritional progress.
+* Meal logs were not connected to goals, streaks, achievements, or any
+gamified mechanism.
+* The ubiquitous language of the project did not define meals in
+relation to the fitness or progress domain.
+* The design created confusion around the purpose of the feature, as it
+neither reinforced gameplay nor contributed to user progression.
+
+From the perspective of the lecture’s guiding questions, this part of
+the model showed clear signs of conceptual weakness:
+
+* Missing concepts? Yes—no representation of daily nutrition, goals, or
+progress.
+* Incorrect relationships? Yes—meals existed independently but should
+belong to a daily nutrition structure.
+* Does the language match domain expert expectations? No—the
+documentation did not articulate how nutrition supports training or
+gamified progress.
+* Do new requirements (e.g., meal-based goals, achievements) fit
+naturally? No—they could not be integrated without redesigning the
+feature.
+
+This analysis revealed that the feature was not just poorly organized—it
+was conceptually incomplete. The model lacked the deeper insight needed
+to support upcoming requirements.
+
+Refactoring Steps and Insight Process
+
+Following the lecture’s recommended process, we conducted a refactoring
+cycle centered on identifying the weak spot, brainstorming alternatives,
+refining model concepts, and aligning terminology with the ubiquitous
+language.
+
+Step 1 — Identifying the Weak Spot
+
+The team recognized that meals were modeled as isolated records,
+disconnected from daily activity and gamification. We concluded that the
+model failed to represent the domain phenomena relevant to user health
+and progression.
+
+Step 2 — Brainstorming and Exploring the Domain
+
+In a short brainstorming session, we examined how nutrition is typically
+structured in fitness and gamification contexts. With domain knowledge
+from real-world nutrition tracking, we identified several missing
+concepts:
+
+* A daily container for logged meals
+* User-specific nutritional goals
+* Events representing milestones or meaningful progress
+* A structure that integrates naturally with achievements and XP
+
+Sketching alternative diagrams revealed that these concepts belonged in
+the domain and should not be handled procedurally or implicitly.
+
+Step 3 — Refining and Introducing Missing Concepts
+
+Based on the insights gained, we introduced the following domain
+concepts:
+
+* DailyNutritionLog – an aggregate that represents all meals consumed by
+a user on a given date.
+* MealEntry – a single meal logged with calories and optional macros.
+* NutritionGoal – a target (e.g., calories per day) maintained by the
+user.
+* DailyNutritionGoalReached – a domain event raised when the goal is
+reached.
+
+These concepts created a natural structure consistent with domain expert
+expectations and aligned well with the gamified nature of the app.
+
+Step 4 — Integrating the New Model into the System
+
+With the introduction of these concepts, the architecture gained new
+affordances:
+
+* Meal logging updates the user’s Daily Nutrition Log instead of writing
+a standalone entry.
+* Progress toward the Nutrition Goal is recalculated whenever a meal is
+added.
+* When a goal is reached, a domain event is triggered, allowing the
+gamification subsystem to award XP, badges, or streak progress.
+* This ties nutrition meaningfully into the user’s progression loop.
+
+Step 5 — Letting the Model “Ripen” and Finalizing Diagrams
+
+After final discussion and iteration, we finalized the updated diagrams
+showing the clearer, more expressive domain structure.
+
+Refactored Design (After Refactoring)
+
+After refactoring, the Log Meals feature is now fully integrated into
+the domain, reflecting a deeper understanding of nutrition’s role within
+a gamified fitness environment:
+
+* Meals are no longer standalone records—they become MealEntries
+belonging to a DailyNutritionLog aggregate.
+* Each Daily Nutrition Log tracks total calories and progress toward the
+Nutrition Goal.
+* Logging a meal may trigger domain events such as
+DailyNutritionGoalReached, reinforcing the gamified experience.
+* These events are consumed by the achievement and XP subsystems,
+allowing meal logging to contribute to gameplay progression.
+* All terminology (Daily Nutrition Log, Nutrition Goal, Meal Entry) is
+now consistent with the ubiquitous language and documented across the
+domain, requirements, and design sections.
+
+This refactoring transformed a simple CRUD feature into a coherent,
+expressive, and extensible domain element. It now aligns with the core
+values of the application and can support new requirements naturally.
