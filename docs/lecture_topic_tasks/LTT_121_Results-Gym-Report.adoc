@@ -1,1 +1,23 @@
+== Lecture Topic: Isolating the Domain – Report Summary
+
+This lecture topic explored whether our fitness and gamification application should adopt a 
+Domain-Driven Design (DDD) architecture or remain a Smart UI–oriented system.
+
+A Google Form was distributed to evaluate the team's understanding of domain isolation, 
+the separation of core domain logic from UI concerns, and the perceived architectural 
+complexity of our current project. Although only a few responses were collected, the feedback 
+indicated that domain logic appears partially mixed across components, with some behaviors 
+residing inside UI classes instead of the domain.
+
+At this stage, no architectural changes will be enforced. Fully isolating the domain layer 
+would require broader team consensus, technical validation, and a more mature understanding 
+of the domain model.
+
+=== Conclusion
+
+The lecture topic concludes with the following general observation:
+
+*"Our project’s domain awareness is growing, but it is still early to formally separate the domain layer."*
+
+This summary closes the lecture topic task for **Isolating the Domain**.
 
