@@ -3,7 +3,7 @@ name: Convert LTT docx to adoc
 on:
   push:
     paths:
-      - "docs/raw_LTT/*.docx"      # triggers when you add/change docx in this folder
+      - "docs/raw_LTT/*.docx"
 
 permissions:
   contents: write
@@ -41,13 +41,15 @@ jobs:
               --extract-media="docs/img/${base}" \
               -o "docs/lecture_topic_tasks/${base}.adoc"
 
+            # 2) Fix image macros so Asciidoctor can render them
             adoc="docs/lecture_topic_tasks/${base}.adoc"
 
-            # 2) Fix image macros so Asciidoctor can render them
-            sed -i "s|image:docs/img/${base}/|image::img/${base}/|g" "$adoc"
-            sed -i 's|image:docs/img/|image::img/|g' "$adoc"
+            # Convert "image:docs/img/.../..." → "image::../img/.../..."
+            sed -i 's|image:docs/img/|image::../img/|g' "$adoc"
 
-            # Optional: clean duplicated alt text like [docs/img/.../image2,width=...]
+            # Optional: clean the alt text if pandoc duplicates the path:
+            # turn  [docs/img/.../image2,width=...,height=...]
+            # into  [width=...,height=...]
             sed -i 's|\[docs/img/[^,]*,width=|[width=|g' "$adoc"
           done
 
@@ -56,8 +58,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Add the whole folders so NEW files are included automatically
-          git add docs/lecture_topic_tasks docs/img || true
+          git add docs/lecture_topic_tasks/*.adoc docs/img/** || true
 
           if git diff --cached --quiet; then
             echo "No docx→adoc changes to commit."
