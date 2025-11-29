@@ -1,0 +1,98 @@
+*Identifying a Weak Spot in the Gamified Gym Domain Model*
+
+The goal of this task, inspired by slides 2-4 of Refactoring Toward
+Deeper Insight, is to identify a weak spot in the project’s domain model
+– an area where the design feels awkward, incomplete or disconnected.
+
+After reviewing the systems’s key concepts and code structure, I
+identified a major weak spot in the relationship between workout
+activities and XP progression. While workouts and training sessions
+represent the Core Domain of the project and XP progression belongs to
+the Supporting Domain, the connection between them in the current model
+is vague and fragile. This disconnect can limit how effectively the app
+reflects users’ fitness journey.
+
+In the Gamified Gym domain, Workouts are the fundamental unit of user
+activity. Each workout consists of multiple exercises, each with its own
+parameters (sets, reps). On the other hand, XP is meant to quantify
+progress that allows users to level up as they remain consistent with
+their exercises. However, in the current design, the XP is not derived
+systematically from workout data. Instead, it appears to be assigned
+indirectly through functions like _function_updateStreak.js_ or through
+milestone triggers in _function_exercise_milestone.js_. These functions
+reward completion or consistency, but they do not account for quality,
+difficulty, or improvement in the underlying workout itself. This design
+creates several conceptual issues:
+
+* The causal relationship between workout performance and XP gain is
+unclear.
+* There is no explicit domain concept that translates physical effort
+into a gamified reward.
+* The XP system feels detached from the workout progress, which makes
+the game aspect of the project less meaningful.
+
+*Why This is a Weak Spot*
+
+Based on the lecture’s guiding questions, this weak spot reveals
+multiple domain modeling issues:
+
+[arabic]
+. *A Missing Concept:* +
+There is no domain object that represents “Performance Evaluation” or
+“Effort Translation.” The system jumps directly from _Workout Completed_
+→ _XP Added_ without an intermediate concept that interprets the quality
+of performance. +
+In domain-driven design terms, this means the *ubiquitous language* of
+the app (effort, progress, growth) is missing a core expression.
+. *An Imprecise Relationship:* +
+The current model treats XP as a side effect rather than a consequence
+of training effort. Ideally, XP should be derived from quantifiable
+workout metrics — such as volume lifted, intensity zones, or consistency
+streaks. +
+Without that relationship, the system cannot express why two different
+workouts might yield different XP outcomes.
+. *Vague Terminology:* +
+The meaning of “XP” in the current model is ambiguous — it sometimes
+represents *time spent*, sometimes *consistency*, and sometimes
+*achievements unlocked*. This inconsistency makes it difficult for both
+developers and users to reason about progression.
+. *Poor Extensibility:* +
+Future features, such as performance-based leaderboards or adaptive
+training levels, would not fit naturally into this model because the
+system lacks a clear mechanism for comparing effort, intensity, or skill
+improvement. +
+As a result, adding new progression mechanics would require rewriting
+large parts of the gamification logic.
+
+*Brainstorming*
+
+This could be solved with a small brainstorming session with developers
+from all teams to clarify the relationship between physical effort and
+XP gain. Some discussion points in the brainstrorming session could be
+the following:
+
+[arabic]
+. How should XP be derived from the training effort of the user
+[loweralpha]
+.. Possible formula based on volume like (sets * reps * weight)
+.. Possible formula based on consistency (effort * consistency)
+. How can XP and streak systems coexist without overlapping?
+. What should trigger XP gains?
+[loweralpha]
+.. Should users gain XP after every session or after surpassing
+milestones
+.. If they gain XP for both, what should give the user more XP?
+
+*Proposed Conceptual Model: Linking Workout and XP progresssion*
+
+To resolve the weak link between Workouts and XP progression, I propose
+adding an intermediate concept that translates training effort into XP
+in a structured, meaningful way. This creates a clear cause-and-effect
+relationship between physical activity and gamified reward. The flow
+could look like this.
+
+Workout Session EffortEvaluator XPManager LevelSystem
+
+____
+Milestones and Streaks
+____
