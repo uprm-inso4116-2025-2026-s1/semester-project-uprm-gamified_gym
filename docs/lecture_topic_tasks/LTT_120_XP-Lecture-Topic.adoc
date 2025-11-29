@@ -1,16 +1,70 @@
-Lecture Topic: Extreme Programming – Concluded
- Proposal Summary
- This lecture topic focused on applying principles of Extreme Programming (XP) to our current team
- workflow. The resulting proposal introduces three practical policies:
- 1. Video Validation Requirement: Every coding task includes a short video test run to verify function
- and reinforce XP’s “running code does not lie.”
- 2. AsciiDoc Documentation Workflow: Each sub-team maintains one evolving AsciiDoc file
- summarizing current drafts, decisions, and implementation progress.
- 3. Domain Justification Section: Each sub-team explains how their component supports the project’s
- overall domain.
- Each of these policies includes a scoring system based on Urgency × Difficulty, where missing
- deliverables (videos or documentation) temporarily reduce urgency.
- The proposal has been fully documented and formatted for internal review; it’s now pending team
- discussion and approval for future sprints.
- This submission completes the lecture topic task for Extreme Programming, as it translates key XP
- principles into actionable team procedures
+== Lecture Topic: Extreme Programming – Concluded
+
+=== Proposal Summary
+
+This lecture topic applied key principles of Extreme Programming (XP) to improve the team’s current workflow.  
+The resulting proposal defines **three practical, actionable policies** that strengthen verification, documentation, and domain alignment across sub-teams.
+
+=== Policy 1: Video Validation Requirement
+
+Every coding-related task must include a short video test run demonstrating the implemented behavior.  
+This policy reinforces XP’s principle that *“running code does not lie.”*
+
+*Purpose:*
+- Validate correctness with minimal ambiguity.
+- Strengthen shared understanding across the team.
+- Provide lightweight evidence during reviews.
+
+*Rules:*
+- Each video must be 10–45 seconds.
+- It must show the implemented feature in use.
+- Missing videos temporarily reduce the associated task’s urgency score.
+
+=== Policy 2: AsciiDoc Documentation Workflow
+
+Each sub-team maintains a single evolving AsciiDoc file that summarizes:
+- Current drafts  
+- Technical decisions  
+- Implemented behavior  
+- Pending updates  
+
+*Purpose:*
+- Produce a living, continuously updated document.
+- Reduce fragmentation in team communication.
+- Align documentation practices with XP’s incremental delivery mindset.
+
+*Rules:*
+- Each update must be appended, not replaced.
+- Documentation quality contributes to the task scoring.
+- Missing updates reduce the task’s urgency value until resolved.
+
+=== Policy 3: Domain Justification Requirement
+
+All sub-teams must include a section explaining how their work supports the project’s **overall domain model**.
+
+*Purpose:*
+- Maintain conceptual integrity across all components.
+- Encourage domain-driven reasoning rather than purely technical work.
+- Ensure each feature contributes meaningfully to GamifiedGym’s core concepts.
+
+*Rules:*
+- Every major feature must include a Domain Justification paragraph.
+- Missing justification reduces the task’s urgency score.
+
+=== Scoring System: Urgency × Difficulty
+
+Each policy uses a shared scoring structure:
+
+*Urgency × Difficulty Score*
+
+- Urgency measures relevance to milestone deliverables.
+- Difficulty measures technical or conceptual complexity.
+- Missing required artifacts (video, documentation, or justification) reduce urgency temporarily.
+- The combined score helps prioritize tasks for upcoming sprints.
+
+=== Completion Statement
+
+This proposal has been fully drafted, formatted, and documented for internal review.  
+It is now pending team discussion and approval for integration into future sprints.
+
+This submission completes the lecture topic requirement for **Extreme Programming**, translating XP principles into structured, enforceable team procedures for ongoing development.
