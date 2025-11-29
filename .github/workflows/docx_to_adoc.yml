@@ -44,11 +44,11 @@ jobs:
             # 2) Fix image macros so Asciidoctor can render them
             adoc="docs/lecture_topic_tasks/${base}.adoc"
 
-            # Replace 'image:docs/img/...' with 'image::img/...'
-            sed -i "s|image:docs/img/${base}/|image::img/${base}/|g" "$adoc"
-            sed -i 's|image:docs/img/|image::img/|g' "$adoc"
+            # Replace 'image:docs/img/...' with 'image::../img/...'
+            sed -i "s|image:docs/img/${base}/|image::../img/${base}/|g" "$adoc"
+            sed -i 's|image:docs/img/|image::../img/|g' "$adoc"
 
-            # (Optional) clean the alt text if pandoc duplicated the path:
+            # Clean the alt text if pandoc duplicated the path:
             # turn  [docs/img/.../image2,width=...,height=...]
             # into  [width=...,height=...]
             sed -i 's|\[docs/img/[^,]*,width=|[width=|g' "$adoc"
