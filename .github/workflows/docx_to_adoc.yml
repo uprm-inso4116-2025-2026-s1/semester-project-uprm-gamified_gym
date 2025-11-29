@@ -1,4 +1,4 @@
-name: Convert DOCX files to AsciiDoc
+name: Convert LTT docx to adoc
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  convert:
+  docx-to-adoc:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,37 +23,47 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y pandoc
 
-      - name: Convert DOCX files to AsciiDoc
+      - name: Convert .docx lecture topic tasks to .adoc
         run: |
           mkdir -p docs/lecture_topic_tasks
           mkdir -p docs/img
-
           shopt -s nullglob
-          for docx in docs/raw_LTT/*.docx; do
-            base="$(basename "$docx" .docx)"
-            out="docs/lecture_topic_tasks/${base}.adoc"
-            media_dir="docs/img/${base}"
 
-            mkdir -p "$media_dir"
+          for file in docs/raw_LTT/*.docx; do
+            base="$(basename "$file" .docx)"
 
-            echo "Converting $docx -> $out (images -> $media_dir)"
-            pandoc "$docx" \
-              -t asciidoc \
-              -o "$out" \
-              --extract-media="$media_dir"
+            echo "Converting $file -> docs/lecture_topic_tasks/${base}.adoc"
+
+            # 1) Convert DOCX to AsciiDoc and extract images
+            pandoc "$file" \
+              --from=docx \
+              --to=asciidoc \
+              --extract-media="docs/img/${base}" \
+              -o "docs/lecture_topic_tasks/${base}.adoc"
+
+            # 2) Fix image macros so Asciidoctor can render them
+            adoc="docs/lecture_topic_tasks/${base}.adoc"
+
+            # Replace 'image:docs/img/...' with 'image::img/...'
+            sed -i "s|image:docs/img/${base}/|image::img/${base}/|g" "$adoc"
+            sed -i 's|image:docs/img/|image::img/|g' "$adoc"
+
+            # (Optional) clean the alt text if pandoc duplicated the path:
+            # turn  [docs/img/.../image2,width=...,height=...]
+            # into  [width=...,height=...]
+            sed -i 's|\[docs/img/[^,]*,width=|[width=|g' "$adoc"
           done
 
-      - name: Commit converted files
+      - name: Commit and push generated .adoc + images
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add docs/lecture_topic_tasks/*.adoc || true
-          git add docs/img || true
+          git add docs/lecture_topic_tasks/*.adoc docs/img/** || true
 
           if git diff --cached --quiet; then
-            echo "No converted files to commit."
+            echo "No docx→adoc changes to commit."
           else
-            git commit -m "chore: auto-convert LTT DOCX to AsciiDoc"
+            git commit -m "chore: convert LTT .docx to .adoc and fix image paths"
             git push
           fi
