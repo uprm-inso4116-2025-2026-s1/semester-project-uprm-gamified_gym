@@ -1,1 +1,226 @@
+*Entities, Aggregates, and Bounded Contexts in the Gamified Gym App*
 
+== Introduction 
+
+Domain-Driven Design (DDD) offers a disciplined way to handle complexity
+in large applications by organizing software around the business domain.
+Instead of letting features grow in an unstructured manner, DDD relies
+on constructs such as Entities, Value Objects, Aggregates, and Bounded
+Contexts to express the domain clearly and consistently. These concepts
+ensure the system reflects real business rules and remains adaptable as
+requirements evolve.
+
+For the Gamified Gym App—which blends workout tracking, gamification,
+user management, social features, and progression—DDD helps prevent
+different parts of the system from interfering with each other. Without
+defined boundaries, it becomes easy for UI components to access
+unrelated business rules, for APIs to leak internal data structures, or
+for logic to be copied inconsistently across modules. Using Entities,
+Aggregates, and Bounded Contexts provides the structure needed for
+long-term maintainability.
+
+== Entities in the Gamified Gym App 
+
+Entities are distinguished by a stable identity rather than their
+attribute values. Their data may change, but their identity persists.
+Core Entities in this application include:
+
+=== User 
+
+*Identity:* user_id (Supabase UUID)
+
+*Attributes:* email, displayName, avatar, createdAt
+
+A User retains the same identity throughout profile changes or workout
+history updates. Other domain objects reference it without owning its
+lifecycle.
+
+=== WorkoutSession 
+
+*Identity:* session_id
+
+*Attributes:* workoutType, duration, caloriesBurned, xpEarned, createdAt
+
+Two workout sessions with identical data are still separate Entities
+because each represents a unique event.
+
+*LevelProgress*
+
+=== Identity: user_id 
+
+*Attributes:* xp, currentLevel, nextLevelThreshold
+
+This Entity is conceptually tied to the User and exists only in relation
+to that User.
+
+*Reward*
+
+=== Identity: reward_id 
+
+*Attributes:* rewardType, requiredXP, claimStatus
+
+Represents rewards that can be obtained as users accumulate experience.
+
+These Entities clarify “who” owns or relates to each piece of data
+rather than just “what” information is recorded.
+
+== Aggregates and Their Rules 
+
+Aggregates bundle Entities and Value Objects into clusters managed by a
+single Aggregate Root. The Aggregate Root ensures that important
+rules—called invariants—are enforced.
+
+=== User Aggregate 
+
+*Root:* User
+
+*Includes:* profile details, preferences, progress references
+*Invariants:*
+
+* Email must remain unique
+* A profile cannot be removed if workout records still depend on it
+* Authentication state transitions follow controlled rules
+
+=== Workout Aggregate 
+
+*Root:* WorkoutSession
+
+*Includes:* Duration VO, XPAmount VO *Invariants:*
+
+* Duration values must be non-negative
+* XP is derived from session metrics (not manually assigned)
+* Completed sessions are immutable unless a specific rule allows changes
+
+=== Progression Aggregate 
+
+*Root:* LevelProgress
+
+*Includes:* XPAmount VO, ThresholdRules VO *Invariants:*
+
+* XP never decreases
+* Level-ups occur only when thresholds are met
+* XP updates resulting from workouts must be atomic to avoid
+inconsistencies
+
+=== Reward Aggregate 
+
+*Root:* Reward
+
+*Includes:* EligibilityRules VO *Invariants:*
+
+* Users can claim a reward only when their XP meets the requirement
+* Rewards cannot be claimed multiple times
+* Availability is governed by gamification logic
+
+Aggregates ensure domain integrity even in cases of concurrency, offline
+usage, or unreliable network behavior.
+
+== Bounded Contexts in the Gamified Gym App 
+
+A Bounded Context defines the scope within which a particular model
+applies. A term like “User” may have different meanings across contexts.
+
+=== Auth Context 
+
+* Manages login, signup, sessions, and password resets
+* Driven by Supabase Auth
+* Keeps the model minimal; it represents authentication identity only
+
+=== Workout Context 
+
+* Handles workout sessions, timing, session validation, and XP
+calculation
+* The term “session” refers specifically to a workout, not an
+authentication session
+
+=== Gamification Context 
+
+* Governs XP accumulation, leveling rules, reward eligibility, and
+leaderboard prep
+* “Level” here relates to progression, not security permissions
+
+=== User Profile Context 
+
+* Manages personal details such as display name, avatar, and preferences
+* Kept independent from both authentication and gamification concerns
+
+=== Social Context 
+
+* Manages friendships, public profiles, and leaderboard data
+* Consumes data from other contexts but does not dictate their rules
+
+*Communication Between Contexts*
+
+Contexts exchange *DTOs* rather than raw Entities to avoid accidental
+mixing of domain rules.
+
+== Supabase and Context Integration 
+
+Supabase tables serve as persistence sources rather than direct domain
+models. Repositories within each context translate raw data into
+Entities and Aggregates, enforce domain rules, and expose intent-driven
+operations.
+
+Examples:
+
+* auth.users → Auth Context
+* workout_sessions → Workout Context
+* user_progress → Gamification Context
+* user_profile → User Profile Context
+* leaderboard_view → Social Context (read-only model)
+
+Each repository:
+
+* Maps tables to domain objects
+* Validates invariants before database writes
+* Uses terminology aligned with the domain model
+
+== Risks and Mitigation 
+
+[width="100%",cols="50%,50%",options="header",]
+|===
+a|
+____
+*Risk*
+____
+
+|*Mitigation*
+|Entities becoming too large a|
+____
+Keep them focused; put rule enforcement in
+____
+
+Aggregates
+
+|Tight coupling between contexts |Use DTOs and maintain strict
+boundaries
+
+|Inconsistent XP or level tracking a|
+____
+Enforce invariants within the Progression
+
+Aggregate
+____
+
+|UI breaking due to domain model evolution |Expose read models tailored
+for UI; keep domain internals private
+
+|Creating overly complex “god” objects |Split Aggregates based on
+ownership and invariant scope
+|===
+
+== Diagrams 
+
+image:media/image1.jpg[media/image1,width=405,height=397]
+
+=== _Figure 1.1 Entities Diagram_ 
+
+image:media/image2.jpg[media/image2,width=450,height=249]
+
+=== _Figure 1.2 Aggregates Diagram_ 
+
+image:media/image3.jpg[media/image3,width=351,height=514]
+
+____
+_Figure 1.3 Bounded Contexts Diagram_
+____
