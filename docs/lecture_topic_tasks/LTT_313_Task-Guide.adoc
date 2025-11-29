@@ -1,1 +1,162 @@
+== Lecture Topic Task
+=== Exposing Hidden Concepts and Rules to Strengthen Project Documentation
+
+==== 1. Explanation of the Lecture Concept
+(Slides 2–6 and 16–23 from *Making Implicit Concepts Explicit*)
+
+This lecture explains that many teams unintentionally hide essential domain knowledge inside their code,
+conversations, or private assumptions. These implicit concepts—critical ideas the team depends on but never
+writes down—lead to confusion, inconsistent terminology, and a situation where only a few members actually
+understand how the system works.
+
+The slides emphasize that teams must deliberately *make these concepts explicit* by naming them, defining them,
+and connecting them to the model so that everyone shares the same understanding.
+
+The lecture also explains that systems frequently contain implicit rules—constraints or behaviors that exist
+but are not clearly expressed. When these rules remain buried inside implementation details:
+
+* the team cannot reason about them,
+* they cannot be tested,
+* they cannot be documented,
+* and only the person who originally wrote the code knows they exist.
+
+Making implicit rules explicit keeps the model consistent, testable, and learnable for all members.
+
+----
+
+==== 2. Example (Outside the Project)
+
+Imagine a restaurant kitchen where only one chef knows the recipe for the most popular dish.
+Others may help cook, but they guess ingredient amounts, timing, and plating. Since the recipe exists only
+in one person’s memory, results differ every time.
+
+Because the recipe is implicit:
+
+* the kitchen cannot create documentation,
+* new cooks cannot be trained,
+* mistakes cannot be corrected,
+* and the entire workflow collapses if the head chef is unavailable.
+
+In this example:
+
+*the recipe is an implicit concept*  
+*the cooking steps are implicit constraints*
+
+Making the recipe explicit—listing ingredients, quantities, timings, and rules—would allow the whole kitchen
+to work consistently and collaboratively.
+
+----
+
+==== 3. Application to the Gamified Gym Project
+
+The Gamified Gym team currently faces a significant knowledge bottleneck:
+**only one person out of 25 understands how the backend works.**
+
+This makes backend behavior an implicit concept—hidden, undocumented, and inaccessible to most team members.
+As a result:
+
+* Developers cannot reason about backend behavior  
+* Frontend members cannot verify their features  
+* Testers cannot validate outcomes  
+* Documentation remains incomplete  
+* The team depends entirely on one backend contributor  
+* Progress stops any time that person is unavailable  
+
+Using the lecture’s principle of *making implicit concepts explicit*, we can clarify backend behavior
+without touching the backend code at all.
+
+By mapping what the backend must do at each step of the user journey, we expose the backend’s domain
+responsibilities. This eliminates the dependency on a single contributor and allows documentation,
+testing, and coordinated development to continue.
+
+----
+
+==== 4. Backend Behavior Along the User Journey (Explicit Modeling Guide)
+
+Below is a narrated walkthrough of the app from login to completing a workout.  
+At every step, backend responsibilities are made explicit using domain concepts.
+
+===== 1. User Opens the App & Logs In
+*Frontend Behavior:* User enters credentials and loads their dashboard.
+
+*Backend Responsibilities:*
+* Authenticate user  
+* Load athlete profile  
+* Fetch recent sessions and progress metrics  
+* Deliver pending notifications  
+
+===== 2. Home / Dashboard Screen
+*Frontend Behavior:* Displays progress summary, achievements, and warnings.
+
+*Backend Responsibilities:*
+* Query sessions  
+* Compute totals, trends, and warnings  
+* Return dashboard data  
+
+===== 3. Starting a Workout or Routine
+*Frontend Behavior:* User starts a workout or selects a routine.
+
+*Backend Responsibilities:*
+* Fetch routine or starting template  
+* Create new WorkoutSession aggregate  
+* Return structured exercise list  
+
+===== 4. Logging Exercises During the Workout
+*Frontend Behavior:* User logs sets, reps, and loads.
+
+*Backend Responsibilities:*
+* Store set entries  
+* Tag muscle groups  
+* Update per-exercise and per-session metrics  
+
+===== 5. Completing the Workout
+*Frontend Behavior:* User saves the session.
+
+*Backend Responsibilities:*
+* Finalize session  
+* Compute volume, load, training distribution  
+* Evaluate achievements and milestones  
+* Trigger notifications  
+
+===== 6. Viewing History / Stats
+*Backend Responsibilities:*
+* Aggregate past sessions  
+* Detect trends and plateaus  
+* Return data for visualizations  
+
+===== 7. Editing Profile
+*Backend Responsibilities:*
+* Update athlete profile  
+* Adjust future calculations and personalized behaviors  
+
+----
+
+==== 5. Reflection
+
+This task demonstrated how powerful explicit concept modeling is in a team with uneven expertise.
+Our project had a severe dependency on a single backend contributor, which prevented the rest of the team from
+understanding or documenting backend behavior.
+
+By mapping backend responsibilities along the user journey, I now have a clear shared reference that
+reduces this dependency and enables others to contribute meaningfully to:
+
+* documentation  
+* feature design  
+* testing  
+* overall architecture understanding  
+
+This method will continue to help whenever the team encounters hidden assumptions or unclear domain behavior.
+
+----
+
+==== 6. Optional Implementation Notes
+
+If adopted, this explicit mapping would:
+
+* Help frontend developers verify backend connections  
+* Enable documentation writers to describe system behavior accurately  
+* Let testers generate meaningful test cases  
+* Reduce load on the single backend developer  
+* Create team-wide shared understanding of the system  
+
 
