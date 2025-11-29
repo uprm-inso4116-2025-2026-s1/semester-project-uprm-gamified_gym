@@ -12,16 +12,16 @@ import {
   createBottomTabNavigator,
   BottomTabScreenProps,
 } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";   // ⭐ NEW
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import AddWorkout from "./AddWorkout";
-import Profile from "./Profile";                   // ⭐ Use your REAL Profile page
-import Achievements from "./Achievements";         // ⭐ Add your Achievements page
+import Profile from "./Profile";
+import Achievements from "./Achievements";
 import WorkoutSelectionScreen from "./workoutSelection";
 import TimerScreen from "./TimerScreen";
-
+import Settings from "./Settings"; // ✅ use your real Settings screen
 
 /** ---- Navigation types ---- */
 type BottomTabParamList = {
@@ -32,12 +32,14 @@ type BottomTabParamList = {
 };
 
 type RootStackParamList = {
-  Tabs: undefined;          // ⭐ Main Tab Navigator
-  Achievements: undefined;  // ⭐ New Page outside Tabs
+  Tabs: undefined;            // main tab navigator
+  Achievements: undefined;
+  workoutSelection: undefined; // ✅ added
+  TimerScreen: undefined;      // ✅ added
 };
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
-const Stack = createNativeStackNavigator<RootStackParamList>(); // ⭐ NEW
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 /** ---- UI constants ---- */
 const BLUE = "#2C82FF";
@@ -54,7 +56,9 @@ const LIGHT_SHADOW = {
 
 /* ---------- Screens ---------- */
 
-function HomeScreen({ navigation }: BottomTabScreenProps<BottomTabParamList, "Home">) {
+function HomeScreen({
+  navigation,
+}: BottomTabScreenProps<BottomTabParamList, "Home">) {
   const insets = useSafeAreaInsets();
   const bottomOffset = TAB_HEIGHT + 10 + Math.max(insets.bottom - 4, 0);
 
@@ -79,7 +83,11 @@ function HomeScreen({ navigation }: BottomTabScreenProps<BottomTabParamList, "Ho
         <Text style={styles.sectionTitle}>What do you want to create or add?</Text>
 
         <View style={styles.actionGroup}>
-          <ActionPill icon={<Ionicons name="image-outline" size={18} />} label="Create Post" onPress={() => {}} />
+          <ActionPill
+            icon={<Ionicons name="image-outline" size={18} />}
+            label="Create Post"
+            onPress={() => {}}
+          />
           <ActionPill
             icon={<MaterialCommunityIcons name="dumbbell" size={18} />}
             label="Add Workout"
@@ -140,7 +148,13 @@ function Tabs() {
               : "settings";
 
           return (
-            <View style={{ justifyContent: "center", alignItems: "center", height: TAB_HEIGHT }}>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                height: TAB_HEIGHT,
+              }}
+            >
               <Ionicons name={name as any} size={24} color={c} />
             </View>
           );
@@ -149,8 +163,8 @@ function Tabs() {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Add" component={AddWorkout} />
-      <Tab.Screen name="Profile" component={Profile} />  {/* ⭐ REAL Profile */}
-      <Tab.Screen name="Settings" component={Placeholder} />
+      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Settings" component={Settings} /> {/* ✅ fixed */}
     </Tab.Navigator>
   );
 }
@@ -160,7 +174,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-
         {/* Main tabs */}
         <Stack.Screen name="Tabs" component={Tabs} />
 
@@ -170,12 +183,10 @@ export default function App() {
 
         {/* Other pages */}
         <Stack.Screen name="Achievements" component={Achievements} />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
 
 /** ---- Styles ---- */
 const styles = StyleSheet.create({
@@ -188,7 +199,11 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     marginBottom: 16,
   },
-  topCardHeader: { paddingVertical: 12, paddingHorizontal: 16, alignItems: "center" },
+  topCardHeader: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    alignItems: "center",
+  },
   topCardTitle: { fontSize: 20, fontWeight: "600", color: "#333", opacity: 0.9 },
   topCardBody: { height: 0, backgroundColor: "#D9D9D9" },
 
@@ -203,7 +218,12 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 14,
   },
-  sectionTitle: { fontSize: 16, fontWeight: "700", color: "#2C2C2C", marginBottom: 10 },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#2C2C2C",
+    marginBottom: 10,
+  },
   actionGroup: { gap: 10 },
   pill: {
     flexDirection: "row",

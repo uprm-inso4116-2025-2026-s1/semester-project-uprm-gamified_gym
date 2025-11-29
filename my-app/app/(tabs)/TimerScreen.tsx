@@ -4,6 +4,63 @@ import Svg, { Circle, G } from "react-native-svg";
 import { supabase } from "../../lib/supabaseClient";
 import { useRouter, useLocalSearchParams } from "expo-router";
 
+
+export async function awardFirstWorkoutLogged() {
+  // 1) Get current user
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    console.log("No logged-in user, cannot award achievement");
+    return;
+  }
+
+  // 2) Find the achievement row by code
+  const { data: achievement, error: achError } = await supabase
+    .from("achievements")
+    .select("id")
+    .eq("code", "first_workout_logged")
+    .single();
+
+  if (achError || !achievement) {
+    console.log("Could not find achievement first_workout_logged:", achError);
+    return;
+  }
+
+  // 3) Check if this user already has it
+  const { data: existing, error: existingError } = await supabase
+    .from("user_achievements")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("achievement_id", achievement.id);
+
+  if (existingError) {
+    console.log("Error checking existing user_achievement:", existingError);
+    return;
+  }
+
+  if (existing && existing.length > 0) {
+    // already awarded – do nothing
+    return;
+  }
+
+  // 4) Insert new row = user just earned it 🎉
+  const { error: insertError } = await supabase.from("user_achievements").insert({
+    user_id: user.id,
+    achievement_id: achievement.id,
+    earned_at: new Date().toISOString(),
+  });
+
+  if (insertError) {
+    console.log("Error awarding achievement:", insertError);
+  } else {
+    console.log("Achievement first_workout_logged awarded!");
+  }
+}
+
+
 export default function TimerScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
@@ -153,7 +210,7 @@ export default function TimerScreen() {
   };
 
   // --- Complete set / exercise ---
-  const completeSet = () => {
+  const completeSet = async () => {
   if (repTimeoutRef.current) clearTimeout(repTimeoutRef.current);
   if (restIntervalRef.current) clearInterval(restIntervalRef.current);
 
@@ -175,6 +232,12 @@ export default function TimerScreen() {
     // Last exercise complete
     repAnim.setValue(1); // fill the ring fully
     setWorkoutComplete(true);
+
+    try {
+      await awardFirstWorkoutLogged();
+    } catch (err) {
+      console.log("Failed to award first_workout_logged achievement:", err);
+    }
 
     // Optionally reset after a short delay
     setTimeout(() => {

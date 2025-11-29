@@ -14,6 +14,7 @@ export type RootStackParamList = {
   MealLog: undefined; 
   Achievements: { from?: string };
   Challenges: undefined;
+  workoutSelection: undefined; 
 };
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
@@ -21,7 +22,7 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
   "index"
 >;
 
-export default function index() {
+export default function Index() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
   return (
@@ -138,13 +139,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: BLUE,
   },
-  // logotext: {
-  //   position: 'absolute',
-  //   top: 55,
-  //   color: 'white',
-  //   fontSize: 20,
-  //   fontWeight: 'bold',
-  // },
+  logotext: {
+    position: 'absolute',
+    top: 55,
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   container: {
     flex: 1,
     width: '100%',

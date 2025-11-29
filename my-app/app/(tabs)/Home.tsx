@@ -16,7 +16,10 @@ function checkNavigationInvariants(navigation: any) {
   assert(navigation != null, "Navigation object must exist before using it");
 }
 
-type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
+type HomeScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Home"
+>;
 
 export default function Home() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
@@ -24,7 +27,7 @@ export default function Home() {
   const [userAvatar, setUserAvatar] = useState<string | null>(null);
 
   async function fetchUser() {
-    const session = supabase.auth.getSession().then(res => res.data.session);
+    const session = supabase.auth.getSession().then((res) => res.data.session);
     const user = (await session)?.user;
 
     if (user) {
@@ -57,13 +60,15 @@ export default function Home() {
     fetchUser();
 
     // Listen for auth changes (login/logout)
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        fetchUser();
-      } else {
-        setUserName(null);
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        if (session?.user) {
+          fetchUser();
+        } else {
+          setUserName(null);
+        }
       }
-    });
+    );
 
     return () => {
       listener.subscription.unsubscribe();
@@ -100,7 +105,11 @@ export default function Home() {
             onPress={() => navigation.navigate("Profile")}
           >
             <Image
-              source={userAvatar ? { uri: userAvatar } : require("../../assets/images/user.png")}
+              source={
+                userAvatar
+                  ? { uri: userAvatar }
+                  : require("../../assets/images/user.png")
+              }
               style={styles.avatar}
               accessibilityLabel="User profile"
             />
@@ -135,18 +144,18 @@ export default function Home() {
             <Text style={styles.actionText}>Start Workout</Text>
           </TouchableOpacity>
 
-
-
-          <TouchableOpacity style={styles.actionButton}>
           <TouchableOpacity
             style={styles.actionButton}
             onPress={() => {
               checkNavigationInvariants(navigation);
               if (!userName) {
-                Alert.alert("Access Denied", "You must be logged in to log a meal.");
+                Alert.alert(
+                  "Access Denied",
+                  "You must be logged in to log a meal."
+                );
                 return;
               }
-              navigation.navigate("MealLog"); 
+              navigation.navigate("MealLog");
             }}
           >
             <Text style={styles.actionText}>Log Meal</Text>
@@ -175,7 +184,10 @@ export default function Home() {
           onPress={() => {
             checkNavigationInvariants(navigation);
             if (!userName) {
-              Alert.alert("Access Denied", "You must be logged in to access profile.");
+              Alert.alert(
+                "Access Denied",
+                "You must be logged in to access profile."
+              );
               return;
             }
             navigation.navigate("Profile");
