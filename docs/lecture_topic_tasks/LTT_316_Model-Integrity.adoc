@@ -1,1 +1,102 @@
+== Lecture Topic Task 2  
+Using Model Integrity Principles to Structure Milestone 3 Documentation
+
+=== 1. Objective
+The objective of this task is to apply concepts from the *Maintaining Model Integrity* lecture to design a
+structured, consistent, and rubric-aligned documentation format for Milestone 3.  
+Key ideas used include bounded contexts, explicit terminology, and integrity-preserving modeling practices.
+
+The goal is to ensure that the Milestone 3 `.adoc` documentation remains coherent, internally consistent, and
+fully compliant with project expectations, while avoiding fragmentation or contradictory descriptions.
+
+=== 2. Task Description
+This task applies principles from the *Maintaining Model Integrity* lecture—particularly bounded contexts,
+avoiding model splinters, preventing duplicate definitions, and maintaining stable terminology across
+documentation.
+
+Milestone 3 requires a documentation format that:
+
+* Integrates changes clearly  
+* Demonstrates progress across the project  
+* Aligns with the rubric for structured presentation  
+* Shows traceable updates  
+* Covers domain, requirements, architecture, design, and testing  
+
+Using the lecture’s guidelines, a structured `.adoc` format was developed that:
+
+* Separates concerns cleanly  
+* Uses consistent vocabulary  
+* Avoids duplicate or conflicting explanations  
+* Maintains visible connections to Milestones 1–2  
+* Frames updates inside clearly identifiable contexts  
+
+The result is a documentation structure grounded in model integrity principles that supports clarity,
+consistency, and collaborative editing.
+
+=== 3. Explanation of Lecture Concept
+The *Maintaining Model Integrity* lecture emphasizes preserving the internal consistency and conceptual clarity
+of a system’s model as it evolves.
+
+Key ideas include:
+
+* **Bounded Contexts** — large systems must be divided into conceptual regions where terminology,
+responsibilities, and rules remain internally consistent.
+* **Avoiding Model Splinters** — the same concept must not be defined differently in multiple places.
+* **Preventing False Cognates** — similar-sounding terms must not refer to contradictory ideas.
+* **Context Maps** — clarify relationships between parts of the model and prevent conceptual mixing.
+* **Continuous Integration of the Model** — updates must remain synchronized and not diverge into
+incompatible versions.
+
+These principles ensure documentation evolves consistently and remains understandable to all contributors.
+
+=== 4. Example (Outside the Project)
+Consider a company producing three manuals for the same product—engineering, marketing, and support.
+Each manual uses different terminology and conflicting descriptions. This failure in model integrity leads to:
+
+* customer confusion  
+* internal miscommunication  
+* contradictory documentation  
+* difficulty onboarding new staff  
+
+Applying bounded contexts and unified terminology removes these contradictions and maintains clarity.
+
+=== 5. Application to the Gamified Gym Project
+Milestone 3 requires a well-structured `.adoc` submission that:
+
+* clearly shows integrated changes from prior milestones  
+* avoids contradictions and duplicated explanations  
+* covers domain, requirements, architecture, design, and testing  
+* satisfies rubric expectations for narrative clarity and visible improvements  
+
+Across Milestones 1–2, documentation suffered from inconsistent terminology, overlapping sections, and
+re-defined concepts. Requirements blended with design, and contradictory descriptions appeared — matching
+exactly the issues described in the lecture.
+
+Using *Maintaining Model Integrity*, a structured AsciiDoc format for Milestone 3 was designed with
+bounded contexts:
+
+* **Domain Context** — domain model, concept definitions  
+* **Requirements Context** — user stories, system responsibilities  
+* **Architecture Context** — subsystems, interfaces, boundaries  
+* **Design Context** — design techniques, diagrams, refinements  
+* **Testing Context** — test plan, test cases, coverage  
+* **Change Log Context** — visible improvements over Milestones 1–2  
+
+The format also applies:
+
+* unified terminology  
+* single definitions per concept  
+* no duplicated domain or requirement descriptions  
+* a context map linking all documentation elements  
+
+This prevents model splinters and preserves integrity as the document grows.
+
+=== 6. Reflection
+This task showed that model integrity concepts have a strong effect on documentation quality. Applying
+bounded contexts, stable terminology, and awareness of splinters produced a clearer, rubric-aligned
+structure for Milestone 3.
+
+I now understand documentation not just as writing, but as actively preserving the integrity of the model as
+the project evolves. The structured format created through this task will support the entire team by making
+Milestone 3 easier to maintain, extend, and align with project guidelines.
 
