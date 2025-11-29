@@ -211,15 +211,15 @@ ownership and invariant scope
 
 == Diagrams 
 
-image:media/image1.jpg[media/image1,width=405,height=397]
+image:docs/img/LTT_309_EntitiesAggregates/media/image1.jpg[docs/img/LTT_309_EntitiesAggregates/media/image1,width=405,height=397]
 
 === _Figure 1.1 Entities Diagram_ 
 
-image:media/image2.jpg[media/image2,width=450,height=249]
+image:docs/img/LTT_309_EntitiesAggregates/media/image2.jpg[docs/img/LTT_309_EntitiesAggregates/media/image2,width=450,height=249]
 
 === _Figure 1.2 Aggregates Diagram_ 
 
-image:media/image3.jpg[media/image3,width=351,height=514]
+image:docs/img/LTT_309_EntitiesAggregates/media/image3.jpg[docs/img/LTT_309_EntitiesAggregates/media/image3,width=351,height=514]
 
 ____
 _Figure 1.3 Bounded Contexts Diagram_
