@@ -1,0 +1,36 @@
+name: Convert DOCX to AsciiDoc
+
+on:
+  push:
+    paths:
+      - 'docs/raw_LTT/**/*'
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Pandoc
+        run: sudo apt-get install -y pandoc
+
+      - name: Convert DOCX files to AsciiDoc
+        run: |
+          mkdir -p docs/lecture_topic_tasks
+          for file in docs/raw_LTT/*.docx; do
+            if [ -f "$file" ]; then
+              base=$(basename "$file" .docx)
+              pandoc "$file" -t asciidoc -o "docs/lecture_topic_tasks/${base}.adoc"
+              echo "Converted: $file → ${base}.adoc"
+            fi
+          done
+
+      - name: Commit converted files
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add docs/lecture_topic_tasks/*.adoc || true
+          git commit -m "Auto-converted DOCX to AsciiDoc" || true
+          git push || true
