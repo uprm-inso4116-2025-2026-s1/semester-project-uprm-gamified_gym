@@ -1,4 +1,4 @@
-name: Convert DOCX to AsciiDoc
+name: Convert DOCX files to AsciiDoc
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - "docs/raw_LTT/*.docx"
 
 permissions:
-  contents: write   # ⭐ same as PDF workflow
+  contents: write
 
 jobs:
   convert:
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: true   # ⭐ keep the token
+          persist-credentials: true
 
       - name: Install pandoc
         run: |
@@ -26,26 +26,34 @@ jobs:
       - name: Convert DOCX files to AsciiDoc
         run: |
           mkdir -p docs/lecture_topic_tasks
+          mkdir -p docs/img
+
           shopt -s nullglob
-          for file in docs/raw_LTT/*.docx; do
-            base="$(basename "$file" .docx)"
+          for docx in docs/raw_LTT/*.docx; do
+            base="$(basename "$docx" .docx)"
             out="docs/lecture_topic_tasks/${base}.adoc"
-            echo "Converting: $file -> $out"
-            pandoc "$file" -f docx -t asciidoc -o "$out"
+            media_dir="docs/img/${base}"
+
+            mkdir -p "$media_dir"
+
+            echo "Converting $docx -> $out (images -> $media_dir)"
+            pandoc "$docx" \
+              -t asciidoc \
+              -o "$out" \
+              --extract-media="$media_dir"
           done
 
       - name: Commit converted files
         run: |
-          # Only commit if there are changes
-          if git diff --quiet docs/lecture_topic_tasks; then
-            echo "No converted files to commit."
-            exit 0
-          fi
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add docs/lecture_topic_tasks/*.adoc
+          git add docs/lecture_topic_tasks/*.adoc || true
+          git add docs/img || true
 
-          git commit -m "chore: auto-convert LTT DOCX to AsciiDoc" || exit 0
-          git push
+          if git diff --cached --quiet; then
+            echo "No converted files to commit."
+          else
+            git commit -m "chore: auto-convert LTT DOCX to AsciiDoc"
+            git push
+          fi
