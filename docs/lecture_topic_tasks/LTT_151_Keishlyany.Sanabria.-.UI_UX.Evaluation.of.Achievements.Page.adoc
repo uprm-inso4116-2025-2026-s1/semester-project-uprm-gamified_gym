@@ -1,0 +1,33 @@
+*UI/UX Evaluation of Achievements Page*
+
+*By: Keishlyany Sanabria*
+
+== Evaluation of My Design (Issues #62 and #149) 
+
+* When selecting a specific achievement category, the medals displayed
+do not show their respective rank names. This may lead to confusion for
+users who want to understand their progress or hierarchy within the
+achievements.
+* The minimalist design effectively enhances the page’s focus. Requiring
+users to click on a category name to reveal the medals helps reduce
+visual clutter and keeps the interface clean and organized.
+* However, older users may not easily realize that the categories are
+clickable. To improve accessibility and usability, an indicator or
+visual cue should be added to signal that the categories are
+interactive.
+
+== Evaluation of Peer’s Design (Issues #31 and #162) 
+
+* The inclusion of confetti animations upon earning a medal adds a
+playful and rewarding element that helps maintain user engagement.
+* At first glance, the page design feels overly simplistic, making it
+unclear which section of the application the user is currently in.
+Adding a page title or header would provide better context and improve
+navigation, especially since there is a search bar whose purpose is not
+immediately evident.
+* Although minor, the inconsistency in the confetti designs slightly
+disrupts visual coherence. Ensuring consistent visual elements would
+enhance the overall professional appearance of the page. For example,
+when elements like buttons, colors, and layouts behave the same way
+across the interface, users don’t have to relearn how things work each
+time. This reduces cognitive load and makes navigation intuitive.

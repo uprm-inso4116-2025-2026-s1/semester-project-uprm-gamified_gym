@@ -1,0 +1,405 @@
+Core Value Object: Badge
+
+A Badge is a pure statement of meaning in the domain: “what” an
+achievement represents, not “who” holds it or “when” it was earned. As a
+value object, it is entirely defined by its attributes (its name,
+category, and unlock rule), so two badges with the same values are
+indistinguishable. Immutability is essential: once created, a badge’s
+properties never change in place. If product or policy needs evolve
+(e.g., a 7-day streak becomes 10), we create a new Badge value,
+typically with an explicit semantic version or effective-date window,
+and we keep old awards tied to their original badge. This ensures
+replayability of domain events, preserves the truth of past
+accomplishments, and avoids “time travel” bugs where historical
+achievements would otherwise shift under new rules.
+
+The badge’s _unlockSpec_ should be a side-effect-free predicate over the
+user’s progress state and, when necessary, recent domain events. Treat
+the specification like a small, intention-revealing DSL. For example,
+primitives such as “has streak of N,” “ran at least X kilometers,” or
+“invited friends with first workout” compose into richer expressions
+through _and, or,_ and _not._ Keeping the rule in the domain (not in
+services or UI) clarifies intent and makes the model testable. Because
+the spec is part of the value, it participates in equality; that means
+two badges are equal only if their rules are structurally equal, not
+merely textually similar. To support equality and catalog hygiene, it
+helps to render specs into a normalized, canonical form so we can
+compare badges reliably and precompute a stable hash for caching and
+deduplication.
+
+Naming and categorization deserve rigor. A badge’s _name_ should be
+human-readable and unique within its category, but will also want a
+stable, opaque “technical key” (e.g.,
+_consistency.first_week_warrior.v1_) for catalogs, logs, and analytics.
+The human name can be localized and updated for style; the technical key
+should never change. Categories should reflect decision-making
+boundaries (Consistency, Fitness, Social), not presentation alone; the
+category is part of the badge’s meaning and influences which progress
+signals a rule is allowed to inspect. It is important to keep
+descriptive fields like summary, icon, rarity, and points within the
+value object as well, but treating them as presentation hints, immutable
+at creation, versioned via new badges if they change materially.
+Finally, we can consider scoping: multi-tenant deployments may need
+tenant-specific catalogs, seasonal or campaign badges with validity
+intervals, and “experimental” badges gated by feature flags. Each of
+these is still a plain value; governance and targeting live outside in
+the catalog layer.
+
+* *Attributes (immutable)*
+
+____
+○ name: string - concise, unique label within its category.
+____
+
+○ category: BadgeCategory - enum (Consistency, Fitness, Social …).
+
+____
+○ unlockSpec: Specification<UserProgress> - a composable predicate
+describing the rule to unlock.
+
+○ Optional descriptive fields: summary: string, emoji/icon: string,
+rarity:
+
+Common, Rare, Epic,
+
+○ points: number.
+____
+
+* *Equality*: by value (all attributes). No surrogate ID. Two Badge
+instances with the same values are equal.
+* *Construction*: created once in a catalog (BadgeCatalog) and never
+mutated. Any “change” yields a new Badge value.
+
+== Related objects & aggregates 
+
+_UserProgress_ is the aggregate root that owns mutable training state
+and the record of earned achievements. It answers the question “what has
+this user done so far?” and enforces invariants like “a badge can be
+awarded at most once” and “awarding is idempotent.” The aggregate should
+not contain badge definitions; instead, it accepts a _Badge_ value when
+awarding and stores an _EarnedBadge_ entity that snapshots “which
+badge,” “when,” and optional evidence (e.g., the workout/session IDs
+that justified the unlock). Snapshotting the _Badge_ inside the
+_EarnedBadge_ decouples historical awards from future catalog changes
+and guarantees that rehydrating past timelines does not depend on
+today’s catalog contents. If using event sourcing, _UserProgress_ emits
+domain events like _WorkoutLogged, StreakAdvanced,_ and _BadgeAwarded_;
+replays must never mint duplicates, so the award path should be
+explicitly idempotent (e.g., by keying on the badge’s stable technical
+key).
+
+_EarnedBadge_ is a small, local entity because it has identity relative
+to the user’s timeline. Two awards at different times are different
+entities even if they refer to the same badge; conversely, the same
+badge cannot appear twice for the same user unless you intentionally
+model “tiers” or “repeatables” as separate badges (e.g., “Marathon
+Finisher v1 (first), v1.2 (second),” or “5K Finisher -
+Bronze/Silver/Gold”). Treat the evidence field as audit-friendly, not as
+deep linkage; store the minimal references needed to justify the award
+and compute analytics later from read models. Suppose expect
+appeal/revocation workflows (e.g., fraudulent GPS data). In that case,
+we can design an explicit revocation policy in the aggregate: either
+mark an _EarnedBadge_ as revoked with a reason (keeping history intact)
+or append a compensating _BadgeRevoked_ event. *Never delete awards
+silently*.
+
+The _BadgeAwardingService_ sits at the domain service boundary and
+evaluates rules against progress. It orchestrates, but it doesn’t own
+state. Given a catalog and a _UserProgress_ instance (or a short time
+window of events), it returns the set of badges that newly qualify.
+Because specs are pure and catalogs are immutable snapshots, this
+service is easy to test and parallelize. For performance, pre-index the
+catalog by the progress signals a rule needs (streak-based badges don’t
+need to evaluate when only social events occur). In high-throughput
+systems, you can adopt an incremental strategy: subscribe to specific
+events and only evaluate the subset of rules whose predicates mention
+those signals. Caching “almost satisfied” state inside _UserProgress_
+(e.g., current streak, weekly volume) avoids re-scanning raw workouts
+and keeps rule checks O(1) on hot paths.
+
+The _BadgeCatalog_ is a read-only repository of value objects, versioned
+and publishable. Think of it as a configuration artifact produced by
+product/design with engineering review: it must be validated (no
+duplicate keys, no conflicting effective dates, no unsatisfiable rules)
+and promoted through environments. For governance, track provenance (who
+authored which rule), run dry-run evaluations on anonymized data to
+detect runaway unlocks or impossible thresholds, and ship the catalog
+alongside the app version so A/B or region-specific catalogs are
+deterministic. In systems with multiple bounded contexts (e.g., Tracking
+and Gamification) treat the catalog as belonging to Gamification, while
+Tracking emits clean domain events and exposes read models (distances,
+streak counters, social interactions). Use anti-corruption layers to
+translate raw tracking data into the normalized progress signals that
+badge rules consume; this keeps the spec language stable even if
+tracking internals evolve.
+
+Finally, concurrency and consistency deserve explicit choices. Awarding
+can run synchronously on the command path (e.g., right after
+_WorkoutLogged_) for instant feedback, or asynchronously in a worker
+that listens to events and writes back _BadgeAwarded_ later. If we
+choose async for scalability, we can make the UX resilient: the client
+should reconcile when awards arrive slightly after the triggering
+action. Use optimistic concurrency on the _UserProgress_ aggregate
+(version check) to prevent double awards during bursts, and rely on
+idempotent upserts keyed by the badge’s technical key. For analytics and
+leaderboards, project _EarnedBadge_ events into read models rather than
+querying aggregates directly; this keeps the core model lean, preserves
+write performance, and allows rebuilding views when the catalog evolves.
+
+* *Entity (Aggregate Root): UserProgress*
+. Holds the _state that changes_ (workout logs, streak counters, totals,
+social actions).
+
+____
+○ Contains a collection of EarnedBadge records (see below).
+
+○ Invariants:
+____
+
+■ A given Badge can be earned *at most once* per user.
+
+■ Awarding is idempotent (replaying events does not duplicate awards).
+
+* *Entity (inside aggregate): EarnedBadge*
+. Snapshot that “User X earned Badge Y at time T (and maybe context Z)”.
+
+____
+○ Attributes:
+
+■ badge: Badge (copied VO),
+
+■ earnedAt: Instant,
+
+■ optional evidence: \{ workoutId?, challengeId? }. ● *Domain Services*
+
+○ BadgeAwardingService: pure decision logic that evaluates unlockSpec
+predicates against UserProgress (and recent domain events) and returns
+the set of new Badges to award.
+____
+
+* *Repository*
+. UserProgressRepository: loads/saves UserProgress aggregate. ○
+BadgeCatalog (read-only): provides all available Badge VOs.
+
+== Assignment Flow 
+
+[arabic]
+. *Domain event occurs* (e.g., WorkoutLogged, StreakAdvanced,
+ChallengeJoined, FriendInvited).
+. Application layer loads the *UserProgress* aggregate (AR).
+. *BadgeAwardingService*:
+.. Pulls Badges from the *BadgeCatalog*.
+
+____
+○ Filters by unlockSpec.isSatisfiedBy(userProgress).
+
+○ Excludes Badges already present in userProgress.earnedBadges.
+____
+
+[arabic, start=4]
+. For each new Badge, call userProgress.award(badge, context):
+.. *Aggregate enforces invariants*: no duplicates; records an
+EarnedBadge (entity) with timestamp and context.
+. Persist the updated aggregate; publish BadgeAwarded events if needed.
+
+== Categories & Examples 
+
+Category: Consistency
+
+____
+Badges that recognize regularity and streak discipline.
+____
+
+* *“First Week Warrior”* - Unlock: 7 consecutive days with ≥1
+workout/day.
+* *“Habit Builder”* - Unlock: 21 consecutive active days (workout or
+step goal).
+* *“Unbreakable 30”* - Unlock: 30-day workout streak without gaps.
+* *“Comeback Kid”* - Unlock: After ≥14 inactive days, complete 7
+consecutive active days.
+* *“Weekend Double”* - Unlock: Workouts on both Saturday and Sunday for
+4 consecutive weekends.
+
+Category: Fitness
+
+____
+Badges that capture measurable training outcomes (volume, intensity,
+variety).
+____
+
+* *“5K Finisher”* - Unlock: Single run ≥ 5 km (GPS or treadmill record).
+* *“Volume Monster”* - Unlock: ≥ 10,000 kg total weight lifted in a
+week.
+* **“VO**₂**-Go!”** - Unlock: Interval workout with ≥ 8 high-intensity
+intervals in one session.
+* *“Cross-Trainer”* - Unlock: Complete 3 different workout types in one
+week.
+* *“Century Cyclist”* - Unlock: 100 km cycling total in a month.
+
+Category: Social
+
+____
+Badges for network effects and community behaviors.
+____
+
+* *“Trailblazer”* - Unlock: Share a workout summary to the community
+feed 5 times. ● *“Hype Squad”* - Unlock: Receive 25 total reactions
+across your posts.
+* *“Connector”* - Unlock: Invite 3 friends who each complete ≥1 workout.
+* *“Duo Day”* - Unlock: Complete a partner workout with at least one
+friend.
+* *“Mentor”* - Unlock: Comment helpful tips on 10 different users’ posts
+(min length rule).
+
+Can be extended with “Mastery” (technique milestones), “Recovery”
+(sleep, mobility), or
+
+“Health” (step counts, HR zones)
+
+== Specifications (unlock rules) as composable Value Objects 
+
+Define Specification<UserProgress> as a VO with:
+
+* isSatisfiedBy(progress): boolean (pure)
+* logical combinators: and, or, not
+* parameterized building blocks: HasStreak(days), WeeklyVolume(kg),
+RanAtLeast(distanceKm), SharedAtLeast(n), InvitedFriendsAtLeast(n with
+completedWorkout), etc.
+
+Example (pseudocode):
+
+[width="100%",cols="100%",options="header",]
+|===
+a|
+const HabitBuilder = Badge(\{ name: "Habit Builder", category:
+"Consistency", unlockSpec: HasStreak(21)
+
+});
+
+const CrossTrainer = Badge(\{ name: "Cross-Trainer", category:
+"Fitness", unlockSpec: InLast(7, HasDistinctWorkoutTypesAtLeast(3)) });
+
+|===
+
+== Visual Representation 
+
+UML-style sketch (aggregate + VO relationship)
+
+image::../img/LTT_180_Core.Value.Object_.Badge/media/image1.png[width=569,height=553]
+
+Matrix mapping milestones -> badges (excerpt)
+
+[width="100%",cols="19%,14%,16%,35%,16%",options="header",]
+|===
+a|
+Milestone
+
+(progress signal)
+
+|Category |Badge |Unlock rule (spec) |Tracked source
+|7 consecutive active days a|
+____
+Consistency
+____
+
+a|
+First Week
+
+Warrior
+
+|_HasStreak(7)_ |streak counter
+
+a|
+____
+21 consecutive active days
+____
+
+a|
+____
+Consistency
+____
+
+a|
+____
+Habit Builder
+____
+
+|_HasStreak(21)_ |streak counter
+
+a|
+____
+Single run ≥ 5
+____
+
+km
+
+|Fitness |5K Finisher |_RanAtLeast(5)_ a|
+run session
+
+distance
+
+|≥ 10,000 kg lifted in a week |Fitness |Volume Monster
+|_WeeklyVolume(>=10000)_ |set/rep × weight log
+
+a|
+____
+3 workout types in 7 days
+____
+
+|Fitness a|
+____
+Cross-Trainer
+____
+
+a|
+_InLast(7,_
+
+_HasDistinctWorkoutTypesAtLeast(_
+
+_3))_
+
+|workout type history
+
+|Share 5 workouts to feed |Social |Trailblazer |_SharesAtLeast(5)_
+|social posts
+
+a|
+____
+Invite 3 friends who
+____
+
+complete a
+
+WO
+
+|Social |Connector |_InvitedFriendsAtLeast(3, completedWorkout)_
+|referrals + first workout
+|===
+
+== Immutability & Enforcement 
+
+* *Badge immutability*: once in the catalog, not edited in place.
+Versioning uses _new_ Badge values (e.g., “Habit Builder v2”) while
+keeping old awards consistent.+ ● *Aggregate invariants* (on
+UserProgress):
+. Cannot add duplicate EarnedBadge for the same Badge.
+
+____
+○ Awarding function is *idempotent* (safe to re-run on event replay).
+____
+
+* *Side-effect-free evaluation*: unlockSpec never writes state; only
+
+UserProgress.award(...) mutates the aggregate (records the earned
+badge).
+
+* *Boundaries*:
+. Badge (VO) is *shared meaning* across users (catalog).
+
+○ EarnedBadge is *local* to a user (belongs to the UserProgress
+aggregate).
+
+____
+○ Cross-context concerns (e.g., gamification vs. tracking) communicate
+via domain events and read models, keeping models clean.
+____

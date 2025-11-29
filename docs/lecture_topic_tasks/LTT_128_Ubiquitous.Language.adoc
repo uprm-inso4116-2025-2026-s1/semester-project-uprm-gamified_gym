@@ -1,0 +1,236 @@
+== *Project Glossary: Gamified Gym*
+
+Goal: To develop a Ubiquitous Language for the team on the project, to
+enable a proper and consistent communication among developers and
+amongst designers.
+
+A core principle of the Ubiquitous Language is that it must extend
+directly into the codebase. The terms defined in this glossary should be
+used precisely for naming our classes, variables, and methods.
+
+=== *Basic Principles*
+
+* {blank}
++
+____
+End-user
+____
+** {blank}
++
+____
+Definition: One who accesses the app to monitor their health development
+through the app and play gamification components.
+____
+** {blank}
++
+____
+Observations reveal that the User is the core object upon which all
+data, such as Workouts, Ranks, and Achievements, is systematically
+arranged.
+____
+* {blank}
++
+____
+Exercise
+____
+** {blank}
++
+____
+Definition: One recorded set of physical movement executed by a User.
+One Workout consists of a single or more Exercises.
+____
+** {blank}
++
+____
+Example: "A User worked out on Monday doing Bench Press, Squats, and
+Rows."
+____
+* {blank}
++
+____
+Muscle Group
+____
+** {blank}
++
+____
+Definition: One of the large muscular regions of the human anatomy
+worked on by an exercise (i.e., Chest, Back, Legs, Shoulders, Arms).
+____
+** {blank}
++
+____
+Notes: Muscle Groups are the main heading utilized in computing Balance
+and Rank Assignment.
+____
+* {blank}
++
+____
+Set
+____
+** {blank}
++
+____
+Definition: Groups of continuous reps performed with an individual
+exercise, denoted with a pause of rest. A single, full movement of an
+exercise movement.
+____
+* {blank}
++
+____
+Weight
+____
+** {blank}
++
+____
+Definition: The level of resistance applied during a given exercise.
+Along with sets and reps, this number is plugged into to calculate
+training volume.
+____
+
+=== *Gamification and Leveling*
+
+* {blank}
++
+____
+Training Volume
+____
+** {blank}
++
+____
+Definition: The fundamental measure utilized in finding the volume of
+work done. This measure is determined for each exercise in an applied
+exercise routine.
+____
+** {blank}
++
+____
+Formula: Training Volume = Sets × Reps × Weight.
+____
+** {blank}
++
+____
+The cumulative training volume dedicated to a specific muscle group over
+a designated period constitutes a significant element within the ranking
+system.
+____
+* {blank}
++
+____
+Personal Best
+____
+** {blank}
++
+____
+Definition: The best performance of an individual user for a specific
+exercise, typically determined as the largest weight moved for an
+intended number of reps.
+____
+** {blank}
++
+____
+Example: "New PB on Squats: 100kg for 5 Reps."
+____
+* {blank}
++
+____
+Ranking System
+____
+** {blank}
++
+____
+Definition: Ranking scheme applied to a user's track through each muscle
+set has five distinct ranks.
+____
+** {blank}
++
+____
+This system brings progress within reach and defines clear objectives.
+____
+* {blank}
++
+____
+Rank
+____
+** {blank}
++
+____
+Definition: One of the Individual Levels of the Ranking System (Bronze,
+Silver, Gold, Platinum, Diamond) possessed by an individual within a
+selected Muscle Group.
+____
+** {blank}
++
+____
+Notes: A User has an individual Rank per Muscle Group, which reflects
+their Balance. Rank is calculated from a formula involving cumulative
+Training Volume and Personal Bests.
+____
+* {blank}
++
+____
+Balance
+____
+** {blank}
++
+____
+Definition: A diagrammatical representation of how a user's rank or
+volume of training is allocated over their numerous muscle groups.
+____
+** {blank}
++
+____
+Goal: Help Users avoid overtraining of single areas and reach a general
+physique.
+____
+* {blank}
++
+____
+Achievement
+____
+** {blank}
++
+____
+Definition: A periodic, milestone-based reward awarded to a User on
+successful completion of a challenge set. Each Achievement unlocks a
+Badge.
+____
+** {blank}
++
+____
+Example: "First Diamond Rank," or "Log 100 Exercises."
+____
+* {blank}
++
+____
+Badge
+____
+** {blank}
++
+____
+Definition: A graphical emblem which shows completion of an
+accomplishment and is shown on the profile of the user.
+____
+* {blank}
++
+____
+Streak
+____
+** {blank}
++
+____
+Definition: The number of consecutive time intervals (e.g., days or
+weeks) within which a User has registered at least one Workout.
+____
+* {blank}
++
+____
+Leaderboard
+____
+** {blank}
++
+____
+Definition: A social property which shows an ordered checklist of Users
+(most commonly friends) ordered according to some measure, such as total
+Training Volume or number of Achievements gained over some time
+interval.
+____

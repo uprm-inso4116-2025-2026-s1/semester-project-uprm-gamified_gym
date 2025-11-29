@@ -1,0 +1,106 @@
+=== Form of Output
+
+*Principle.* The *form of output is not universal* — it depends on the
+problem being solved and the
+
+chosen implementation. In Gamified Gym, outputs must make training
+effort, balance, and progress
+
+*immediately visible* and *actionable* for users, while also providing
+persistent artifacts for social features and longer-term reflection.
+
+*Audiences.*
+
+* Peers/friends: comparable social artifacts (posts, achievements,
+leaderboards).
+* Team/managers: consistency with design system; verifiable metrics.
+
+*Mediums (implementation-dependent).*
+
+* **Mobile UI views:** cards, lists, modals, toasts, navigation screens.
+* **Visual analytics:** using a ranking system.
+* **Social artifacts:** post cards, comments, shareable achievements.
+* **System feedback:** success toasts, error dialogs, notifications.
+* **Data objects (API):** JSON domain entities rendered by the UI.
+
+==== Output Patterns (Problem → Output Form)
+
+* *“Am I progressing?”* → **Workout Summary View** (session totals, XP
+gained).
+* *“What did I achieve?”* → **Achievement Medal**.
+* *“How do I compare?”* → **Friends Leaderboard** (rank).
+* *“What should I share?”* → **New Post Card** (title, description,
+workout snippet, media).
+
+==== Concrete Output Specifications
+
+**Workout Summary View**
+
+* **When:** After `endWorkout()` or saving a logged session.
+* **Form:** Full-screen summary + success toast.
+* **Contents:** Date/time, exercises count, total sets/reps, XP gained,
+“Share as Post” CTA.
+* **Error/edge:** If sync fails, show inline retry + non-blocking toast.
+
+**New Post Card**
+
+* **When:** After `createPost()`.
+* **Form:** Feed card.
+* **Contents:** Author, timestamp, optional title, content preview (3
+lines),description,
+
+*attached workout snippet* (exercises count), media thumbnail strip
+(0..4), actions: Like/Comment/Share.
+
+* **Empty states:** If no media, keep layout stable; if no workout (not
+allowed by UX), show validation.
+
+**Friends Leaderboard**
+
+* **When:** Viewing social page.
+* **Form:** List with sticky header filters (Period: Week/Month/All).
+* **Row:** Rank #, avatar, display name, primary metric (XP), secondary
+metric (sessions), “View profile” chevron.
+* **Empty state:** “No friends yet — add friends to compare.”
+
+**Achievements Output**
+
+* **When:** After `awardAchievement()`.
+* **Form:** Celebration toast, and persistent **Profile → Badges** grid.
+* **Badge tile:** Icon, tier (Bronze/Silver/Gold/Platinum/Diamond),
+short rule, earned date.
+* **Locked tile:** Desaturated icon + hint (“Log 3 leg workouts this
+week”).
+
+==== System Feedback & Errors
+
+* **Success toasts:** “Workout saved”, “Achievement unlocked”, “Post
+published”.
+* **Error dialogs:** Inline + dialog with actionable text (“Reps must be
+a positive number.”).
+* **Notifications:** Optional reminders (streak risk), social events
+(friend request accepted).
+
+==== Consistency Rules
+
+* Use the unified color palette; primary for CTAs, semantic colors for
+states.
+* All cards use consistent elevation, corner radius, and spacing tokens.
+* Text styles: H1/H2 for headers, Body for details, Caption for meta
+(time, counts).
+
+==== Example Mappings (Code-friendly)
+
+* `endWorkout()` → Workout Summary View (+ toast, optional Post CTA).
+* `createPost()` → New Post Card in feed.
+* `awardAchievement()` → Toast + Profile badge grid update.
+* `getLeaderboard()` → Leaderboard list with period filters.
+* `calculateExperience()` → XP chip in summaries and profile totals.
+
+==== Acceptance Checklist
+
+* [ ] Each core domain problem maps to a concrete output form above.
+* [ ] Screens respect color palette, typography, and spacing tokens.
+* [ ] Success/error states and empty states are defined for each output.
+* [ ] Examples (summary, post card, leaderboard, achievements) are
+present in the doc.

@@ -1,0 +1,118 @@
+____
+*Gamified Gym: General Process*
+____
+
+*Planning Strategy*
+
+== Introduction
+
+The purpose of this document is to define a high-level process planning
+strategy for the Gamified Gym project. Since teams have not yet been
+divided, this plan outlines the general order of implementation, the
+integration strategy to be adopted, and overall guidelines to align
+development with milestones.
+
+== Preferred Order of Implementation
+
+To ensure smooth progress and reduce dependency issues, features should
+be implemented in the following order:
+
+[arabic]
+. *Core Foundations*
+
+____
+◦ User authentication (Signup & Login)
+
+◦ Profile creation and basic navigation structure
+____
+
+[arabic, start=2]
+. *Workout Tracking (Core Functionality)*
+
+____
+◦ Exercise library (with categories and images)
+
+◦ Logging of sets, reps, and weights
+
+◦ Storing and retrieving workout history
+____
+
+[arabic, start=3]
+. *Gamification Features*
+
+____
+◦ Badge and achievement system
+
+◦ Milestone tracking (e.g., first workout, streaks, 20 workouts
+completed)
+
+◦ Leaderboards or optional challenge system
+____
+
+[arabic, start=4]
+. *UI/UX Enhancements*
+
+____
+◦ Polish for navigation and user feedback
+
+◦ Accessibility features
+
+◦ Responsive adjustments for multiple screen sizes
+____
+
+[arabic, start=5]
+. *Deployment and Maintenance*
+
+____
+◦ Initial deployment to Android devices
+
+◦ CI/CD setup for automated builds
+
+◦ Monitoring, bug fixing, and iterative updates
+____
+
+1
+
+== Integration Strategy
+
+The recommended integration strategy is *incremental and phased
+delivery*:
+
+* *Incremental:* Each major module (authentication, tracking,
+gamification) should be integrated as soon as its minimal functionality
+is complete.
+* *Phased Delivery:* Deliver small usable versions of the app at each
+milestone to ensure consistent progress and early feedback.
+
+This approach avoids the risks of a big-bang integration and ensures
+that the system grows steadily over time.
+
+== General Guidelines
+
+* Begin with features that are prerequisites for others (e.g.,
+authentication before tracking).
+* Each milestone should produce a minimally functional product version
+that can be tested.
+* Dependencies must be clearly documented when assigning future tasks.
+* Continuous feedback loops (via SCRUM preps) will ensure the process
+plan remains aligned with deadlines.
+
+== Alignment with Milestones
+
+* *Milestone 1 (September 19):* Core authentication and basic navigation
+structure ready.
+* *Milestone 2 (October 24):* Workout tracking functional with exercise
+logging and history.
+* *Milestone 3 (November 28):* Gamification features completed, UI
+polished, and first deployment.
+
+== Conclusion
+
+This process plan establishes the general roadmap for Gamified Gym
+before teams are divided. It emphasizes an incremental approach,
+dependency-aware implementation order, and phased delivery to ensure
+that each milestone results in a working, testable product.
+
+____
+2
+____

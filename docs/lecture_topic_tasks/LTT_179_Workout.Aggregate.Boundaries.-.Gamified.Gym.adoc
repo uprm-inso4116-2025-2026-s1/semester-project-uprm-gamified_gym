@@ -1,0 +1,129 @@
+Workout Aggregate Boundaries - Gamified Gym
+
+In the domain model of Gamified Gym, the _Workout_ aggregate defines the
+core structure responsible for maintaining consistency across all
+elements involved in a user’s training session. This aggregate groups
+together, the _Workout_ and its related entities (_Exercises_, _Sets_,
+and _Performance Records)_ as a single unit of modification. The purpose
+of this design is to enforce domain invariants, prevent orphaned data,
+and ensure atomic updates when users modify their workouts The Workout
+acts as the aggregate root, which possesses a global identity and serves
+as the only entry point for operations affecting the aggregate. All
+other entities within its boundary have local identity and can only be
+accessed through the root. Following the aggregate principles discussed
+in _The Life Cycle of a Domain Object Lecture_, this design guarantees
+that every transaction leaves the internal state of the Workout
+consistent.
+
+== Contained Entities and Value Objects 
+
+Within the Workout aggregate, several entities and value objects capture
+the structure and semantics of a workout session.
+
+Entities:
+
+* _Exercise_ represents an individual training activity, such as
+“Push-Ups” or “Bench Press.” ● _Set_ defines a specific repetition
+configuration belonging to an Exercise.
+* _PerformanceRecord_ captures real-world outcomes such as repetitions
+completed, weight used, or total duration.
+
+Value Objects such as _Reps_, _Weight_, _Duration_, _Tempo_,
+_RestPeriod_, and _Intensity_ express measurable aspects of performance
+without requiring individual identity. These value objects are
+immutable, reusable, and ensure that data remains meaningful within each
+aggregate boundary. All entities exist strictly within the scope of a
+single Workout. They cannot be shared across different Workouts or
+referenced independently from external contexts.
+
+== Ownership and Deletion Rules 
+
+Ownership within the aggregate is hierarchical: the Workout owns its
+Exercises, each Exercise owns multiple Sets, and each Set may own a
+corresponding PerformanceRecord. When a Workout is deleted, all of its
+child entities (Exercises, Sets, and Performance Records) are deleted
+automatically as part of a single atomic operation. This cascade
+deletion ensures there are no orphaned records and that the domain model
+maintains internal consistency. Similarly, modifications can only be
+performed through the root entity. For example, adding a new Exercise or
+registering a Performance Record must be done via a method exposed by
+the Workout root. This rule ensures that invariants are verified
+centrally before any transaction is committed.
+
+== Domain Invariants 
+
+Several business rules, or invariants, must always hold true within the
+Workout aggregate:
+
+* Every _Set_ belongs to exactly one _Exercise_ within the same
+_Workout_.
+* Each _PerformanceRecord_ must be linked to a valid _Set_ or
+_Exercise_.
+* Exercises maintain a consistent order index unique within their parent
+Workout.
+* Numeric attributes such as _reps_, _weight_, and _duration_ respect
+domain limits (e.g., positive and reasonable values).
+* Once a Workout is marked as _completed_, no further modifications to
+its internal entities are allowed.
+
+These invariants are enforced at the aggregate root level, meaning the
+Workout entity is responsible for validating its internal state before
+persistence.
+
+== Inter-Aggregate Relationships 
+
+In Gamified Gym, aggregates communicate only through their roots.
+Internal entities such as
+
+Exercises or Sets are never referenced externally. The User aggregate
+serves as the owner of multiple Workouts, maintaining references only to
+their root identifiers. Each Workout stores the userId of its owner but
+has no direct link to the User’s internal structures. The Achievement
+aggregate, part of the gamification subsystem, operates independently
+from the Workout lifecycle. Instead of referencing Workouts directly, it
+reacts to domain events (e.g., WorkoutCompleted, PersonalBestRecorded)
+published by the Workout aggregate. These events allow asynchronous
+communication between aggregates, ensuring eventual consistency without
+coupling. Finally, a Workout may reference a PlanTemplate aggregate
+through its identifier to record the source of a training plan. However,
+the Workout copies necessary configuration details as Value Objects
+rather than maintaining a hard dependency.
+
+== Repositories and Persistence 
+
+Each aggregate root is managed through its dedicated repository. The
+WorkoutRepository provides operations such as findById,
+findByUserAndDateRange, save, and delete. Internal entities like
+Exercises, Sets, and Performance Records are never retrieved or stored
+independently. This guarantees that persistence always occurs at the
+aggregate level, maintaining the invariant that only complete and valid
+aggregates exist in storage.
+
+== Conceptual Structure 
+
+The conceptual diagram below illustrates the boundaries of the Workout
+aggregate:
+
+image::../img/LTT_179_Workout.Aggregate.Boundaries.-.Gamified.Gym/media/image1.png[width=536,height=436]
+
+== Consistency and Transactional Behavior 
+
+Consistency within the Workout aggregate is strong, meaning that all
+invariants must be valid when the transaction ends. Operations such as
+adding an Exercise or deleting a Workout occur atomically to preserve
+data integrity. Consistency between aggregates (e.g.,
+Workout–Achievement) is eventual. When a Workout is completed, an event
+is published to notify the gamification subsystem, which updates
+achievements asynchronously. This design supports scalability and
+independence between subsystems.
+
+== Summary 
+
+The Workout aggregate in _Gamified Gym_ defines the boundary for
+maintaining data consistency across workout-related entities. It
+establishes clear ownership, deletion, and validation rules, ensuring
+that each training session and its associated records remain logically
+complete and internally coherent. By enforcing strong invariants inside
+the boundary and using domain events for external communication, the
+system achieves both reliability and flexibility across the workout,
+user, and gamification domains.

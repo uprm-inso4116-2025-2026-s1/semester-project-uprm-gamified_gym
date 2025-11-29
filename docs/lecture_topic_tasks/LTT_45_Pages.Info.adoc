@@ -1,0 +1,111 @@
+*App Pages and Contents*
+
+== Sign Up
+
+* First Name
+* Last Name
+* Display Name (username)
+* Date of Birth
+* Gender
+* Email
+* Password
+
+== Login
+
+* Email
+* Password
+* Forgot Password
+
+== Forgot / Reset Password
+
+* Email
+* New Password
+
+== Home
+
+* Notifications
+* Create Post
+* View Posts
+* Profile shortcut
+* Settings shortcut
+* Start Workout button
+* Progress / Ranking shortcut
+
+== Profile
+
+* Profile Picture
+* Display Name (username)
+* Bio (optional)
+* Posts
+* Followers
+* Following
+* Edit Profile button
+
+== Edit Profile
+
+* Change Username
+* Change Password
+* Change Email
+* Update Profile Picture
+* Update Bio
+
+== Settings
+
+* Units / Preferences (kg/lbs, etc.)
+* Privacy & Security
+* Help / FAQ
+* Contact / Feedback
+* Delete Account
+* Log Out
+
+== Workout Logging
+
+* Select Exercise (search/browse)
+* Add Sets (reps × weight)
+* Add Notes (optional)
+* End/Save Workout
+
+== Workout Summary
+
+* Exercises completed
+* Sets/Reps/Weights logged
+* Total Volume (weight × reps)
+* Personal Bests (if achieved)
+
+== Progress / Ranking
+
+* Current Ranks (per muscle group)
+* Progress Bars toward next rank
+* Overall Progress Summary (weekly/monthly)
+* Recent Activity Snapshot
+* Achievements
+* Streak Tracker
+
+== Achievements / Badges
+
+* Earned badges
+* Locked badges
+* Progress toward upcoming badges
+
+== Leaderboards
+
+* Global leaderboard (optional)
+* Friends leaderboard
+* Rank by muscle group or overall
+
+== Friends / Community
+
+* Search Friends
+* Add/Invite Friends
+* View Friends List
+* View Friend Activity
+
+== Challenges / Events
+
+* Active challenges
+* Join challenge button
+* Challenge details (rules, duration, rewards)
+* Create new challenge/event
+
+image::../img/LTT_45_Pages.Info/media/image1.png[A diagram of a company
+AI-generated content may be incorrect.,width=673,height=473]

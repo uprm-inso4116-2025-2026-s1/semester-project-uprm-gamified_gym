@@ -1,0 +1,99 @@
+*Lecture Topic Task: Modeling the Life Cycle of a Workout in a Fitness
+Tracker*
+
+== Introduction 
+
+One of the ideas we’ve talked about in class is how domain objects don’t
+just sit still — they move through different stages, and our designs
+should reflect that. This is what the _life cycle of a domain object_ is
+all about. For my task, I decided to connect that concept to fitness
+tracking, since that’s the project I’m working on. A workout session in
+an app isn’t just static data; it starts, changes, and eventually gets
+stored as history. Modeling its life cycle helps us see how theory from
+class applies to something practical.
+
+== From Class to Fitness Tracking 
+
+The lecture explained how objects go through states, have rules
+(invariants) that never change, and need good design patterns like
+factories and repositories to handle creation and storage. That clicked
+for me when I thought about how workouts work in a fitness app. When you
+open a new workout, it doesn’t just “exist” right away as finished data
+— it’s created, edited while you log your sets, and then marked as
+complete when you’re done. Later on, the app might archive it so you
+can’t edit it anymore but can still look back at it.
+
+== The Workout Life Cycle 
+
+The main object here is a *Workout*. Its life cycle looks like this:
+
+[arabic]
+. *Draft* – you start a new workout but haven’t logged anything yet.
+. *Active* – you’re in the middle of the workout, adding exercises,
+sets, and reps.
+. *Completed* – you finish the workout and save it.
+. *Archived* – the workout is old, no longer editable, but still part of
+your history.
+
+That flow feels natural because it mirrors what we do in real life: plan
+a workout, do it, and then record it for later.
+
+== Rules That Always Hold (Invariants) 
+
+Even while a workout changes states, some things must always be true:
+
+* You can’t mark a workout “completed” if it doesn’t have at least one
+exercise.
+* You shouldn’t have duplicate exercises inside the same workout.
+* Dates and times have to make sense (no workouts in the year 1900 by
+mistake).
+* Once a workout is archived, it stays locked — you can view it, but you
+can’t edit it.
+
+== Factories and Repositories 
+
+Factories are useful here because they can handle the creation of
+workouts in a clean, controlled way. For example, a WorkoutFactory could
+make sure every new workout starts as a draft with the right info (user
+ID, date, empty list of exercises). Repositories make sense for storage
+— a WorkoutRepository could let you grab all of your past workouts,
+whether they’re in a database, on Firebase, or somewhere else. That way,
+the domain logic doesn’t depend on the storage method.
+
+== Example Flow 
+
+If I drew a diagram, it would show Draft → Active → Completed → Archived
+as the main path. You can’t skip steps, like going from Draft straight
+to Archived, and there are rules (like needing exercises) that act as
+“guards” before a state change is allowed.
+
+== Testing the Idea 
+
+A few tests make sure the design works:
+
+* Trying to complete a workout with zero exercises should throw an
+error.
+* Archived workouts should load normally but be read-only.
+* Any workout made through the factory should have basic info filled out
+automatically.
+
+== Why It Matters 
+
+This kind of modeling isn’t just theory — it’s how real fitness apps
+work. Apps like Strava or Fitbod keep strict workout histories and don’t
+let you change them once they’re finished. By thinking about a workout
+as a domain object with a life cycle, we build a more realistic and
+reliable system.
+
+== Conclusion 
+
+Modeling the life cycle of a workout shows how the class concepts about
+domain objects directly apply to the fitness tracker project. A workout
+moves through clear stages, keeps its rules intact, and needs proper
+support through factories and repositories. It’s a simple example, but
+it shows why domain-driven design matters — it helps us design software
+that matches real-world behavior and avoids problems down the road.
+
+image::../img/LTT_112_Modeling.the.Life.Cycle.of.a.Workout.in.a.Fitness.Tracker/media/image1.png[A
+diagram of a workout AI-generated content may be
+incorrect.,width=328,height=520]

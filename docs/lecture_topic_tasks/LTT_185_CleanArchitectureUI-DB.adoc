@@ -1,0 +1,119 @@
+*Clean Architecture in Gamified Gym UI/UX and DB Integration*
+
+== Introduction 
+
+In contemporary software architecture, keeping concerns separate and
+isolating business logic are essential for building systems that are
+both maintainable and testable. At Gamified Gym, the Foundations Team
+follows Clean Architecture principles for its user interfaces and
+database operations. The project’s structure separates the code into
+layers for presentation, business use cases, and data repositories. This
+ensures that Supabase-specific details are kept apart from UI
+components, while the authentication domain remains independent and
+central.
+
+== Application of SOLID Principles 
+
+Single Responsibility: Every component has one defined purpose. For
+instance, LoginScreen.tsx manages input and presentation, AuthUseCase.ts
+handles authentication logic, and SupabaseUserRepository deals with all
+API communication. This modularity simplifies both debugging and
+testing.
+
+Open–Closed Principle: Use cases depend on abstract interfaces such as
+AuthStrategy. New authentication methods (e.g., Google OAuth) can be
+introduced by adding new implementations of that interface without
+modifying existing logic. This ensures UI components remain unaffected.
+
+Liskov Substitution: Any class that implements AuthStrategy can replace
+another. For testing or migration, a Firebase-based repository could be
+substituted without altering use-case behavior.
+
+Interface Segregation: Interfaces are designed to be minimal. For
+example, the login screen depends only on the login(email, password)
+method, not on signup or password-reset functions, reducing unnecessary
+dependencies.
+
+Dependency Inversion: High-level modules such as use cases rely on
+abstractions rather than concrete classes. The SupabaseUserRepository
+contains specific API calls, while UI and domain layers remain decoupled
+from backend details.
+
+== Domain Model & Repository 
+
+The User domain model includes:
+
+* email: string
+* password: string
+* session: Supabase session token
+
+The repository implements the following interface:
+
+interface AuthStrategy \{ login(email: string, password: string):
+Promise<User>; signup(email: string, password: string): Promise<User>;
+resetPassword(email: string): Promise<void>; }
+
+Example:
+
+class SupabaseUserRepository implements AuthStrategy \{ async
+login(email: string, password: string): Promise<User> \{ const \{ data,
+error } = await supabase.auth.signInWithPassword(\{ email, password });
+if (error) throw error; return \{ email: data.user.email, password: '',
+session: data.session }; }
+
+// Other methods follow the same pattern }
+
+== UI/UX Layer Integration 
+
+User interactions in the login interface trigger methods in AuthUseCase.
+Errors are surfaced in the UI through alerts. Similarly, “Sign Up” and
+“Forgot Password” actions call their corresponding use cases, keeping
+Supabase logic confined to the repository layer.
+
+== Communication & Clarifications 
+
+The development team coordinates on Supabase-specific topics such as:
+
+* Error codes for login or password reset failures
+* Token expiration and JWT management
+* Rate limits on repeated authentication attempts
+
+== Risks and Mitigation 
+
+Possible issues include authentication failures, session invalidation,
+or UI errors. Through Clean Architecture layering, these problems are
+isolated in the repository or use-case levels, preventing crashes in the
+presentation layer.
+
+== Conclusion 
+
+By employing Clean Architecture and the SOLID design principles, the
+Foundations Team maintains a clear domain boundary, expressive models,
+and a system that is easy to evolve and test. Supabase integration is
+hidden behind repository abstractions, promoting scalability and safe
+user interface changes.
+
+[width="100%",cols="100%",options="header",]
+|===
+|Log-In Screen, Sign-Up Screen
+|===
+
+[width="100%",cols="100%",options="header",]
+|===
+|AuthUseCase
+|===
+
+[width="100%",cols="100%",options="header",]
+|===
+a|
+____
+SupabaseUserRepository
+____
+
+|===
+
+== image::../img/LTT_185_CleanArchitectureUI-DB/media/image1.jpg[width=269,height=509]Diagram (example) 
+
+____
+_Figure 1.1 API Calls through repo_
+____

@@ -1,0 +1,199 @@
+* Objective
+
+____
+To design and implement a clean, isolated domain layer that encapsulates
+all business logic related to user progress tracking, badges, and
+achievements, without mixing it with UI, application, or infrastructure
+concerns.
+____
+
+* Description
+
+____
+In this lecture, we’ll explore how to apply the principles of layered
+architecture to isolate the domain layer in our gamified fitness
+tracking app. The domain layer will contain core business concepts such
+as:
+____
+
+* User workout progress
+* Badge and achievement rules
+* Experience points and leveling logic ensure that these domain concepts
+remain separated from the user interface, application workflow, and
+database infrastructure, making it a maintainable and scalable
+model-driven design.
+* Tasks
+
+____
+○ Identify and define core domain entities such as User, Workout, Badge
+and Achievement.
+
+○ Define value objects and services for domain logic like a
+ProgressCalculator or BadgeAwarder.
+
+○ Implement the domain layer in a separate module or package.
+
+○ Ensure no domain logic leaks into the UI or infrastructure layers. ○
+Write unit tests to validate domain rules independently. ● Completion
+Criteria
+
+○ A fully implemented domain layer with no dependencies on UI or
+infrastructure.
+
+○ Unit tests passing for all domain logic such as badge awarding and
+progress tracking.
+
+○ Clear separation of concerns demonstrated through package/module
+structure.
+
+○ Domain model reviewed and approved by the team.
+____
+
+== Introduction 
+
+In this task, we outline the design and implementation strategy for the
+domain layer of our Gamified fitness tracking application. The goal is
+to apply the principles and basis of the Layered Architecture to isolate
+the domain layer of our application, ensuring that all the business
+logic related to the user progress, the badges, and the achievements is
+within the domain model. This will help us maintain a separation of the
+concerns, to improve testability, and to support a scalable and model
+driven design.
+
+== Core Domain Concepts 
+
+____
+● Core domain entities and concepts identified:
+____
+
+[arabic]
+. Domain Entities
+
+____
+■ User: represents a user of the application, it tracks profile, workout
+history, experience points or XP, level and earned badges.
+
+■ Workout: represents a single workout session. Includes details such as
+type, duration, calories burned and date.
+
+■ Badge: represents a reward that a user can earn based on specific
+achievements such as "First 5k Run" and "10 Workouts in a Month".
+
+■ Achievement: broader concept that includes some badges, levels or
+other milestones.
+____
+
+[arabic, start=2]
+. Value Objects
+
+____
+■ Experience points: immutable value object that represents the amount
+of experience points earned.
+
+■ Level: user’s current level, calculated based on total experience
+points.
+
+■ ProgressScore: value object that quantifies progress toward a goal.
+____
+
+[arabic, start=3]
+. Domain Services
+
+____
+■ ProgressCalculator: calculates user progress based on workout history.
+
+■ BadgeAwarder: determines when a user qualifies for a badge and awards
+it.
+
+■ LevelUpService: handles logic for leveling up users based on
+accumulated experience points.
+____
+
+== Layered Architecture Overview 
+
+____
+Four-layer architecture:
+____
+
+* User Interface (UI): handles user interactions and displays the data.
+* Application Layer: coordinates tasks and delegates work to the domain
+layer.
+* Domain Layer: contains business logic, rules and state.
+* Infrastructure Layer: provides technical capabilities such as database
+access and messaging.
+
+____
+The domain layer must not depend or rely on any other layer. All other
+layers may depend on the domain layer.
+____
+
+== Domain Layer Implementation Strategy 
+
+____
+Design Decisions
+____
+
+* All domain objects are plain old objects with no dependencies on
+frameworks or databases.
+* Domain services contain pure business logic and are stateless where
+possible.
+* Repositories are defined as interfaces in the domain layer and
+implemented in the infrastructure layer.
+* Domain events are used to notify other parts of the system about
+significant domain occurrences.
+
+== Preventing Leakage of Domain Logic 
+
+____
+To ensure domain logic does not leak into other layers:
+____
+
+* User Interface Layer: Only displays data and captures user input. It
+does not display or capture business rules.
+* Application Layer: Arranges the domain objects and the services but
+does not contain any business logic.
+* Infrastructure Layer: Implements the technical concerns such as the
+persistence and the messaging but does not interpret the domain rules.
+
+____
+Example:
+____
+
+The BadgeAwarder service in the domain layer decides when a badge is
+earned. The application layer calls this service and the infrastructure
+layer carries the result. The user interface layer only displays the
+badge.
+
+== Unit Testing Strategy 
+
+____
+Unit tests will validate domain rules in isolation, using test doubles
+for dependencies.
+
+{empty}1. Test Categories
+____
+
+* Entity Tests: Validate state changes such as when a user levels up.
+* Service Tests: Verify business logic in services such as the badge
+awarding rules.
+* Value Object Tests: Ensure immutability and correct behavior.
+
+____
+{empty}2. Example Test Cases
+____
+
+* User Level Up: Given a user with 990 experience points, when they
+complete a workout worth 20 experience points, then their level should
+increase to 2.
+* Badge Awarding: Given a user with 9 workouts this month, when they
+complete a 10th workout, then the “Monthly Dedication” badge is awarded.
+* Progress Calculation: Given a user’s workout history the progress
+score should be calculated based on the consistency and the intensity.
+
+== Conclusion 
+
+Since we are isolating the domain layer, we can be sure that the core
+business logic remains focused, testable and independent of all
+technical concerns. This approach goes well with the domain-driven
+design principles and supports a long-term maintainability and
+scalability for the application.

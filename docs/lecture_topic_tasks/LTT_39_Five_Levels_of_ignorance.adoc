@@ -1,0 +1,69 @@
+*Emmanuel E. Guadalupe Rodriguez*
+
+*Lecture Topic Task #1: Five Levels of Ignorance in Gamified Gym*
+
+*1st Order Ignorance (1OI): Lack of Knowledge*
+
+* You don’t know something, but you’re aware of the gap.
+
+* *In a gym app:* The team knows they don’t understand what motivates
+users to consistently work out.
+* *Example mistake:* Designing points and badges without user research,
+assuming “more badges = more motivation.”
+* *Avoidance:* Conduct surveys, interviews, or A/B tests to discover
+which game mechanics (leaderboards, streaks, team challenges, rewards)
+actually keep people engaged.
+
+*2nd Order Ignorance (2OI): Lack of Awareness of Ignorance*
+
+* _You don’t know, and you don’t know that you don’t know._
+
+* *In a gym app:* The team doesn’t realize cultural differences affect
+how people perceive competition.
+* *Example mistake:* Launching a global leaderboard without realizing
+that in some cultures public competition discourages participation
+instead of motivating it.
+* *Avoidance:* Bring in diverse testers early, validate features across
+different demographics, and encourage outside feedback loops to uncover
+blind spots.
+
+*3rd Order Ignorance (3OI): Lack of Process*
+
+* You don’t know how to find out what you don’t know.
+
+* *In a gym app:* The team knows retention is low but has no process to
+analyze user churn.
+* *Example mistake:* Guessing at fixes (adding new challenges,
+redesigning the UI) without structured data analysis, so problems
+persist.
+* *Avoidance:* Establish feedback mechanisms: analytics dashboards,
+weekly KPI reviews, user testing cycles, and structured retrospectives.
+Build “learning into the system.”
+
+*4th Order Ignorance (4OI): Meta-Ignorance*
+
+* You don’t even know that ignorance exists as a problem.
+
+* *In a gym app:* The founders assume they fully understand user
+motivation because they’re fitness enthusiasts themselves.
+* *Example mistake:* Believing their own workout habits generalize to
+all users—ignoring that many users struggle with time, confidence, or
+accessibility.
+* *Avoidance:* Foster a culture of humility and inquiry. Encourage
+questioning assumptions, hiring outside advisors, and documenting “what
+we don’t know yet.”
+
+*5th Order Ignorance (5OI): Lack of Ignorance Knowledge*
+
+* You don’t know about the framework of ignorance itself (no concept
+that ignorance comes in levels).
+
+* *In a gym app:* The team isn’t aware that there are _different kinds
+of unknowns_ to manage. They only think in terms of “we know” or “we
+don’t know.”
+* *Example mistake:* They lump all challenges together (user motivation,
+scalability, data security) without distinguishing between _known gaps_
+vs. _unseen gaps_.
+* *Avoidance:* Train the team on learning models like the *five orders
+of ignorance* or *known unknowns vs unknown unknowns*. Encourage
+reflective practices so they can consciously categorize risks.

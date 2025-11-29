@@ -1,0 +1,184 @@
+*User Personas and Scenarios*
+
+In this document we will be identifying for each persona:
+
+* Name
+* Age
+* Background
+* Fitness goals
+* Pain points with current workout tracking solutions
+* Preferred features and motivations
+
+*[.underline]#Personas:#*
+
+== Ivania E. Rosa Collazo 
+
+[loweralpha]
+. Age: 21
+. Background: Senior Human Resources student, works in a gym.
+. Motivation: Enjoys working out as a way to challenge herself, push
+past self-doubt, and feel good both physically and mentally.
+. Goals: Build strength and maintain overall fitness.
+
+== Samuel Soto Casiano 
+
+[loweralpha]
+. Age: 23
+. Background: Senior Agricultural Sciences student, works as a server.
+. Self-description: Active person.
+. Motivation: Works out primarily to achieve his desired body.
+. Perception of Apps: Skeptical - believes most workout apps are a scam
+that misrepresent their features.
+. Desired Features in an App:
+[lowerroman]
+.. Personalized daily workouts.
+.. Integrated meal plans. iii. Built-in music streaming. iv. Rest timer
+between sets.
+
+{empty}v. Ability to create and share workout routines.
+
+== Laura Arroyo 
+
+[loweralpha]
+. Age: 19
+. Background: Sophomore Industrial Microbiology student.
+. Motivation: Goes to the gym to stay healthy and strengthen her body.
+. Goals: Muscle growth and healthier lifestyle.
+. Current App Usage: Uses Strava because it is user-friendly.
+. Desired Features in an App: Diet ideas tailored to workouts, free of
+hidden fees.
+
+== Lianette Alberto Muñoz 
+
+[loweralpha]
+. Age: 20
+. Background: Senior Software Engineering student, works as a bartender
+and is a student athlete.
+. Motivation: Works out to strengthen her knees and support her practice
+of Judo.
+. Goals: Improve knee strength and increase muscle mass.
+. Desired Feature in an App:
+
+{empty}i. Built-in music streaming.
+
+== Aidan Colon Rivera 
+
+[loweralpha]
+. Age: 21
+. Background: Senior Mechanical Engineering student.
+. Motivation: Goes to the gym to stay in shape, maintain an active
+lifestyle, and support his overall health.
+. Goals: Remain healthy, build strength, and sustain a good mental
+well-being.
+. Desired Features in an App:
+[lowerroman]
+.. Calorie tracking
+.. Exercise recommendations tailored to personal goals.
+.. Nutrition guidance and advice.
+
+== Adriana S. Augusto Deliz 
+
+[loweralpha]
+. Age: 22
+. Background: Physical Therapy Doctorate student, swimmer.
+. Motivation: Goes to the gym to stay in shape, and support mental
+health.
+. Goals: Get stronger, gain stamina, and sustain a good mental
+well-being.
+. Desired Features in an App:
+
+____
+{empty}i. Personal Trainer. ii. Workout Demo.
+____
+
+{empty}iii. Workout plan tailored to personal goals.
+
+*[.underline]#Scenarios:#*
+
+[arabic]
+. Ivania signs up for the app using her student email. During
+onboarding, she selects “strength training” as her goal and sets her
+fitness level to intermediate. The app generates a structured weekly
+plan.
+
+____
+On her first day, she logs a guided strength workout using the in-app
+tracker. After finishing, she earns her “First Workout Logged” badge,
+which gives her a motivational boost. She shares her progress on the
+community feed, receiving likes and supportive comments from peers. This
+reinforces her self-confidence and motivates her to keep pushing her
+limits both physically and mentally.
+____
+
+[arabic, start=2]
+. Samuel downloads the app skeptically, since he believes most fitness
+apps are scams. When signing up, he is surprised by the clear breakdown
+of features with no hidden fees.
+
+____
+He customizes his goals for body transformation and the app generates
+personalized daily workouts plus a meal plan. During his workout, he
+streams music directly in-app and uses the rest timer between sets.
+
+After completing his session, he sees his streak counter increase and
+gets invited to a weekly fitness challenge with friends. This
+combination of personalization, transparency, and social engagement
+convinces him that the app is different from the “fake” ones he used to
+distrust.
+____
+
+[arabic, start=3]
+. Laura signs up with her phone number and chooses the “muscle growth”
+path. She schedules her weekly workouts and logs them three times a
+week.
+
+____
+After each session, the app provides free nutrition ideas tied to her
+workout goals, which she appreciates compared to other apps with hidden
+fees.
+
+She joins a virtual challenge group for students, where she tracks her
+progress against peers. The supportive environment encourages her to
+stay consistent, while the app’s simple design (similar to Strava, which
+she already likes) makes logging workouts easy and enjoyable.
+____
+
+[arabic, start=4]
+. Lianette signs in with her Google account. She selects “injury
+recovery & strength support” as her fitness focus, since her priority is
+improving knee strength for Judo.
+
+____
+The app tailors her plan with knee-strengthening exercises. While
+training, she streams her favorite playlist directly from the app,
+keeping her motivated.
+
+As she stays consistent, she earns a “Recovery Warrior” badge for
+completing 10 workouts focused on rehabilitation. She shares her
+recovery routine with teammates, proving the app’s value for athletes
+dealing with injuries.
+____
+
+[arabic, start=5]
+. Aidan creates his profile and selects “overall wellness” as his goal.
+The app builds a balanced routine of strength, cardio, and mindfulness
+sessions.
+
+____
+He starts logging meals using the calorie tracker, which provides
+nutrition guidance aligned with his fitness goals.
+
+After maintaining his streak for a week, he earns a “Consistency Star”
+badge and climbs the community leaderboard, motivating him to stay
+active. The combination of progress tracking, health monitoring, and
+light competition helps him maintain both his physical and mental
+well-being.
+____
+
+[arabic, start=6]
+. Adriana signs up with her university email and sets goals for
+strength, stamina, and mental well-being. The app creates a personalized
+workout plan with clear demo videos. She uses the Personal Trainer
+feature for guidance during her first session and logs her workout.
+Afterward, she earns a “Stamina Builder” badge and shares her progress
+in the community feed, staying motivated by connecting with peers.

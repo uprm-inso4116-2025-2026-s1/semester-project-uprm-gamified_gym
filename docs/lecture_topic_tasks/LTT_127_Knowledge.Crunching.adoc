@@ -1,0 +1,62 @@
+== Knowledge Crunching
+
+This strategy details the ways that we will capture, process, and
+combine domain expertise so that the "Gamified Gym" mobile app is
+efficient, effective, and user-need aligned.
+
+== 1. Knowledge Sources:
+
+Our sources of evidence shall:
+
+*Domain Experts:* Consultation shall be conducted with fitness trainers
+or enthusiastic gym participants to gain insights into effective workout
+frameworks, progression indicators, and motivational stimuli.
+
+*Competing Applications and Working Systems:* Competing fitness
+applications as well as gamified applications (such as Strava, Nike
+Training Club, Zombies, Run!) shall be reviewed to determine industry
+standards, working functionality, as well as areas where improvement can
+be implemented.
+
+*Target Users:* We would directly draw insights from the targeted
+audience, who include the novices, the weekend fitness enthusiasts, as
+well as those who need to be motivated, as indicated in the "Project
+Idea" report.
+
+=== 2. Learning Activities:
+
+Below activities shall utilized to collect as well as process data:
+
+*User Interviewing and Questionnaires:* Perform systematic questionings
+and questionnaires to identify user problems regarding existing fitness
+apps, their motivation, as well as the most important feature they need.
+
+*Competitor Analysis Sessions:* Conduct a structured analysis of
+competitor apps to analyze their user navigation, gamification
+strategies, and exercise tracking features.
+
+*Refinement of the model and team brainstorming*: involve arranging
+frequent inter-team meetings that are intended as opportunities to
+discuss results, spread out ideas, and incrementally enhance the common
+domain model. They're "laboratories of the model" where, very rapidly,
+alternative designs are quickly evaluable.
+
+*Prototyping and A/B Testing:* Craft and test minimalist prototypes of
+core functionality, such as the ranking mechanism or badge
+configuration, with a small group of beta testers in order to gain
+preliminary feedback.
+
+=== *3. Objective:* 
+
+The overarching goal here is to systematically reduce the uncertainties
+that surround the project, as the lecture term "Second Order Ignorance"
+describes. By working repeatedly with the sources themselves, we move
+away from ignorance about the things that are unknown to us, to actively
+acknowledging and correcting gaps in understanding.
+
+This approach ensures the cultivation of a model that boasts rich
+knowledge that goes beyond mere superficial qualities. It will allow for
+the establishment of a consistent and motivating experience that
+genuinely replicates the real-world conception behind fitness progress
+as well as gamification, thus leading to a more effective and compelling
+use.

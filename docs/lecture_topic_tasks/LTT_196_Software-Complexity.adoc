@@ -1,0 +1,56 @@
+=== Software complexity
+
+*Summary.* The interaction between structure, behavior, and functions,
+each representing a key layer in the system's software complexity. The
+application is divided into interconnected building blocks, like workout
+tracking, gamification, and social interaction, each of these must
+communicate seamlessly and maintain consistency in their function.
+System must manage dynamic user interactions in present time; these
+behavior include: logging workouts, social features, logging
+achievements, and updating leaderboards, all while ensuring data
+consistency across sessions. Managing these interconnected components
+demand careful determination to maintain clarity, versatility, and
+performance. By illustrating how the complexity of Gamified Gym reflects
+the challenge of designing software as an evolving process rather than a
+static platform.
+
+*Key Points.*
+
+Structure: How components and data are organized.
+
+Gamified Gym is divided into modular layers,
+
+* Workout Logging Module - handles user data entry, sets reps, and
+metrics.
+* Gamification Module - handles XP points, achievements, and badges.
+* Social Module - handles posts, friend requests, and leaderboards.
+
+This structure ensures high compressibility within each module and clear
+separation of features.
+
+Behavior: How system reacts and interacts over time.
+
+* System reacts to user logging a workout, winning and achievement, or
+starting a streak.
+* XP calculation, streak updates, and real-time feedback maintain
+engagement. - These interactions are defined through consistent user
+scenarios and domain events.
+
+Functions: What operations does the system perform?
+
+* Transform user inputs into results like: Logging a workout, Awarding
+achievements, and creating posts.
+* Each function has defined input/output to ensure predictable, testable
+behavior.
+
+Managing Complexity:
+
+* Gamified Gym addresses complexity by maintaining module boundaries and
+consistent data flow between them.
+* Each feature is designed to interact through well defined APIs and
+shared entities.
+
+(User, Workout, Achievement).
+
+* The organization reduces coupling, improves maintainability, and keeps
+the system simple to understand and add new features or implementations.

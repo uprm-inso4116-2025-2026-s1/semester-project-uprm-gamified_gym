@@ -1,0 +1,196 @@
+Title: Practical Workshop: Reducing Ignorance in the Fitness
+
+* Objective
+
+To enable students to identify, analyze and address gaps in knowledge
+during the development of a gamified fitness tracking app using the Five
+Levels of Ignorance framework.
+
+* Description
+
+This lecture focuses on the Five Levels of Ignorance (0OI to 4OI) as a
+tool for improving domain modeling and reducing ignorance in software
+projects. Using the example of a gamified fitness app, where users track
+gym progress and earn badges, students will learn how to recognize
+unknown unknowns, structure learning processes and set domain knowledge
+into the design.
+
+* Tasks
+. Read and summarize the Five Levels of Ignorance as presented in the
+slides.
+
+____
+○ Identify at least three examples of 2OI in the context of the gamified
+fitness app.
+
+○ Propose a 3OI reduction process for one of the identified 2OI
+examples.
+
+○ Refactor a sample code snippet to make a hidden business rule, such as
+badge eligibility, to be explicit in the model.
+
+○ Write a short reflection on how continuous ignorance reduction can
+improve the app’s design and user experience.
+____
+
+* Completion Criteria
+. A written summary of the Five Levels of Ignorance
+
+____
+○ A list of three 2OI examples relevant to the fitness app
+
+○ A proposed 3OI process for one 2OI example
+
+○ A refactored code snippet with explanation
+
+○ A reflection paragraph
+____
+
+I. Summary of the Five Levels of Ignorance
+
+These are Five Levels of Ignorance (5OI) framework that does not
+conceptualize software development as a production activity, it
+conceptualizes software development as a continuous process of knowledge
+acquisition and ignorance reduction.
+
+* 0th Order Ignorance (0OI): Represents a state of proven knowledge. A
+requirement or feature is understood and has been successfully
+implemented and validated. For instance, the team has 0OI on the process
+for a user to log a completed workout.
+* 1st Order Ignorance (1OI): This is a "known unknown." The team is
+aware of a
+
+____
+specific gap in their knowledge. An example would be knowing that the
+algorithm for calculating a user's "Overall Fitness Level" has not been
+defined and this is a recognized item on the project backlog.
+____
+
+* 2nd Order Ignorance (2OI): This represents the most critical area of
+risk: the "unknown unknowns." The team is unaware of a gap in their
+knowledge. These are assumptions, hidden user behaviors, or edge cases
+that have not been considered but will significantly impact the system's
+success.
+* 3rd Order Ignorance (3OI): This is the lack of a suitable and
+efficient process for uncovering 2OI. Relying only on user feedback
+after a public release is an example of a default and inefficient 3OI
+process. Effective methodologies are structured 3OI reduction processes.
+* 4th Order Ignorance (4OI): This is ignorance of the 5OI framework
+itself. By studying and applying this model, the project team has
+already reduced its 4OI and enabled a more strategic approach to
+knowledge acquisition.
+
+The core objective in domain driven design is to actively reduce 2OI by
+implementing effective 3OI processes, which converts unknown unknowns
+into manageable known unknowns and ultimately into proven knowledge.
+
+{empty}II. Identified examples of 2OI in the Gamified app
+
+In the context of the Gamified app, the following are three potential
+areas of 2nd Order Ignorance:
+
+* The "Social Driver" Assumption: The development team, primarily
+focused on personal tracking, may be completely unaware that a key
+factor for long term user engagement is social competition and
+accountability. Not having features like shared challenges or a friend’s
+leaderboard might be a critical oversight, unknown to the team until
+user retention metrics reveal the problem after the launch.
+* Exploitation of Achievement Systems: The team may not realize that
+their defined rules for badges contain loopholes. For example, they
+might be unaware that a user can earn the "Weekly Dedication" badge by
+logging multiple, insignificant one-minute workouts, thereby fulfilling
+the letter of the rule ("7 workouts a week") while violating its intent,
+which degrades the badge's value.
+* Ignorance of Overtraining as a Retention Killer: The team's model may
+reward constant activity, unaware that a significant segment of their
+target audience will experience burnout and lose motivation due to not
+having rewards for recovery and rest. The concept of modeling "recovery
+days" as a positive action may be an entirely missing part of the domain
+model.
+
+[upperroman, start=3]
+. {blank}
++
+____
+Proposed 3OI Reduction Process for a Selected 2OI
+____
+
+Selected 2OI Example: #2 - Exploitation of Achievement Systems.
+
+Proposed 3OI Process: "Before the launch the launch badge integrity
+assessment"
+
+To efficiently find these hidden vulnerabilities in our gamification
+model, we propose the following structured process:
+
+* Formalized "Badge-Gaming" Workshop: Prior to development, have a
+dedicated session involving developers, product managers and fitness
+domain experts. The explicit goal is to brainstorm ways a user could
+"game" or earn a proposed badge without genuine effort. This shifts the
+perspective from implementation to exploitation, revealing flawed
+business logic early.
+* Implementation of a "Rules Sandbox" for Beta Testers: In the closed
+beta phase, provide a transparent view of the badge eligibility rules to
+a select user group. Instead of a black box, users see the logic such as
+"This badge requires 5 workouts of at least 45 minutes this week".
+Actively solicit feedback on whether these rules seem fair, achievable,
+and resistant to "cheap" completion. This turns beta testers into active
+collaborators in perfecting the system.
+* Analytics Driven Unusual Detection: Instrument the beta app to flag
+unusual badge earning behavior. For instance, if the "Strength Master"
+badge is earned by a user whose logged weights are unbelievably low, the
+system would flag this event for review by the product team, revealing
+an unknown loophole.
+
+This multi-stage process is a far more efficient and suitable method for
+uncovering 2OI than the passive approach of waiting for user complaints
+after the launch.
+
+[upperroman, start=4]
+. {blank}
++
+____
+Refactoring for an Explicit Domain Model
+____
+
+Scenario: The business rule for awarding the "Marathon Month" badge is
+currently buried within the application's service layer logic, stated
+simply as "if monthly workout count is greater than or equal to 20."
+This is a hidden concept, inaccessible to domain experts and prone to
+being implemented inconsistently.
+
+A method for refactoring:
+
+Instead of leaving this rule as a conditional statement in a procedure,
+we would refactor the domain model to make the concept of an eligibility
+rule a first class citizen. The "Marathon Month" badge would be
+associated with a specific workout count eligibility rule object. This
+object would contain the explicit business logic and the threshold value
+such as required workouts is 20.
+
+Explanation:
+
+This refactoring elevates the hidden business rule into an explicit part
+of the domain model. The concept of a rule that governs badge
+eligibility becomes a tangible, discussable entity. A domain expert can
+now look at the model and immediately understand what the "Marathon
+Month" badge represents and without needing to decipher code. This
+creates a knowledge rich design where the core concepts of the fitness
+gamification domain such as badges, achievements and the rules that
+govern them are clearly reflected and accessible to the entire
+functional team.
+
+V. Reflection on Continuous Ignorance Reduction
+
+Embracing continuous ignorance reduction is fundamental to evolving the
+gamified app from a simple tracking tool into a deeply engaging and
+sustainable platform. The 5OI framework provides a shared vocabulary and
+a strategic imperative to proactively seek out what we do not know. By
+uncovering our "unknown unknowns" such as hidden user motivations,
+unintended gamification loopholes or the critical importance of recovery
+so we can continually refine our domain model. This process ensures that
+the app's design and features are not based on initial assumptions but
+are instead informed by discovered knowledge. The result is a product
+that more accurately reflects the complex, real world domain of fitness
+and motivation, leading to a better user satisfaction, long-term
+retention and a competitive design.

@@ -1,0 +1,133 @@
+*Lecture Topic Task: Distinguishing Entities from Value Objects*
+
+*Objective:*
+
+To understand the theoretical distinction between entities and value
+objects in software modeling and explain their role in maintaining
+conceptual clarity within a domain model.
+
+*Description:*
+
+Entities and value objects are fundamental concepts in domain driven
+design. Entities are defined by continuity and identity across their
+lifecycle, while value objects are defined only by their attributes
+without intrinsic identity. Misunderstanding these concepts can lead to
+design flaws, data corruption, or unnecessary complexity. This task asks
+students to analyze the theoretical foundations, compare
+characteristics, and illustrate the implications of choosing one over
+the other.
+
+*Task:*
+
+Write a short theoretical essay that covers the following:
+
+* Define entities and value objects based on the lecture material.
+* Explain why entities are distinguished by identity rather than
+attributes, using examples from real world domains.
+* Describe scenarios where using a value object is preferable to an
+entity.
+* Analyze potential risks of confusing entities with value objects in
+system design.
+* Conclude with guidelines on when to model a concept as an entity and
+when to model it as a value object.
+
+*Acceptance Criteria:*
+
+* Clear and accurate definitions of entities and value objects.
+* At least two well explained real world examples for each concept.
+* Discussion of risks and implications demonstrates understanding of
+theoretical depth.
+* Guidelines for distinguishing entities and value objects are coherent
+and based on the lecture material.
+* Writing is organized, concise, and uses proper terminology.
+
+*Task:*
+
+In software modeling, especially with domain driven design or DDD, two
+foundational concepts are entities and value objects. Which will be
+better explained, defined and understood in this task.
+
+Entities are objects distinguished by their continuity and identity, and
+not by their attributes. When it comes to attributes, they can change,
+disappear or have conflicts across systems, but the entity is always the
+same. For example, a person is the same person during their whole life
+or lifetime, it does not matter if their name, hair color or address
+changes. The essential or main quality of an entity is the thread of
+identity that always stays the same through different representations
+and contexts.
+
+Value objects are different. They do not have conceptual identity. Value
+objects are only defined by their attributes. They are considered
+interchangeable if those attributes are identical. For example, if two
+addresses have the same street, the same city and the same zip code,
+then they are considered the same value object. Value objects are
+typically immutable, this means that they don't change after being
+created. This helps to make sure that they have consistency and also
+helps avoid unnecessary complexity.
+
+Entities matter when continuity and uniqueness are important to the
+domain. They are not primarily or initially defined by what they are at
+one moment, but by the fact that they persist across time and across
+system implementations. For example, a person’s identity stretches from
+birth to death. The attributes such as their name, their gender or their
+hair color may change, but the entity is always the same. Another
+example is that even if two transactions share the same amount of money
+and have the same date, they are still distinct entities. Their
+uniqueness is defined by their identity, and not just in their
+attributes. Because entities may appear in different contexts and
+representations, designers must establish a reliable identity system.
+Because of this reason we assign a unique identifier, such as a social
+security number or the SNN or vehicle identification number or the VIN
+number, especially when no natural combination of attributes guarantees
+uniqueness.
+
+Value objects are ideal when the focus is on what something is, and not
+which specific instance it is. They often represent descriptive concepts
+and allow for design optimizations because they don’t carry identity.
+For example, in a mail-order system addresses can be treated as value
+objects, because we only care about the attributes such as the street,
+the city and the zip code. If two addresses are identical in attributes,
+they are the same value object. However, in a property registry,
+addresses may need to be entities, since equality has legal
+implications. Another example is that in a theater with unassigned
+seating, seats have no identity; they are interchangeable. Treating them
+as value objects simplifies modeling. In contrast, with assigned
+seating, seats become entities, since each one must be tracked
+
+individually. Value objects are usually treated as immutable. This
+allows them to be safely shared or copied in the system without the risk
+of inconsistencies. For example, the same geographic coordinates can be
+reused in multiple contexts without needing to track identity.
+
+Confusing entities and value objects can create important design
+problems, such as data corruption, performance issues and conceptual
+modeling. In data corruption, if two different entities are mistaken for
+the same because they share attributes, important data may be lost or
+overwritten. In performance issues, giving identity to value objects
+adds unnecessary overhead, making the system slower and more complex. In
+conceptual modeling, when the wrong choice is made, the domain model
+becomes harder to understand and maintain. For example, adding identity
+to an address value object obscures the distinction between “what” the
+address is and “which” address it represents.
+
+Maintaining the distinction requires discipline, as programming
+languages typically only enforce representational identity, such as “==”
+in Java or C++, instead of conceptual identity. From the theoretical
+study and research, the concepts or ideas that should be applied are the
+following. First, if an object must be tracked over time and across
+multiple representations, then you should model it as an entity. Second,
+if the object is fully described by its attributes, then you should
+model it as a value object. Third, you should keep the entities simple
+and focused on continuity and identity, and value objects should form a
+conceptual idea of attributes. Fourth, avoid assigning identity to value
+objects, because it complicates the model more than necessary. Fifth,
+use immutable value objects to prevent errors from shared modifications.
+
+Entities and value objects are theoretical foundations of effective
+software modeling. Entities represent continuity and identity,
+persisting through change and multiple contexts, while value objects
+represent descriptive attributes without identity. Confusing these two
+concepts or ideas can falsify or break the data. It can also make the
+design more complicated than necessary. When carefully understanding and
+applying these concepts or ideas the designers can create domain models
+that are conceptually clear and technically strong and sturdy.

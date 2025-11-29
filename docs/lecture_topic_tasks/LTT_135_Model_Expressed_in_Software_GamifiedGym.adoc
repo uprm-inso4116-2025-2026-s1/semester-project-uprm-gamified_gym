@@ -1,0 +1,105 @@
+*Lecture Topic Task*
+
+== Expressing the Domain Model in Software for Gamified Gym
+
+This Lecture Topic Task demonstrates how the conceptual domain model of
+the Gamified
+
+Gym project can be expressed in software. It builds upon lecture
+concepts from *A Model
+
+Expressed in Software*, showing how entities such as Users, Workouts,
+Exercises, and Achievements can be mapped into code structures. By
+documenting this early, the team gains a blueprint that guides coding
+decisions and reduces ambiguity. The deliverable is intended not only as
+a theoretical exercise but also as a practical reference for future
+developers on the project. By treating the model as a living artifact,
+the team ensures that changes in business needs can be reflected
+consistently in both conceptual diagrams and software classes.
+
+== Core Entities in Code
+
+The Gamified Gym app revolves around users logging workouts and earning
+achievements.
+
+We identified five main entities: **User**, **Profile**, **Workout**,
+**Exercise**, and
+
+**Achievement**. Each of these entities corresponds to real-world
+concepts familiar to anyone using fitness applications. Expressing these
+entities in software ensures that domain concepts are consistently
+represented and understood across the development team. For example, the
+`User` is central to the system, linking to all other entities. The
+`Profile` holds personal and fitness information, while `Workout`
+captures sessions composed of multiple `Exercise` objects. `Achievement`
+ties gamified progress back to actual user behavior, ensuring the
+motivational aspects of the app are grounded in tracked activity. Below
+are simplified examples (Java-like syntax) that illustrate how these
+concepts can be translated into software classes.
+
+class User \{ String name; Profile profile; List workouts; List
+achievements; } class Profile \{ int age; double weight; double height;
+String fitnessLevel; // Beginner, Intermediate, Advanced String goal; //
+e.g., weight loss, strength, endurance }
+
+class Workout \{ Date date; List exercises; String notes; // Optional
+notes about the session double duration; // Length of the workout in
+minutes } class Exercise \{ String name; String muscleGroup; // Arms,
+Legs, Chest, etc. int sets; int reps; double weightUsed; String
+intensity; // Low, Moderate, High } class Achievement \{ String title;
+String description; Date earnedDate; int points; // Gamification points
+String badgeIcon; // Path to badge asset }
+
+== Diagram of Entity Relationships
+
+The diagram below visualizes how these entities interact. A User has a
+Profile, logs many
+
+Workouts, and can earn multiple Achievements. Each Workout is composed
+of multiple Exercises. This mirrors the real-life relationships within
+the fitness tracking domain. By aligning this diagram with our code,
+developers can ensure that the implementation reflects the intended
+relationships. This also aids non-technical stakeholders, who can use
+the diagram as a simple reference without needing to read code.
+
+== Benefits of Expressing the Model in Software
+
+Turning the domain model into code, even at this early stage, provides
+several advantages: **Clarity:** Everyone on the team shares the same
+understanding of what entities exist and how they relate. -
+**Consistency:** Code and design stay aligned, avoiding mismatched
+interpretations. - **Scalability:** As new features are added (e.g.,
+nutrition tracking or social challenges), they can extend these base
+entities naturally. - **Testability:** With a clear model, the team can
+design unit and integration tests that validate relationships and
+constraints. - **Collaboration:** Non-developers can understand the
+model through diagrams and documentation, improving communication with
+stakeholders. - **Maintainability:** Developers onboarding later can
+quickly understand how the app is structured without needing to
+reverse-engineer code.
+
+== Future Extensions
+
+This model is intentionally simple but can be extended as the app grows.
+Examples of future improvements include: - Adding a `Challenge` entity
+to track gamified competitions among multiple users. - Expanding
+`Profile` to include more health metrics such as BMI, heart rate, or
+dietary preferences. - Enhancing `Achievement` by introducing tiered
+levels (bronze, silver, gold badges) to further gamify progress. -
+Introducing persistence logic (repositories) and service layers to align
+with clean architecture principles. - Integrating APIs from wearable
+devices to automatically populate workout and exercise data. Each of
+these extensions can be built upon the foundation laid by the initial
+software-expressed domain model, ensuring stability and reducing rework.
+
+== Conclusion
+
+This LTT applied concepts from *A Model Expressed in Software* to
+Gamified Gym by showing how abstract entities map to code. We expanded
+on the relationships with both textual explanations and a diagram, and
+highlighted the practical benefits of this approach. By emphasizing
+clarity, scalability, and testability, this deliverable demonstrates how
+thoughtful modeling can serve as a foundation for future development.
+Even without the full application implemented, this document reduces
+uncertainty, promotes alignment, and ensures that both technical and
+non-technical team members have a shared vision moving forward.

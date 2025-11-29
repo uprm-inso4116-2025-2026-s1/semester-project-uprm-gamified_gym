@@ -1,0 +1,59 @@
+____
+*Lecture Topic Task – Initial Domain Model for*
+
+*Gamified Gym*
+____
+
+*Introduction:*
+
+____
+This document presents the initial domain model for the _Gamified Gym_
+project. Based on the lecture _Putting the Domain Model to Work_, a
+domain model is a simplified, structured representation of reality that
+organizes knowledge, reduces complexity, and provides a shared language
+for the team. It serves as a blueprint that ensures our implementation
+remains consistent with the project’s conceptual foundation.
+____
+
+== Core Entities of Gamified Gym 
+
+[width="100%",cols="21%,79%",options="header",]
+|===
+|*Entity* |*Description*
+|User |Represents the person using the app.
+
+|Profile |Stores personal details (username, age, fitness goals).
+
+|Workout |A session that a user logs (date, duration, type).
+
+|Exercise |Individual activities within a workout (e.g., Squats, Bench
+Press).
+
+|Achievement |Rewards or badges earned for reaching milestones.
+|===
+
+== Entity Relationships 
+
+* A *User* has a *Profile*.
+* A *User* logs *Workouts*.
+* A *Workout* consists of multiple *Exercises*.
+* A *User* earns *Achievements* based on progress.
+
+== Draft Domain Model Diagram 
+
+User ---- has ----> Profile
+
+User ---- logs ---> Workout ---- contains ---> Exercise
+
+User ---- earns --> Achievement
+
+=== Reflection 
+
+____
+Starting with a domain model ensures the project begins with clarity. It
+provides a map of what the app will include and how the pieces fit
+together, which reduces confusion and improves communication within the
+team. As development continues, this model will guide implementation
+decisions and help keep the software aligned with the real-world needs
+of users.
+____

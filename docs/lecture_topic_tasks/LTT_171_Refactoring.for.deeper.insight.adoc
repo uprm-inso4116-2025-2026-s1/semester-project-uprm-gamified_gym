@@ -1,0 +1,88 @@
+LTT. Refactoring towards deeper insight
+
+== From shallow tracking to meaningful gameplay in gamified gym 
+
+In game design a “model” is a set of rules, mechanics and systems that
+define the game. For example, in gamified gym, this is the fitness
+gameplay loop. This idea of a model requires sophisticated design skills
+to implement a system that is both engaging to play and supporting of
+fitness goals.
+
+== Levels of Refactoring 
+
+We often think of “refactoring” as cleaning up code, making it more
+readable or efficient. However, this is refactoring in the small.
+Refactoring to have the greatest impact is when we incorporate new
+insight/ ideas into our design. These insights must be clear for the
+user, so they know what they are doing and more importantly _why_ they
+are doing it. For gamified Gym, this means our design process shouldn’t
+be rigid and stale. We must follow our learning and development to think
+about what truly motivates a person to exercise.
+
+== Common Mistakes with Shallow vs. Deep models 
+
+*The shallow model*: Take the nouns and verbs from fitness. Nouns: reps,
+miles, calories. Verbs: count, log, reward.
+
+* This leads to a naïv e design: “Do 10 push-ups, get 100 points”. It’s
+superficial and based on a shallow understanding of both motivation and
+fitness.
+
+*The deep model:* A deep sheds superficial aspect and gets to the heart
+of what matters.
+
+* It expresses the primary concerns of a person trying to get fit:
+Mastery, Progression, Identity, Purpose.
+* It provides versatility, simplicity, and explanatory power. The
+language shifts from “points” to “skills”, “levels,” and “quests” that
+the users genuinely connect with.
+
+== Deep model / Supple Design 
+
+Because we are constantly learning and refactoring, our design needs to
+be flexible, easy to change and build upon. A rigid, point-only system
+is hard to change. If you want to add more features, you add more
+points. That’s meaningless and boring. However, a supple/flexible design
+lets you open up and experiment leading to a better game with a
+feedback- loop: a better model leads to a better game which leads to
+better fitness results which finally leads to more insight on how to
+keep improving the game.
+
+== Applying Theory 
+
+Shallow Mechanic vs. Deep Mechanic
+
+* Shallow (The “point-only” Tracker) o Mechanic: User runs 1 mile. App
+says: “You earned 50 points” o Problem: The “why” is weak. Why 50? What
+do points mean? They are abstract, meaningless currency. This leads to
+the “So what” effect. The user quickly becomes bored because the
+mechanic has no connection to their realworld fitness goals.
+* Deep (A meaningful progression system) o Mechanic: User runs 1 mile.
+App says: “Your stamina skill has increased to level 5! You are now
+ready to undertake the University Path Quest.”
+
+____
+o Explanation
+____
+
+* It sloughs off the superficial: It replaces the abstract “point” with
+a concrete, recognizable game concept: a Skill (stamina)
+* It provides explanatory power: Leveling up Stamina explains the
+benefit of running. It’s not just a number; it’s a representation of
+their growth.
+* It creates versatility: This “Stamina” skill can now interact with
+other parts of the game. Maybe it gates new quests, unlocks new workout
+types (like interval running), or combines with a “Strength” skill to
+unlock a “Power” attribute
+
+=== Sources 
+
+DDD Community. (n.d.). _Tackling complexity in the heart of software_.
+DDD Community Library.
+
+Schu tz-Schmuck, M. (2020, September 28). _Refactoring toward deeper
+insight_ [Presentation slides]. Department of Mathematical Sciences,
+University of Puerto Rico at Mayaguez.
+
+Graca, H. (2015, December 28). _DDD 13 – Refactoring toward deeper
+insight_. Herberto Graca.

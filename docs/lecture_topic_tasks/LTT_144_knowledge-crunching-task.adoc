@@ -1,0 +1,281 @@
+____
+Knowledge Crunching Task
+____
+
+*Table of Contents*
+
+link:#chapter-1.-overview[1. Overview link:#chapter-1.-overview[1]]
+
+link:#chapter-2.-objectives[2. Objectives
+link:#chapter-2.-objectives[2]]
+
+link:#chapter-3.-participants[3. Participants
+link:#chapter-3.-participants[3]]
+
+link:#domain-experts[3.1. Domain Experts link:#domain-experts[3]]
+
+link:#technical-team[3.2. Technical Team link:#technical-team[3]]
+
+link:#chapter-4.-process-steps[4. Process Steps
+link:#chapter-4.-process-steps[4]]
+
+link:#preparation-phase[4.1. 1. Preparation Phase
+link:#preparation-phase[4]]
+
+link:#pre-session-activities[4.1.1. Pre-session Activities
+link:#pre-session-activities[4]]
+
+link:#materials-needed[4.1.2. Materials Needed
+link:#materials-needed[4]]
+
+link:#discovery-session[4.2. 2. Discovery Session
+link:#discovery-session[4]]
+
+link:#session-structure[4.2.1. Session Structure
+link:#session-structure[4]]
+
+link:#key-questions-to-ask[4.2.2. Key Questions to Ask
+link:#key-questions-to-ask[4]]
+
+link:#analysis-phase[4.3. 3. Analysis Phase link:#analysis-phase[5]]
+
+link:#information-processing[4.3.1. Information Processing
+link:#information-processing[5]]
+
+link:#output-artifacts[4.3.2. Output Artifacts
+link:#output-artifacts[5]]
+
+link:#validation-phase[4.4. 4. Validation Phase
+link:#validation-phase[5]]
+
+link:#review-and-confirmation[4.4.1. Review and Confirmation
+link:#review-and-confirmation[5]]
+
+link:#chapter-5.-best-practices[5. Best Practices
+link:#chapter-5.-best-practices[6]]
+
+link:#dos[5.1. Do’s link:#dos[6]]
+
+link:#donts[5.2. Don’ts link:#donts[6]]
+
+link:#chapter-6.-common-pitfalls[6. Common Pitfalls
+link:#chapter-6.-common-pitfalls[7]]
+
+link:#chapter-7.-success-metrics[7. Success Metrics
+link:#chapter-7.-success-metrics[8]]
+
+link:#immediate-indicators[7.1. Immediate Indicators
+link:#immediate-indicators[8]]
+
+link:#long-term-measures[7.2. Long-term Measures
+link:#long-term-measures[8]]
+
+link:#chapter-8.-follow-up-actions[8. Follow-up Actions
+link:#chapter-8.-follow-up-actions[9]]
+
+link:#documentation-tasks[8.1. Documentation Tasks
+link:#documentation-tasks[9]]
+
+link:#ongoing-activities[8.2. Ongoing Activities
+link:#ongoing-activities[9]]
+
+link:#chapter-9.-templates-and-tools[9. Templates and Tools
+link:#chapter-9.-templates-and-tools[10]]
+
+link:#session-template[9.1. Session Template link:#session-template[10]]
+
+link:#recommended-tools[9.2. Recommended Tools
+link:#recommended-tools[10]]
+
+link:#chapter-10.-conclusion[10. Conclusion
+link:#chapter-10.-conclusion[11]]
+
+== Chapter 1. Overview
+
+Knowledge crunching is the process of actively engaging domain experts
+and technical team members in collaborative learning to build a shared
+understanding of the business domain. This task outlines the structured
+approach to conducting effective knowledge crunching sessions.
+
+== Chapter 2. Objectives
+
+* Extract tacit domain knowledge from experts
+* Build a shared mental model across the team
+* Identify key business concepts and rules
+* Establish a ubiquitous language
+* Uncover hidden complexities and edge cases
+
+== Chapter 3. Participants
+
+=== 3.1. Domain Experts
+
+* Business stakeholders
+* Subject matter experts
+* End users
+* Product owners
+
+=== 3.2. Technical Team
+
+* Software developers
+* Business analysts
+* Architects
+* UX designers
+
+== Chapter 4. Process Steps
+
+=== 4.1. 1. Preparation Phase
+
+==== 4.1.1. Pre-session Activities
+
+* Define session objectives and scope
+* Identify and invite relevant participants
+* Gather existing documentation
+* Prepare questions and scenarios
+* Set up collaborative tools
+
+==== 4.1.2. Materials Needed
+
+* Whiteboard or digital collaboration tool
+* Sticky notes (physical or digital)
+* Documentation templates
+* Recording equipment (if applicable)
+
+=== 4.2. 2. Discovery Session
+
+==== 4.2.1. Session Structure
+
+[width="100%",cols="25%,50%,25%",options="header",]
+|===
+|*Time* |*Activity* |*Duration*
+|Opening |Introductions and objectives |10 min
+|Exploration |Domain walkthrough and Q&A |45 min
+|Break |Coffee break |10 min
+|Deep Dive |Complex scenarios and edge cases |30 min
+|Synthesis |Key insights and next steps |15 min
+|===
+
+==== 4.2.2. Key Questions to Ask
+
+* What does success look like in this domain?
+* What are the most common workflows?
+* What exceptions or edge cases exist?
+* How do you handle errors or failures?
+* What business rules are non-negotiable?
+
+=== 4.3. 3. Analysis Phase
+
+==== 4.3.1. Information Processing
+
+* Transcribe and organize session notes
+* Identify key concepts and relationships
+* Extract business rules and constraints • Map workflows and processes
+* Document assumptions and questions
+
+==== 4.3.2. Output Artifacts
+
+* Domain glossary
+* Workflow diagrams
+* Business rules catalog
+* Concept maps
+* User stories or scenarios
+
+=== 4.4. 4. Validation Phase
+
+==== 4.4.1. Review and Confirmation
+
+* Share findings with domain experts
+* Validate understanding and interpretations
+* Clarify ambiguities and gaps
+* Refine documentation based on feedback
+* Plan follow-up sessions if needed
+
+== Chapter 5. Best Practices
+
+=== 5.1. Do’s
+
+* Keep sessions focused and time-boxed
+* Use visual aids and diagrams
+* Encourage questions and discussions
+* Document everything, even seemingly obvious points
+* Follow up promptly with session summaries
+
+=== 5.2. Don’ts
+
+* Don’t assume you understand without confirmation
+* Avoid technical jargon with business experts
+* Don’t skip validation steps
+* Don’t let one person dominate the conversation
+* Avoid rushing through complex topics
+
+== Chapter 6. Common Pitfalls
+
+ Watch out for these common issues that can derail knowledge crunching
+sessions:
+
+* *Analysis Paralysis*: Getting stuck on perfect documentation instead
+of building understanding
+* *Expert Unavailability*: Key domain experts being too busy to
+participate effectively
+* *Language Barriers*: Business and technical teams using different
+terminology
+* *Scope Creep*: Sessions expanding beyond their intended focus
+* *Surface-level Exploration*: Not digging deep enough into complex
+scenarios
+
+== Chapter 7. Success Metrics
+
+=== 7.1. Immediate Indicators
+
+* Clear action items and next steps
+* Reduced number of clarification questions
+* Aligned understanding among participants
+* Comprehensive documentation produced
+
+=== 7.2. Long-term Measures
+
+* Decreased development rework
+* Improved software-business alignment
+* Faster onboarding of new team members
+* More accurate project estimates
+
+== Chapter 8. Follow-up Actions
+
+=== 8.1. Documentation Tasks
+
+[arabic]
+. Distribute session summary within 24 hours
+. Update project documentation with new insights
+. Create or refine domain model artifacts
+. Log outstanding questions and assumptions
+
+=== 8.2. Ongoing Activities
+
+* Schedule regular knowledge crunching sessions
+* Maintain and evolve the ubiquitous language
+* Review and update business rules as domain evolves
+* Continue building relationships with domain experts
+
+== Chapter 9. Templates and Tools
+
+=== 9.1. Session Template
+
+=== 9.2. Recommended Tools
+
+* *Collaboration*: Miro, Mural, or physical whiteboard
+* *Documentation*: Confluence, Notion, or shared documents
+* *Diagramming*: Lucidchart, Draw.io, or similar tools
+* *Recording*: Zoom, Teams, or audio recording apps
+
+== Chapter 10. Conclusion
+
+Effective knowledge crunching is essential for building software that
+truly serves the business domain. By following this structured approach,
+teams can systematically extract, analyze, and apply domain knowledge to
+create more aligned and effective solutions.
+
+The investment in proper knowledge crunching pays dividends throughout
+the development lifecycle, reducing miscommunication, rework, and
+ultimately delivering better outcomes for all stakeholders.
+
+_This document should be treated as a living guide and updated based on
+team experience and domain evolution._

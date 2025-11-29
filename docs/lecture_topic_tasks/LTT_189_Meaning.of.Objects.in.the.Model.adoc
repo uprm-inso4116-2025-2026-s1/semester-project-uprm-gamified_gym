@@ -1,0 +1,78 @@
+____
+*Lecture Topic Task – Meaning of Objects in the Model*
+____
+
+*Gamified Gym Objective:*
+
+To define the meaning and responsibilities of the core objects in the
+_Gamified Gym_’s game design model. Each object should clearly represent
+its purpose in motivating users, follow the principles from the slides
+of _“Meaning of Objects in the Model”_, and establish whether it is an
+*Entity* or a *Value Object*. This definition provides a shared
+understanding for the team and ensures consistency when integrating with
+the Fitness Tracker and Foundations teams.
+
+*Task Description:*
+
+Each object in the game design model must have a defined purpose and
+scope. Following the lecture’s principle that _“each object has a clear
+meaning and responsibility within the domain”_, we ensure that the model
+captures the essence of motivation, progress, and visual feedback.
+
+The following section defines the main game-related objects and explains
+their meaning, type, and relationships.
+
+*Identified Objects and Their Meanings:*
+
+== Achievement (Entity) 
+
+* *Meaning:* Represents a specific accomplishment reached by a user, for
+example completing 20 workouts or training 5 consecutive days.
+* *Reason for Entity:* Each achievement must have a unique identity
+since it tracks user progress over time.
+* *Relationships:* Earned by a _User Progress_ instance, which is linked
+to one or more _Badges_ that visually represent it.
+
+== Badge (Value Object) 
+
+* *Meaning:* A visual icon that symbolizes the completion of an
+achievement or set of milestones.
+* *Reason for Value Object:* It is purely visual representation; two
+identical badges have no distinct identity.
+* *Relationships:* Associated with _achievements_ and _milestones_ to
+provide visual motivation.
+
+== Milestone (Entity) 
+
+* *Meaning:* A predefined goal or threshold within a user’s fitness
+journey. An example would be: “Burn 10,000 calories”.
+* *Reason for Entity:* Each Milestone tracks its completion status and
+relates to the user’s ongoing progress.
+* *Relationships:* When reached, it triggers the creation or unlocking
+of an _achievement_.
+
+== User Progress (Entity) 
+
+* *Meaning:* Tracks the user’s accumulated activity metrics, such as
+total workouts logged.
+* *Reason for Entity:* Must persist and evolve over time for each user.
+* *Relationships:* Generates _achievements_ when certain _milestones_
+are met.
+
+== Reward Criteria (Value Object) 
+
+* *Meaning:* Defines the logic or thresholds required for a user to earn
+a specific achievement (e.g., “5 workouts in one week”).
+* *Reason for Value Object:* Represents a rule or condition, not a
+specific identifiable concept.
+* *Relationships:* Used by _achievements_ and _milestones_ to evaluate
+completion.
+
+== Badge Design (Value Object) 
+
+* *Meaning:* Contains visual elements such as icon style, color palette,
+and animation.
+* *Reason for Value Object:* It is purely visual representation, not a
+persistent entity.
+* *Relationships:* Associated with _badge_ objects to enhance visual
+engagement.

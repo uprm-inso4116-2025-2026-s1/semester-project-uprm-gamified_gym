@@ -1,0 +1,62 @@
+A clean Architecture ensures that our code is *scalable, maintainable,
+and easy to extend*. By following SOLID principles, we design modules
+that are focused, flexible, and replaceable without introducing bugs. In
+our gamified gym logger project, these principles help organize
+functionality like logging workouts, tracking progress, and gamifying
+user experience.
+
+== Single Responsibility Principle 
+
+*Definition:* Each module should only handle *one responsibility*.
+
+*Example:* Logging workouts, saving data, and generating reports should
+not be combined in one module.
+
+*Fix:* Split responsibilities into separate units:
+
+* WorkoutLogger – handles workout logging
+* WorkoutRepository – handles data storage
+* WorkoutReport – handles reporting
+
+== Open/Closed Principle 
+
+*Definition:* Code should be *open for extension but closed for
+modification*.
+
+*Example:* Adding new workout types (cardio, strength) should not
+require changing the core logic.
+
+*Fix:* Use inheritance or composition to extend functionality:
+
+* Create new Workout subclasses for each type
+* Core logic remains unchanged
+
+== Liskov Substitution Principle 
+
+*Definition:* Subtypes must be replaceable without breaking the program.
+*Example:* A function using Workout should also work with
+StrengthWorkout or CardioWorkout.
+
+*Fix:* Ensure subclasses respect the expected behavior of the base type.
+
+== Interface Segregation Principle 
+
+*Definition:* Clients shouldn’t depend on methods they do not use.
+
+*Example:* A logger module doesn’t need gamification features. *Fix:*
+Split into smaller, focused interfaces:
+
+* ILogWorkout – logging workouts
+* ITrackProgress – tracking progress
+* IGamify – gamification features
+
+== Dependency Inversion Principle 
+
+*Definition:* High-level modules should depend on *abstractions*, not
+details.
+
+*Example:* The gamification system shouldn’t care if storage is SQLite,
+AsyncStorage, or API.
+
+*Fix:* Define an abstraction IWorkoutRepository and implement it for
+different storage options.
