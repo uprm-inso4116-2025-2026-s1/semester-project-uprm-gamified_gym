@@ -3,7 +3,10 @@ name: Convert DOCX to AsciiDoc
 on:
   push:
     paths:
-      - 'docs/raw_LTT/**/*'
+      - "docs/raw_LTT/*.docx"
+
+permissions:
+  contents: write   # ⭐ same as PDF workflow
 
 jobs:
   convert:
@@ -11,26 +14,38 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true   # ⭐ keep the token
 
-      - name: Install Pandoc
-        run: sudo apt-get install -y pandoc
+      - name: Install pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
 
       - name: Convert DOCX files to AsciiDoc
         run: |
           mkdir -p docs/lecture_topic_tasks
+          shopt -s nullglob
           for file in docs/raw_LTT/*.docx; do
-            if [ -f "$file" ]; then
-              base=$(basename "$file" .docx)
-              pandoc "$file" -t asciidoc -o "docs/lecture_topic_tasks/${base}.adoc"
-              echo "Converted: $file → ${base}.adoc"
-            fi
+            base="$(basename "$file" .docx)"
+            out="docs/lecture_topic_tasks/${base}.adoc"
+            echo "Converting: $file -> $out"
+            pandoc "$file" -f docx -t asciidoc -o "$out"
           done
 
       - name: Commit converted files
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add docs/lecture_topic_tasks/*.adoc || true
-          git commit -m "Auto-converted DOCX to AsciiDoc" || true
-          git push || true
+          # Only commit if there are changes
+          if git diff --quiet docs/lecture_topic_tasks; then
+            echo "No converted files to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add docs/lecture_topic_tasks/*.adoc
+
+          git commit -m "chore: auto-convert LTT DOCX to AsciiDoc" || exit 0
+          git push
