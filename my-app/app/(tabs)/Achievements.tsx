@@ -1,5 +1,5 @@
 import { Animated, Pressable } from "react-native";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,8 @@ import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
 import { supabase } from "../../lib/supabaseClient";
+import { useFocusEffect } from "@react-navigation/native"; // if not already
+import { useCallback } from "react";
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
@@ -31,135 +33,64 @@ type AchievementCardProps = {
   progress: number;
   iconSource: any;
   color?: string;
+  description?: string;
   onPress?: () => void;
-};
-
-type AchievementConfig = {
-  code: string; // matches achievements.code in Supabase
-  title: string;
-  subtitle: string;
-  icon?: any;
-  color?: string;
-  description: string;
-};
-
-type AchievementItem = AchievementConfig & {
-  progress: number; // 0–100
-  earnedAt?: string | null;
 };
 
 const BLUE = "#2C82FF";
 
-/** Local achievement definitions (front-end only metadata) */
-const BASE_ACHIEVEMENTS: AchievementItem[] = [
+/**
+ * Static UI config for each achievement.
+ * We key them by "code" so they line up with the DB rows in `achievements`.
+ */
+type AchievementUiConfig = {
+  code: string;
+  title: string;
+  subtitle: string;
+  icon: any;
+  color?: string;
+  description?: string;
+};
+
+const ACHIEVEMENT_CONFIG: AchievementUiConfig[] = [
   {
     code: "first_workout_logged",
     title: "First Workout \n Logged",
     subtitle: "Star",
-    progress: 0,
     icon: require("../../assets/images/achieve1.png"),
     color: "#2C82FF",
-    description: "Log your first workout in Gamified Gym.",
+    description: "Log your very first workout.",
   },
-
-  // You can give these real codes/descriptions later
   {
-    code: "streak_3_days",
+    code: "streaks",
     title: "Streaks",
     subtitle: "Freshman",
-    progress: 0,
     icon: require("../../assets/images/achieve1.png"),
-    description: "Complete workouts 3 days in a row.",
+    color: "#2C82FF",
+    description: "Maintain consistent workout streaks.",
   },
   {
-    code: "strength_1",
+    code: "strength",
     title: "Strength",
     subtitle: "Sophomore",
-    progress: 0,
     icon: require("../../assets/images/achieve1.png"),
-    description: "Finish your first strength-focused workout.",
+    color: "#2C82FF",
   },
-  {
-    code: "holiday_workout",
-    title: "Holidays",
-    subtitle: "Sophomore",
-    progress: 0,
-    icon: require("../../assets/images/achieve1.png"),
-    description: "Do a workout on a holiday.",
-  },
-  {
-    code: "flexibility_1",
-    title: "Flexibility",
-    subtitle: "Bronze",
-    progress: 0,
-    icon: require("../../assets/images/achieve1.png"),
-    description: "Complete a stretching or flexibility routine.",
-  },
-  {
-    code: "cardio_1",
-    title: "Cardio",
-    subtitle: "Rookie",
-    progress: 0,
-    icon: require("../../assets/images/achieve1.png"),
-    description: "Finish your first pure cardio workout.",
-  },
-  {
-    code: "endurance_1",
-    title: "Endurance",
-    subtitle: "Silver",
-    progress: 0,
-    icon: require("../../assets/images/achieve1.png"),
-    description: "Stay active for a long session without giving up.",
-  },
-  {
-    code: "consistency_1",
-    title: "Consistency",
-    subtitle: "Gold",
-    progress: 0,
-    icon: require("../../assets/images/achieve1.png"),
-    description: "Work out several times in one week.",
-  },
-  {
-    code: "hydration_1",
-    title: "Hydration",
-    subtitle: "Hydrated",
-    progress: 0,
-    icon: require("../../assets/images/achieve1.png"),
-    description: "Track your water intake while working out.",
-  },
-  {
-    code: "calories_burned_1",
-    title: "Calories Burned",
-    subtitle: "Burner",
-    progress: 0,
-    icon: require("../../assets/images/achieve1.png"),
-    description: "Burn a significant number of calories in a session.",
-  },
-  {
-    code: "workouts_logged_5",
-    title: "Workouts Logged",
-    subtitle: "Tracker",
-    progress: 0,
-    icon: require("../../assets/images/achieve1.png"),
-    description: "Log multiple workouts in Gamified Gym.",
-  },
-  {
-    code: "daily_checkins_1",
-    title: "Daily Check-ins",
-    subtitle: "Visitor",
-    progress: 0,
-    icon: require("../../assets/images/achieve1.png"),
-    description: "Open the app and check in for the day.",
-  },
-  {
-    code: "gym_time_1",
-    title: "Gym Time",
-    subtitle: "Grinder",
-    progress: 0,
-    icon: require("../../assets/images/achieve1.png"),
-    description: "Spend serious time finishing a full workout.",
-  },
+    // ...add the rest here with their codes
 ];
+
+type DbAchievement = {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+};
+
+type UserAchievement = {
+  user_id: string;
+  achievement_id: string;
+  earned_at: string;
+};
 
 const AchievementCard: React.FC<AchievementCardProps> = ({
   title,
@@ -214,6 +145,7 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
         <View style={styles.progressRow}>
           <Text style={styles.progressLabel}>{progress}%</Text>
           <View style={styles.progressTrack}>
+            {/* THIS IS WHERE THE BLUE BAR SIZE COMES FROM */}
             <View style={[styles.progressFill, { width: `${progress}%` }]} />
           </View>
         </View>
@@ -222,20 +154,135 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
   );
 };
 
+type UiAchievement = AchievementUiConfig & {
+  progress: number;
+};
+
 const Achievements: React.FC = () => {
   const navigation = useNavigation<NavProp>();
   const route = useRoute<AchievementsRouteProp>();
   const from = route.params?.from;
 
-  const [achievements, setAchievements] =
-    React.useState<AchievementItem[]>(BASE_ACHIEVEMENTS);
-  const [loading, setLoading] = React.useState(false);
+const [items, setItems] = useState<UiAchievement[]>([]);
+const [selected, setSelected] = React.useState<UiAchievement | null>(null);
+const slideAnim = useRef(new Animated.Value(1)).current; // 1 = off-screen
 
-  const [selected, setSelected] = React.useState<AchievementItem | null>(null);
-  const slideAnim = useRef(new Animated.Value(1)).current; // 1 = off-screen
+useFocusEffect(
+  useCallback(() => {
+    let isActive = true;
 
-  const openPanel = (item: AchievementItem) => {
+    const load = async () => {
+      // 1) Get current user
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        // Not logged in → just show 0% for everything
+        const base = ACHIEVEMENT_CONFIG.map((cfg) => ({
+          ...cfg,
+          progress: 0,
+        }));
+        if (isActive) setItems(base);
+        return;
+      }
+
+      // 2) Load achievements & user_achievements from DB
+      const { data: dbAchievements, error: dbError } = await supabase
+        .from("achievements")
+        .select("id, code, name, description");
+
+      const { data: userAchievements, error: userAchError } = await supabase
+        .from("user_achievements")
+        .select("id, user_id, achievement_id, earned_at")
+        .eq("user_id", user.id);
+
+      // 3) Count this user's workouts
+      const { count: workoutCount, error: workoutError } = await supabase
+        .from("workouts")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id);
+
+      if (workoutError) {
+        console.error("Error counting workouts:", workoutError);
+      }
+
+      const workouts = workoutCount ?? 0;
+
+      // 4) Compute progress for 'first_workout_logged'
+      let firstWorkoutProgress = workouts >= 1 ? 100 : 0;
+
+      // 5) Make sure backend user_achievements is synced for first_workout_logged
+      const dbFirst = dbAchievements?.find(
+        (a: DbAchievement) => a.code === "first_workout_logged"
+      );
+
+      const hasFirstAlready =
+        !!dbFirst &&
+        !!userAchievements?.some(
+          (ua: UserAchievement) => ua.achievement_id === dbFirst.id
+        );
+
+      if (firstWorkoutProgress === 100 && dbFirst && !hasFirstAlready) {
+        // Mark it as earned in the backend
+        const { error: insertError } = await supabase
+          .from("user_achievements")
+          .insert({
+            user_id: user.id,
+            achievement_id: dbFirst.id,
+            earned_at: new Date().toISOString(),
+          });
+
+        if (insertError) {
+          console.error("Error inserting user_achievement:", insertError);
+        }
+      }
+
+      // 6) Build UI list with progress
+      const combined: UiAchievement[] = ACHIEVEMENT_CONFIG.map((cfg) => {
+        const dbRow = dbAchievements?.find(
+          (a: DbAchievement) => a.code === cfg.code
+        );
+
+        const hasAchievement =
+          !!dbRow &&
+          !!userAchievements?.some(
+            (ua: UserAchievement) => ua.achievement_id === dbRow.id
+          );
+
+        let progress = 0;
+
+        if (cfg.code === "first_workout_logged") {
+          // Use workout-based progress
+          progress = firstWorkoutProgress;
+        } else {
+          // For now, other achievements are 0% or 100% based on whether they exist in user_achievements
+          progress = hasAchievement ? 100 : 0;
+        }
+
+        return {
+          ...cfg,
+          progress,
+        };
+      });
+
+      if (isActive) {
+        setItems(combined);
+      }
+    };
+
+    load();
+
+    return () => {
+      isActive = false;
+    };
+  }, [])
+);
+
+
+  const openPanel = (item: UiAchievement) => {
     setSelected(item);
+    slideAnim.setValue(1);
     Animated.timing(slideAnim, {
       toValue: 0,
       duration: 300,
@@ -251,74 +298,7 @@ const Achievements: React.FC = () => {
     }).start(() => setSelected(null));
   };
 
-  // ---------- Load user achievements from Supabase ----------
-  useEffect(() => {
-    let isMounted = true;
-
-    const load = async () => {
-      setLoading(true);
-      try {
-        const { data: userData, error: userError } =
-          await supabase.auth.getUser();
-
-        if (userError || !userData?.user) {
-          console.log("No logged-in user for achievements:", userError);
-          // Just show all as locked
-          if (isMounted) setAchievements(BASE_ACHIEVEMENTS);
-          return;
-        }
-
-        const user = userData.user;
-
-        // user_achievements with joined achievements (for .code)
-        const { data, error } = await supabase
-          .from("user_achievements")
-          .select("achievement_id, earned_at, achievements ( code )")
-          .eq("user_id", user.id);
-
-        if (error) {
-          console.log("Error loading user_achievements:", error);
-          if (isMounted) setAchievements(BASE_ACHIEVEMENTS);
-          return;
-        }
-
-        const earned = (data ?? []) as any[];
-
-        const earnedCodes = new Set<string>(
-          earned
-            .map((row) => row.achievements?.code as string | undefined)
-            .filter((c): c is string => !!c)
-        );
-
-        const mapped: AchievementItem[] = BASE_ACHIEVEMENTS.map((base) => {
-          const match = earned.find(
-            (row) => row.achievements?.code === base.code
-          );
-          const hasIt = !!match;
-
-          return {
-            ...base,
-            progress: hasIt ? 100 : 0,
-            earnedAt: match?.earned_at ?? null,
-          };
-        });
-
-        if (isMounted) {
-          setAchievements(mapped);
-        }
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-
-    load();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  const earnedCount = achievements.filter((a) => a.progress >= 100).length;
-  const totalCount = achievements.length;
+  const completedCount = items.filter((i) => i.progress >= 100).length;
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -352,51 +332,36 @@ const Achievements: React.FC = () => {
             <View style={styles.awardPill}>
               <View style={styles.awardDot} />
               <Text style={styles.awardText}>
-                Award {earnedCount}/{totalCount}
+                Award {completedCount}/{items.length}
               </Text>
             </View>
           </View>
 
           {/* Cards Grid */}
           <View style={styles.cardsGrid}>
-            {achievements.map((item, index) => (
+            {items.map((item) => (
               <AchievementCard
-                key={item.code ?? index}
+                key={item.code}
                 title={item.title}
                 subtitle={item.subtitle}
                 progress={item.progress}
-                iconSource={
-                  item.icon ?? require("../../assets/images/achieve1.png")
-                }
+                iconSource={item.icon}
                 color={item.color}
                 onPress={() => openPanel(item)}
               />
             ))}
           </View>
-
-          {loading && (
-            <Text
-              style={{
-                textAlign: "center",
-                marginTop: 12,
-                color: "#4B5563",
-              }}
-            >
-              Loading achievements…
-            </Text>
-          )}
         </ScrollView>
 
         {/* Bottom Sheet Overlay + Panel */}
         {selected && (
           <>
             <Pressable style={styles.overlay} onPress={closePanel} />
-
             <Animated.View
               style={[
                 styles.bottomSheet,
                 {
-                  backgroundColor: selected?.color ?? "#ffffff",
+                  backgroundColor: selected.color ?? "#ffffff",
                   transform: [
                     {
                       translateY: slideAnim.interpolate({
@@ -413,12 +378,7 @@ const Achievements: React.FC = () => {
               <Text style={styles.sheetTitle}>{selected.title}</Text>
               <Text style={styles.sheetSubtitle}>{selected.subtitle}</Text>
 
-              <Image
-                source={
-                  selected.icon ?? require("../../assets/images/achieve1.png")
-                }
-                style={styles.sheetIcon}
-              />
+              <Image source={selected.icon} style={styles.sheetIcon} />
 
               <View style={styles.sheetProgressRow}>
                 <Text style={styles.sheetProgressText}>
@@ -435,7 +395,7 @@ const Achievements: React.FC = () => {
               </View>
 
               <Text style={styles.sheetDescription}>
-                {selected.description}
+                {selected.description ?? ""}
               </Text>
             </Animated.View>
           </>
