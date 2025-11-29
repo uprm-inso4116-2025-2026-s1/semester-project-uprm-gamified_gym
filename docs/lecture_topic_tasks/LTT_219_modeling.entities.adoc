@@ -1,0 +1,121 @@
+== Modeling Entities for Gamefied Gym App 
+
+Contents
+
+Modeling Entities for Gamefied Gym App
+........................................................................
+1
+
+[arabic]
+. User
+......................................................................................................................
+1
+. WorkoutSession
+.....................................................................................................
+1
+. Exercise
+................................................................................................................
+1
+. Goal
+......................................................................................................................
+2
+. Achievement
+.........................................................................................................
+2
+. Reward
+..................................................................................................................
+2
+. Level
+.....................................................................................................................
+2
+. Challenge
+..............................................................................................................
+2
+. Leaderboard
+..........................................................................................................
+2
+
+____
+Scalability Notes
+.......................................................................................................
+2
+____
+
+=== 1. User 
+
+* *Role:* Core entity representing the app user (gym-goer).
+* *Responsibilities:* Stores personal data, progress, completed
+workouts, challenges, achievements, rewards, level, and streaks.
+
+{empty}2. Workout Session
+
+* *Role:* Represents a single gym session logged by the User.
+* *Responsibilities:* Contains exercises, tracks metrics like duration,
+calories burned, and triggers achievement checks.
+
+=== 3. Exercise 
+
+* *Role:* Atomic unit of a Workout Session.
+* *Responsibilities:* Tracks exercise-specific stats (sets, reps,
+duration, calories).
+
+____
+Contributes to Goals.
+____
+
+=== 4. Goal 
+
+* *Role:* Represents user-defined or system-defined targets.
+* *Responsibilities:* Tracks progress (frequency, consistency,
+performance).
+
+____
+Completion linked to Achievements and Rewards.
+____
+
+=== 5. Achievement 
+
+* *Role:* Gamification reward for reaching milestones.
+* *Responsibilities:* Recognizes completion of Goals, streaks, or
+Challenges. May grant Rewards or badges.
+
+=== 6. Reward 
+
+* *Role:* Incentives to motivate Users.
+* *Responsibilities:* Can be points, badges, in-app currency, or
+unlockables. Linked to Achievements, Levels, or Challenge completion.
+
+=== 7. Level 
+
+* *Role:* Represents progression in gamification.
+* *Responsibilities:* Tracks XP accumulation and unlocks higher-level
+features. Each User has a Level.
+
+=== 8. Challenge 
+
+* *Role:* Social or individual competitions.
+* *Responsibilities:* Tracks participating Users, goals, or exercises
+for completion. Grants Achievements/Rewards upon success.
+
+=== 9. Leaderboard 
+
+* {blank}
++
+____
+*Role:* Provides a ranked view of Users based on XP, points, or streaks.
+____
+* {blank}
++
+____
+*Responsibilities:* Aggregates User stats. Typically read-only; updated
+dynamically.
+____
+
+=== Scalability Notes 
+
+* New entities like *Badges*, *Community Events*, or *Friend
+interactions* can be added by linking them with *User* or *Challenge*.
+* Many-to-many relationships allow social and competitive features
+without altering the core model.
+* Composition (Workout Session → Exercise) ensures exercises are always
+tied to a session, maintaining data integrity.

@@ -1,0 +1,10 @@
+In the file exerciseStore.js the use ex as shorthand for exercise
+degrades the uniformity of our established language. In file workout
+_logs.js The function addEntry could be renamed to addWorkoutLog to
+establish a stronger uniformity in the naming in this file and to
+prevent duplicate concept. In file addWorkout.tsx the use exCount as
+shorthand for exercise count degrades the uniformity of our established
+language. In the file recent-workout-car.tsx and workout_logs.js present
+the signs of a duplicate concept by both files saving workout logs. The
+project uses different naming conventions which degrades the uniformity
+of the project.

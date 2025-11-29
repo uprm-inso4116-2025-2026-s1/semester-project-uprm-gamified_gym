@@ -1,0 +1,170 @@
+== Lecture Topic Task: Making Implicit Rules Explicit with the Specification Pattern 
+
+*Due Date:* Friday, October 24, 2025
+
+*Objective:*
+
+Establish a clear, shared model for defining and enforcing workout rules
+in the Gamified Gym app using the Specification Pattern. The goal is to
+make workout validation and selection rules explicit, readable, and
+reusable in the domain layer, not hidden in the UI or database logic.
+
+image::../img/LTT_215_Making.Implicit.Rules.Explicit.with.the.Specification.Pattern/media/image1.png[width=577]
+
+*Core Entities and Relationships*
+
+== WorkoutSession → WorkoutExercise → SetEntry → MuscleGroup 
+
+[width="100%",cols="24%,41%,35%",options="header",]
+|===
+|*Entity* |*Description* |*Key Fields*
+a|
+____
+*WorkoutSession*
+____
+
+|Represents a user’s workout on a specific date. |sessionID, userID,
+date, exercises[]
+
+|*WorkoutExercise* |A single exercise performed within a session. a|
+exerciseID, name,
+
+muscleGroup, sets[]
+
+|*SetEntry* |One recorded set of reps and weight. |setID, order, reps,
+weight, RPE, notes
+
+|*MuscleGroup* |Groups exercises by target area. a|
+____
+name (Chest, Back, Legs, etc.)
+____
+
+|===
+
+This structure allows multiple exercises per session, and multiple sets
+per exercise, each validated through specifications.
+
+image::../img/LTT_215_Making.Implicit.Rules.Explicit.with.the.Specification.Pattern/media/image2.png[width=577]
+
+== Specification Pattern Overview 
+
+The Specification Pattern represents rules as separate, reusable objects
+that define whether a domain entity satisfies a certain condition.
+Instead of writing if statements scattered through the code, each rule
+is captured by a Specification object with the method:
+isSatisfiedBy(entity) -> boolean
+
+Specifications can be combined using logical operations (AND, OR, NOT),
+making the rules modular and composable.
+
+image::../img/LTT_215_Making.Implicit.Rules.Explicit.with.the.Specification.Pattern/media/image3.png[width=577]
+
+*Example Specifications*
+
+== ValidSetSpec 
+
+Purpose: Ensures that each logged set has reps and weights within
+realistic, positive ranges. Rule: 1 <= reps <= 50 and 0 <= weight <=
+1000 Pseudocode:
+
+class ValidSetSpec \{ isSatisfiedBy(set) \{
+
+return set.reps >= 1 && set.reps <= 50 && set.weight >= 0;
+
+}
+
+}
+
+== OrderingSpec 
+
+Purpose: Ensures that all sets within a WorkoutExercise are sequentially
+ordered (1, 2, 3, ...). Rule: Each set.order must increase by exactly 1
+from the previous. Pseudocode:
+
+class OrderingSpec \{ isSatisfiedBy(exercise) \{
+
+return exercise.sets.every((s, i) => s.order === i + 1);
+
+}
+
+}
+
+== ProgressionSpec 
+
+Purpose: Enforces that users either maintain or increase performance
+relative to the previous session unless flagged for a deload. Rule: If
+not deload, then currentTopWeight >= lastTopWeight. Pseudocode:
+
+class ProgressionSpec \{
+
+constructor(prevSession) \{ this.prevSession = prevSession; }
+isSatisfiedBy(currentSession) \{
+
+const prevMax = Math.max(...this.prevSession.weights); const currMax =
+Math.max(...currentSession.weights); return currMax >= prevMax ||
+currentSession.deload === true;
+
+}
+
+}
+
+image::../img/LTT_215_Making.Implicit.Rules.Explicit.with.the.Specification.Pattern/media/image4.png[width=577]
+
+== Use Cases 
+
+*Validation Example:*
+
+Before saving a workout, the app checks:
+
+if (!new ValidSetSpec().isSatisfiedBy(set)) \{
+
+throw new Error("Invalid set: reps or weight out of range"); }
+
+*Selection Example:*
+
+To display all sets that count as personal records:
+
+const prSets = allSets.filter(set => new
+ProgressionSpec(lastSession).isSatisfiedBy(set));
+
+These examples show how rules can be reused across validation,
+filtering, and progression tracking without duplicating logic.
+
+image::../img/LTT_215_Making.Implicit.Rules.Explicit.with.the.Specification.Pattern/media/image30.png[width=577]
+
+== Edge Cases 
+
+[width="100%",cols="29%,71%",options="header",]
+|===
+|*Case* |*Expected Behavior*
+|*AMRAP Sets* |Allow reps to exceed the planned target but still
+validate weight and positivity.
+
+a|
+____
+*Bodyweight Exercises*
+____
+
+|Accept weight = 0, skip progression rules.
+
+|*Warm-Up Sets* |Skip ProgressionSpec, apply only ValidSetSpec.
+
+|*Failed Reps or Partial Sets* |Allow saving with flag failed = true but
+must still satisfy basic ValidSetSpec.
+
+|*Tempo or Rest-Pause Sets* |Treat grouped sub-sets as one logical set
+for ordering validation.
+|===
+
+image::../img/LTT_215_Making.Implicit.Rules.Explicit.with.the.Specification.Pattern/media/image5.png[width=577]
+
+== Why Making Rules Explicit Helps 
+
+By isolating rules in Specification objects:
+
+* The domain model stays consistent since all rules are centralized.
+* The codebase is easier to maintain because rules can evolve
+independently.
+* Testing is simpler since each specification can be unit tested on its
+own.
+* The team shares a common understanding of domain constraints.

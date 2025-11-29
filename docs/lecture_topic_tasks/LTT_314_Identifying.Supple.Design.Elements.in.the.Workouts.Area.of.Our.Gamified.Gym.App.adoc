@@ -1,0 +1,277 @@
+== Identifying Supple Design Elements in the Workouts Area of Our Gamified Gym App 
+
+For this Lecture Topic Task, I reflected on how the ideas from the
+Supple Design lecture show up in the workouts area of our Gamified Gym
+app and where we could still improve. I am the team lead of the Fitness
+Tracker team, and most of my work has been around workout logging,
+exercise data, and how we store workout sessions and exercises in
+Supabase. So, I focused my reflection on those parts of the codebase.
+
+image::../img/LTT_314_Identifying.Supple.Design.Elements.in.the.Workouts.Area.of.Our.Gamified.Gym.App/media/image1.png[width=625]
+
+== My understanding of Supple Design 
+
+From the lecture, I understand Supple Design as a set of patterns that
+make the domain model easy to read, change, and reuse without being
+afraid of breaking everything. The goal is that both "client developers"
+(people who use the model) and "foundation developers" (people who
+change the model) can work quickly and safely.
+
+Three ideas from the lecture stood out to me.
+
+=== Intention-revealing interfaces 
+
+An intention-revealing interface is one where class names, method names,
+and parameter names clearly express what the operation does in the
+domain, not how it is implemented. If the name matches the ubiquitous
+language of the project, another developer can often understand the
+effect of a call just by reading it, without opening the implementation.
+This keeps encapsulation useful, because I can trust the object as long
+as I call the right method.
+
+=== Side-effect-free functions 
+
+The lecture also separates queries and commands. Queries only read
+state, and commands change state. A side-effect-free function returns a
+result without changing any existing object. Since these functions are
+referentially transparent, I can replace a call with the value it
+returns, and the program still behaves the same. This makes the logic
+easier to test, to reuse, and to combine with other operations. The
+lecture recommends moving complex calculations into value objects with
+side-effect-free functions.
+
+=== Declarative design 
+
+Declarative design is about writing code that looks more like a
+specification of domain rules than a recipe with many low-level steps.
+Instead of one giant method with a lot of control flow, we try to push
+behavior into small, composable objects whose operations have clear
+meaning and wellunderstood effects. The "Specification" and "SharePie"
+examples from the lecture are good demonstrations of this idea. They
+show how a model can read almost like a business rule in plain language.
+
+With those ideas in mind, I looked at how our current workouts and
+fitness tracking code behaves.
+
+image::../img/LTT_314_Identifying.Supple.Design.Elements.in.the.Workouts.Area.of.Our.Gamified.Gym.App/media/image2.png[width=625]
+
+== Supple Design already present in our workouts model 
+
+=== Clear session and exercise modeling in EditSessionScreen 
+
+In my-app/app/workouts/[id]/edit.tsx we model a workout session using
+three small TypeScript types: Session, Exercise, and ExerciseSet. These
+use domain-level names such as exercise_name, sets, set_no, reps,
+weight, and order_index. These are the same words we use when talking
+about workouts as a team, so they match our ubiquitous language.
+
+Helper functions like addExercise, removeExercise, addSet, removeSet,
+and onChangeSetField are good examples of intention-revealing
+interfaces. When I read addSet(exIndex), I immediately understand that
+it adds one more set to a particular exercise in the session. The messy
+details, such as copying arrays and renumbering set_no values, are
+hidden inside the function. The name tells me the intention without
+exposing the mechanism, which is exactly what the lecture recommends.
+
+Inside this component we also use useMemo to build a snapshot string and
+compare it with an initialHash to get an isDirty flag. The snapshot
+logic is a side-effect-free operation: it takes the current session and
+exercises and produces a JSON string, without mutating anything. That
+makes it safe to recompute, and the UI can simply react to isDirty being
+true or false. This is a small but real example where we treat some
+logic as a pure function and use it declaratively.
+
+=== Separation of concerns in ExerciseLogScreen 
+
+In my-app/app/(tabs)/ExerciseLog.tsx, the ExerciseLogScreen component
+separates navigation, layout, and workout content in a relatively clean
+way.
+
+* The function toggleRecentWorkoutView expresses exactly what it does:
+it toggles the visibility of the recent workout summary.
+* The components RecentWorkoutSummary and ExerciseEntryCard have names
+that clearly communicate their roles: one shows the last workout, the
+other deals with listing or creating exercise entries.
+* The BottomNavigation component is purely about navigation commands. It
+does not know anything about workouts. It only moves the user to "Home",
+"Profile", or "Settings".
+
+This structure keeps navigation-related commands away from
+workout-specific logic. That makes the code easier to understand,
+because I can reason about navigation separately from exercise logging.
+The component and function names are also intention-revealing and fit
+the language of the app.
+
+=== Centralized streak rules in updateStreak 
+
+The function updateStreak in function_updateStreak.js is another
+interesting case. The parameters last_login, current_streak,
+recess_days,
+
+and completed_exercise_array clearly describe what the function cares
+about: the last time the user logged in, how long the current streak is,
+which days are recess days, and whether the user completed exercises.
+
+Inside the function there are comments labeled "Explicit constraint"
+that capture domain assumptions, for example that we should ignore
+consecutive recess days and that the streak only increments when at
+least one exercise was done and a day has actually passed. At the bottom
+of the file we have several manual tests (Test 1 through Test 6) that
+check different combinations of recess days and completed exercises.
+
+Even though updateStreak still mutates the Date objects, most of the
+logic is expressed as calculations on simple values, such as diff_days
+and the temporary temp_date used to walk back through recess days. The
+function returns a small result object \{ current_streak }, which is
+easy to consume. In my view this is already close to a side-effect-free
+function that captures the domain rule "how streaks should behave".
+
+image::../img/LTT_314_Identifying.Supple.Design.Elements.in.the.Workouts.Area.of.Our.Gamified.Gym.App/media/image3.png[width=625]
+
+== Opportunities to make the model more supple 
+
+While we already have several good elements, there are also areas where
+the design could be improved so it behaves more like the kind of supple
+model described in the lecture.
+
+=== Clarifying the intent of the Exercise class 
+
+The file exercise.js defines a plain Exercise class with a constructor
+and many getters and setters:
+
+class Exercise \{
+
+constructor(_name, _description, _sets, _repetitions, _milestone,
+
+_calories_burned, _image_path) \{ this.name = _name;
+
+this.description = _description; this.sets = _sets;
+
+this.repetitions = _repetitions; this.milestone = _milestone;
+this.calories_burned = _calories_burned; this.image_path = _image_path;
+
+}
+
+// multiple getDescription/setDescription methods reused }
+
+From a Supple Design perspective there are several problems here:
+
+* The same method names getDescription and setDescription are reused for
+different properties such as description, sets, and milestone. A single
+name is trying to do three different things, which breaks the idea of
+intention-revealing interfaces.
+* The constructor mixes different concepts in one object. It combines
+exercise identity (name, description), configuration (sets,
+repetitions), progress logic (milestone), and tracking data
+(calories_burned, image_path).
+* The quick test at the bottom (new Exercise(1,2,3,4,5)) passes numbers
+into slots that probably should not be numeric. That suggests the class
+is not really used as a central domain object in the rest of the code.
+
+To make this more supple, I would split it into more explicit concepts.
+For example:
+
+* An ExerciseTemplate value object that stores name, description,
+default sets and reps, calories per rep, and the image path. This object
+could be immutable and expose side-effect-free functions such as
+estimateCaloriesFor(setsCompleted, repsPerSet).
+* A LoggedExercise entity that belongs to a workout session and holds
+the actual sets and reps the user performed.
+
+This separation would create clearer conceptual contours. One object
+describes what the exercise is, and another describes what the user did.
+The result would be easier to read and more in line with the lecture's
+advice to decompose the model into cohesive units that match real domain
+concepts.
+
+=== Making streak logic fully side-effect-free and more declarative 
+
+The updateStreak function is quite close to a good design, but it still
+mutates its Date parameters using setHours and setDate. That makes it
+harder to reason about the function if we reuse the same Date instances
+elsewhere.
+
+Following the lecture's idea of moving complex logic into value objects,
+I think we could introduce a small StreakStatevalue object and a
+calculation function:
+
+type StreakState = \{ lastLogin: Date; currentStreak: number;
+
+};
+
+function calculateNextStreak( state: StreakState, recessDays: string[],
+completedExercisesToday: boolean, today: Date ): StreakState \{ ... }
+
+Inside calculateNextStreak we would avoid mutating any dates. Instead,
+we would compute the days difference and the effect of recess days using
+helper functions
+
+like countConsecutiveRecessDays(recessDays, today) that are also
+side-effect-free. The result would be a new StreakState with the updated
+values.
+
+This would make the code more declarative. The rest of the app could
+simply say: "Given the previous streak state and what happened today,
+compute the next streak state." This matches the lecture's
+recommendation to use side-effect-free functions and value objects for
+complex domain rules.
+
+=== Modeling exercise milestones explicitly 
+
+The function exerciseMilestone(sets, repetitions, milestone) is supposed
+to compute how many milestones a user has reached, but its interface is
+not very clear and it even has a small bug (set instead of sets):
+
+function exerciseMilestone(sets, repetitions, milestone) \{ if (set == 0
+|| repetitions == 0) \{ return 0;
+
+}
+
+return Math.floor((sets * repetitions / milestone)); }
+
+From a Supple Design point of view, this would be more expressive as a
+method on a value object that represents a milestone. For example:
+
+class ExerciseMilestone \{
+
+constructor(private targetReps: number) \{}
+
+completedCount(totalReps: number): number \{ return Math.floor(totalReps
+/ this.targetReps);
+
+}
+
+}
+
+In our workouts context we could compute totalReps from a LoggedExercise
+(by summing sets and reps) and then call
+milestone.completedCount(totalReps). This reads more like a domain rule:
+"Given this many reps, how many milestones are complete." It also
+matches the lecture's pattern of extracting implicit concepts into
+standalone classes with clear responsibilities.
+
+image::../img/LTT_314_Identifying.Supple.Design.Elements.in.the.Workouts.Area.of.Our.Gamified.Gym.App/media/image4.png[width=625]
+
+== Conclusion 
+
+In general, the workouts area of our Gamified Gym app already shows
+several Supple Design ideas. The session and exercise modeling in
+EditSessionScreen uses clear, domain-based names and small helper
+functions. The ExerciseLogScreen separates navigation commands from
+workout content and uses components with intention-revealing names.
+
+The updateStreak function centralizes streak logic and is already close
+to a side-effect-free domain rule.
+
+At the same time, there are good opportunities to go further. We can
+clarify the role of the Exercise class by splitting it into
+ExerciseTemplate and LoggedExercise. We can turn the streak logic into a
+pure calculation over a StreakStatevalue object, and we can model
+exercise milestones explicitly instead of keeping them as a plain number
+and a simple function.
+
+These changes would not require a full rewrite of the app, but they
+would move our design closer to the kind of supple model described in
+the lecture. The goal is that future developers can think in terms of
+workouts, sessions, streaks, and milestones directly, without having to
+decode lowlevel details every time they open the code.

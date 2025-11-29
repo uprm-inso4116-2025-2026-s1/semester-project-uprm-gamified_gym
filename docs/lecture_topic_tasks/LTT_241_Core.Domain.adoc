@@ -1,0 +1,190 @@
+== 1. Core Domain
+
+The Core Domain refers to the distinct value-adding dimensions that set
+“GamifiedGym” apart from its competitors. It is this “special aspect” as
+articulated in the lecture that resolves the fundamental issue that
+currently pervades the market as being “saturated with products that
+solely focus on data logging” (Milestone2, 1.2.1).
+
+The Core Domain is Gamified Fitness Journey & Balanced Progression
+System. It is not one feature, but a blend of mechanics that aim to
+“encourage consistency, effort, and varied workouts” (1.2.2).
+
+=== Features of this Domain:
+
+* {blank}
++
+____
+*Gamified Progress System (Epic 2):*
+____
+** {blank}
++
+____
+*Experience Points (XP):* Experience point rewards for exercise
+activities, providing a sense of progress (User Story 2.1).
+____
+** {blank}
++
+____
+*Achievements & Badges:* Users can be encouraged through achievements
+and badges for achieving certain milestones, such as “1st Week
+Completed” and “Can Bench Press Myself!” (User Story
+____
+* {blank}
++
+____
+*Muscle Group Progress & Balance (The Core Differentiator):*
+____
+** {blank}
++
+____
+*Muscle Group Progress Tracker:* Concept of grading muscle groups (e.g.,
+“bronze, silver, gold” ratings) for progress display (1.2.3).
+____
+** {blank}
++
+____
+*Muscle Balance Visualization:* “the dashboard displays (radar or bar
+charts) that ‘Highlight StrongPoints and WeakPoints’ and facilitate
+‘identification of potential imbalances’” (1.2.3, 2.2.4). There is clear
+relevance and fulfillment of need
+____
+** {blank}
++
+____
+*Muscle Group Ranks:* Muscle grouping and corresponding ranks (e.g.,
+Bronze, Silver, and other ranks as per volume and PR’s). (2.2.3)*
+____
+* {blank}
++
+____
+*Personal Progress Metrics:*
+____
+** {blank}
++
+____
+*Personal Record (PR) Progress Monitoring:* Specifically monitoring and
+emphasizing new Personal Records (2.2.3).
+____
+** {blank}
++
+____
+*Workout Streak Tracking:* An essential gamification feature that
+encourages regularity (2.2.4
+____
+
+== 2. Supporting Subdomains
+
+These are required subdomains that the Domain Core leans on as a
+requirement for functionality. They are not themselves value-added
+offerings, though required and sometimes heavy on up-front development
+investment.
+
+=== Features of this Domain:
+
+* {blank}
++
+____
+*Workout Monitoring & Recording (Epic 1):*
+____
+** {blank}
++
+____
+*Workout Logging System:* Logging exercises, sets, reps, and weight
+(User Story 1.1, Feature 1). Without this information, nothing will work
+in the Core Domain, but logging itself is not its distinctive value (it
+is what competitors also can/might be doing).
+____
+** {blank}
++
+____
+*Exercise Catalog:* The list of available exercises and corresponding
+muscle groups (1.3.1).
+____
+** {blank}
++
+____
+*Workout History & Overview:* Viewing past sessions (User Story 1.2).
+____
+* {blank}
++
+____
+*User Account & Profile Management:*
+____
+** {blank}
++
+____
+*User Authentication:* Logging In, Signing Up, and Session Management
+(Epic 3, User Story 1). Progress tracking for gamified feature is
+user-specific.
+____
+** {blank}
++
+____
+*User Profile:* Viewing one’s own statistics, exercise records, and
+badges collected (2.2.4).
+____
+* {blank}
++
+____
+*Social & Community System (Epic 4):*
+____
+** {blank}
++
+____
+*Friends System:* Process of sending and receiving friend requests
+(1.2.3,
+____
+** {blank}
++
+____
+*Leaderboards:* Friend rankings based on their streak or consistency
+(2.2.3). Although this feature supports the Core Values by providing
+accountability and elements of friendly competition, its primary value
+is user-balanced progress.
+____
+
+== 3. Generic Subdomains
+
+These issues pertain to “off-the-shelf” problems that are imperative but
+not exclusively required within the fitness sector. They need to be
+solved through third-party services or libraries and not be disruptive
+to theCore Domain.
+
+=== Features present in this Domain are:
+
+* {blank}
++
+____
+*Database & Backend Infrastructure:*
+____
+** {blank}
++
+____
+Storage of user and workout data, and other information such as logs,
+that would need to be secured. Our project aptly recognizes this as
+generic through Supabase (1.3.2, Feature 3).
+____
+* {blank}
++
+____
+*Notifications:*
+____
+** {blank}
++
+____
+System Alerts: Sending “workout reminders, streak warnings, and social
+notifications” (2.2.4, 2.1.2).
+____
+* {blank}
++
+____
+*Email Services:*
+____
+** {blank}
++
+____
+User Communication: There is an implication of email validation or a
+password recovery system, inferred by 'valid email' required on sign-up
+(2.2.4).
+____

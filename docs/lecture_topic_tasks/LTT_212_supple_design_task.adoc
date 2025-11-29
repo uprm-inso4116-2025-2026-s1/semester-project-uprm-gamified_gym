@@ -1,0 +1,167 @@
+*Supple Design in Software*
+
+*Engineering*
+
+== Introduction
+
+Supple Design is a software design approach focused on creating systems
+that are flexible, intuitive, and resilient to change. It encourages
+developers to build code that is easy to understand and modify as domain
+knowledge evolves. Supple Design complements Deep Modeling by ensuring
+that the implementation reflects clear, stable, and meaningful domain
+concepts.
+
+Without a supple design, software becomes rigid and difficult to adapt.
+Duplication increases, dependencies grow uncontrollably, and developers
+hesitate to make changes because they fear breaking existing
+functionality. Supple Design provides techniques to combat this
+stiffness.
+
+== Why Supple Design Matters
+
+A well-designed system enables developers to experiment and refactor
+confidently. When the design clearly communicates intent, code becomes a
+tool for thought rather than a barrier.
+
+Benefits include: - Simpler and safer refactoring. - Code that clearly
+expresses domain meaning. Low coupling and high cohesion between
+components. - Enhanced ability to respond to new requirements.
+
+As Dijkstra famously said: *“Simplicity is a great virtue, but it
+requires hard work to achieve it.”*
+
+== Core Principles and Patterns of Supple Design
+
+=== Intention-Revealing Interfaces
+
+Interfaces and method names should make their purpose clear without
+exposing implementation details. Developers should understand how to use
+a class based solely on its interface.
+
+*Guidelines:* - Use clear, domain-specific names for methods and
+parameters. - Express *what* a class does, not *how* it does it. - Favor
+names that reflect the ubiquitous language of the project domain.
+
+*Example:* Before: paint(Paint p) — unclear purpose. After: mixIn(Paint
+p) — the method name reveals its intention and usage.
+
+=== Side-Effect-Free Functions
+
+A side-effect-free function produces a result without altering the
+system’s state. This leads to predictable, testable code that can safely
+be composed with other functions.
+
+1
+
+*Guidelines:* - Separate queries (information retrieval) from commands
+(state changes). - Favor immutable value objects. - Place calculations
+in pure functions.
+
+*Example:* In the paint-mixing model, PigmentColor.mixedWith() returns a
+new color instead of modifying existing paint data.
+
+=== Assertions
+
+Assertions define what must be true before and after an operation. They
+make assumptions explicit and ensure that class invariants hold.
+
+*Guidelines:* - Use preconditions and postconditions to specify valid
+inputs and outcomes. - Express invariants for entities and aggregates. -
+Represent assertions through automated tests when language support is
+limited.
+
+*Example:* An assertion ensures that after mixing paints, the *total
+volume* remains constant. This clarifies expected system behavior and
+prevents hidden side effects.
+
+=== Conceptual Contours
+
+Conceptual contours are natural boundaries within a domain that reflect
+how real-world concepts are organized. A well-structured design has
+parts that align with the way people think about the domain.
+
+*Guidelines:* - Group related behaviors and data into cohesive units. -
+Avoid unnecessary decomposition that fragments the model. - Refactor
+repeatedly until domain concepts feel intuitive and localized.
+
+=== Standalone Classes
+
+A standalone class minimizes dependencies and can be studied
+independently. It contributes to modularity and lowers cognitive load
+for developers.
+
+*Guidelines:* - Remove non-essential associations and dependencies. -
+Design self-contained classes that can be reused without large
+refactoring. - Keep modules internally cohesive but externally simple.
+
+=== Closure Under Operations
+
+An operation is *closed* when it returns an object of the same type as
+its inputs. Closure simplifies design and supports safe combination of
+operations.
+
+*Example:* Adding two SharePie objects in the “Shares Math” example
+returns another SharePie. This closure makes it easy to reason about and
+recombine domain logic.
+
+____
+2
+____
+
+=== Declarative Design
+
+Declarative design expresses *what* should happen rather than *how* it
+happens. It focuses on rules and specifications instead of procedural
+instructions.
+
+*Guidelines:* - Use predicates, rules, or specifications to describe
+system behavior. - Combine specifications logically using AND, OR, and
+NOT operations. - Write tests that reflect business rules directly.
+
+== Practical Example – Refactoring the Paint Mixing Application
+
+The original paint-mixing system was rigid, with unclear
+responsibilities and hidden side effects.
+
+Through successive refactoring: - The color behavior was moved to a new
+PigmentColor value object. - Side effects were eliminated by introducing
+pure functions. - Assertions were added to define invariants like volume
+consistency. - Concepts were reorganized into clear, cohesive classes
+(Paint, PigmentColor, SharePie).
+
+These steps demonstrated how Supple Design creates intuitive, flexible,
+and safe-to-modify systems.
+
+== Application to Gamified Gym
+
+In the *Gamified Gym* project, Supple Design principles can be applied
+to create maintainable and extensible modules such as: - *XP System* –
+using pure functions to calculate XP without altering unrelated states.
+- *Badge Logic* – intention-revealing methods like awardBadge() instead
+of updateStatus(). - *Workout Tracker* – standalone modules to record
+and retrieve workout data cleanly.
+
+This ensures that as the project evolves, the system remains robust,
+testable, and enjoyable to work with.
+
+== Conclusion
+
+Supple Design ensures that software remains flexible, expressive, and
+maintainable over time. It relies on clarity of intention, immutability,
+well-defined assertions, and meaningful organization of domain concepts.
+By adopting these principles, developers create systems that not only
+meet current needs but can evolve gracefully as understanding grows.
+
+== Acceptance Criteria (Met)
+
+* Supple Design concept and necessity explained.
+* Covered at least four key design patterns with examples.
+* Included the paint-mixing refactoring as an illustrative case.
+
+3
+
+* Applied concepts to the Gamified Gym project context.
+
+____
+4
+____

@@ -1,0 +1,133 @@
+*Creating Associations for the*
+
+*Gamified Gym App*
+
+== Introduction
+
+Associations in object-oriented design represent how entities relate,
+interact, and depend on each other. A well-modeled association reflects
+real-world relationships and ensures that the software accurately
+expresses domain logic.
+
+In the *Gamified Gym App*, core entities such as User, Workout,
+Exercise, Achievement, Challenge, Reward, and Level must be connected
+through meaningful associations that mirror gamification behavior.
+
+This lecture topic explores *association types, navigability, and
+improvement strategies* to ensure a precise and maintainable domain
+model.
+
+== Types of Associations
+
+=== One-to-One
+
+A one-to-one association links exactly one instance of Entity A to one
+instance of Entity B. *Example:* Each UserProfile is associated with
+exactly one User account.
+
+*Implementation Notes:* - Represented with a single reference (attribute
+or pointer) in the owning class. - Common when both objects share life
+cycle dependency (composition).
+
+=== One-to-Many
+
+A one-to-many association links one instance of Entity A with multiple
+instances of Entity B. *Example:* - One User can log multiple Workout
+sessions. - One Workout can contain many Exercise objects.
+
+*Implementation Notes:* - Represented with a collection (e.g., list,
+array, or set) in the owning class. Traversal typically occurs from the
+“one” side to the “many.”
+
+=== Many-to-Many
+
+A many-to-many association occurs when multiple instances of one entity
+are linked to multiple instances of another. *Example:* - Users can
+participate in multiple Challenges, and each Challenge can have multiple
+Users.
+
+*Implementation Notes:* - Represented using an intermediate linking
+entity (e.g., UserChallenge). These associations often emerge early in
+modeling and can later be simplified through refactoring.
+
+1
+
+== Improving Associations
+
+To improve clarity and reduce complexity: - *Define traversal
+direction:* Determine whether associations are uni- or bi-directional. -
+*Add qualifiers:* Restrict association scope using keys (e.g.,
+“activeChallenge” vs. “pastChallenge”). - *Eliminate non-essential
+links:* Remove redundant or unused relationships to simplify navigation.
+
+== Example from Lecture: President of a Country
+
+In the lecture example: - Initially, Country ↔ Person was modeled as a
+*many-to-many* association. Refining it with a *qualifier* (only one
+president per country at a time) transformed it into a *one-toone*
+relationship. - This illustrates how qualification reveals the true
+domain meaning and simplifies design.
+
+== Applying to Gamified Gym
+
+Below are associations relevant to the Gamified Gym domain model:
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|===
+|*Source Entity* |*Target Entity* |*Association Type*
+|User |Workout |One-to-Many
+|Workout |Exercise |One-to-Many
+|User |Achievement |One-to-Many
+|User |Challenge |Many-to-Many
+|Challenge |Reward |One-to-One
+|User |Level |One-to-One
+|===
+
+*Ownership Rules:* - User owns Workout and Achievement entities. -
+Challenge maintains a separate lifecycle and links to users via a
+bridging entity. - Reward depends on Challenge completion (composition).
+- Aggregates are formed where a parent entity controls the lifecycle of
+its dependents.
+
+== Navigability
+
+Each association must define which entities can access or reference
+others: - User → Workout
+
+(navigable) - Workout → Exercise (navigable) - Challenge ↔ User
+(bi-directional through link class) User → Achievement (navigable,
+unidirectional) - Challenge → Reward (navigable) This ensures clean
+relationships and aligns with DDD design principles.
+
+____
+2
+____
+
+== Alignment with Domain-Driven Design
+
+The associations are consistent with the *Ubiquitous Language* of
+Gamified Gym: - *User:* The central actor. - *Workout:* Aggregates
+Exercises. - *Challenge:* Connects multiple users competitively. -
+*Reward:* Granted upon Challenge completion. - *Level:* Represents user
+progression.
+
+Each association reflects behavior observable in real gym and fitness
+systems.
+
+== Conclusion
+
+By applying association design techniques from “A Model Expressed in
+Software,” the Gamified Gym domain model now includes well-defined,
+navigable, and meaningful relationships. The associations follow
+domain-driven principles, clarify ownership, and improve model
+expressiveness while maintaining implementation simplicity.
+
+== Acceptance Criteria (Met)
+
+* All major entities have associations clearly defined and documented.
+* Relationships are accurate, consistent, and domain-aligned.
+* Proper notation for association types and cardinality is used.
+* Ownership and aggregation rules are explicitly stated.
+* Examples of traversal, qualifiers, and simplifications are included.
+
+3

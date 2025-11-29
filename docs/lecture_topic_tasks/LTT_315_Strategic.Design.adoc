@@ -1,0 +1,127 @@
+*Strategic Design: Mapping Subdomains of the Gamified Gym App*
+
+For this Lecture Topic Task, I reflected on the ideas from the Strategic
+Design lecture and applied them to our Gamified Gym project. Even though
+the project is ending this week, I wanted to take a step back and think
+about how our system fits into Core, Supporting, and Generic subdomains,
+and how this type of thinking helps organize a complex system.
+
+image::../img/LTT_315_Strategic.Design/media/image1.png[width=625]
+
+== My Understanding of Strategic Design 
+
+Strategic Design is about structuring a large system so the model does
+not become one big confusing mess. The lecture explains that as a system
+grows in complexity, we need techniques that help us break it into
+understandable and manageable parts. If we try to force everything into
+a single unified model, we end up with duplication, contradictions, or
+random inconsistencies. The goal is to prevent a “monolithic model” and
+instead divide the system into subdomains that each have a clear
+purpose.
+
+A few key ideas from the lecture stood out to me.
+
+=== Bounded Contexts 
+
+A bounded context is a clearly defined area of the system where a
+specific model, vocabulary, and set of rules apply. Inside that
+boundary, the concepts must be consistent. Outside that boundary, other
+teams or parts of the system can use a different model without creating
+conflicts. Bounded contexts reduce the mental load of understanding the
+entire project at once.
+
+=== Core Domain 
+
+The core domain is the heart of the system. It is the part of the model
+that brings the most value and makes the project unique. The lecture
+calls this the part that deserves the most attention, refinement, and
+clarity since it represents what the system is really about.
+
+=== Supporting Subdomains 
+
+Supporting subdomains contain logic that is important for the system to
+work, but they do not represent its unique or most valuable part. These
+areas assist the core domain. They may involve domain logic but do not
+define the purpose of the system.
+
+=== Generic Subdomains 
+
+Generic subdomains are areas of the system that are not specific to the
+business domain at all. These are things that almost every app needs,
+such as authentication, file storage, navigation frameworks, or payment
+processing. They provide necessary functionality but do not define the
+identity of the product. Because they are generic, they can often be
+handled with libraries, frameworks, or standard solutions instead of
+heavy modeling.
+
+image::../img/LTT_315_Strategic.Design/media/image2.png[width=625]
+
+== Subdomains in the Gamified Gym App 
+
+Based on what we built, I identified three clear subdomains in our app:
+Exercise Tracking, Workout Session Editing, and
+Authentication/Sign-up/Login.
+
+=== Exercise Tracking (Core Domain) 
+
+This is the core domain of our entire project. The primary purpose of
+the app is to let users log workouts, track their exercise history, and
+see progression over time. This is what makes our system valuable and
+different from a regular notes app or a simple list of exercises.
+Everything else in the app supports this purpose.
+
+In our code, this subdomain appears in files like EditSessionScreen,
+where users can create or update workout sessions, and in the structures
+around exercises, sets, and reps. The decisions made here influence
+almost every other part of the system, which matches the lecture’s idea
+that the core domain deserves the highest design quality and the most
+attention.
+
+=== Workout Session Editing (Supporting Subdomain) 
+
+Session editing is closely related to exercise tracking, but it is more
+of a supporting subdomain. It focuses on providing the tools and
+workflows needed to create clean session data, such as adding exercises,
+adjusting sets and reps, removing items, and organizing them in the
+right order.
+
+This area contributes to making the core domain work well, but by itself
+it is not the main value proposition of the app. It exists to support
+the core functionality. It is still important, but not as central as the
+actual tracking of workouts and progression.
+
+=== Authentication and Sign-up/Login (Generic Subdomain) 
+
+Authentication is a good example of a generic subdomain. Almost every
+modern app needs a way for users to sign up and log in. The logic here
+is not unique or specific to the fitness domain. It uses Supabase’s
+authentication system, and most of the rules come from that framework
+rather than from our domain.
+
+The Strategic Design lecture explains that generic subdomains usually do
+not deserve deep modeling effort because they are not where the system
+creates value. Authentication fits perfectly into that category.
+
+image::../img/LTT_315_Strategic.Design/media/image3.png[width=625]
+
+== Reflection: Why Mapping Subdomains Helps 
+
+Even though our project is ending soon, mapping out the subdomains
+helped me understand the structure of the system and how the pieces fit
+together. It shows which areas deserve the most attention and
+refinement, especially the exercise tracking logic and progression
+features, which I consider the true core of the app.
+
+This type of thinking also helps with onboarding. If someone new joined
+the team, knowing the difference between the core domain, the supporting
+parts, and the generic areas would prevent them from wasting time
+polishing something like authentication instead of helping improve the
+workout tracking features.
+
+Finally, identifying bounded contexts keeps the model clean. It avoids
+mixing unrelated concepts, prevents accidental duplication, and helps
+each part of the system stay focused.
+
+Overall, Strategic Design helped me see the bigger picture of our
+project, and gave me a clearer understanding of where our domain model
+is strongest and where it could grow in the future.

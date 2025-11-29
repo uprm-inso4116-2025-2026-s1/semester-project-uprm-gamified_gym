@@ -1,0 +1,21 @@
+____
+Guide questions for domain modeling:
+____
+
+[arabic]
+. Are there missing domain concepts that people expect in a
+gym/gamification app?
+. Are relationships between entities explicit and natural?
+. Does terminology match how fitness users describe concepts?
+. Can new features (leaderboards, rewards, challenges, streaks) be added
+without structural refactoring?
+. Are lifecycle rules (session completion, reward redemption) clear?
+. Are expected domain concepts present (User, Membership, Workout,
+Exercise, Plan, Challenge, Reward, Leaderboard)?
+. Are any real-world concepts missing or overly simplified?
+. Would a non-developer domain expert understand the model without
+translation?
+. Is sensitive data separated and access-controlled in the model?
+. Can typical flows be unit-tested?
+. Is temporal data (workout history, progress over time) explicitly to
+support analytics?

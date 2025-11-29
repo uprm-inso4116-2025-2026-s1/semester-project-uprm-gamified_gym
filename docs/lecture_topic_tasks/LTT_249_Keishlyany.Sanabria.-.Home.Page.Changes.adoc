@@ -1,0 +1,75 @@
+== Description 
+
+Following the _Assertions and Conceptual Contours principles_ from the
+Supple Design lecture, the Home Page was refactored to make its implicit
+assumptions explicit and enforce stable navigation behavior across Home,
+Profile, and Exercises pages. Assertions ensure that critical
+preconditions (such as a logged-in user or an available navigation
+object) are verified at runtime before any operation executes.
+
+== Tasks Completed 
+
+[arabic]
+. Identified implicit assumptions
+[loweralpha]
+.. A user must be logged in before accessing the _Profile_ or
+_ExerciseLog_ pages.
+.. Navigation operations assume a valid _navigation_ object.
+.. The Supabase client must be initialized before any user/session
+request.
+. Added Assertions
+[loweralpha]
+.. Implemented a reusable _assert()_ function to enforce runtime checks.
+.. Added _checkNavigationInvariants()_ to confirm navigation validity.
+.. Added login checks before allowing navigation to restricted areas.
+. Defined Preconditions and Postconditions
+[loweralpha]
+.. *Preconditions*
+[lowerroman]
+... {blank}
++
+____
+Navigation must be initialized.
+____
+... {blank}
++
+____
+User must be authenticated to access restricted pages.
+____
+.. *Postconditions*
+[lowerroman]
+... {blank}
++
+____
+After a successful login, _userName_ must not be null.
+____
+... {blank}
++
+____
+After logout, _userName_ must be null and navigation restricted.
+____
+. Implemented Runtime Checks
+[loweralpha]
+.. Assertions are logged to console and halt execution when violated.
+.. Unauthorized navigation attempts trigger a user-facing _Alert_.
+. Automated Test Concepts
+[loweralpha]
+.. In tests, navigation to _ExerciseLog_ should throw or alert when not
+logged in.
+.. _userName_ should always match Supabase session state (postcondition
+check).
+
+== Acceptance Criteria Results (100% Completed) 
+
+* *All Home Page actions have explicit assertions:* _assert()_ and
+_checkNavigationInvariants()_ ensure state validity
+* *Navigation behaves consistently:* Navigation restricted until user is
+authenticated
+* *Automated tests confirm conditions:* Pre/postconditions defined for
+testing via simulation
+* *Stable Boundaries:* The Home Page now clearly defines boundaries
+between safe and unsafe states (logged-in vs. anonymous).
+* *Meaningful Failures:* If navigation or Supabase are not properly
+initialized, errors now occur immediately and descriptively.
+* *Reduced Ambiguity:* The navigation logic now conveys its purpose
+through explicit checks rather than hidden assumptions.

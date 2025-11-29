@@ -1,0 +1,89 @@
+Introduction
+
+Following the Supple Design lecture, the goal is to refactor the current
+exercise tracking functionality, specifically within the _ExercisesLog
+Page_, to make its logic side-effect-free. This involves clearly
+separating commands (functions that modify state) from queries
+(functions that simply return calculated values). By reducing hidden
+side effects, the team will improve clarity, testability, and
+predictability of user interactions such as logging and saving workouts.
+
+https://docs.google.com/spreadsheets/d/1OB-b0T4ozWDMSF8mtCPCPwqDVfaMVL9kqLMP2Uy9Eyg/edit?resourcekey=&gid=1769735007#gid=1769735007[[.underline]#Here#]
+is the developers’ feedback on this matter.
+
+== Analysis of Current Implementation 
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|===
+|*Component* |*Observed Issue* |*Proposed Refactor*
+|*ExerciseCard* a|
+Logic-heavy component:
+
+handlers both transform data and update UI state.
+
+a|
+Extract validation and numeric parsing into pure helpers
+
+(_sanitizeWorkoutInput_, _validateExerciseSet_).
+
+|*handleSaveWorkout* a|
+Performs validation,
+
+Supabase I/O, and UI resets all in one function.
+
+a|
+Split into
+
+_validateWorkoutData()_
+
+(query) and _saveWorkoutToDatabase()_ (command).
+
+|*RecentWorkoutCard* |Reads from AsyncStorage inside a component
+lifecycle hook. |No major issue, already separated as a read-only query.
+Keep pure by moving storage retrieval into a dedicated data accessor
+(for example: _getMostRecentWorkout()_).
+
+|*ExerciseLog Page* |State toggling and navigation are mixed but
+acceptable since they’re UI-level commands. a|
+Add clear naming
+
+(_toggleRecentWorkoutView_) to express intent.
+
+|===
+
+== Goals with New Implementation 
+
+* Developers found the Supple Design separation beneficial for long-term
+maintainability.
+* The _ExerciseCard_ component contains the highest concentration of
+mixed logic and will benefit most from the refactor.
+* Adopting pure function modules (for example: _workoutQueries.ts_,
+_workoutCommands.ts_) will make the logic easier to test and reason
+about.
+* Improved documentation and directory structure will reinforce the
+distinction between queries and commands across the project.
+
+== Changes made 
+
+To _recent-workout-card.tsx_:
+
+* Component renamed to _RecentWorkoutSummary_ for clearer intent.
+* Internal function renamed to _fetchRecentWorkout()._
+* Introduced helper _WorkoutDetail()_ for readability.
+* Variable names changed (_workout_ to _latestWorkout_).
+* Comments follow Supple Design’s revealing intent approach.
+
+To _exercise-card.tsx_:
+
+* Renamed all handler names to intention-revealing verbs
+(_addNewExercise_, _saveWorkoutToDatabase_, etc.).
+* Changed component name to _ExerciseEntryCard_.
+* Extracted and grouped color constants.
+* Consistent terminology: “Workout” = overall session, “Exercise” =
+entry.
+* Simplified logic and naming per Supple Design principles.
+
+To _ExerciseLog.tsx_:
+
+* No functional logic change, just confirmed that _ExerciseCard_ now
+refers to the refactored version.

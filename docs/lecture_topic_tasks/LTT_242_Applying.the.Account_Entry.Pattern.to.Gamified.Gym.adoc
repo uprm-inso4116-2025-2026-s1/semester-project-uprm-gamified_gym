@@ -1,0 +1,178 @@
+== *Applying the Account/Entry Pattern to Gamified Gym*
+
+This document outlines how to model the workout history for the Gamified
+Gym application using the *Account and Entry* analysis pattern, as
+described in Lecture 13.
+
+=== *1. The Core Objective*
+
+As stated in the task, the system must ensure that a user's "Account"
+(e.g., Muscle Group Rank) is *determined by the sum of its "Entries"*
+(e.g., all logged exercises) rather than being a simple, editable value.
+This creates an auditable, non-editable history where the current state
+is a provable consequence of past actions.
+
+=== *2. The Analysis Pattern*
+
+* {blank}
++
+____
+*Account*: Holds the _current state_ (the "balance"). This is the user's
+current rank, total volume, or personal best.
+____
+* {blank}
++
+____
+*Entry*: Represents an _immutable historical record_ of a transaction
+(the "amount").
+____
+* {blank}
++
+____
+*The Constraint*: The core principle is that the Account.balance is
+*sum(entries.amount)*. All history is kept, and entries are never
+removed.
+____
+
+=== 
+
+=== *3. Mapping Gamified Gym to the Pattern*
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|===
+|*Pattern Concept* |*Gamified Gym Implementation* |*Description (from
+Milestone 2 Doc)*
+|*Account* |MuscleGroupProgress |"a Muscle Group Progress tracker (le
+bronze, silver, gold...)" (1.2.3)
+
+|*Account* |PersonalBest |"system... automatically updates his personal
+record" (2.1.1, #9)
+
+|*Entry* |ExerciseLog |"He logs 3 sets of 8 reps at 90 lb" (2.1.1, #6)
+|===
+
+=== *5. Enforcing the Constraint (The Core Task)*
+
+This model ensures the Account is determined by the sum of its Entries
+by defining a clear update process. *The ExerciseLog (Entry) is the
+source of truth.* The MuscleGroupProgress (Account) is a _cached
+calculation_ based on those entries.
+
+==== *Scenario: User logs a "Chest" exercise*
+
+Here is the step-by-step process that enforces the pattern:
+
+[arabic]
+. {blank}
++
+____
+*User Input*: A user logs "Bench Press: 3 sets of 5 at 150lbs".
+____
+. {blank}
++
+____
+*Create Immutable Entry*: The system _does not_ just update a "Chest"
+value. Instead, it creates a *new, non-editable ExerciseLog entry*:
+____
+* {blank}
++
+____
+exerciseName: "Bench Press"
+____
+* {blank}
++
+____
+associatedMuscleGroups: ["Chest", "Triceps"]
+____
+* {blank}
++
+____
+weight: 150
+____
+* {blank}
++
+____
+sets: 3
+____
+* {blank}
++
+____
+reps: 5
+____
+* {blank}
++
+____
+dateLogged: (current time)
+____
+* {blank}
++
+____
+calculatedVolume: 150 * 3 * 5 = *2250* (This is the "amount")
+____
+. {blank}
++
+____
+*Update Account (Posting)*: The system takes this Entry and "posts" it
+to the relevant Account(s).
+____
+* {blank}
++
+____
+It finds the MuscleGroupProgress for "Chest".
+____
+* {blank}
++
+____
+It updates its totalVolume (the "balance"): +
+Chest.totalVolume = Chest.totalVolume + 2250
+____
+* {blank}
++
+____
+It also finds the MuscleGroupProgress for "Triceps" and updates it: +
+Triceps.totalVolume = Triceps.totalVolume + 2250
+____
+. {blank}
++
+____
+*Derive State*: The system then checks if the new totalVolume for
+"Chest" or "Triceps" is enough to change the currentRank (e.g., if
+totalVolume > 50,000, set currentRank = "Gold").
+____
+. {blank}
++
+____
+*Update PersonalBest Account*: The system also checks the PersonalBest
+account for "Bench Press":
+____
+* {blank}
++
+____
+if (150 > BenchPressPR.maxWeight) \{ BenchPressPR.maxWeight = 150 }
+____
+
+=== *6. Conclusion & Benefits*
+
+This model directly fulfills the requirements of the task and your
+project documentation:
+
+* {blank}
++
+____
+*Rank is "Calculated"*: As required in section 2.2.3, the rank is
+"calculated based on the total historical training volume," not just set
+by the user.
+____
+* {blank}
++
+____
+*History is Preserved*: The ExerciseLog list provides a full, auditable
+history of every workout. The user's "Chest: Gold" rank can be proven by
+summing all ExerciseLog entries associated with "Chest".
+____
+* {blank}
++
+____
+*Immutability*: The ExerciseLog is an "entry" in the truest sense—it's a
+"personal and non-editable record" that, once written, is never changed.
+____

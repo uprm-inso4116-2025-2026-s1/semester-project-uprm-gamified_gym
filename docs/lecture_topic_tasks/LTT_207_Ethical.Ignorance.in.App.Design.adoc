@@ -1,0 +1,55 @@
+____
+*Ethical Ignorance in App Design*
+____
+
+*Ethical Risks:*
+
+Ethical ignorance most of the time comes not from bad intent but from
+limited assumptions. For example, if we decided to do a leaderboard
+system it might encourage unhealthy competition or shame for users who
+perform poorly. While the feature's goal is motivation, it could
+unintentionally harm those struggling with body image or self-esteem.
+Similarly, the achievement system, which rewards daily workouts, might
+fail to consider rest days or injury recovery, promoting overtraining
+instead of balanced health. For this reason, achievements must be
+created with more than just training in mind.
+
+Privacy is another area of hidden risk. By allowing users to share
+progress and workout locations, the app could expose sensitive data,
+creating stalking or security concerns. These examples are all unknown
+unknowns**,** issues the team may not realize. This ethical blindness is
+a form of 2OI: ignorance not just of missing knowledge, but of the
+existence of that ignorance itself.
+
+*Consequences:*
+
+When ethical ignorance goes unchecked, it can damage more than user
+experience; it could threaten the project’s credibility and long-term
+success. Users who feel pressured, judged, or unsafe are unlikely to
+stay engaged. Moreover, ethical oversights can lead to regulatory issues
+related to data privacy and mental health impacts. For a project like
+Gamified Gym, which would depend on user trust and sustained motivation,
+ignoring societal implications undermines its very purpose.
+
+*Reducing Ethical Ignorance:*
+
+To address these challenges, we must create a Third-Order Ignorance
+(3OI) reduction processes, structured ways to find ethical risks before
+they even appear. First, ethical review checkpoints should be done at
+every milestone, where the entire team can give examples of potential
+harms or biases that could arise in new features. Second, in the case of
+testing, diverse user testing should be conducted with participants of
+varying fitness levels, genders, and cultural backgrounds to reveal
+perspectives that may otherwise be missed.
+
+Additionally, enhanced privacy and customization features should be top
+priority. Users should have full control over what information they
+share or hide, such as achievements, scores, or workout visibility.
+Introducing detailed privacy settings gives users the power to manage
+their comfort level while maintaining their engagement with our app.
+Similarly, adding flexible options for rest days or injuries, such as
+tracking recovery time or offering “wellness mode” achievements, can
+help prevent guilt and burnout, reinforcing healthy behavior instead of
+obsession. These design improvements actively reduce ethical ignorance
+by turning implicit moral assumptions into explicit, user-driven
+choices.

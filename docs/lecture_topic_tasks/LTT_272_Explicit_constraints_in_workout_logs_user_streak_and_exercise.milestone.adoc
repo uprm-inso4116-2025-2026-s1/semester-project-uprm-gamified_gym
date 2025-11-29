@@ -1,0 +1,15 @@
+image::../img/LTT_272_Explicit_constraints_in_workout_logs_user_streak_and_exercise.milestone/media/image1.jpg[width=624,height=106]
+
+Added explicit constraint to function addEntry from workout_logs.js, now
+it does not allow sets or repetition with value 0. This adds clarity on
+what can be added as a log.
+
+image::../img/LTT_272_Explicit_constraints_in_workout_logs_user_streak_and_exercise.milestone/media/image2.jpg[width=596,height=162]
+
+Added explicit constraint to function exerciseMilestone from
+function_exercise_milestone.js, now it does not allow sets or repetition
+with value 0. This adds clarity of a valid milestone and prevents
+illegal math operations.
+
+Added comments to express explicit constraints more clearly in
+updateStreak from frunction_updateStreak.js.
