@@ -211,7 +211,7 @@ ownership and invariant scope
 
 == Diagrams 
 
-image:img/LTT_309_EntitiesAggregates/media/image1.jpg[docs/img/LTT_309_EntitiesAggregates/media/image1,width=405,height=397]
+image::img/LTT_309_EntitiesAggregates/media/image1.jpg[docs/img/LTT_309_EntitiesAggregates/media/image1,width=405,height=397]
 
 
 === _Figure 1.1 Entities Diagram_ 
